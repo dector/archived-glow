@@ -18,6 +18,9 @@ class GlowOptions {
 
     @Parameter(names = arrayOf("--clear-output"))
     var clearOutputDir: Boolean = false
+
+    @Parameter(names = arrayOf("--title"))
+    var blogTitle: String = ""
 }
 
 class OptionsValidator(val opts: GlowOptions) {

@@ -61,24 +61,22 @@ class Glow(val opts: GlowOptions) {
                 .copyRecursively(File(opts.outputDir, "assets"))
     }
 
+    private fun collectMeta(postFiles: Array<File>): List<PostMeta> {
+        return postFiles
+                .map(this::parsePost)
+                .map { it.meta }
+    }
+
     private fun writePage(file: File, html: String) {
         file.writeText(html)
     }
 
+    private fun outputFileName(inputFile: File) = "${inputFile.nameWithoutExtension}.html"
+
     private fun outputFile(inputFile: File)
-            = File(opts.outputDir, "${inputFile.nameWithoutExtension}.html")
+            = File(opts.outputDir, outputFileName(inputFile))
 
-    private fun buildPage(file: File): String {
-        val content = buildContent(file)
-        val datetime = dateTimeFromFilename(file.nameWithoutExtension)
-        val glowModel = GlowModel(
-                title = content.title,
-                datetime = datetime,
-                content = content.content)
-        return buildPage(File(opts.themeDir, "page.twig"), glowModel)
-    }
-
-    private fun buildContent(file: File): ParsedContent {
+    private fun parsePost(file: File): ParsedPost {
         val parserOptions = MutableDataSet().apply {
             set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
         }
@@ -94,18 +92,32 @@ class Glow(val opts: GlowOptions) {
         val yamlVisitor = AbstractYamlFrontMatterVisitor()
         yamlVisitor.visit(doc)
 
-        return ParsedContent(
+        val meta = PostMeta(
                 title = yamlVisitor.data["title"]?.get(0) ?: "",
-                content = content)
+                pubdate = dateTimeFromFilename(file.nameWithoutExtension),
+                url = outputFileName(file))
+        return ParsedPost(meta = meta, content = content)
     }
 
-    private fun buildPage(templateFile: File, glowModel: GlowModel): String {
+    private fun buildPage(file: File, data: GlobalData): String {
+        val post = parsePost(file)
+        val glowModel = GlowModel(
+                title = post.meta.title,
+                pubdate = post.meta.pubdate,
+                content = post.content,
+                global = data)
+        return renderPage(File(opts.themeDir, "page.twig"), glowModel)
+    }
+
+    private fun renderPage(templateFile: File, glowModel: GlowModel): String {
         val template = JtwigTemplate.fileTemplate(templateFile)
 
         val model = JtwigModel.newModel()
+                .with("blogTitle", glowModel.global.blogName)
+                .with("blogPosts", glowModel.global.posts)
                 .with("title", glowModel.title)
-                .with("datetime", formatDatetime(glowModel.datetime))
-                .with("datetimeShort", formatShortDatetime(glowModel.datetime))
+                .with("pubdate", formatPubdate(glowModel.pubdate))
+                .with("pubdateHint", formatPubdateHint(glowModel.pubdate))
                 .with("content", glowModel.content)
 
         return template.render(model)
@@ -127,13 +139,13 @@ class Glow(val opts: GlowOptions) {
         return LocalDate.of(year, month, day)
     }
 
-    private fun formatDatetime(datetime: LocalDate?): String {
+    private fun formatPubdate(datetime: LocalDate?): String {
         datetime ?: return ""
 
         return DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(datetime)
     }
 
-    private fun formatShortDatetime(datetime: LocalDate?): String {
+    private fun formatPubdateHint(datetime: LocalDate?): String {
         datetime ?: return ""
 
         return DateTimeFormatter.ofPattern("EEE, d MMM yyyy", Locale.ENGLISH).format(datetime)
@@ -146,9 +158,14 @@ class Glow(val opts: GlowOptions) {
 
         logger.info("${postFiles.size} posts found.")
 
+        logger.info("Building posts list.")
+        val globalData = GlobalData(
+                blogName = opts.blogTitle,
+                posts = collectMeta(postFiles))
+
         logger.info("Building posts.")
         for (file in postFiles) {
-            writePage(outputFile(file), buildPage(file))
+            writePage(outputFile(file), buildPage(file, globalData))
         }
 
         copyAssets()
@@ -158,8 +175,13 @@ class Glow(val opts: GlowOptions) {
 }
 
 data class GlowModel(
+        val global: GlobalData,
         val title: String,
-        val datetime: LocalDate?,
+        val pubdate: LocalDate?,
         val content: String)
 
-data class ParsedContent(val title: String, val content: String)
+data class ParsedPost(val meta: PostMeta, val content: String)
+
+data class PostMeta(val title: String, val pubdate: LocalDate?, val url: String)
+
+data class GlobalData(val blogName: String, val posts: List<PostMeta>)

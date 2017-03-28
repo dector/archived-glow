@@ -1,18 +1,30 @@
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>{% if (not(empty(blogTitle))) %}{{ blogTitle}} :: {% endif %}{{ title }}</title>
 
     <link rel="stylesheet" href="assets/spectre-0.2.9.css">
 </head>
 <body>
     <div class="columns">
+        <div class="column col-3">
+            <div class="container">
+
+                <ul>
+                    {% for item in blogPosts %}
+                        <li style="list-style-type: none;"><a href="{{ item.url }}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
         <div class="column col-6 centered">
 
             <div class="container">
                 <h3>{{ title }}</h3>
 
-                {% if not(empty(datetime)) %}
-                    <p>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ datetimeShort }}">{{ datetimeShort }}</time></p>
+                {% if not(empty(pubdate)) %}
+                    <p>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></p>
                 {% endif %}
 
                 {{ content }}
@@ -23,7 +35,7 @@
 
     <script src="assets/moment-2.18.1.js"></script>
     <script>
-        document.getElementById('pub-time').innerHTML = moment('{{ datetime }}', 'YYYY-MM-DD').fromNow()
+        document.getElementById('pub-time').innerHTML = moment('{{ pubdate }}', 'YYYY-MM-DD').fromNow()
     </script>
 </body>
 </html>
