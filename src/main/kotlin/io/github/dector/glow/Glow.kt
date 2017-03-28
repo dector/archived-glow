@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
 
     Glow(opts).process()
 
-    logger.info("Executed in ${stopWatch.stop().timeFormatted()}.")
+    logger.info("Finished in ${stopWatch.stop().timeFormatted()}.")
 }
 
 class Glow(val opts: GlowOptions) {
@@ -107,7 +107,7 @@ class Glow(val opts: GlowOptions) {
 
     private fun buildPage(file: File, data: GlobalData): String {
         val post = parsePost(file)
-        val glowModel = GlowModel(
+        val glowModel = PageModel(
                 title = post.meta.title,
                 pubdate = post.meta.pubdate,
                 content = post.content,
@@ -115,16 +115,16 @@ class Glow(val opts: GlowOptions) {
         return renderPage(File(opts.themeDir, "page.twig"), glowModel)
     }
 
-    private fun renderPage(templateFile: File, glowModel: GlowModel): String {
+    private fun renderPage(templateFile: File, pageModel: PageModel): String {
         val template = JtwigTemplate.fileTemplate(templateFile)
 
         val model = JtwigModel.newModel()
-                .with("blogTitle", glowModel.global.blogName)
-                .with("blogPosts", glowModel.global.posts)
-                .with("title", glowModel.title)
-                .with("pubdate", formatPubdate(glowModel.pubdate))
-                .with("pubdateHint", formatPubdateHint(glowModel.pubdate))
-                .with("content", glowModel.content)
+                .with("blogTitle", pageModel.global.blogName)
+                .with("blogPosts", pageModel.global.posts)
+                .with("title", pageModel.title)
+                .with("pubdate", formatPubdate(pageModel.pubdate))
+                .with("pubdateHint", formatPubdateHint(pageModel.pubdate))
+                .with("content", pageModel.content)
 
         return template.render(model)
     }
@@ -180,7 +180,7 @@ class Glow(val opts: GlowOptions) {
     }
 }
 
-data class GlowModel(
+data class PageModel(
         val global: GlobalData,
         val title: String,
         val pubdate: LocalDate?,
