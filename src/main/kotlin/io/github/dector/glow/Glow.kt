@@ -25,7 +25,7 @@ fun cliHeader(): String = """
     >""".trimMargin(">")
 
 fun main(args: Array<String>) {
-    println(cliHeader())
+    LoggerFactory.getLogger("").info(cliHeader())
 
     val opts = GlowOptions().also { JCommander(it, *args) }
 
