@@ -6,6 +6,7 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
+import io.github.dector.glow.tools.StopWatch
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
 import org.slf4j.LoggerFactory
@@ -25,7 +26,10 @@ fun cliHeader(): String = """
     >""".trimMargin(">")
 
 fun main(args: Array<String>) {
-    LoggerFactory.getLogger("").info(cliHeader())
+    val stopWatch = StopWatch().start()
+
+    val logger = LoggerFactory.getLogger("")
+    logger.info(cliHeader())
 
     val opts = GlowOptions().also { JCommander(it, *args) }
 
@@ -33,6 +37,8 @@ fun main(args: Array<String>) {
         return
 
     Glow(opts).process()
+
+    logger.info("Executed in ${stopWatch.stop().timeFormatted()}.")
 }
 
 class Glow(val opts: GlowOptions) {
