@@ -2,11 +2,11 @@ package io.github.dector.glow
 
 import org.slf4j.Logger
 
-inline fun assert(rule: String? = null, logger: Logger? = null, predicate: () -> Boolean?): Boolean? {
+inline fun assert(rule: String = "", logger: Logger, predicate: () -> Boolean?): Boolean? {
     val result = if (predicate() ?: false) true else null
 
-    if (result.isNullOrFalse() && !rule.isNullOrEmpty())
-        logger?.error("Assertion rule failed: [$rule]")
+    if (result.isNullOrFalse() && !rule.isEmpty())
+        logger.error("Assertion rule failed: [$rule]")
 
     return result
 }

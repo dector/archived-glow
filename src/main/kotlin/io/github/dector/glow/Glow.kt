@@ -31,17 +31,39 @@ fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger("")
     logger.info(cliHeader())
 
-    val opts = GlowOptions().also { JCommander(it, *args) }
+    val opts = parseArguments(*args)
 
-    if (!OptionsValidator(opts).validate())
+    if (!OptionsValidator().validate(opts))
         return
 
-    Glow(opts).process()
+    when (opts.command) {
+        GlowCommandInitOptions.Value -> {
+            GlowProjectCreator(opts.commandInitOptions).process()
+        }
+        GlowCommandBuildOptions.Value -> Glow(opts.commandBuildOptions).process()
+        else -> logger.error("Command ${opts.command} not defined.")
+    }
 
     logger.info("Finished in ${stopWatch.stop().timeFormatted()}.")
 }
 
-class Glow(val opts: GlowOptions) {
+internal fun parseArguments(vararg args: String): GlowOptions {
+    val commandMain = GlowCommandMainOptions()
+    val jc = JCommander(commandMain)
+
+    val commandNew = GlowCommandInitOptions().also { jc.addCommand(GlowCommandInitOptions.Value, it) }
+    val commandBuild = GlowCommandBuildOptions().also { jc.addCommand(GlowCommandBuildOptions.Value, it) }
+
+    jc.parse(*args)
+
+    return GlowOptions(
+            command = jc.parsedCommand,
+            commandMainOptions = commandMain,
+            commandInitOptions = commandNew,
+            commandBuildOptions = commandBuild)
+}
+
+class Glow(private val opts: GlowCommandBuildOptions) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
