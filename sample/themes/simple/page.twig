@@ -11,10 +11,19 @@
             <div class="container">
                 <h3>{{ title }}</h3>
 
+                {% if not(empty(datetime)) %}
+                    <p>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ datetimeShort }}">{{ datetimeShort }}</time></p>
+                {% endif %}
+
                 {{ content }}
             </div>
 
         </div>
     </div>
+
+    <script src="assets/moment-2.18.1.js"></script>
+    <script>
+        document.getElementById('pub-time').innerHTML = moment('{{ datetime }}', 'YYYY-MM-DD').fromNow()
+    </script>
 </body>
 </html>
