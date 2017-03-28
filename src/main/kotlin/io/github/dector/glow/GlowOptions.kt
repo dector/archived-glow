@@ -15,6 +15,9 @@ class GlowOptions {
 
     @Parameter(names = arrayOf("-t", "--theme"), required = true, converter = FileConverter::class)
     var themeDir: File? = null
+
+    @Parameter(names = arrayOf("--clear-output"))
+    var clearOutputDir: Boolean = false
 }
 
 class OptionsValidator(val opts: GlowOptions) {
@@ -23,7 +26,7 @@ class OptionsValidator(val opts: GlowOptions) {
     
     fun validate(): Boolean
             = validateInputDir(opts.inputDir)
-            && validateOutputDir(opts.outputDir)
+            && validateOutputDir(opts.outputDir, opts.clearOutputDir)
             && validateThemeDir(opts.themeDir)
 
     fun validateInputDir(dir: File?): Boolean {
@@ -37,10 +40,13 @@ class OptionsValidator(val opts: GlowOptions) {
         return true
     }
 
-    fun validateOutputDir(dir: File?): Boolean {
+    fun validateOutputDir(dir: File?, canExist: Boolean): Boolean {
         assert("Output dir should be set", logger) { dir != null} ?: return false
-        assert("Output dir should not exist", logger) { dir?.exists().isNullOrFalse() || dir?.listFiles()?.isEmpty().isTrue() }
-                ?: dir?.mkdirs()
+
+        if (!canExist) {
+            assert("Output dir should not exist", logger) { dir?.exists().isNullOrFalse() || dir?.listFiles()?.isEmpty().isTrue() }
+                    ?: return false
+        }
         
         return true
     }
