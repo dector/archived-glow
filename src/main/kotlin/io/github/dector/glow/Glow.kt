@@ -14,7 +14,18 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+val version = "0.1"
+
+fun cliHeader(): String = """
+    >
+    >      _  |  _
+    >     (_| | (_) \/\/
+    >      _|            v $version
+    >""".trimMargin(">")
+
 fun main(args: Array<String>) {
+    println(cliHeader())
+
     val opts = GlowOptions().also { JCommander(it, *args) }
 
     opts.outputDir?.deleteRecursively() // Dev purposes
