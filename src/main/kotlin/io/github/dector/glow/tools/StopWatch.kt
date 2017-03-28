@@ -32,7 +32,13 @@ class StopWatch {
 
     fun timeFormatted(): String = StringBuilder().apply {
         val timeSec = time / 1000
-        insert(0, timeSec).append("s")
+        append(timeSec)
+
+        val timePartSec = (time % 1000) / 100
+        if (timePartSec > 0) {
+            append(".").append(timePartSec)
+        }
+        append("s")
 
         val timeMin = timeSec / 60
         if (timeMin > 0) {
