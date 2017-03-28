@@ -34,6 +34,8 @@ fun main(args: Array<String>) {
                 .writeText(html)
     }
 
+    File(opts.themeDir, "assets").copyRecursively(File(opts.outputDir, "assets"))
+
     println("Done. ${postFiles.size} file(s) proceed")
 }
 
