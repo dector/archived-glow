@@ -42,17 +42,17 @@ class StopWatch {
 
         val timeMin = timeSec / 60
         if (timeMin > 0) {
-            insert(0, timeMin).append("m ")
+            insert(0, "${timeMin}m ")
         }
 
         val timeHours = timeMin / 60
         if (timeHours > 0) {
-            insert(0, timeHours).append("h ")
+            insert(0, "${timeHours}h ")
         }
 
         val timeDays = timeHours / 24
         if (timeDays > 0) {
-            insert(0, timeDays).append("d ")
+            insert(0, "${timeDays}d ")
         }
     }.toString()
 }
