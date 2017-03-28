@@ -26,4 +26,6 @@ dependencies {
     compile 'org.jtwig:jtwig-core:5.85.3.RELEASE'
 
     compile 'org.slf4j:slf4j-simple:1.7.25'
+
+    compile 'com.beust:jcommander:1.48'
 }
