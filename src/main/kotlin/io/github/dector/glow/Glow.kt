@@ -123,7 +123,9 @@ class Glow(private val opts: GlowCommandBuildOptions) {
         val meta = PostMeta(
                 title = yamlVisitor.data["title"]?.get(0) ?: "",
                 pubdate = dateTimeFromFilename(file.nameWithoutExtension),
-                url = outputFileName(file))
+                url = outputFileName(file),
+                draft = yamlVisitor.data["draft"]?.get(0)?.toBoolean() ?: false,
+                file = file)
         return ParsedPost(meta = meta, content = content)
     }
 
@@ -192,13 +194,14 @@ class Glow(private val opts: GlowCommandBuildOptions) {
                 posts = collectMeta(postFiles))
 
         logger.info("Building posts.")
-        for (file in postFiles) {
-            writePage(outputFile(file), buildPage(file, globalData))
-        }
+        globalData.posts
+                .filter { !it.draft }
+                .map { it.file }
+                .forEach { writePage(outputFile(it), buildPage(it, globalData)) }
 
         copyAssets()
 
-        logger.info("Done. ${postFiles.size} file(s) proceed.")
+        logger.info("Done. ${globalData.posts.size} file(s) proceed.")
     }
 }
 
@@ -210,6 +213,6 @@ data class PageModel(
 
 data class ParsedPost(val meta: PostMeta, val content: String)
 
-data class PostMeta(val title: String, val pubdate: LocalDate?, val url: String)
+data class PostMeta(val title: String, val pubdate: LocalDate?, val url: String, val draft: Boolean, val file: File)
 
 data class GlobalData(val blogName: String, val posts: List<PostMeta>)
