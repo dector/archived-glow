@@ -130,16 +130,19 @@ class Glow(private val opts: GlowCommandBuildOptions,
         return ParsedPost(meta = meta, content = content)
     }
 
-    private fun buildPage(file: File, data: GlobalData): String {
+    private fun renderPost(file: File, data: GlobalData): String {
         val post = parsePost(file)
-        val glowModel = PageModel(
+        val page = PageModel(
                 title = post.meta.title,
                 pubdate = post.meta.pubdate,
                 content = post.content,
                 global = data)
 
-        return renderer.render(PageType.Post, glowModel)
+        return render(PageType.Post, page)
     }
+
+    private fun render(pageType: PageType, glowModel: PageModel): String
+            = renderer.render(pageType, glowModel)
 
     private fun dateTimeFromFilename(name: String): LocalDate? {
         val parts = name.split("-")
@@ -174,7 +177,15 @@ class Glow(private val opts: GlowCommandBuildOptions,
                 .copy(posts = globalData.posts.filter { !it.draft })
         filteredGlobal.posts
                 .map { it.file }
-                .forEach { writePage(outputFile(it), buildPage(it, filteredGlobal)) }
+                .forEach { writePage(outputFile(it), renderPost(it, filteredGlobal)) }
+
+        val archiveFile = File(opts.outputDir, "archive.html")
+        val page = PageModel(
+                global = filteredGlobal,
+                title = "Archive",
+                content = "",
+                pubdate = null)
+        writePage(archiveFile, render(PageType.Archive, page))
 
         copyAssets()
 
@@ -183,7 +194,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
 }
 
 enum class PageType {
-    Post
+    Post, Archive
 }
 
 interface IRenderFormatter {
@@ -229,6 +240,7 @@ class JMustacheRenderer(
     private fun buildContext(pageModel: PageModel) = mapOf(
             "blogTitle" to pageModel.global.blogName,
             "blogPosts" to pageModel.global.posts,
+            "hasBlogPosts" to pageModel.global.posts.isNotEmpty(),
             "title" to pageModel.title,
             "pubdate" to formatter.formatPubDate(pageModel.pubdate),
             "pubdateHint" to formatter.formatPubDateHint(pageModel.pubdate),
@@ -242,6 +254,7 @@ class JMustacheRenderer(
 
     private fun templateName(pageType: PageType): String = when (pageType) {
         PageType.Post -> "post"
+        PageType.Archive -> "archive"
     }
 }
 

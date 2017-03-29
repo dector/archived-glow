@@ -1,0 +1,27 @@
+{{> _html_header }}
+
+<div class="columns">
+    <div class="column col-6 centered">
+
+        <div class="container">
+        {{# hasBlogPosts }}
+            <h2>Archives</h2>
+
+            <ul class="no_bullets">
+            {{# blogPosts }}
+                <li><time>({{ pubdate }})</time> <a href="{{ url }}">{{ title }}</a></li>
+            {{/ blogPosts }}
+            </ul>
+        {{/ hasBlogPosts }}
+
+        {{^ hasBlogPosts }}
+            <p>Archives are empty :(</p>
+
+            <p><small>Consider publishing some drafts</small></p>
+        {{/ hasBlogPosts }}
+        </div>
+
+    </div>
+</div>
+
+{{> _html_footer }}
