@@ -26,50 +26,53 @@ fun main(args: Array<String>) {
 
     UiLogger.info(CliHeader)
 
-    val opts = parseArguments(args = *args).let {
-        parseConfigIfExists()?.copy(command = it.command) ?: it
-    }
-
-    if (!OptionsValidator().validate(opts))
-        return
+    val opts = parseArguments(args = *args)
 
     when (opts.command) {
         GlowCommandInitOptions.Value -> {
-            GlowProjectCreator(opts.commandInitOptions).process()
+            if (OptionsValidator().validateInitCommand(opts.commandInitOptions))
+                GlowProjectCreator(opts.commandInitOptions).process()
+            else return
         }
-        GlowCommandBuildOptions.Value -> Glow(opts.commandBuildOptions).process()
+        GlowCommandBuildOptions.Value -> {
+            val configBuildOpts = parseConfigIfExists()
+
+            val buildOpts = if (configBuildOpts != null) {
+                UiLogger.info("[Preparation] Config file not found. CLI arguments will be used.")
+                configBuildOpts
+            } else {
+                UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored.")
+                opts.commandBuildOptions
+            }
+
+            if (OptionsValidator().validateBuildCommand(buildOpts))
+                Glow(buildOpts).process()
+            else return
+        }
         else -> opts.logger().error("Command ${opts.command} not defined.")
     }
 
     UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
 }
 
-private fun parseConfigIfExists(): GlowOptions? {
+private fun parseConfigIfExists(): GlowCommandBuildOptions? {
     val configFile = File("glow.json")
 
     if (!configFile.exists()) {
-        UiLogger.info("[Preparation] Config file not found. CLI arguments will be used.")
+
         return null
     }
-
-    UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored.")
 
     val configJson = JSONObject(configFile.readText())
 
     // TODO check config version
 
-    val commandInit = GlowCommandInitOptions(
-            targetFolder = listOf(configJson.getString("output")))
-    val commandBuild = GlowCommandBuildOptions(
+    return GlowCommandBuildOptions(
             inputDir = File(configJson.string("input", "posts")),
             outputDir = File(configJson.string("output", "out")),
             themeDir = File(configJson.string("theme", "themes/simple")),
             clearOutputDir = configJson.boolean("clearOutput", false),
             blogTitle = configJson.string("title", "<: Unknown Blog :>"))
-
-    return GlowOptions(
-            commandInitOptions = commandInit,
-            commandBuildOptions = commandBuild)
 }
 
 private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: String): GlowOptions {

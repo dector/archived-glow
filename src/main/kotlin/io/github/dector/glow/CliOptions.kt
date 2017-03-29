@@ -51,18 +51,10 @@ class OptionsValidator {
     
     private val logger = logger()
     
-    fun validate(opts: GlowOptions): Boolean = when(opts.command) {
-        GlowCommandInitOptions.Value -> validateInitCommand(opts.commandInitOptions)
-        GlowCommandBuildOptions.Value -> validateBuildCommand(opts.commandBuildOptions)
-
-        "" -> assert("Command should be defined", logger) { false } ?: false
-        else -> assert("Unknown command `${opts.command}`", logger) { false } ?: false
-    }
-
-    private fun validateInitCommand(opts: GlowCommandInitOptions): Boolean
+    fun validateInitCommand(opts: GlowCommandInitOptions): Boolean
             = validateNewProjectTargetDir(opts.targetFolder)
 
-    private fun validateBuildCommand(opts: GlowCommandBuildOptions): Boolean
+    fun validateBuildCommand(opts: GlowCommandBuildOptions): Boolean
             = validateInputDir(opts.inputDir)
             && validateOutputDir(opts.outputDir, opts.clearOutputDir)
             && validateThemeDir(opts.themeDir)
