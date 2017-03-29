@@ -15,18 +15,17 @@ import java.io.File
 import java.io.FileFilter
 import java.time.LocalDate
 
-fun cliHeader(): String = """
-    >
-    >      _  |  _
-    >     (_| | (_) \/\/
-    >      _|            v ${BuildConfig.VERSION}
-    >""".trimMargin(">")
+val CliHeader = """
+      _  |  _
+     (_| | (_) \/\/
+      _|            v ${BuildConfig.VERSION}
+"""
 
 fun main(args: Array<String>) {
     val stopWatch = StopWatch().start()
 
     val logger = LoggerFactory.getLogger("")
-    logger.info(cliHeader())
+    logger.info(CliHeader)
 
     val opts = parseArguments(*args)
 
