@@ -11,6 +11,8 @@ inline fun assert(rule: String = "", logger: Logger, predicate: () -> Boolean?):
     return result
 }
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun Boolean?.isNullOrFalse(): Boolean = this == null || !this
 
+@Suppress("NOTHING_TO_INLINE")
 inline fun Boolean?.isTrue(): Boolean = this != null && this

@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package io.github.dector.glow.tools
 
 inline fun Long.msToSec(): Long = this / 1000
