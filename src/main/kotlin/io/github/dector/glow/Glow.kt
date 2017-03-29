@@ -179,22 +179,41 @@ class Glow(private val opts: GlowCommandBuildOptions,
                 .map { it.file }
                 .forEach { writePage(outputFile(it), renderPost(it, filteredGlobal)) }
 
-        val archiveFile = File(opts.outputDir, "archive.html")
-        val page = PageModel(
-                global = filteredGlobal,
-                title = "Archive",
-                content = "",
-                pubdate = null)
-        writePage(archiveFile, render(PageType.Archive, page))
+        writeArchivePage(filteredGlobal)
+        writeIndexPage(filteredGlobal)
 
         copyAssets()
 
         logger.info("Done. ${globalData.posts.size} file(s) proceed.")
     }
+
+    private fun writeArchivePage(data: GlobalData) {
+        logger.info("Building archive page.")
+
+        val archiveFile = File(opts.outputDir, "archive.html")
+        val page = PageModel(
+                global = data,
+                title = "Archive",
+                content = "",
+                pubdate = null)
+        writePage(archiveFile, render(PageType.Archive, page))
+    }
+
+    private fun writeIndexPage(data: GlobalData) {
+        logger.info("Building index page.")
+
+        val archiveFile = File(opts.outputDir, "index.html")
+        val page = PageModel(
+                global = data,
+                title = "",
+                content = "",
+                pubdate = null)
+        writePage(archiveFile, render(PageType.Index, page))
+    }
 }
 
 enum class PageType {
-    Post, Archive
+    Index, Post, Archive
 }
 
 interface IRenderFormatter {
@@ -255,6 +274,7 @@ class JMustacheRenderer(
     private fun templateName(pageType: PageType): String = when (pageType) {
         PageType.Post -> "post"
         PageType.Archive -> "archive"
+        PageType.Index -> "index"
     }
 }
 
