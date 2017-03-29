@@ -4,8 +4,12 @@
     <h3>{{ title }}</h3>
 
     {{# pubdate }}
-        <p><small>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></small></p>
+    <p><small>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></small></p>
     {{/ pubdate }}
+
+    {{# hasTags }}
+    <p><small>Tags: {{# tags }}<span class="label label-primary mr-5">{{.}}</span>{{/tags}}</small></p>
+    {{/ hasTags }}
 
     <div class="text-justify">
         {{ content }}

@@ -1,6 +1,6 @@
 ---
 title: Europa (moon)
-tags: space
+tags: space, planet, solar system
 ---
 
 **Europa** _/jʊˈroʊpə/_ (**Jupiter II**), is the smallest of the four Galilean moons orbiting Jupiter, and the sixth-closest to the planet. It is also the sixth-largest moon in the Solar System. Europa was discovered in 1610 by Galileo Galilei and was named after Europa, the legendary mother of King Minos of Crete and lover of Zeus (the Greek equivalent of the Roman god Jupiter).

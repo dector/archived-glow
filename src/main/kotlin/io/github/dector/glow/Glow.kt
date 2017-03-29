@@ -121,6 +121,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
 
         val meta = PostMeta(
                 title = yamlVisitor.data["title"]?.get(0) ?: "",
+                tags = yamlVisitor.data["tags"]?.get(0)?.split(",")?.map(String::trim) ?: emptyList(),
                 pubdate = dateTimeFromFilename(file.nameWithoutExtension),
                 url = outputFileName(file),
                 draft = yamlVisitor.data["draft"]?.get(0)?.toBoolean() ?: false,
@@ -132,6 +133,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
         val post = parsePost(file)
         val page = PageModel(
                 title = post.meta.title,
+                tags = post.meta.tags,
                 pubdate = post.meta.pubdate,
                 content = post.content,
                 global = data)
@@ -259,6 +261,8 @@ class JMustacheRenderer(
             "blogPosts" to pageModel.global.posts,
             "hasBlogPosts" to pageModel.global.posts.isNotEmpty(),
             "title" to pageModel.title,
+            "tags" to pageModel.tags,
+            "hasTags" to pageModel.tags.isNotEmpty(),
             "pubdate" to formatter.formatPubDate(pageModel.pubdate),
             "pubdateHint" to formatter.formatPubDateHint(pageModel.pubdate),
             "content" to pageModel.content)
@@ -279,11 +283,12 @@ class JMustacheRenderer(
 data class PageModel(
         val global: GlobalData,
         val title: String,
+        val tags: List<String> = emptyList(),
         val pubdate: LocalDate?,
         val content: String)
 
 data class ParsedPost(val meta: PostMeta, val content: String)
 
-data class PostMeta(val title: String, val pubdate: LocalDate?, val url: String, val draft: Boolean, val file: File)
+data class PostMeta(val title: String, val tags: List<String>, val pubdate: LocalDate?, val url: String, val draft: Boolean, val file: File)
 
 data class GlobalData(val blogName: String, val posts: List<PostMeta>)
