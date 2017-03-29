@@ -11,6 +11,7 @@ import io.github.dector.glow.tools.StopWatch
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileFilter
+import java.io.Reader
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -218,10 +219,11 @@ class JMustacheRenderer(
         val formatter: IRenderFormatter = DefaultRenderFormatter()) : IRenderer {
 
     val mustache: Mustache.Compiler = Mustache.compiler()
+            .withLoader { name -> templateFile(name).reader() }
             .escapeHTML(false)
 
     override fun render(pageType: PageType, model: PageModel): String = mustache
-            .compile(templateFile(pageType).reader())
+            .compile(templateReader(pageType))
             .execute(buildContext(model))
 
     private fun buildContext(pageModel: PageModel) = mapOf(
@@ -232,8 +234,11 @@ class JMustacheRenderer(
             "pubdateHint" to formatter.formatPubDateHint(pageModel.pubdate),
             "content" to pageModel.content)
 
-    private fun templateFile(pageType: PageType): File
-            = File(templatesDir, templateName(pageType) + ".mustache")
+    private fun templateReader(pageType: PageType): Reader
+            = templateFile(templateName(pageType)).reader()
+
+    private fun templateFile(name: String): File
+            = File(templatesDir, "$name.mustache")
 
     private fun templateName(pageType: PageType): String = when (pageType) {
         PageType.Post -> "post"

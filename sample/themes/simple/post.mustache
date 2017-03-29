@@ -1,43 +1,23 @@
-<html>
-<head>
-    <title>{{ title }} {{# blogTitle }}| {{ blogTitle }}{{/ blogTitle }}</title>
+{{> _html_header }}
 
-    <link rel="stylesheet" href="assets/spectre-0.2.9.css">
+<div class="columns">
+    <div class="column col-6 centered">
 
-    <!-- Moments.js (date/time formatting) -->
-    <script src="assets/moment-2.18.1.js"></script>
-</head>
-<body>
-    <div class="columns">
-        <!--<div class="column col-3">
-            <div class="container">
+        <div class="container">
+            <h3>{{ title }}</h3>
 
-                <ul>
-                    {{# blogPosts }}
-                        <li style="list-style-type: none;"><a href="{{ url }}">{{ title }}</a></li>
-                    {{/ blogPosts }}
-                </ul>
+            {{# pubdate }}
+                <p>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></p>
+            {{/ pubdate }}
 
-            </div>
-        </div>-->
-
-        <div class="column col-6 centered">
-
-            <div class="container">
-                <h3>{{ title }}</h3>
-
-                    {{# pubdate }}
-                        <p>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></p>
-                    {{/ pubdate }}
-
-                {{ content }}
-            </div>
-
+            {{ content }}
         </div>
-    </div>
 
-    <script>
-        document.getElementById('pub-time').innerHTML = moment('{{ pubdate }}', 'YYYY-MM-DD').fromNow()
-    </script>
-</body>
-</html>
+    </div>
+</div>
+
+<script>
+    document.getElementById('pub-time').innerHTML = moment('{{ pubdate }}', 'YYYY-MM-DD').fromNow()
+</script>
+
+{{> _html_footer }}
