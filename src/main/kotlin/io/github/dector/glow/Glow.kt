@@ -10,6 +10,7 @@ import io.github.dector.glow.renderer.IRenderer
 import io.github.dector.glow.renderer.PageType
 import io.github.dector.glow.renderer.mustache.MustacheRenderer
 import io.github.dector.glow.tools.StopWatch
+import org.json.JSONObject
 import java.io.File
 import java.io.FileFilter
 import java.time.LocalDate
@@ -25,7 +26,9 @@ fun main(args: Array<String>) {
 
     UiLogger.info(CliHeader)
 
-    val opts = parseArguments(*args)
+    val opts = parseArguments(args = *args).let {
+        parseConfigIfExists()?.copy(command = it.command) ?: it
+    }
 
     if (!OptionsValidator().validate(opts))
         return
@@ -41,19 +44,47 @@ fun main(args: Array<String>) {
     UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
 }
 
-internal fun parseArguments(vararg args: String): GlowOptions {
-    val commandMain = GlowCommandMainOptions()
-    val jc = JCommander(commandMain)
+private fun parseConfigIfExists(): GlowOptions? {
+    val configFile = File("glow.json")
 
-    val commandNew = GlowCommandInitOptions().also { jc.addCommand(GlowCommandInitOptions.Value, it) }
-    val commandBuild = GlowCommandBuildOptions().also { jc.addCommand(GlowCommandBuildOptions.Value, it) }
+    if (!configFile.exists()) {
+        UiLogger.info("[Preparation] Config file not found. CLI arguments will be used.")
+        return null
+    }
 
-    jc.parse(*args)
+    UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored.")
+
+    val configJson = JSONObject(configFile.readText())
+
+    // TODO check config version
+
+    val commandInit = GlowCommandInitOptions(
+            targetFolder = listOf(configJson.getString("output")))
+    val commandBuild = GlowCommandBuildOptions(
+            inputDir = File(configJson.string("input", "posts")),
+            outputDir = File(configJson.string("output", "out")),
+            themeDir = File(configJson.string("theme", "themes/simple")),
+            clearOutputDir = configJson.boolean("clearOutput", false),
+            blogTitle = configJson.string("title", "<: Unknown Blog :>"))
 
     return GlowOptions(
+            commandInitOptions = commandInit,
+            commandBuildOptions = commandBuild)
+}
+
+private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: String): GlowOptions {
+    val commandMain = baseOpts.commandMainOptions
+    val jc = JCommander(commandMain)
+
+    val commandInit = baseOpts.commandInitOptions.also { jc.addCommand(GlowCommandInitOptions.Value, it) }
+    val commandBuild = baseOpts.commandBuildOptions.also { jc.addCommand(GlowCommandBuildOptions.Value, it) }
+
+    jc.parseWithoutValidation(*args)
+
+    return baseOpts.copy(
             command = jc.parsedCommand,
             commandMainOptions = commandMain,
-            commandInitOptions = commandNew,
+            commandInitOptions = commandInit,
             commandBuildOptions = commandBuild)
 }
 
@@ -74,8 +105,9 @@ class Glow(private val opts: GlowCommandBuildOptions,
         opts.outputDir?.mkdirs()
     }
 
-    private fun listPostFiles() = File(opts.inputDir, "posts/")
-            .listFiles(FileFilter { it.extension == "md" })
+    private fun listPostFiles() = opts.inputDir
+            ?.listFiles(FileFilter { it.extension == "md" })
+            ?: emptyArray()
 
     private fun copyAssets() {
         UiLogger.info("[Building] Copying theme assets to output.")

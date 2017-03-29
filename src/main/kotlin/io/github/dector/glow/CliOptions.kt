@@ -5,57 +5,59 @@ import com.beust.jcommander.converters.FileConverter
 import java.io.File
 
 data class GlowOptions(
-        val command: String,
-        val commandMainOptions: GlowCommandMainOptions,
-        val commandInitOptions: GlowCommandInitOptions,
-        val commandBuildOptions: GlowCommandBuildOptions)
+        val command: String = "",
+        val commandMainOptions: GlowCommandMainOptions = GlowCommandMainOptions(),
+        val commandInitOptions: GlowCommandInitOptions = GlowCommandInitOptions(),
+        val commandBuildOptions: GlowCommandBuildOptions = GlowCommandBuildOptions())
 
-class GlowCommandMainOptions {
+data class GlowCommandMainOptions(val noOptionsYet: Unit = Unit) {
 
     // help, verbose
 }
 
-class GlowCommandInitOptions {
+data class GlowCommandInitOptions(
+    @Parameter()
+    var targetFolder: List<String> = arrayListOf()) {
 
     companion object {
 
         val Value = "init"
     }
-
-    @Parameter(required = true)
-    var targetFolder: List<String> = arrayListOf()
 }
 
-class GlowCommandBuildOptions {
+data class GlowCommandBuildOptions(
+    @Parameter(names = arrayOf("-i", "--input"), converter = FileConverter::class)
+    var inputDir: File? = null,
+
+    @Parameter(names = arrayOf("-o", "--output"), converter = FileConverter::class)
+    var outputDir: File? = null,
+
+    @Parameter(names = arrayOf("-t", "--theme"), converter = FileConverter::class)
+    var themeDir: File? = null,
+
+    @Parameter(names = arrayOf("--clear-output"))
+    var clearOutputDir: Boolean = false,
+
+    @Parameter(names = arrayOf("--title"))
+    var blogTitle: String = "") {
 
     companion object {
 
         val Value = "build"
     }
-
-    @Parameter(names = arrayOf("-i", "--input"), required = true, converter = FileConverter::class)
-    var inputDir: File? = null
-
-    @Parameter(names = arrayOf("-o", "--output"), required = true, converter = FileConverter::class)
-    var outputDir: File? = null
-
-    @Parameter(names = arrayOf("-t", "--theme"), required = true, converter = FileConverter::class)
-    var themeDir: File? = null
-
-    @Parameter(names = arrayOf("--clear-output"))
-    var clearOutputDir: Boolean = false
-
-    @Parameter(names = arrayOf("--title"))
-    var blogTitle: String = ""
 }
 
 class OptionsValidator {
     
     private val logger = logger()
     
-    fun validate(opts: GlowOptions): Boolean
-            = opts.command == GlowCommandInitOptions.Value && validateInitCommand(opts.commandInitOptions)
-            || opts.command == GlowCommandBuildOptions.Value && validateBuildCommand(opts.commandBuildOptions)
+    fun validate(opts: GlowOptions): Boolean = when(opts.command) {
+        GlowCommandInitOptions.Value -> validateInitCommand(opts.commandInitOptions)
+        GlowCommandBuildOptions.Value -> validateBuildCommand(opts.commandBuildOptions)
+
+        "" -> assert("Command should be defined", logger) { false } ?: false
+        else -> assert("Unknown command `${opts.command}`", logger) { false } ?: false
+    }
 
     private fun validateInitCommand(opts: GlowCommandInitOptions): Boolean
             = validateNewProjectTargetDir(opts.targetFolder)
@@ -79,10 +81,6 @@ class OptionsValidator {
     private fun validateInputDir(dir: File?): Boolean {
         assert("Input dir should be set", logger) { dir != null } ?: return false
         assert("Input dir should be directory", logger) { dir?.isDirectory } ?: return false
-
-        File(dir, "posts/").also {
-            assert("Input dir should have posts directory", logger) { it.exists() && it.isDirectory }
-        }
 
         return true
     }

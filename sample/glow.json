@@ -1,0 +1,8 @@
+{
+    "v" : "1",
+    "title" : "This blog",
+    "theme" : "themes/simple",
+    "input" : "posts",
+    "output" : "out",
+    "clearOutput" : true
+}

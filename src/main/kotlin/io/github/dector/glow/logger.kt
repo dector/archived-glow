@@ -12,6 +12,8 @@ val UiLogger: Logger
 
 fun Any.logger(): Logger = LoggerFactory.getLogger(javaClass)
 
+fun rootLogger(): Logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)
+
 open class TransparentLogger : MarkerIgnoringBase() {
 
     protected fun log(msg: String?) { println(msg) }
