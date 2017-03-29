@@ -1,27 +1,22 @@
 {{> _html_header }}
 
-<div class="columns">
-    <div class="column col-6 centered">
+<div class="container">
+    <h3>Archive</h3>
 
-        <div class="container">
-            <h3>Archive</h3>
+{{# hasBlogPosts }}
+    <dl>
+    {{# blogPosts }}
+        <dt><a href="{{ url }}">{{ title }}</a> <span class="text-normal">({{ pubdate }})</span></dt>
+    {{/ blogPosts }}
+    </dl>
+{{/ hasBlogPosts }}
 
-        {{# hasBlogPosts }}
-            <dl>
-            {{# blogPosts }}
-                <dt><a href="{{ url }}">{{ title }}</a> <span class="text-normal">({{ pubdate }})</span></dt>
-            {{/ blogPosts }}
-            </dl>
-        {{/ hasBlogPosts }}
+{{^ hasBlogPosts }}
+    <p>There are no posts yet. :(</p>
 
-        {{^ hasBlogPosts }}
-            <p>There are no posts yet. :(</p>
+    <p><small>Consider publishing some drafts.</small></p>
+{{/ hasBlogPosts }}
 
-            <p><small>Consider publishing some drafts.</small></p>
-        {{/ hasBlogPosts }}
-        </div>
-
-    </div>
 </div>
 
 {{> _html_footer }}

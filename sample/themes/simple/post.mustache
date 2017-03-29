@@ -1,24 +1,18 @@
 {{> _html_header }}
 
-<div class="columns">
-    <div class="column col-6 centered">
+<div class="container">
+    <h3>{{ title }}</h3>
 
-        <div class="container">
-            <h3>{{ title }}</h3>
+    {{# pubdate }}
+        <p><small>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></small></p>
+    {{/ pubdate }}
 
-            {{# pubdate }}
-                <p><small>Published: <time id="pub-time" class="tooltip tooltip-bottom" data-tooltip="{{ pubdateHint }}">{{ pubdateHint }}</time></small></p>
-            {{/ pubdate }}
-
-            <div class="text-justify">
-                {{ content }}
-            </div>
-
-            <a href="archive.html">Back to archive</a>
-
-        </div>
-
+    <div class="text-justify">
+        {{ content }}
     </div>
+
+    <a href="archive.html">Back to archive</a>
+
 </div>
 
 <script>
