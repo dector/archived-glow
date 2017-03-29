@@ -2,7 +2,6 @@ package io.github.dector.glow
 
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.converters.FileConverter
-import org.slf4j.LoggerFactory
 import java.io.File
 
 data class GlowOptions(
@@ -52,7 +51,7 @@ class GlowCommandBuildOptions {
 
 class OptionsValidator {
     
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger = logger()
     
     fun validate(opts: GlowOptions): Boolean
             = opts.command == GlowCommandInitOptions.Value && validateInitCommand(opts.commandInitOptions)

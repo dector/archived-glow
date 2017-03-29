@@ -10,7 +10,6 @@ import io.github.dector.glow.renderer.IRenderer
 import io.github.dector.glow.renderer.PageType
 import io.github.dector.glow.renderer.mustache.MustacheRenderer
 import io.github.dector.glow.tools.StopWatch
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileFilter
 import java.time.LocalDate
@@ -24,8 +23,7 @@ val CliHeader = """
 fun main(args: Array<String>) {
     val stopWatch = StopWatch().start()
 
-    val logger = LoggerFactory.getLogger("")
-    logger.info(CliHeader)
+    UiLogger.info(CliHeader)
 
     val opts = parseArguments(*args)
 
@@ -37,10 +35,10 @@ fun main(args: Array<String>) {
             GlowProjectCreator(opts.commandInitOptions).process()
         }
         GlowCommandBuildOptions.Value -> Glow(opts.commandBuildOptions).process()
-        else -> logger.error("Command ${opts.command} not defined.")
+        else -> opts.logger().error("Command ${opts.command} not defined.")
     }
 
-    logger.info("Finished in ${stopWatch.stop().timeFormatted()}.")
+    UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
 }
 
 internal fun parseArguments(vararg args: String): GlowOptions {
@@ -62,17 +60,17 @@ internal fun parseArguments(vararg args: String): GlowOptions {
 class Glow(private val opts: GlowCommandBuildOptions,
            val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger = logger()
 
     private fun prepareDirs() {
-        logger.info("Preparing output directories.")
+        UiLogger.info("[Preparation] Checking output directories.")
 
         if (opts.clearOutputDir) {
-            logger.info("Removing existing output dir.")
+            UiLogger.info("[Preparation] Removing existing output dir.")
             opts.outputDir?.deleteRecursively()
         }
 
-        logger.info("Creating output dir.")
+        UiLogger.info("[Preparation] Creating output dir.")
         opts.outputDir?.mkdirs()
     }
 
@@ -80,7 +78,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
             .listFiles(FileFilter { it.extension == "md" })
 
     private fun copyAssets() {
-        logger.info("Copying theme assets to output.")
+        UiLogger.info("[Building] Copying theme assets to output.")
 
         File(opts.themeDir, "assets")
                 .copyRecursively(File(opts.outputDir, "assets"))
@@ -163,14 +161,14 @@ class Glow(private val opts: GlowCommandBuildOptions,
 
         val postFiles = listPostFiles()
 
-        logger.info("${postFiles.size} posts found.")
+        UiLogger.info("[Building] ${postFiles.size} posts found.")
 
-        logger.info("Building posts list.")
+        UiLogger.info("[Building] Posts list.")
         val globalData = GlobalData(
                 blogName = opts.blogTitle,
                 posts = collectMeta(postFiles))
 
-        logger.info("Building posts.")
+        UiLogger.info("[Building] Posts.")
         val filteredGlobal = globalData
                 .copy(posts = globalData.posts.filter { !it.draft })
         filteredGlobal.posts
@@ -182,11 +180,11 @@ class Glow(private val opts: GlowCommandBuildOptions,
 
         copyAssets()
 
-        logger.info("Done. ${globalData.posts.size} file(s) proceed.")
+        UiLogger.info("[Building] ${globalData.posts.size} file(s) proceed.")
     }
 
     private fun writeArchivePage(data: GlobalData) {
-        logger.info("Building archive page.")
+        UiLogger.info("[Building] Archive page.")
 
         val archiveFile = File(opts.outputDir, "archive.html")
         val page = PageModel(
@@ -198,7 +196,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
     }
 
     private fun writeIndexPage(data: GlobalData) {
-        logger.info("Building index page.")
+        UiLogger.info("[Building] Index page.")
 
         val archiveFile = File(opts.outputDir, "index.html")
         val page = PageModel(
