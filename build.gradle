@@ -23,7 +23,7 @@ dependencies {
 
     compile 'com.vladsch.flexmark:flexmark-all:0.18.5'
 
-    compile 'org.jtwig:jtwig-core:5.85.3.RELEASE'
+    compile 'com.samskivert:jmustache:1.13'
 
     compile 'org.slf4j:slf4j-simple:1.7.25'
 

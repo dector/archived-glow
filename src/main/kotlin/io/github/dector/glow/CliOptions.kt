@@ -101,7 +101,6 @@ class OptionsValidator {
 
     private fun validateThemeDir(dir: File?): Boolean {
         assert("Theme dir should be set", logger) { dir != null } ?: return false
-        assert("Theme fir should contain `page.twig`", logger) { File(dir, "page.twig").exists() }
 
         return true
     }

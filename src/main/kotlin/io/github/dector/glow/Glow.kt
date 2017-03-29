@@ -1,14 +1,13 @@
 package io.github.dector.glow
 
 import com.beust.jcommander.JCommander
+import com.samskivert.mustache.Mustache
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.tools.StopWatch
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileFilter
@@ -63,7 +62,8 @@ internal fun parseArguments(vararg args: String): GlowOptions {
             commandBuildOptions = commandBuild)
 }
 
-class Glow(private val opts: GlowCommandBuildOptions) {
+class Glow(private val opts: GlowCommandBuildOptions,
+           val renderer: IRenderer = JMustacheRenderer(opts.themeDir!!)) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -136,21 +136,8 @@ class Glow(private val opts: GlowCommandBuildOptions) {
                 pubdate = post.meta.pubdate,
                 content = post.content,
                 global = data)
-        return renderPage(File(opts.themeDir, "page.twig"), glowModel)
-    }
 
-    private fun renderPage(templateFile: File, pageModel: PageModel): String {
-        val template = JtwigTemplate.fileTemplate(templateFile)
-
-        val model = JtwigModel.newModel()
-                .with("blogTitle", pageModel.global.blogName)
-                .with("blogPosts", pageModel.global.posts)
-                .with("title", pageModel.title)
-                .with("pubdate", formatPubdate(pageModel.pubdate))
-                .with("pubdateHint", formatPubdateHint(pageModel.pubdate))
-                .with("content", pageModel.content)
-
-        return template.render(model)
+        return renderer.render(PageType.Post, glowModel)
     }
 
     private fun dateTimeFromFilename(name: String): LocalDate? {
@@ -169,18 +156,6 @@ class Glow(private val opts: GlowCommandBuildOptions) {
         return LocalDate.of(year, month, day)
     }
 
-    private fun formatPubdate(datetime: LocalDate?): String {
-        datetime ?: return ""
-
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(datetime)
-    }
-
-    private fun formatPubdateHint(datetime: LocalDate?): String {
-        datetime ?: return ""
-
-        return DateTimeFormatter.ofPattern("EEE, d MMM yyyy", Locale.ENGLISH).format(datetime)
-    }
-
     fun process() {
         prepareDirs()
 
@@ -194,14 +169,74 @@ class Glow(private val opts: GlowCommandBuildOptions) {
                 posts = collectMeta(postFiles))
 
         logger.info("Building posts.")
-        globalData.posts
-                .filter { !it.draft }
+        val filteredGlobal = globalData
+                .copy(posts = globalData.posts.filter { !it.draft })
+        filteredGlobal.posts
                 .map { it.file }
-                .forEach { writePage(outputFile(it), buildPage(it, globalData)) }
+                .forEach { writePage(outputFile(it), buildPage(it, filteredGlobal)) }
 
         copyAssets()
 
         logger.info("Done. ${globalData.posts.size} file(s) proceed.")
+    }
+}
+
+enum class PageType {
+    Post
+}
+
+interface IRenderFormatter {
+
+    fun formatPubDate(date: LocalDate?): String
+    fun formatPubDateHint(date: LocalDate?): String
+}
+
+class DefaultRenderFormatter : IRenderFormatter {
+
+    override fun formatPubDate(date: LocalDate?): String {
+        date ?: return ""
+
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+                .format(date)
+    }
+
+    override fun formatPubDateHint(date: LocalDate?): String {
+        date ?: return ""
+
+        return DateTimeFormatter.ofPattern("EEE, d MMM yyyy", Locale.ENGLISH)
+                .format(date)
+    }
+}
+
+interface IRenderer {
+
+    fun render(pageType: PageType, model: PageModel): String
+}
+
+class JMustacheRenderer(
+        private val templatesDir: File,
+        val formatter: IRenderFormatter = DefaultRenderFormatter()) : IRenderer {
+
+    val mustache: Mustache.Compiler = Mustache.compiler()
+            .escapeHTML(false)
+
+    override fun render(pageType: PageType, model: PageModel): String = mustache
+            .compile(templateFile(pageType).reader())
+            .execute(buildContext(model))
+
+    private fun buildContext(pageModel: PageModel) = mapOf(
+            "blogTitle" to pageModel.global.blogName,
+            "blogPosts" to pageModel.global.posts,
+            "title" to pageModel.title,
+            "pubdate" to formatter.formatPubDate(pageModel.pubdate),
+            "pubdateHint" to formatter.formatPubDateHint(pageModel.pubdate),
+            "content" to pageModel.content)
+
+    private fun templateFile(pageType: PageType): File
+            = File(templatesDir, templateName(pageType) + ".mustache")
+
+    private fun templateName(pageType: PageType): String = when (pageType) {
+        PageType.Post -> "post"
     }
 }
 
