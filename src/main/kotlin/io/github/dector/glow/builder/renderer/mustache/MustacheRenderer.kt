@@ -22,9 +22,9 @@ class MustacheRenderer(
             .execute(buildContext(model))
 
     private fun buildContext(pageModel: PageModel) = mapOf(
-            "blogTitle" to pageModel.global.blogName,
-            "blogPosts" to pageModel.global.posts,
-            "hasBlogPosts" to pageModel.global.posts.isNotEmpty(),
+            "blogTitle" to pageModel.blog.title,
+            "blogPosts" to pageModel.blog.posts,
+            "hasBlogPosts" to pageModel.blog.posts.isNotEmpty(),
             "title" to pageModel.title,
             "tags" to pageModel.tags,
             "hasTags" to pageModel.tags.isNotEmpty(),
