@@ -1,16 +1,11 @@
-package io.github.dector.glow
+package io.github.dector.glow.builder
 
-import com.beust.jcommander.JCommander
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.cli.GlowCommandBuildOptions
-import io.github.dector.glow.cli.GlowCommandInitOptions
-import io.github.dector.glow.cli.GlowOptions
-import io.github.dector.glow.cli.OptionsValidator
-import io.github.dector.glow.creator.GlowProjectCreator
 import io.github.dector.glow.logger.UiLogger
 import io.github.dector.glow.logger.logger
 import io.github.dector.glow.models.GlobalData
@@ -20,101 +15,9 @@ import io.github.dector.glow.models.PostMeta
 import io.github.dector.glow.renderer.IRenderer
 import io.github.dector.glow.renderer.PageType
 import io.github.dector.glow.renderer.mustache.MustacheRenderer
-import io.github.dector.glow.tools.StopWatch
-import io.github.dector.glow.tools.boolean
-import io.github.dector.glow.tools.string
-import org.json.JSONObject
 import java.io.File
 import java.io.FileFilter
 import java.time.LocalDate
-import kotlin.system.exitProcess
-
-val CliHeader = """
-      _  |  _
-     (_| | (_) \/\/
-      _|            v ${BuildConfig.VERSION}
-"""
-
-fun main(args: Array<String>) {
-    val stopWatch = StopWatch().start()
-
-    UiLogger.info(CliHeader)
-
-    val opts = parseArguments(args = *args)
-    if (!validateAndProcessCommand(opts)) {
-        UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
-        exitProcess(1)
-    }
-
-    UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
-}
-
-private fun validateAndProcessCommand(opts: GlowOptions): Boolean {
-    when (opts.command) {
-        GlowCommandInitOptions.Value -> {
-            if (OptionsValidator().validateInitCommand(opts.commandInitOptions))
-                GlowProjectCreator(opts.commandInitOptions).process()
-            else return false
-        }
-        GlowCommandBuildOptions.Value -> {
-            val configBuildOpts = parseConfigIfExists()
-
-            val buildOpts = if (configBuildOpts != null) {
-                UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
-                configBuildOpts
-            } else {
-                UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
-                opts.commandBuildOptions
-            }
-
-            if (OptionsValidator().validateBuildCommand(buildOpts))
-                return GlowBuilder(buildOpts).process()
-            else return false
-        }
-        else -> {
-            opts.logger().error("Command ${opts.command} not defined...")
-            return false
-        }
-    }
-
-    return true
-}
-
-private fun parseConfigIfExists(): GlowCommandBuildOptions? {
-    val configFile = File("glow.json")
-
-    if (!configFile.exists()) {
-
-        return null
-    }
-
-    val configJson = JSONObject(configFile.readText())
-
-    // TODO check config version
-
-    return GlowCommandBuildOptions(
-            inputDir = File(configJson.string("input", "posts")),
-            outputDir = File(configJson.string("output", "out")),
-            themeDir = File(configJson.string("theme", "themes/simple")),
-            clearOutputDir = configJson.boolean("clearOutput", false),
-            blogTitle = configJson.string("title", "<: Unknown Blog :>"))
-}
-
-private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: String): GlowOptions {
-    val commandMain = baseOpts.commandMainOptions
-    val jc = JCommander(commandMain)
-
-    val commandInit = baseOpts.commandInitOptions.also { jc.addCommand(GlowCommandInitOptions.Value, it) }
-    val commandBuild = baseOpts.commandBuildOptions.also { jc.addCommand(GlowCommandBuildOptions.Value, it) }
-
-    jc.parseWithoutValidation(*args)
-
-    return baseOpts.copy(
-            command = jc.parsedCommand,
-            commandMainOptions = commandMain,
-            commandInitOptions = commandInit,
-            commandBuildOptions = commandBuild)
-}
 
 class GlowBuilder(
         private val opts: GlowCommandBuildOptions,
