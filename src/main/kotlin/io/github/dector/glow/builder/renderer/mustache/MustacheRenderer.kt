@@ -1,7 +1,7 @@
 package io.github.dector.glow.builder.renderer.mustache
 
 import com.samskivert.mustache.Mustache
-import io.github.dector.glow.builder.models.PageModel
+import io.github.dector.glow.builder.models.PageData
 import io.github.dector.glow.builder.models.PostMeta
 import io.github.dector.glow.builder.renderer.DefaultRenderFormatter
 import io.github.dector.glow.builder.renderer.IRenderFormatter
@@ -20,9 +20,9 @@ class MustacheRenderer(
             .withLoader { name -> templateFile(name).reader() }
             .escapeHTML(false)
 
-    override fun render(pageType: PageType, model: PageModel): String = mustache
+    override fun render(pageType: PageType, data: PageData): String = mustache
             .compile(templateReader(pageType))
-            .execute(vmBuilder[pageType, model])
+            .execute(vmBuilder[pageType, data])
 
     private fun templateReader(pageType: PageType): Reader
             = templateFile(pageType.filename).reader()
@@ -34,25 +34,25 @@ class MustacheRenderer(
 private class VMBuilder(
         private val formatter: IRenderFormatter = DefaultRenderFormatter()) {
 
-    operator fun get(pageType: PageType, page: PageModel): BaseVM = when(pageType) {
+    operator fun get(pageType: PageType, page: PageData): BaseVM = when(pageType) {
         PageType.Index -> buildIndexVM(page)
         PageType.Archive -> buildArchiveVM(page)
         PageType.Post -> buildPostVM(page)
     }
 
-    private fun buildBaseVM(page: PageModel) = BaseVM(
+    private fun buildBaseVM(page: PageData) = BaseVM(
             blogTitle   = page.blog.title,
             title       = page.title)
 
-    private fun buildIndexVM(page: PageModel) = IndexVM(
+    private fun buildIndexVM(page: PageData) = IndexVM(
             baseVM      = buildBaseVM(page),
             blogPosts   = page.blog.posts.asVM())
 
-    private fun buildArchiveVM(page: PageModel) = ArchiveVM(
+    private fun buildArchiveVM(page: PageData) = ArchiveVM(
             baseVM      = buildBaseVM(page),
             blogPosts   = page.blog.posts.asVM())
 
-    private fun buildPostVM(page: PageModel) = PostVM(
+    private fun buildPostVM(page: PageData) = PostVM(
             baseVM      = buildBaseVM(page),
             tags        = page.tags,
             pubdate     = formatter.formatPubDate(page.pubDate),

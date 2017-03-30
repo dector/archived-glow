@@ -1,11 +1,11 @@
 package io.github.dector.glow.builder.renderer
 
-import io.github.dector.glow.builder.models.PageModel
+import io.github.dector.glow.builder.models.PageData
 import java.time.LocalDate
 
 interface IRenderer {
 
-    fun render(pageType: PageType, model: PageModel): String
+    fun render(pageType: PageType, data: PageData): String
 }
 
 interface IRenderFormatter {

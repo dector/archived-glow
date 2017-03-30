@@ -6,7 +6,6 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
-import io.github.dector.glow.builder.models.ParsedPost
 import io.github.dector.glow.builder.models.PostMeta
 import java.io.File
 import java.time.LocalDate
@@ -31,7 +30,7 @@ class DefaultPostParser(
                 url     = urlBuilder(file.nameWithoutExtension),
                 pubDate = postPubDateFromFilename(file.nameWithoutExtension))
         return ParsedPost(
-                meta    = meta,
+                meta = meta,
                 content = content)
     }
 

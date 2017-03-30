@@ -1,11 +1,11 @@
 package io.github.dector.glow.builder
 
 import io.github.dector.glow.builder.models.BlogData
-import io.github.dector.glow.builder.models.PageModel
-import io.github.dector.glow.builder.models.ParsedPost
+import io.github.dector.glow.builder.models.PageData
 import io.github.dector.glow.builder.models.PostMeta
 import io.github.dector.glow.builder.parser.DefaultPostParser
 import io.github.dector.glow.builder.parser.IPostParser
+import io.github.dector.glow.builder.parser.ParsedPost
 import io.github.dector.glow.builder.renderer.IRenderer
 import io.github.dector.glow.builder.renderer.PageType
 import io.github.dector.glow.builder.renderer.mustache.MustacheRenderer
@@ -94,11 +94,9 @@ class GlowBuilder(
     private fun buildArchivePage(blogData: BlogData) {
         UiLogger.info("[Building] Archive page...")
 
-        val page = PageModel(
+        val page = PageData(
                 blog    = blogData,
-                title   = "Archive",
-                content = "",
-                pubDate = null)
+                title   = "Archive")
         val content = renderPage(PageType.Archive, page)
 
         outputDirFile("archive.html")
@@ -110,11 +108,8 @@ class GlowBuilder(
     private fun buildIndexPage(data: BlogData) {
         UiLogger.info("[Building] Index page...")
 
-        val page = PageModel(
-                blog    = data,
-                title   = "",
-                content = "",
-                pubDate = null)
+        val page = PageData(
+                blog    = data)
         val content = renderPage(PageType.Index, page)
 
         outputDirFile("index.html")
@@ -133,7 +128,7 @@ class GlowBuilder(
     // --- Rendering
 
     private fun renderPost(post: ParsedPost, data: BlogData): String {
-        val page = PageModel(
+        val page = PageData(
                 title   = post.meta.title,
                 tags    = post.meta.tags,
                 pubDate = post.meta.pubDate,
@@ -143,7 +138,7 @@ class GlowBuilder(
         return renderPage(PageType.Post, page)
     }
 
-    private fun renderPage(pageType: PageType, page: PageModel): String
+    private fun renderPage(pageType: PageType, page: PageData): String
             = renderer.render(pageType, page)
 
     // --- File tools
