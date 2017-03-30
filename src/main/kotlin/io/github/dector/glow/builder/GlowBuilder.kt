@@ -18,7 +18,7 @@ class GlowBuilder(
         private val opts: GlowCommandBuildOptions,
         private val urlBuilder: (String) -> String = { filename -> "$filename.html" },
         private val postParser: IPostParser = DefaultPostParser(urlBuilder),
-        private val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
+        private val renderer: IRenderer = defaultRenderer(opts)) {
 
     fun process(): Boolean {
         prepareDirs()
@@ -163,3 +163,6 @@ class GlowBuilder(
     // ---
 
 }
+
+fun defaultRenderer(opts: GlowCommandBuildOptions): IRenderer
+        = MustacheRenderer(templatesDir = opts.themeDir!!)
