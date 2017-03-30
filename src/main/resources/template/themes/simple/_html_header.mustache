@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>{{ title }} {{# blogTitle }}| {{ blogTitle }}{{/ blogTitle }}</title>
+
+    <meta charset="utf-8">
+
+    <!-- Spectre.css (UI) -->
+    <link rel="stylesheet" href="assets/spectre-0.2.9.css">
+
+    <!-- Moments.js (date/time formatting) -->
+    <script src="assets/moment-2.18.1.js"></script>
+
+    <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+
+<div class="columns">
+    <div class="column col-6 col-lg-8 col-md-9 col-sm-11 col-xs-12 centered">
+
+        <div class="container mb-10">
+            <header class="navbar">
+                <section class="navbar-section">
+                </section>
+                <section class="navbar-primary mr-10">
+                    <a href="index.html" class="navbar-brand">{{ blogTitle }}</a>
+                </section>
+                <section class="navbar-section">
+                    <a href="archive.html">Archive</a>
+                </section>
+            </header>
+        </div>

@@ -14,6 +14,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileFilter
 import java.time.LocalDate
+import kotlin.system.exitProcess
 
 val CliHeader = """
       _  |  _
@@ -27,32 +28,43 @@ fun main(args: Array<String>) {
     UiLogger.info(CliHeader)
 
     val opts = parseArguments(args = *args)
+    if (!validateAndProcessCommand(opts)) {
+        UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
+        exitProcess(1)
+    }
 
+    UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
+}
+
+private fun validateAndProcessCommand(opts: GlowOptions): Boolean {
     when (opts.command) {
         GlowCommandInitOptions.Value -> {
             if (OptionsValidator().validateInitCommand(opts.commandInitOptions))
                 GlowProjectCreator(opts.commandInitOptions).process()
-            else return
+            else return false
         }
         GlowCommandBuildOptions.Value -> {
             val configBuildOpts = parseConfigIfExists()
 
             val buildOpts = if (configBuildOpts != null) {
-                UiLogger.info("[Preparation] Config file not found. CLI arguments will be used.")
+                UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
                 configBuildOpts
             } else {
-                UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored.")
+                UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
                 opts.commandBuildOptions
             }
 
             if (OptionsValidator().validateBuildCommand(buildOpts))
-                Glow(buildOpts).process()
-            else return
+                return Glow(buildOpts).process()
+            else return false
         }
-        else -> opts.logger().error("Command ${opts.command} not defined.")
+        else -> {
+            opts.logger().error("Command ${opts.command} not defined...")
+            return false
+        }
     }
 
-    UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
+    return true
 }
 
 private fun parseConfigIfExists(): GlowCommandBuildOptions? {
@@ -97,14 +109,14 @@ class Glow(private val opts: GlowCommandBuildOptions,
     private val logger = logger()
 
     private fun prepareDirs() {
-        UiLogger.info("[Preparation] Checking output directories.")
+        UiLogger.info("[Preparation] Checking output directories...")
 
         if (opts.clearOutputDir) {
-            UiLogger.info("[Preparation] Removing existing output dir.")
+            UiLogger.info("[Preparation] Removing existing output dir...")
             opts.outputDir?.deleteRecursively()
         }
 
-        UiLogger.info("[Preparation] Creating output dir.")
+        UiLogger.info("[Preparation] Creating output dir...")
         opts.outputDir?.mkdirs()
     }
 
@@ -113,7 +125,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
             ?: emptyArray()
 
     private fun copyAssets() {
-        UiLogger.info("[Building] Copying theme assets to output.")
+        UiLogger.info("[Building] Copying theme assets to output...")
 
         File(opts.themeDir, "assets")
                 .copyRecursively(File(opts.outputDir, "assets"))
@@ -191,19 +203,19 @@ class Glow(private val opts: GlowCommandBuildOptions,
         return LocalDate.of(year, month, day)
     }
 
-    fun process() {
+    fun process(): Boolean {
         prepareDirs()
 
         val postFiles = listPostFiles()
 
-        UiLogger.info("[Building] ${postFiles.size} posts found.")
+        UiLogger.info("[Building] ${postFiles.size} posts found...")
 
-        UiLogger.info("[Building] Posts list.")
+        UiLogger.info("[Building] Posts list...")
         val globalData = GlobalData(
                 blogName = opts.blogTitle,
                 posts = collectMeta(postFiles))
 
-        UiLogger.info("[Building] Posts.")
+        UiLogger.info("[Building] Posts...")
         val filteredGlobal = globalData
                 .copy(posts = globalData.posts.filter { !it.draft })
         filteredGlobal.posts
@@ -215,11 +227,13 @@ class Glow(private val opts: GlowCommandBuildOptions,
 
         copyAssets()
 
-        UiLogger.info("[Building] ${globalData.posts.size} file(s) proceed.")
+        UiLogger.info("[Building] ${globalData.posts.size} file(s) proceed...")
+
+        return true
     }
 
     private fun writeArchivePage(data: GlobalData) {
-        UiLogger.info("[Building] Archive page.")
+        UiLogger.info("[Building] Archive page...")
 
         val archiveFile = File(opts.outputDir, "archive.html")
         val page = PageModel(
@@ -231,7 +245,7 @@ class Glow(private val opts: GlowCommandBuildOptions,
     }
 
     private fun writeIndexPage(data: GlobalData) {
-        UiLogger.info("[Building] Index page.")
+        UiLogger.info("[Building] Index page...")
 
         val archiveFile = File(opts.outputDir, "index.html")
         val page = PageModel(
