@@ -18,6 +18,7 @@ class GlowProjectCreator(private val opts: GlowCommandInitOptions) {
         UiLogger.info("[Building] Initializing project in `$targetFolderPath`...")
         targetFolder.mkdirs()
 
+        // TODO read as stream (for jar packaging)
         val templateUri = javaClass.classLoader?.getResource("template")?.toURI()
         if (templateUri == null) {
             logger.error("New project template not found in classpath.")
