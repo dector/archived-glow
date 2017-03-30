@@ -1,4 +1,4 @@
-package io.github.dector.glow.renderer
+package io.github.dector.glow.builder.renderer
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

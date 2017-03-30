@@ -1,11 +1,11 @@
-package io.github.dector.glow.renderer.mustache
+package io.github.dector.glow.builder.renderer.mustache
 
 import com.samskivert.mustache.Mustache
-import io.github.dector.glow.models.PageModel
-import io.github.dector.glow.renderer.DefaultRenderFormatter
-import io.github.dector.glow.renderer.IRenderFormatter
-import io.github.dector.glow.renderer.IRenderer
-import io.github.dector.glow.renderer.PageType
+import io.github.dector.glow.builder.models.PageModel
+import io.github.dector.glow.builder.renderer.DefaultRenderFormatter
+import io.github.dector.glow.builder.renderer.IRenderFormatter
+import io.github.dector.glow.builder.renderer.IRenderer
+import io.github.dector.glow.builder.renderer.PageType
 import java.io.File
 import java.io.Reader
 
