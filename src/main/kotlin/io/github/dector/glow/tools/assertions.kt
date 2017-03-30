@@ -1,4 +1,4 @@
-package io.github.dector.glow
+package io.github.dector.glow.tools
 
 import org.slf4j.Logger
 

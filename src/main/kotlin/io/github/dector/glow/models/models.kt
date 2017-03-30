@@ -1,4 +1,4 @@
-package io.github.dector.glow
+package io.github.dector.glow.models
 
 import java.io.File
 import java.time.LocalDate

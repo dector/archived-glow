@@ -1,7 +1,10 @@
-package io.github.dector.glow
+package io.github.dector.glow.cli
 
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.converters.FileConverter
+import io.github.dector.glow.logger.logger
+import io.github.dector.glow.tools.assert
+import io.github.dector.glow.tools.isTrue
 import java.io.File
 
 data class GlowOptions(
@@ -78,7 +81,7 @@ class OptionsValidator {
     }
 
     private fun validateOutputDir(dir: File?, canExist: Boolean): Boolean {
-        assert("Output dir should be set", logger) { dir != null} ?: return false
+        assert("Output dir should be set", logger) { dir != null } ?: return false
 
         if (!canExist) {
             assert("Output dir should not exist", logger) { !(dir?.exists() ?: false) || dir?.listFiles()?.isEmpty().isTrue() }

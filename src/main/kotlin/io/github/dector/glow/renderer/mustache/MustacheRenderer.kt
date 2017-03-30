@@ -1,7 +1,7 @@
 package io.github.dector.glow.renderer.mustache
 
 import com.samskivert.mustache.Mustache
-import io.github.dector.glow.PageModel
+import io.github.dector.glow.models.PageModel
 import io.github.dector.glow.renderer.DefaultRenderFormatter
 import io.github.dector.glow.renderer.IRenderFormatter
 import io.github.dector.glow.renderer.IRenderer

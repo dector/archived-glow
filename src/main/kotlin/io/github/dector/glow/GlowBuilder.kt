@@ -6,10 +6,23 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
+import io.github.dector.glow.cli.GlowCommandBuildOptions
+import io.github.dector.glow.cli.GlowCommandInitOptions
+import io.github.dector.glow.cli.GlowOptions
+import io.github.dector.glow.cli.OptionsValidator
+import io.github.dector.glow.creator.GlowProjectCreator
+import io.github.dector.glow.logger.UiLogger
+import io.github.dector.glow.logger.logger
+import io.github.dector.glow.models.GlobalData
+import io.github.dector.glow.models.PageModel
+import io.github.dector.glow.models.ParsedPost
+import io.github.dector.glow.models.PostMeta
 import io.github.dector.glow.renderer.IRenderer
 import io.github.dector.glow.renderer.PageType
 import io.github.dector.glow.renderer.mustache.MustacheRenderer
 import io.github.dector.glow.tools.StopWatch
+import io.github.dector.glow.tools.boolean
+import io.github.dector.glow.tools.string
 import org.json.JSONObject
 import java.io.File
 import java.io.FileFilter
@@ -55,7 +68,7 @@ private fun validateAndProcessCommand(opts: GlowOptions): Boolean {
             }
 
             if (OptionsValidator().validateBuildCommand(buildOpts))
-                return Glow(buildOpts).process()
+                return GlowBuilder(buildOpts).process()
             else return false
         }
         else -> {
@@ -103,8 +116,9 @@ private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: S
             commandBuildOptions = commandBuild)
 }
 
-class Glow(private val opts: GlowCommandBuildOptions,
-           val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
+class GlowBuilder(
+        private val opts: GlowCommandBuildOptions,
+        val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
 
     private val logger = logger()
 
