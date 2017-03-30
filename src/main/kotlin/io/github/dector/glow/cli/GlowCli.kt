@@ -15,11 +15,15 @@ import kotlin.system.exitProcess
 
 class GlowCli {
 
+    private val CONFIG_VERSION_CURRENT = "1"
+
     private val CLI_HEADER = """
       _  |  _
      (_| | (_) \/\/
       _|            v ${BuildConfig.VERSION}
 """
+
+    private val logger = logger()
 
     fun execute(vararg args: String) {
         val stopWatch = StopWatch().start()
@@ -59,7 +63,12 @@ class GlowCli {
                 else return false
             }
             GlowCommandBuildOptions.Value -> {
-                val configBuildOpts = parseConfigIfExists()
+                val (configBuildOpts, configVersion) = parseConfigIfExists()
+
+                if (configVersion != CONFIG_VERSION_CURRENT) {
+                    logger.error("Config version `$configVersion` is not supported. Actual version is `$CONFIG_VERSION_CURRENT`")
+                    return false
+                }
 
                 val buildOpts = if (configBuildOpts != null) {
                     UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
@@ -82,23 +91,20 @@ class GlowCli {
         return true
     }
 
-    private fun parseConfigIfExists(): GlowCommandBuildOptions? {
+    private fun parseConfigIfExists(): Pair<GlowCommandBuildOptions?, String> {
         val configFile = File("glow.json")
 
-        if (!configFile.exists()) {
-
-            return null
-        }
+        if (!configFile.exists())
+            return null to ""
 
         val configJson = JSONObject(configFile.readText())
-
-        // TODO check config version
+        val configVersion = configJson.string("v")
 
         return GlowCommandBuildOptions(
                 inputDir = File(configJson.string("input", "posts")),
                 outputDir = File(configJson.string("output", "out")),
                 themeDir = File(configJson.string("theme", "themes/simple")),
                 clearOutputDir = configJson.boolean("clearOutput", false),
-                blogTitle = configJson.string("title", "<: Unknown Blog :>"))
+                blogTitle = configJson.string("title", "<: Unknown Blog :>")) to configVersion
     }
 }
