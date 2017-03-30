@@ -21,6 +21,7 @@ class MustacheRenderer(
             .compile(templateReader(pageType))
             .execute(buildContext(model))
 
+    // FIXME build unique VM for each page
     private fun buildContext(pageModel: PageModel) = mapOf(
             "blogTitle" to pageModel.blog.title,
             "blogPosts" to pageModel.blog.posts,
@@ -28,8 +29,8 @@ class MustacheRenderer(
             "title" to pageModel.title,
             "tags" to pageModel.tags,
             "hasTags" to pageModel.tags.isNotEmpty(),
-            "pubdate" to formatter.formatPubDate(pageModel.pubdate),
-            "pubdateHint" to formatter.formatPubDateHint(pageModel.pubdate),
+            "pubdate" to formatter.formatPubDate(pageModel.pubDate),
+            "pubdateHint" to formatter.formatPubDateHint(pageModel.pubDate),
             "content" to pageModel.content)
 
     private fun templateReader(pageType: PageType): Reader

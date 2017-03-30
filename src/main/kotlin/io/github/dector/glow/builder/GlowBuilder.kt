@@ -1,14 +1,11 @@
 package io.github.dector.glow.builder
 
-import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
-import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
-import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.builder.models.BlogData
 import io.github.dector.glow.builder.models.PageModel
 import io.github.dector.glow.builder.models.ParsedPost
 import io.github.dector.glow.builder.models.PostMeta
+import io.github.dector.glow.builder.parser.DefaultPostParser
+import io.github.dector.glow.builder.parser.IPostParser
 import io.github.dector.glow.builder.renderer.IRenderer
 import io.github.dector.glow.builder.renderer.PageType
 import io.github.dector.glow.builder.renderer.mustache.MustacheRenderer
@@ -16,14 +13,12 @@ import io.github.dector.glow.cli.GlowCommandBuildOptions
 import io.github.dector.glow.logger.UiLogger
 import java.io.File
 import java.io.FileFilter
-import java.time.LocalDate
 
 class GlowBuilder(
         private val opts: GlowCommandBuildOptions,
-        val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
-
-    private val postParser: IPostParser = DefaultPostParser(
-            { file -> outputPostFileName(file) } )
+        private val urlBuilder: (String) -> String = { filename -> "$filename.html" },
+        private val postParser: IPostParser = DefaultPostParser(urlBuilder),
+        private val renderer: IRenderer = MustacheRenderer(opts.themeDir!!)) {
 
     fun process(): Boolean {
         prepareDirs()
@@ -89,7 +84,8 @@ class GlowBuilder(
 
         blogData.posts
                 .map(PostMeta::file)
-                .map { Pair(outputPostFile(it), renderPost(it, blogData)) }
+                .map { Pair(outputPostFile(it), postParser.parse(it)) }
+                .map { (file, post) -> Pair(file, renderPost(post, blogData)) }
                 .forEach { (outputFile, content) -> outputFile.writeText(content) }
     }
 
@@ -99,10 +95,10 @@ class GlowBuilder(
         UiLogger.info("[Building] Archive page...")
 
         val page = PageModel(
-                blog = blogData,
-                title = "Archive",
+                blog    = blogData,
+                title   = "Archive",
                 content = "",
-                pubdate = null)
+                pubDate = null)
         val content = renderPage(PageType.Archive, page)
 
         outputDirFile("archive.html")
@@ -115,10 +111,10 @@ class GlowBuilder(
         UiLogger.info("[Building] Index page...")
 
         val page = PageModel(
-                blog = data,
-                title = "",
+                blog    = data,
+                title   = "",
                 content = "",
-                pubdate = null)
+                pubDate = null)
         val content = renderPage(PageType.Index, page)
 
         outputDirFile("index.html")
@@ -136,20 +132,19 @@ class GlowBuilder(
 
     // --- Rendering
 
-    private fun renderPost(file: File, data: BlogData): String {
-        val post = postParser.parse(file)
+    private fun renderPost(post: ParsedPost, data: BlogData): String {
         val page = PageModel(
-                title = post.meta.title,
-                tags = post.meta.tags,
-                pubdate = post.meta.pubdate,
+                title   = post.meta.title,
+                tags    = post.meta.tags,
+                pubDate = post.meta.pubDate,
                 content = post.content,
-                blog = data)
+                blog    = data)
 
         return renderPage(PageType.Post, page)
     }
 
-    private fun renderPage(pageType: PageType, glowModel: PageModel): String
-            = renderer.render(pageType, glowModel)
+    private fun renderPage(pageType: PageType, page: PageModel): String
+            = renderer.render(pageType, page)
 
     // --- File tools
 
@@ -157,7 +152,7 @@ class GlowBuilder(
             = outputDirFile(outputPostFileName(inputFile))
 
     private fun outputPostFileName(inputFile: File): String
-            = "${inputFile.nameWithoutExtension}.html"
+            = urlBuilder(inputFile.nameWithoutExtension)
 
     private fun outputDirFile(name: String): File
             = File(opts.outputDir, name)
@@ -167,55 +162,4 @@ class GlowBuilder(
 
     // ---
 
-}
-
-interface IPostParser {
-
-    fun parse(file: File): ParsedPost
-}
-
-class DefaultPostParser(
-        private val postUrlBuilder: (File) -> String) : IPostParser {
-
-    override fun parse(file: File): ParsedPost {
-        val parserOptions = MutableDataSet().apply {
-            set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
-        }
-
-        val parser = Parser.builder(parserOptions).build()
-        val renderer = HtmlRenderer.builder().build()
-
-        val html = file.readText()
-
-        val doc = parser.parse(html)
-        val content = renderer.render(doc).trim()
-
-        val yamlVisitor = AbstractYamlFrontMatterVisitor()
-        yamlVisitor.visit(doc)
-
-        val meta = PostMeta(
-                title = yamlVisitor.data["title"]?.get(0) ?: "",
-                tags = yamlVisitor.data["tags"]?.get(0)?.split(",")?.map(String::trim) ?: emptyList(),
-                pubdate = postPubDateFromFilename(file.nameWithoutExtension),
-                url = postUrlBuilder(file),
-                isDraft = yamlVisitor.data["draft"]?.get(0)?.toBoolean() ?: false,
-                file = file)
-        return ParsedPost(meta = meta, content = content)
-    }
-
-    private fun postPubDateFromFilename(name: String): LocalDate? {
-        val parts = name.split("-")
-
-        if (parts.size < 3)
-            return null
-
-        val year = parts[0].toIntOrNull()
-        val month = parts[1].toIntOrNull()
-        val day = parts[2].toIntOrNull()
-
-        if (year == null || month == null || day == null)
-            return null
-
-        return LocalDate.of(year, month, day)
-    }
 }

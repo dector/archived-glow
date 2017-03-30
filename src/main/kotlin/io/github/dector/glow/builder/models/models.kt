@@ -7,7 +7,7 @@ data class PageModel(
         val blog: BlogData,
         val title: String,
         val tags: List<String> = emptyList(),
-        val pubdate: LocalDate?,
+        val pubDate: LocalDate?,
         val content: String)
 
 data class ParsedPost(
@@ -17,7 +17,7 @@ data class ParsedPost(
 data class PostMeta(
         val title: String,
         val tags: List<String>,
-        val pubdate: LocalDate?,
+        val pubDate: LocalDate?,
         val url: String,
         val isDraft: Boolean,
         val file: File)
