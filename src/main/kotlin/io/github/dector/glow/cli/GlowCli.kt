@@ -87,10 +87,10 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
         }
 
         val buildOpts = if (configBuildOpts != null) {
-            UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
+            UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
             configBuildOpts
         } else {
-            UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
+            UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
             opts
         }
 
