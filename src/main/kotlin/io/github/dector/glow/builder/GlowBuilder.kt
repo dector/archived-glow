@@ -58,7 +58,7 @@ class GlowBuilder(
         val posts = collectBlogPostsMeta().let {
             if (includeDrafts) it
             else it.filter { !it.isDraft }
-        }
+        }.sortedByDescending { it.pubDate }
 
         return BlogData(
                 title = opts.blogTitle,
