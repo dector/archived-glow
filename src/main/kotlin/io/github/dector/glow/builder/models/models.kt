@@ -20,4 +20,6 @@ data class PageData(
         val title: String = "",
         val tags: List<String> = emptyList(),
         val pubDate: LocalDate? = null,
-        val content: String = "")
+        val content: String = "",
+        val prev: PostMeta? = null,
+        val next: PostMeta? = null)

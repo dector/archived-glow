@@ -57,7 +57,9 @@ private class VMBuilder(
             tags        = page.tags,
             pubdate     = formatter.formatPubDate(page.pubDate),
             pubdateHint = formatter.formatPubDateHint(page.pubDate),
-            content     = page.content)
+            content     = page.content,
+            prevPost    = page.prev?.asVM(),
+            nextPost    = page.next?.asVM())
 
     private fun List<PostMeta>.asVM() = map { it.asVM() }
 
@@ -100,8 +102,11 @@ private class PostVM(
         var tags: List<String>,
         var pubdate: String,
         var pubdateHint: String,
-        var content: String): BaseVM(baseVM) {
+        var content: String,
+        var prevPost: PostInfoVM?,
+        var nextPost: PostInfoVM?): BaseVM(baseVM) {
 
-    // Observable needed
     val hasTags by another { tags.isNotEmpty() }
+    val hasPrevPost by another { prevPost != null }
+    val hasNextPost by another { nextPost != null }
 }

@@ -11,6 +11,8 @@ import io.github.dector.glow.builder.renderer.PageType
 import io.github.dector.glow.builder.renderer.mustache.MustacheRenderer
 import io.github.dector.glow.cli.GlowCommandBuildOptions
 import io.github.dector.glow.logger.UiLogger
+import io.github.dector.glow.tools.nextOrNull
+import io.github.dector.glow.tools.prevOrNull
 import java.io.File
 import java.io.FileFilter
 
@@ -82,11 +84,18 @@ class GlowBuilder(
     private fun buildPostPages(blogData: BlogData) {
         UiLogger.info("[Building] Posts...")
 
-        blogData.posts
-                .map(PostMeta::file)
-                .map { Pair(outputPostFile(it), postParser.parse(it)) }
-                .map { (file, post) -> Pair(file, renderPost(post, blogData)) }
-                .forEach { (outputFile, content) -> outputFile.writeText(content) }
+        for (item in blogData.posts) {
+            // Newer posts are in the beginning
+            val after = blogData.posts.prevOrNull(item)
+            val before = blogData.posts.nextOrNull(item)
+
+            val inputFile = item.file
+            val outputFile = outputPostFile(inputFile)
+            val post = postParser.parse(inputFile)
+            val content = renderPost(post, blogData, Pair(before, after))
+
+            outputFile.writeText(content)
+        }
     }
 
     // --- Archive Page
@@ -127,12 +136,14 @@ class GlowBuilder(
 
     // --- Rendering
 
-    private fun renderPost(post: ParsedPost, data: BlogData): String {
+    private fun renderPost(post: ParsedPost, data: BlogData, prevAndNext: Pair<PostMeta?, PostMeta?> = Pair(null, null)): String {
         val page = PageData(
                 title   = post.meta.title,
                 tags    = post.meta.tags,
                 pubDate = post.meta.pubDate,
                 content = post.content,
+                prev    = prevAndNext.first,
+                next    = prevAndNext.second,
                 blog    = data)
 
         return renderPage(PageType.Post, page)
