@@ -13,9 +13,10 @@ import org.json.JSONObject
 import java.io.File
 import kotlin.system.exitProcess
 
-class GlowCli {
+private val CURRENT_CONFIG_VERSION = "1"
 
-    private val CONFIG_VERSION_CURRENT = "1"
+class GlowCli(
+        private val optionsProcessor: IOptionsProcessor = defaultOptionsProcessor()) {
 
     private val CLI_HEADER = """
       _  |  _
@@ -23,15 +24,13 @@ class GlowCli {
       _|            v ${BuildConfig.VERSION}
 """
 
-    private val logger = logger()
-
     fun execute(vararg args: String) {
         val stopWatch = StopWatch().start()
 
         UiLogger.info(CLI_HEADER)
 
         val opts = parseArguments(args = *args)
-        if (!validateAndProcessCommand(opts)) {
+        if (!optionsProcessor.process(opts)) {
             UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
             exitProcess(1)
         }
@@ -54,41 +53,49 @@ class GlowCli {
                 commandInitOptions = commandInit,
                 commandBuildOptions = commandBuild)
     }
+}
 
-    private fun validateAndProcessCommand(opts: GlowOptions): Boolean {
-        when (opts.command) {
-            GlowCommandInitOptions.Value -> {
-                if (OptionsValidator().validateInitCommand(opts.commandInitOptions))
-                    GlowProjectCreator(opts.commandInitOptions).process()
-                else return false
-            }
-            GlowCommandBuildOptions.Value -> {
-                val (configBuildOpts, configVersion) = parseConfigIfExists()
+interface IOptionsProcessor {
 
-                if (configVersion != CONFIG_VERSION_CURRENT) {
-                    logger.error("Config version `$configVersion` is not supported. Actual version is `$CONFIG_VERSION_CURRENT`")
-                    return false
-                }
+    fun process(opts: GlowOptions): Boolean
+}
 
-                val buildOpts = if (configBuildOpts != null) {
-                    UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
-                    configBuildOpts
-                } else {
-                    UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
-                    opts.commandBuildOptions
-                }
+private class DefaultOptionsProcessor : IOptionsProcessor {
 
-                if (OptionsValidator().validateBuildCommand(buildOpts))
-                    return GlowBuilder(buildOpts).process()
-                else return false
-            }
-            else -> {
-                opts.logger().error("Command ${opts.command} not defined...")
-                return false
-            }
+    val logger = logger()
+
+    override fun process(opts: GlowOptions)= when (opts.command) {
+        GlowCommandInitOptions.Value -> processInitCommand(opts.commandInitOptions)
+        GlowCommandBuildOptions.Value -> processBuildCommand(opts.commandBuildOptions)
+        else -> {
+            opts.logger().error("Command ${opts.command} not defined...")
+            false
+        }
+    }
+
+    private fun processInitCommand(opts: GlowCommandInitOptions): Boolean {
+        return OptionsValidator().validateInitCommand(opts)
+                && GlowProjectCreator(opts).process()
+    }
+
+    private fun processBuildCommand(opts: GlowCommandBuildOptions): Boolean {
+        val (configBuildOpts, configVersion) = parseConfigIfExists()
+
+        if (configVersion != CURRENT_CONFIG_VERSION) {
+            logger.error("Config version `$configVersion` is not supported. Actual version is `$CURRENT_CONFIG_VERSION`")
+            return false
         }
 
-        return true
+        val buildOpts = if (configBuildOpts != null) {
+            UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
+            configBuildOpts
+        } else {
+            UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
+            opts
+        }
+
+        return OptionsValidator().validateBuildCommand(buildOpts)
+                && GlowBuilder(buildOpts).process()
     }
 
     private fun parseConfigIfExists(): Pair<GlowCommandBuildOptions?, String> {
@@ -108,3 +115,5 @@ class GlowCli {
                 blogTitle = configJson.string("title", "<: Unknown Blog :>")) to configVersion
     }
 }
+
+private fun defaultOptionsProcessor() = DefaultOptionsProcessor()
