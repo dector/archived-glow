@@ -1,0 +1,30 @@
+ext.versions = [
+        kotlin : '1.1.1',
+
+        slf4jSimple : '1.7.25',
+        buildConfig : '1.1.8',
+
+        jcommander : '1.48',
+        json : '20160810',
+
+        flexmark : '0.18.5',
+        jmustache : '1.13'
+]
+
+ext.gradlePlugins = [
+        kotlin : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+
+        buildConfig : "gradle.plugin.de.fuerstenau:BuildConfigPlugin:$versions.buildConfig"
+]
+
+ext.libraries = [
+        kotlinStdLibJre8 : "org.jetbrains.kotlin:kotlin-stdlib-jre8:$versions.kotlin",
+
+        slf4jSimple : "org.slf4j:slf4j-simple:$versions.slf4jSimple",
+
+        jcommander : "com.beust:jcommander:$versions.jcommander",
+        json : "org.json:json:$versions.json",
+
+        flexmark : "com.vladsch.flexmark:flexmark-all:$versions.flexmark",
+        jmustache : "com.samskivert:jmustache:$versions.jmustache"
+]

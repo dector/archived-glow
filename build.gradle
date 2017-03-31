@@ -2,37 +2,37 @@ group 'io.github.dector.glow'
 version '0.2.1'
 
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    apply from: 'dependencies.gradle'
 
     repositories {
-        mavenCentral()
+        jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath gradlePlugins.kotlin
 
-        classpath "gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8"
+        classpath gradlePlugins.buildConfig
     }
 }
 
+apply from: 'dependencies.gradle'
+
 apply plugin: 'kotlin'
 apply plugin: 'de.fuerstenau.buildconfig'
-apply plugin: 'idea'
+apply plugin: 'idea' // Required for build config IDE support
 
 repositories {
     jcenter()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile libraries.kotlinStdLibJre8
 
-    compile 'com.vladsch.flexmark:flexmark-all:0.18.5'
+    compile libraries.slf4jSimple
 
-    compile 'com.samskivert:jmustache:1.13'
+    compile libraries.jcommander
+    compile libraries.json
 
-    compile 'org.slf4j:slf4j-simple:1.7.25'
-
-    compile 'com.beust:jcommander:1.48'
-
-    compile 'org.json:json:20160810'
+    compile libraries.flexmark
+    compile libraries.jmustache
 }
