@@ -48,7 +48,7 @@ class GlowCli(
         jc.parseWithoutValidation(*args)
 
         return baseOpts.copy(
-                command = jc.parsedCommand,
+                command = jc.parsedCommand ?: "",
                 commandMainOptions = commandMain,
                 commandInitOptions = commandInit,
                 commandBuildOptions = commandBuild)
@@ -68,7 +68,7 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
         GlowCommandInitOptions.Value -> processInitCommand(opts.commandInitOptions)
         GlowCommandBuildOptions.Value -> processBuildCommand(opts.commandBuildOptions)
         else -> {
-            opts.logger().error("Command ${opts.command} not defined...")
+            opts.logger().error("Command `${opts.command}` not defined...")
             false
         }
     }
