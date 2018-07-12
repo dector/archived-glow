@@ -3,12 +3,18 @@ package io.github.dector.glow.logger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.helpers.MarkerIgnoringBase
+import org.slf4j.helpers.NOPLogger
 import org.slf4j.helpers.SubstituteLogger
 import org.slf4j.helpers.SubstituteLoggerFactory
 
-val UiLogger: Logger
+private val _UiLogger: SubstituteLogger
         = (SubstituteLoggerFactory().getLogger("") as SubstituteLogger)
         .apply { setDelegate(TransparentLogger()) }
+val UiLogger = _UiLogger
+
+fun disableUiLogger() {
+    _UiLogger.setDelegate(NOPLogger.NOP_LOGGER)
+}
 
 fun Any.logger(): Logger = LoggerFactory.getLogger(javaClass)
 

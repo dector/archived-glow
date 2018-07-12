@@ -1,6 +1,7 @@
 package io.github.dector.glow.cli
 
 import com.beust.jcommander.Parameter
+import com.beust.jcommander.Parameters
 import com.beust.jcommander.converters.FileConverter
 import io.github.dector.glow.logger.logger
 import io.github.dector.glow.tools.assert
@@ -13,11 +14,20 @@ data class GlowOptions(
         val commandInitOptions: GlowCommandInitOptions = GlowCommandInitOptions(),
         val commandBuildOptions: GlowCommandBuildOptions = GlowCommandBuildOptions())
 
-data class GlowCommandMainOptions(val noOptionsYet: Unit = Unit) {
+data class GlowCommandMainOptions(
+        @Parameter(names = ["-h", "--help"], description = "Display this usage info and exit", help = true)
+        var help: Boolean = false,
 
-    // help, verbose
+        @Parameter(names = ["-q", "--quiet"], description = "Don't print anything")
+        var quiet: Boolean = false,
+
+        var usageText: String? = null) {
+
+    // verbose
+
 }
 
+@Parameters(separators = "=", commandDescription = "Initialize new project")
 data class GlowCommandInitOptions(
     @Parameter()
     var targetFolder: List<String> = arrayListOf()) {
@@ -28,20 +38,21 @@ data class GlowCommandInitOptions(
     }
 }
 
+@Parameters(separators = "=", commandDescription = "Build project")
 data class GlowCommandBuildOptions(
-    @Parameter(names = arrayOf("-i", "--input"), converter = FileConverter::class)
+    @Parameter(names = ["-i", "--input"], converter = FileConverter::class)
     var inputDir: File? = null,
 
-    @Parameter(names = arrayOf("-o", "--output"), converter = FileConverter::class)
+    @Parameter(names = ["-o", "--output"], converter = FileConverter::class)
     var outputDir: File? = null,
 
-    @Parameter(names = arrayOf("-t", "--theme"), converter = FileConverter::class)
+    @Parameter(names = ["-t", "--theme"], converter = FileConverter::class)
     var themeDir: File? = null,
 
-    @Parameter(names = arrayOf("--clear-output"))
+    @Parameter(names = ["--clear-output"])
     var clearOutputDir: Boolean = false,
 
-    @Parameter(names = arrayOf("--title"))
+    @Parameter(names = ["--title"])
     var blogTitle: String = "") {
 
     companion object {
@@ -51,9 +62,9 @@ data class GlowCommandBuildOptions(
 }
 
 class OptionsValidator {
-    
+
     private val logger = logger()
-    
+
     fun validateInitCommand(opts: GlowCommandInitOptions): Boolean
             = validateNewProjectTargetDir(opts.targetFolder)
 
@@ -87,7 +98,7 @@ class OptionsValidator {
             assert("Output dir should not exist", logger) { !(dir?.exists() ?: false) || dir?.listFiles()?.isEmpty().isTrue() }
                     ?: return false
         }
-        
+
         return true
     }
 

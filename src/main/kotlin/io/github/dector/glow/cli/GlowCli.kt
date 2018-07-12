@@ -5,6 +5,7 @@ import io.github.dector.glow.BuildConfig
 import io.github.dector.glow.builder.GlowBuilder
 import io.github.dector.glow.creator.GlowProjectCreator
 import io.github.dector.glow.logger.UiLogger
+import io.github.dector.glow.logger.disableUiLogger
 import io.github.dector.glow.logger.logger
 import io.github.dector.glow.tools.StopWatch
 import io.github.dector.glow.tools.boolean
@@ -27,9 +28,12 @@ class GlowCli(
     fun execute(vararg args: String) {
         val stopWatch = StopWatch().start()
 
+        val opts = parseArguments(args = *args)
+        if (opts.commandMainOptions.quiet)
+            disableUiLogger()
+
         UiLogger.info(CLI_HEADER)
 
-        val opts = parseArguments(args = *args)
         if (!optionsProcessor.process(opts)) {
             UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
             exitProcess(1)
@@ -46,6 +50,9 @@ class GlowCli(
         val commandBuild = baseOpts.commandBuildOptions.also { jc.addCommand(GlowCommandBuildOptions.Value, it) }
 
         jc.parseWithoutValidation(*args)
+
+        if (commandMain.help)
+            commandMain.usageText = StringBuilder().also { jc.usage(it) }.toString()
 
         return baseOpts.copy(
                 command = jc.parsedCommand ?: "",
@@ -64,12 +71,21 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
 
     val logger = logger()
 
-    override fun process(opts: GlowOptions)= when (opts.command) {
+    override fun process(opts: GlowOptions) = when (opts.command) {
         GlowCommandInitOptions.Value -> processInitCommand(opts.commandInitOptions)
         GlowCommandBuildOptions.Value -> processBuildCommand(opts.commandBuildOptions)
         else -> {
-            opts.logger().error("Command `${opts.command}` not defined...")
-            false
+            when {
+                opts.commandMainOptions.help -> {
+                    UiLogger.info(opts.commandMainOptions.usageText)
+                    true
+                }
+                opts.command.isEmpty() -> true
+                else -> {
+                    opts.logger().error("Command `${opts.command}` not defined...")
+                    false
+                }
+            }
         }
     }
 
