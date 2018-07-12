@@ -12,4 +12,4 @@ out/
 build/
 
 # Distribution files
-distrib/
+distrib/*.jar
