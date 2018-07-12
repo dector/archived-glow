@@ -1,7 +1,9 @@
 package io.github.dector.glow.cli
 
 import com.beust.jcommander.JCommander
-import io.github.dector.glow.BuildConfig
+import io.github.dector.glow.AppVersion
+import io.github.dector.glow.CliHeader
+import io.github.dector.glow.CurrentConfigVersion
 import io.github.dector.glow.builder.GlowBuilder
 import io.github.dector.glow.creator.GlowProjectCreator
 import io.github.dector.glow.logger.UiLogger
@@ -14,16 +16,8 @@ import org.json.JSONObject
 import java.io.File
 import kotlin.system.exitProcess
 
-private val CURRENT_CONFIG_VERSION = "1"
-
 class GlowCli(
         private val optionsProcessor: IOptionsProcessor = defaultOptionsProcessor()) {
-
-    private val CLI_HEADER = """
-      _  |  _
-     (_| | (_) \/\/
-      _|            v ${BuildConfig.VERSION}
-"""
 
     fun execute(vararg args: String) {
         val stopWatch = StopWatch().start()
@@ -32,7 +26,7 @@ class GlowCli(
         if (opts.commandMainOptions.quiet)
             disableUiLogger()
 
-        UiLogger.info(CLI_HEADER)
+        UiLogger.info(CliHeader)
 
         if (!optionsProcessor.process(opts)) {
             UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
@@ -97,8 +91,8 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
     private fun processBuildCommand(opts: GlowCommandBuildOptions): Boolean {
         val (configBuildOpts, configVersion) = parseConfigIfExists()
 
-        if (configVersion != CURRENT_CONFIG_VERSION) {
-            logger.error("Config version `$configVersion` is not supported. Actual version is `$CURRENT_CONFIG_VERSION`")
+        if (configVersion != CurrentConfigVersion) {
+            logger.error("Config version `$configVersion` is not supported. Actual version is `$CurrentConfigVersion`")
             return false
         }
 
