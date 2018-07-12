@@ -1,5 +1,15 @@
+
+### * Intellij project template
+# Intellij files
 .idea/
-.gradle/
-build/
-out/
 *.iml
+
+# Gradle files
+.gradle/
+
+# Build files
+out/
+build/
+
+# Distribution files
+distrib/

@@ -1,6 +1,8 @@
 ext.versions = [
         kotlin : '1.2.51',
 
+        shadowJar : '2.0.4',
+
         slf4jSimple : '1.7.25',
         buildConfig : '1.1.8',
 
@@ -14,7 +16,9 @@ ext.versions = [
 ext.gradlePlugins = [
         kotlin : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
 
-        buildConfig : "gradle.plugin.de.fuerstenau:BuildConfigPlugin:$versions.buildConfig"
+        buildConfig : "gradle.plugin.de.fuerstenau:BuildConfigPlugin:$versions.buildConfig",
+
+        shadowJar : "com.github.jengelman.gradle.plugins:shadow:$versions.shadowJar"
 ]
 
 ext.libraries = [
