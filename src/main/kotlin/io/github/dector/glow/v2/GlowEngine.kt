@@ -74,6 +74,4 @@ data class RenderedIndexPages(
 
 data class RenderedTagPage(
         val tag: String,
-        val articles: List<Article>,
-        val prevPage: RenderedTagPage? = null,
-        val nextPage: RenderedTagPage? = null)
+        val articles: List<Article>)

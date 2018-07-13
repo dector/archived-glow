@@ -1,5 +1,8 @@
 package io.github.dector.glow.v2
 
+import io.github.dector.glow.tools.nextOrNull
+import io.github.dector.glow.tools.prevOrNull
+
 
 fun main(args: Array<String>) {
     println("Prototyping v2")
@@ -22,23 +25,31 @@ fun main(args: Array<String>) {
     val renderer: DataRenderer = { data ->
         val filteredPages = data.pages.filterNot { it.isDraft }
 
-        // FIXME add paging
-        fun renderPages(pages: List<Page>): List<RenderedPage> = pages.map { it ->
-            RenderedPage(title = it.title, content = it.content, tags = it.tags)
+        fun renderPages(pages: List<Page>): List<RenderedPage> {
+            val result = pages.map { it ->
+                RenderedPage(title = it.title, content = it.content, tags = it.tags)
+            }
+
+            return result.map {
+                it.copy(prevPage = result.prevOrNull(it), nextPage = result.nextOrNull(it))
+            }
         }
 
         fun renderArticle(page: Page): Article = Article(title = page.title, content = page.content, tags = page.tags)
 
-        // FIXME add paging
         fun renderIndexPages(pages: List<Page>, articlesOnPage: Int = 2): List<RenderedIndexPages> {
             val chunks = pages.chunked(articlesOnPage)
 
-            return chunks.mapIndexed { index, chunk ->
+            val result = chunks.mapIndexed { index, chunk ->
                 RenderedIndexPages(articles = chunk.map(::renderArticle), pageNumber = index + 1, totalPages = chunks.size)
+            }
+
+            return result.map {
+                it.copy(prevPage = result.prevOrNull(it),
+                        nextPage = result.nextOrNull(it))
             }
         }
 
-        // FIXME add paging
         fun renderTagPages(pages: List<Page>): List<RenderedTagPage> {
             val tags = pages.flatMap { it.tags }.distinct()
 
@@ -85,6 +96,9 @@ fun main(args: Array<String>) {
                         |${it.tags.joinToString(prefix = "[", postfix = "]")}
                     """.trimMargin()
                     })
+                    println()
+                    println("<< Prev: ${it.prevPage?.pageNumber}")
+                    println("Next: ${it.nextPage?.pageNumber} >>")
                 }
             }
         }
@@ -97,6 +111,8 @@ fun main(args: Array<String>) {
                         |${it.title}
                         |${it.content}
                         |${it.tags.joinToString(prefix = "[", postfix = "]")}
+                        |<< Prev: ${it.prevPage?.title}
+                        |Next: ${it.nextPage?.title} >>
                     """.trimMargin()
                     )
                 }
