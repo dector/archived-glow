@@ -30,7 +30,7 @@ typealias DataPublisher = (PreparedBlogData) -> PublishResult
 
 // Data flow models
 
-data class BlogData(val pages: List<Page>)
+data class BlogData(val pages: List<String>)
 
 data class ConvertedBlogData(val pages: List<Page>)
 

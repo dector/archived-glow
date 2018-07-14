@@ -7,13 +7,38 @@ import io.github.dector.glow.v2.Page
 
 val dumbDataProvider: DataProvider = {
     BlogData(pages = listOf(
-            Page(title = "Page #1", content = "This is **FIRST** page.",
-                    tags = listOf("blog", "published", "first")),
-            Page(title = "Page #2", content = "This is **SECOND** page.",
-                    tags = listOf("blog", "published", "second")),
-            Page(title = "Page #3", content = "This is **THIRD** page.",
-                    tags = listOf("blog", "published", "third")),
-            Page(title = "Page Draft", content = "This is **DRAFT** page. Should not be displayed",
-                    tags = listOf("blog", "draft"), isDraft = true)
+            """
+            |---
+            |title: Page #1
+            |tags: blog, published, first
+            |---
+            |
+            |This is **FIRST** page.
+            """.trimMargin(),
+            """
+            |---
+            |title: Page #2
+            |tags: blog, published, second
+            |---
+            |
+            |This is **SECOND** page.
+            """.trimMargin(),
+            """
+            |---
+            |title: Page #3
+            |tags: blog, published, third
+            |---
+            |
+            |This is **THIRD** page.
+            """.trimMargin(),
+            """
+            |---
+            |title: Page #4
+            |tags: blog, draft
+            |draft = true
+            |---
+            |
+            |This is **DRAFT** page. Should not be displayed.
+            """.trimMargin()
     ))
 }
