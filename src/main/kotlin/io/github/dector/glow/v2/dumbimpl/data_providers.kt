@@ -6,7 +6,7 @@ import io.github.dector.glow.v2.Page
 
 
 val dumbDataProvider: DataProvider = {
-    BlogData(pages = listOf(
+    val content = listOf(
             """
             |---
             |title: Page #1
@@ -40,5 +40,7 @@ val dumbDataProvider: DataProvider = {
             |
             |This is **DRAFT** page. Should not be displayed.
             """.trimMargin()
-    ))
+    )
+
+    dumbMdToHtmlConverter(content)
 }

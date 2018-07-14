@@ -12,7 +12,6 @@ fun main(args: Array<String>) {
     println("Running dumb flow\n")
 
     val result = execute(dumbDataProvider,
-            dumbMdToHtmlConverter,
             dumbDataRenderer,
             dumbDataPublisher)
 

@@ -46,7 +46,7 @@ val dumbDataRenderer: DataRenderer = { data ->
         }
     }
 
-    PreparedBlogData(
+    RenderedData(
             indexPages = renderIndexPages(filteredPages),
             pages = renderPages(filteredPages),
             tagPages = renderTagPages(filteredPages))

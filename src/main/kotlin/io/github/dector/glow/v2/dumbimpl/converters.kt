@@ -6,10 +6,12 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
+import io.github.dector.glow.v2.BlogData
 import io.github.dector.glow.v2.ConvertedBlogData
-import io.github.dector.glow.v2.DataConverter
 import io.github.dector.glow.v2.Page
 
+
+typealias DataConverter = (List<String>) -> BlogData
 
 val dumbMdToHtmlConverter: DataConverter = { data ->
     fun buildParser() = Parser.builder(MutableDataSet().apply {
@@ -42,7 +44,7 @@ val dumbMdToHtmlConverter: DataConverter = { data ->
     val renderer = buildRenderer()
     val parser = buildParser()
 
-    val converted = data.pages.map {
+    val converted = data.map {
         val doc = parser.parse(it)
         val header = parseYamlHeader(doc)
         val content = renderer.render(doc).trim()
@@ -50,7 +52,7 @@ val dumbMdToHtmlConverter: DataConverter = { data ->
         Page(title = header.title, tags = header.tags, isDraft = header.isDraft, content = content)
     }
 
-    ConvertedBlogData(pages = converted)
+    BlogData(pages = converted)
 }
 
 private data class Header(

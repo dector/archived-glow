@@ -2,15 +2,13 @@ package io.github.dector.glow.v2
 
 
 fun execute(dataProvider: DataProvider,
-            dataConverter: DataConverter,
             dataRenderer: DataRenderer,
             dataPublisher: DataPublisher): Result {
     // Get Data (md)
     val data = dataProvider()
 
-    // Convert data (md -> html)
     // Render pages
-    val resultData = dataRenderer(dataConverter(data))
+    val resultData = dataRenderer(data)
 
     // Publish result
     val publishResult = dataPublisher(resultData)
@@ -22,21 +20,19 @@ fun execute(dataProvider: DataProvider,
 
 typealias DataProvider = () -> BlogData
 
-typealias DataConverter = (BlogData) -> ConvertedBlogData
+typealias DataRenderer = (BlogData) -> RenderedData
 
-typealias DataRenderer = (ConvertedBlogData) -> PreparedBlogData
-
-typealias DataPublisher = (PreparedBlogData) -> PublishResult
+typealias DataPublisher = (RenderedData) -> PublishResult
 
 // Data flow models
 
-data class BlogData(val pages: List<String>)
+data class BlogData(val pages: List<Page>)
 
 data class ConvertedBlogData(val pages: List<Page>)
 
-data class PreparedBlogData(val indexPages: List<RenderedIndexPages>,
-                            val pages: List<RenderedPage>,
-                            val tagPages: List<RenderedTagPage>)
+data class RenderedData(val indexPages: List<RenderedIndexPages>,
+                        val pages: List<RenderedPage>,
+                        val tagPages: List<RenderedTagPage>)
 
 sealed class PublishResult {
     class Success : PublishResult()
