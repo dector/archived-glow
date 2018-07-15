@@ -17,11 +17,10 @@ val markdownFileParser: DataConverter = { data ->
         set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
     }).build()
     val formatter = Formatter.builder().build()
-    val yamlVisitor = AbstractYamlFrontMatterVisitor()
 
     val posts = data.map {
         val doc = parser.parse(it)
-        val header = yamlVisitor.parseHeader(doc)
+        val header = parseHeader(doc)
         val content = formatter.render(doc);
 
         Post(
@@ -34,7 +33,8 @@ val markdownFileParser: DataConverter = { data ->
     BlogData(posts = posts)
 }
 
-private fun AbstractYamlFrontMatterVisitor.parseHeader(doc: Node): Header = this.run {
+private fun parseHeader(doc: Node): Header = AbstractYamlFrontMatterVisitor().run {
+
     visit(doc)
 
     val title = data["title"]
