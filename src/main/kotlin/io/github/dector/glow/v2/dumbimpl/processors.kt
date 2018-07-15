@@ -4,6 +4,8 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import io.github.dector.glow.tools.nextOrNull
 import io.github.dector.glow.tools.prevOrNull
+import io.github.dector.glow.v2.PaginationIndexPostsCount
+import io.github.dector.glow.v2.PaginationTagPostsCount
 import io.github.dector.glow.v2.core.DataProcessor
 import io.github.dector.glow.v2.core.Post
 import io.github.dector.glow.v2.core.ProcessedData
@@ -46,7 +48,7 @@ data class PaginatedPage(
         val posts: List<Post>)
 
 private fun processIndexPages(posts: List<Post>): List<ProcessedPage> {
-    val chunks = posts.chunked(2)
+    val chunks = posts.chunked(PaginationIndexPostsCount)
 
     val renderer: IndexPagesRenderer = indexPagesRenderer
 
@@ -76,7 +78,7 @@ private fun processTagPages(posts: List<Post>): List<ProcessedPage> {
     val postsByTag = tags.map { tag -> tag to posts.filter { it.tags.contains(tag) } }
 
     return postsByTag.flatMap { (tag, posts) ->
-        val chunks = posts.chunked(2)
+        val chunks = posts.chunked(PaginationTagPostsCount)
 
         // Paged posts
         chunks.mapIndexed { index, it ->
