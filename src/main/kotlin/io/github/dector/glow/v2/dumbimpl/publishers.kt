@@ -8,8 +8,7 @@ import java.io.File
 
 val dumbDataPublisher: DataPublisher = { data ->
     val buildDir = File("v2/out").apply {
-        deleteRecursively()
-        mkdir()
+        listFiles().forEach { it.deleteRecursively() }
     }
 
     fun writeToFile(page: ProcessedPage) {

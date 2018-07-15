@@ -7,5 +7,5 @@ data class Post(
         val isDraft: Boolean = false)
 
 data class ProcessedPage(
-        val path: String,
+        val path: String,   // FIXME remove path from processed model. Should be handled in Publisher instead
         val content: String)
