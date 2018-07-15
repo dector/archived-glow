@@ -14,9 +14,9 @@ import io.github.dector.glow.v2.core.ProcessedPage
 
 typealias DataFilter = (List<Post>) -> List<Post>
 
-val dumbDataRenderer: DataProcessor = { data ->
-    val filter: DataFilter = ::nonDraftsFilter
+private val filter: DataFilter = ::nonDraftsFilter
 
+val dumbDataRenderer: DataProcessor = { data ->
     processPosts(filter(data.posts))
 }
 
