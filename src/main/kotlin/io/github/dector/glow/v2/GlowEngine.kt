@@ -1,5 +1,8 @@
 package io.github.dector.glow.v2
 
+import io.github.dector.glow.v2.models.Post
+import io.github.dector.glow.v2.models.ProcessedPage
+
 
 fun execute(dataProvider: DataProvider,
             dataProcessor: DataProcessor,
@@ -28,9 +31,9 @@ typealias DataPublisher = (ProcessedData) -> PublishResult
 
 data class BlogData(val posts: List<Post>)
 
-data class ProcessedData(val indexPages: List<ProcessedPost>,
-                         val pages: List<ProcessedPost>,
-                         val tagPages: List<ProcessedPost>)
+data class ProcessedData(val indexPages: List<ProcessedPage>,
+                         val pages: List<ProcessedPage>,
+                         val tagPages: List<ProcessedPage>)
 
 sealed class PublishResult {
     class Success : PublishResult()
@@ -38,20 +41,3 @@ sealed class PublishResult {
 }
 
 data class Result(val publishResult: PublishResult)
-
-// Models
-
-data class Post(
-        val title: String,
-        val content: String,
-        val tags: List<String> = emptyList(),
-        val isDraft: Boolean = false)
-
-data class Article(
-        val title: String,
-        val content: String,
-        val tags: List<String> = emptyList())
-
-data class ProcessedPost(
-        val path: String,
-        val content: String)

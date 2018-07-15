@@ -7,7 +7,7 @@ import com.vladsch.flexmark.formatter.internal.Formatter
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.v2.BlogData
-import io.github.dector.glow.v2.Post
+import io.github.dector.glow.v2.models.Post
 
 
 typealias DataConverter = (List<String>) -> BlogData
@@ -47,7 +47,7 @@ val mdFileParser: DataConverter = { data ->
         val content = formatter.render(doc);
 
         Post(title = header.title, tags = header.tags, isDraft = header.isDraft, content = content)
-    }
+    }.sortedBy { it.title } // FIXME sort by date
 
     BlogData(posts = posts)
 }

@@ -2,6 +2,7 @@ package io.github.dector.glow.v2.dumbimpl
 
 import io.github.dector.glow.v2.DataPublisher
 import io.github.dector.glow.v2.PublishResult
+import io.github.dector.glow.v2.models.ProcessedPage
 import java.io.File
 
 
@@ -11,12 +12,17 @@ val dumbDataPublisher: DataPublisher = { data ->
         mkdir()
     }
 
-    data.pages.forEach { page ->
+    fun writeToFile(page: ProcessedPage) {
         val filename = "${page.path}.html"
         val file = File(buildDir, filename)
+        file.parentFile.mkdirs()
 
         file.writeText(page.content)
     }
+
+    data.pages.forEach (::writeToFile)
+    data.indexPages.forEach (::writeToFile)
+    data.tagPages.forEach (::writeToFile)
 
     /*
 
