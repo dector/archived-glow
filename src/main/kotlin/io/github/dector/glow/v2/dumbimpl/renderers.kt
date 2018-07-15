@@ -10,7 +10,7 @@ typealias PostPageRenderer = (Post) -> String
 typealias TagPageRender = (Tag, PaginatedPage) -> String
 
 val indexPagesRenderer: IndexPagesRenderer = { info ->
-    html(title = "$info.pageNumber / $info.totalPages") {
+    html(title = "${info.pageNumber} / ${info.totalPages}") {
         info.posts.joinToString(separator = "\n<hr/>\n") {
             renderPostPart(it)
         } + (
