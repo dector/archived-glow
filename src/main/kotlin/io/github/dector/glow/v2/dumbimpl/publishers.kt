@@ -13,7 +13,7 @@ val dumbDataPublisher: DataPublisher = { data ->
     }
 
     fun writeToFile(page: ProcessedPage) {
-        val filename = "${page.path}.html"
+        val filename = page.path
         val file = File(buildDir, filename)
         file.parentFile.mkdirs()
 
