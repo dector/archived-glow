@@ -7,7 +7,7 @@ import com.vladsch.flexmark.formatter.internal.Formatter
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.v2.core.BlogData
-import io.github.dector.glow.v2.models.Post
+import io.github.dector.glow.v2.core.Post
 
 
 typealias DataConverter = (List<String>) -> BlogData

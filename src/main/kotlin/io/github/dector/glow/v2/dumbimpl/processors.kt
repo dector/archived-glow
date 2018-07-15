@@ -5,9 +5,9 @@ import com.vladsch.flexmark.parser.Parser
 import io.github.dector.glow.tools.nextOrNull
 import io.github.dector.glow.tools.prevOrNull
 import io.github.dector.glow.v2.core.DataProcessor
+import io.github.dector.glow.v2.core.Post
 import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.models.Post
-import io.github.dector.glow.v2.models.ProcessedPage
+import io.github.dector.glow.v2.core.ProcessedPage
 
 
 val dumbDataRenderer: DataProcessor = { data ->
@@ -35,16 +35,24 @@ private fun convertMarkdown(posts: List<Post>): List<Post> {
     }
 }
 
+private fun String.cleanup(): String = replace(" ", "_")
+        .replace("#", "")
+
+private fun postPath(post: Post) = "/posts/${post.title.toLowerCase().cleanup()}.html"
+
 private fun renderPages(posts: List<Post>) = posts.map {
-    ProcessedPage(path = "posts/${it.title}.html", content = renderPage(it.title, it.content))
+    ProcessedPage(path = postPath(it), content = renderPage(it))
 }
+
+private fun renderPostPart(post: Post): String =
+        "<h2><a href='${postPath(post)}'>${post.title}</a></h2><br/>${post.content}" +
+                """
+                | [${post.tags.joinToString { "<a href='/tags/$it/'>$it</a>" }}]
+                """.trimMargin()
 
 private fun renderJoined(pageNumber: Int, totalPages: Int, nextPagePath: String, prevPagePath: String, posts: List<Post>): String = html(title = "$pageNumber / $totalPages") {
     posts.joinToString(separator = "\n<hr/>\n") {
-        "<h2>${it.title}</h1><br/>${it.content}" +
-                """
-                | [${it.tags.joinToString { "<a href='/tags/$it/'>$it</a>" }}]
-                """.trimMargin()
+        renderPostPart(it)
     } + (
             (if (prevPagePath.isNotEmpty()) "<br><a href='$prevPagePath'><< Previous</a>" else "") +
                     (if (nextPagePath.isNotEmpty()) "<br><a href='$nextPagePath'>Next >></a>" else "")
@@ -78,12 +86,14 @@ private fun renderJoinedByTag(tag: String, pageNumber: Int, totalPages: Int, pre
 private fun renderTagPages(posts: List<Post>): List<ProcessedPage> {
     val tags = posts.flatMap { it.tags }.distinct()
 
+    // Tag -> [Post]
     val postsByTag = tags.map { tag -> tag to posts.filter { it.tags.contains(tag) } }
 
     return postsByTag.flatMap { (tag, posts) ->
         val chunks = posts.chunked(2)
         val totalPages = chunks.size
 
+        // Paged posts
         chunks.mapIndexed { index, it ->
             val pageNumber = index + 1
 
@@ -98,4 +108,4 @@ private fun renderTagPages(posts: List<Post>): List<ProcessedPage> {
     }
 }
 
-private fun renderPage(title: String, content: String) = html(title) { content }
+private fun renderPage(post: Post) = html(post.title) { renderPostPart(post) }
