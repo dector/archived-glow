@@ -3,17 +3,16 @@ package io.github.dector.glow.v2.dumbimpl
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
-import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.formatter.internal.Formatter
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import io.github.dector.glow.v2.BlogData
-import io.github.dector.glow.v2.ConvertedBlogData
-import io.github.dector.glow.v2.Page
+import io.github.dector.glow.v2.Post
 
 
 typealias DataConverter = (List<String>) -> BlogData
 
-val dumbMdToHtmlConverter: DataConverter = { data ->
+val mdFileParser: DataConverter = { data ->
     fun buildParser() = Parser.builder(MutableDataSet().apply {
         set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
     }).build()
@@ -39,20 +38,18 @@ val dumbMdToHtmlConverter: DataConverter = { data ->
         }
     }
 
-    fun buildRenderer() = HtmlRenderer.builder().build()
-
-    val renderer = buildRenderer()
     val parser = buildParser()
+    val formatter = Formatter.builder().build()
 
-    val converted = data.map {
+    val posts = data.map {
         val doc = parser.parse(it)
         val header = parseYamlHeader(doc)
-        val content = renderer.render(doc).trim()
+        val content = formatter.render(doc);
 
-        Page(title = header.title, tags = header.tags, isDraft = header.isDraft, content = content)
+        Post(title = header.title, tags = header.tags, isDraft = header.isDraft, content = content)
     }
 
-    BlogData(pages = converted)
+    BlogData(posts = posts)
 }
 
 private data class Header(

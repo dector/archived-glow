@@ -2,27 +2,25 @@ package io.github.dector.glow.v2.dumbimpl
 
 import io.github.dector.glow.v2.DataPublisher
 import io.github.dector.glow.v2.PublishResult
+import java.io.File
 
 
 val dumbDataPublisher: DataPublisher = { data ->
-    fun block(message: String, body: () -> Unit) {
-        println("=== === === === === === === === === ===")
-        println(message)
-        println()
-        body()
-        println("=== === === === === === === === === ===")
-        println()
-        println()
+    val buildDir = File("v2/out").apply {
+        deleteRecursively()
+        mkdir()
     }
 
-    fun page(message: String, body: () -> Unit) {
-        println(message)
-        body()
-        println(message)
-        println()
+    data.pages.forEach { page ->
+        val filename = "${page.path}.html"
+        val file = File(buildDir, filename)
+
+        file.writeText(page.content)
     }
 
-    // Index pages
+    /*
+
+    // Index posts
     block("INDEX PAGES total: ${data.indexPages.size}") {
         data.indexPages.forEach {
             page("--- --- PAGE ${it.pageNumber}/${it.totalPages} --- ---") {
@@ -40,8 +38,8 @@ val dumbDataPublisher: DataPublisher = { data ->
     }
 
     // Pages
-    block("PAGES total: ${data.pages.size}") {
-        data.pages.forEach {
+    block("PAGES total: ${data.posts.size}") {
+        data.posts.forEach {
             page("--- --- --- --- --- ---") {
                 println("""
                         |${it.title}
@@ -55,7 +53,7 @@ val dumbDataPublisher: DataPublisher = { data ->
         }
     }
 
-    // Tag pages
+    // Tag posts
     block("TAG PAGES total: ${data.tagPages.size}") {
         data.tagPages.forEach {
             page("--- --- TAG: ${it.tag} --- ---") {
@@ -68,6 +66,6 @@ val dumbDataPublisher: DataPublisher = { data ->
             }
         }
     }
-
+*/
     PublishResult.Success()
 }

@@ -2,16 +2,16 @@ package io.github.dector.glow.v2
 
 
 fun execute(dataProvider: DataProvider,
-            dataRenderer: DataRenderer,
+            dataProcessor: DataProcessor,
             dataPublisher: DataPublisher): Result {
     // Get Data (md)
     val data = dataProvider()
 
-    // Render pages
-    val resultData = dataRenderer(data)
+    // Process posts
+    val processedData = dataProcessor(data)
 
     // Publish result
-    val publishResult = dataPublisher(resultData)
+    val publishResult = dataPublisher(processedData)
 
     return Result(publishResult)
 }
@@ -20,19 +20,17 @@ fun execute(dataProvider: DataProvider,
 
 typealias DataProvider = () -> BlogData
 
-typealias DataRenderer = (BlogData) -> RenderedData
+typealias DataProcessor = (BlogData) -> ProcessedData
 
-typealias DataPublisher = (RenderedData) -> PublishResult
+typealias DataPublisher = (ProcessedData) -> PublishResult
 
 // Data flow models
 
-data class BlogData(val pages: List<Page>)
+data class BlogData(val posts: List<Post>)
 
-data class ConvertedBlogData(val pages: List<Page>)
-
-data class RenderedData(val indexPages: List<RenderedIndexPages>,
-                        val pages: List<RenderedPage>,
-                        val tagPages: List<RenderedTagPage>)
+data class ProcessedData(val indexPages: List<ProcessedPost>,
+                         val pages: List<ProcessedPost>,
+                         val tagPages: List<ProcessedPost>)
 
 sealed class PublishResult {
     class Success : PublishResult()
@@ -43,7 +41,7 @@ data class Result(val publishResult: PublishResult)
 
 // Models
 
-data class Page(
+data class Post(
         val title: String,
         val content: String,
         val tags: List<String> = emptyList(),
@@ -54,20 +52,6 @@ data class Article(
         val content: String,
         val tags: List<String> = emptyList())
 
-data class RenderedPage(
-        val title: String,
-        val content: String,
-        val tags: List<String> = emptyList(),
-        val prevPage: RenderedPage? = null,
-        val nextPage: RenderedPage? = null)
-
-data class RenderedIndexPages(
-        val articles: List<Article>,
-        val pageNumber: Int,
-        val totalPages: Int,
-        val prevPage: RenderedIndexPages? = null,
-        val nextPage: RenderedIndexPages? = null)
-
-data class RenderedTagPage(
-        val tag: String,
-        val articles: List<Article>)
+data class ProcessedPost(
+        val path: String,
+        val content: String)

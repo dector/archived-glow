@@ -1,8 +1,6 @@
 package io.github.dector.glow.v2.dumbimpl
 
-import io.github.dector.glow.v2.BlogData
 import io.github.dector.glow.v2.DataProvider
-import io.github.dector.glow.v2.Page
 import java.io.File
 import java.io.FilenameFilter
 
@@ -10,7 +8,8 @@ import java.io.FilenameFilter
 val dumbDataProvider: DataProvider = {
     val content = loadFiles("v2/source/")
 
-    dumbMdToHtmlConverter(content)
+    // Save md, don't convert to html
+    mdFileParser(content)
 }
 
 private fun loadFiles(projectDir: String): List<String> {
