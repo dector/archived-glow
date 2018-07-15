@@ -19,7 +19,7 @@ val dumbDataPublisher: DataPublisher = { data ->
         file.writeText(page.content)
     }
 
-    data.pages.forEach (::writeToFile)
+    data.postPages.forEach (::writeToFile)
     data.indexPages.forEach (::writeToFile)
     data.tagPages.forEach (::writeToFile)
 

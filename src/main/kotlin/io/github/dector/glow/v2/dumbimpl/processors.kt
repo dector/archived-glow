@@ -10,21 +10,24 @@ import io.github.dector.glow.v2.core.ProcessedData
 import io.github.dector.glow.v2.core.ProcessedPage
 
 
+typealias DataFilter = (List<Post>) -> List<Post>
+
 val dumbDataRenderer: DataProcessor = { data ->
-    processPosts(
-            draftsFilter(data.posts))
+    val filter = ::nonDraftsFilter
+
+    processPosts(filter(data.posts))
 }
+
+private fun nonDraftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }
 
 private fun processPosts(posts: List<Post>): ProcessedData {
     val preparedPosts = convertMarkdown(posts)
 
     return ProcessedData(
-            indexPages = renderIndexPages(preparedPosts),
-            pages = renderPages(preparedPosts),
-            tagPages = renderTagPages(preparedPosts))
+            indexPages = processIndexPages(preparedPosts),
+            postPages = processPostPages(preparedPosts),
+            tagPages = processTagPages(preparedPosts))
 }
-
-private fun draftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }
 
 private fun convertMarkdown(posts: List<Post>): List<Post> {
     val mdParser = Parser.builder().build()
@@ -35,31 +38,7 @@ private fun convertMarkdown(posts: List<Post>): List<Post> {
     }
 }
 
-private fun String.cleanup(): String = replace(" ", "_")
-        .replace("#", "")
-
-private fun postPath(post: Post) = "/posts/${post.title.toLowerCase().cleanup()}.html"
-
-private fun renderPages(posts: List<Post>) = posts.map {
-    ProcessedPage(path = postPath(it), content = renderPage(it))
-}
-
-private fun renderPostPart(post: Post): String =
-        "<h2><a href='${postPath(post)}'>${post.title}</a></h2><br/>${post.content}" +
-                """
-                | [${post.tags.joinToString { "<a href='/tags/$it/'>$it</a>" }}]
-                """.trimMargin()
-
-private fun renderJoined(pageNumber: Int, totalPages: Int, nextPagePath: String, prevPagePath: String, posts: List<Post>): String = html(title = "$pageNumber / $totalPages") {
-    posts.joinToString(separator = "\n<hr/>\n") {
-        renderPostPart(it)
-    } + (
-            (if (prevPagePath.isNotEmpty()) "<br><a href='$prevPagePath'><< Previous</a>" else "") +
-                    (if (nextPagePath.isNotEmpty()) "<br><a href='$nextPagePath'>Next >></a>" else "")
-            )
-}
-
-private fun renderIndexPages(posts: List<Post>): List<ProcessedPage> {
+private fun processIndexPages(posts: List<Post>): List<ProcessedPage> {
     val chunks = posts.chunked(2)
     val totalPages = chunks.size
 
@@ -74,16 +53,11 @@ private fun renderIndexPages(posts: List<Post>): List<ProcessedPage> {
     }
 }
 
-private fun renderJoinedByTag(tag: String, pageNumber: Int, totalPages: Int, prevPagePath: String, nextPagePath: String, posts: List<Post>): String = html(title = "$[tag] :: $pageNumber / $totalPages") {
-    posts.joinToString(separator = "\n<hr/>\n", prefix = "<h1>$tag</h1>") {
-        "<h2>${it.title}</h1><br/>${it.content}"
-    } + (
-            (if (prevPagePath.isNotEmpty()) "<br><a href='$prevPagePath'><< Previous</a>" else "") +
-                    (if (nextPagePath.isNotEmpty()) "<br><a href='$nextPagePath'>Next >></a>" else "")
-            )
+private fun processPostPages(posts: List<Post>) = posts.map {
+    ProcessedPage(path = buildPostPath(it), content = renderPage(it))
 }
 
-private fun renderTagPages(posts: List<Post>): List<ProcessedPage> {
+private fun processTagPages(posts: List<Post>): List<ProcessedPage> {
     val tags = posts.flatMap { it.tags }.distinct()
 
     // Tag -> [Post]
@@ -106,6 +80,38 @@ private fun renderTagPages(posts: List<Post>): List<ProcessedPage> {
         }
 
     }
+}
+
+// --- --- --- --- ---
+
+private fun buildPostPath(post: Post) = "/posts/${post.title.toLowerCase().cleanup()}.html"
+
+private fun String.cleanup(): String = replace(" ", "_")
+        .replace("#", "")
+
+private fun renderPostPart(post: Post): String {
+    return "<h2><a href='${buildPostPath(post)}'>${post.title}</a></h2><br/>${post.content}" +
+            """
+                | [${post.tags.joinToString { "<a href='/tags/$it/'>$it</a>" }}]
+                """.trimMargin()
+}
+
+private fun renderJoined(pageNumber: Int, totalPages: Int, nextPagePath: String, prevPagePath: String, posts: List<Post>): String = html(title = "$pageNumber / $totalPages") {
+    posts.joinToString(separator = "\n<hr/>\n") {
+        renderPostPart(it)
+    } + (
+            (if (prevPagePath.isNotEmpty()) "<br><a href='$prevPagePath'><< Previous</a>" else "") +
+                    (if (nextPagePath.isNotEmpty()) "<br><a href='$nextPagePath'>Next >></a>" else "")
+            )
+}
+
+private fun renderJoinedByTag(tag: String, pageNumber: Int, totalPages: Int, prevPagePath: String, nextPagePath: String, posts: List<Post>): String = html(title = "$[tag] :: $pageNumber / $totalPages") {
+    posts.joinToString(separator = "\n<hr/>\n", prefix = "<h1>$tag</h1>") {
+        "<h2>${it.title}</h1><br/>${it.content}"
+    } + (
+            (if (prevPagePath.isNotEmpty()) "<br><a href='$prevPagePath'><< Previous</a>" else "") +
+                    (if (nextPagePath.isNotEmpty()) "<br><a href='$nextPagePath'>Next >></a>" else "")
+            )
 }
 
 private fun renderPage(post: Post) = html(post.title) { renderPostPart(post) }

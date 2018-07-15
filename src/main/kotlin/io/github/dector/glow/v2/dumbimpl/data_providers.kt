@@ -8,8 +8,7 @@ import java.io.FilenameFilter
 val dumbDataProvider: DataProvider = {
     val content = loadFiles("v2/source/")
 
-    // Save md, don't convert to html
-    mdFileParser(content)
+    markdownFileParser(content)
 }
 
 private fun loadFiles(projectDir: String): List<String> {

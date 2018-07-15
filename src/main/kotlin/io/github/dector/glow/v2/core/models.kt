@@ -2,7 +2,7 @@ package io.github.dector.glow.v2.core
 
 data class BlogData(val posts: List<Post>)
 data class ProcessedData(val indexPages: List<ProcessedPage>,
-                         val pages: List<ProcessedPage>,
+                         val postPages: List<ProcessedPage>,
                          val tagPages: List<ProcessedPage>)
 
 sealed class PublishResult {

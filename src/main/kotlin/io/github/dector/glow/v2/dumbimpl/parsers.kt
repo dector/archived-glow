@@ -12,44 +12,45 @@ import io.github.dector.glow.v2.core.Post
 
 typealias DataConverter = (List<String>) -> BlogData
 
-val mdFileParser: DataConverter = { data ->
-    fun buildParser() = Parser.builder(MutableDataSet().apply {
+val markdownFileParser: DataConverter = { data ->
+    val parser = Parser.builder(MutableDataSet().apply {
         set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
     }).build()
-
-    fun parseYamlHeader(doc: Node): Header {
-        return AbstractYamlFrontMatterVisitor().run {
-            visit(doc)
-
-            val title = this.data["title"]
-                    ?.get(0) ?: ""
-            val tags = this.data["tags"]
-                    ?.get(0)
-                    ?.split(",")
-                    ?.map(String::trim) ?: emptyList()
-            val isDraft = this.data["draft"]
-                    ?.get(0)
-                    ?.toBoolean() ?: false
-
-            return Header(
-                    title = title,
-                    tags = tags,
-                    isDraft = isDraft)
-        }
-    }
-
-    val parser = buildParser()
     val formatter = Formatter.builder().build()
+    val yamlVisitor = AbstractYamlFrontMatterVisitor()
 
     val posts = data.map {
         val doc = parser.parse(it)
-        val header = parseYamlHeader(doc)
+        val header = yamlVisitor.parseHeader(doc)
         val content = formatter.render(doc);
 
-        Post(title = header.title, tags = header.tags, isDraft = header.isDraft, content = content)
+        Post(
+                title = header.title,
+                tags = header.tags,
+                isDraft = header.isDraft,
+                content = content)
     }.sortedBy { it.title } // FIXME sort by date
 
     BlogData(posts = posts)
+}
+
+private fun AbstractYamlFrontMatterVisitor.parseHeader(doc: Node): Header = this.run {
+    visit(doc)
+
+    val title = data["title"]
+            ?.get(0) ?: ""
+    val tags = data["tags"]
+            ?.get(0)
+            ?.split(",")
+            ?.map(String::trim) ?: emptyList()
+    val isDraft = data["draft"]
+            ?.get(0)
+            ?.toBoolean() ?: false
+
+    return Header(
+            title = title,
+            tags = tags,
+            isDraft = isDraft)
 }
 
 private data class Header(
