@@ -2,8 +2,8 @@ package io.github.dector.glow.v2.dumbimpl
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import io.github.dector.glow.v2.DataProcessor
-import io.github.dector.glow.v2.ProcessedData
+import io.github.dector.glow.v2.core.DataProcessor
+import io.github.dector.glow.v2.core.ProcessedData
 import io.github.dector.glow.v2.models.Post
 import io.github.dector.glow.v2.models.ProcessedPage
 

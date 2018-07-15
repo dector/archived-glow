@@ -1,6 +1,6 @@
 package io.github.dector.glow.v2.dumbimpl
 
-import io.github.dector.glow.v2.DataProvider
+import io.github.dector.glow.v2.core.DataProvider
 import java.io.File
 import java.io.FilenameFilter
 

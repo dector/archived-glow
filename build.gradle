@@ -31,6 +31,7 @@ repositories {
 
 dependencies {
     compile libraries.kotlinStdLibJdk8
+    compile libraries.kotlinReflection  // can be removed later
 
     compile libraries.slf4jSimple
 

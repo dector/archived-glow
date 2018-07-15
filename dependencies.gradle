@@ -23,6 +23,7 @@ ext.gradlePlugins = [
 
 ext.libraries = [
         kotlinStdLibJdk8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
+        kotlinReflection : "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin",
 
         slf4jSimple : "org.slf4j:slf4j-simple:$versions.slf4jSimple",
 

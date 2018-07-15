@@ -6,7 +6,7 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.formatter.internal.Formatter
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
-import io.github.dector.glow.v2.BlogData
+import io.github.dector.glow.v2.core.BlogData
 import io.github.dector.glow.v2.models.Post
 
 
