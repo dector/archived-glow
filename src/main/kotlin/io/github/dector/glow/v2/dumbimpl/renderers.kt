@@ -44,7 +44,7 @@ val tagPageRenderer: TagPageRender = { tag, info ->
     }
 }
 
-private fun BODY.renderPost(post: Post) {
+private fun DIV.renderPost(post: Post) {
     h2 {
         a(href = postPagePathResolver(post)) { +post.title }
     }
@@ -66,7 +66,7 @@ private fun BODY.renderPost(post: Post) {
     }
 }
 
-private fun BODY.renderPaging(info: PaginatedPage) {
+private fun DIV.renderPaging(info: PaginatedPage) {
     if (info.prevPagePath.isNotEmpty()) {
         br; br
         a(href = info.prevPagePath) { +"<< Previous" }
@@ -74,6 +74,6 @@ private fun BODY.renderPaging(info: PaginatedPage) {
 
     if (info.nextPagePath.isNotEmpty()) {
         br; br
-        a(href = info.prevPagePath) { +"Next >>" }
+        a(href = info.nextPagePath) { +"Next >>" }
     }
 }
