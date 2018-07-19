@@ -33,6 +33,8 @@ dependencies {
     compile libraries.kotlinStdLibJdk8
     compile libraries.kotlinReflection  // can be removed later
 
+    compile libraries.kotlinxHtml
+
     compile libraries.slf4jSimple
 
     compile libraries.jcommander

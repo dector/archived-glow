@@ -1,5 +1,6 @@
 ext.versions = [
         kotlin : '1.2.51',
+        kotlinxHtml : '0.6.11',
 
         shadowJar : '2.0.4',
 
@@ -24,6 +25,7 @@ ext.gradlePlugins = [
 ext.libraries = [
         kotlinStdLibJdk8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin",
         kotlinReflection : "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin",
+        kotlinxHtml : "org.jetbrains.kotlinx:kotlinx-html-jvm:$versions.kotlinxHtml",
 
         slf4jSimple : "org.slf4j:slf4j-simple:$versions.slf4jSimple",
 
