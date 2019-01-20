@@ -39,22 +39,52 @@ class MockDataProvider(
 
 class MockDataProcessor : DataProcessor {
 
-    override fun processBlogData(blog: BlogData): ProcessedData {
-        TODO()
+    override fun render(page: Page): RenderedPage {
+        return RenderedPage(
+                path = PagePath("${page.info.id}-${page.info.title}"),
+                content = "Page with title '${page.info.title}'"
+        )
     }
+
+    override fun processBlogData(blog: BlogData) = error("")
 }
 
-class MockDataPublisher : DataPublisher {
+class MockDataPublisher(
+        private val config: ProjectConfig) : DataPublisher {
 
-    override fun publish(data: ProcessedData): PublishResult {
-        TODO()
+    override fun publishPage(page: RenderedPage) {
+        val file = File(config.output.pagesFolder, pageFileName(page))
+        file.parentFile.mkdirs()
+
+        if (file.exists()) {
+            println("File '${file.absolutePath}' exists. Skipping.")
+        } else {
+            file.writeText(page.content)
+        }
+
     }
+
+    private fun pageFileName(page: RenderedPage) = "${page.path.path}.html"
+
+    override fun publish(data: ProcessedData) = error("")
 }
 
 fun mockProjectsConfig() = ProjectConfig(
-        pagesFolder = File("v2/src/pages")
+        pagesFolder = File("v2/src/pages"),
+        output = OutputConfig(
+                pagesFolder = File("v2/out2/pages")
+        )
 )
 
 data class ProjectConfig(
+        val pagesFolder: File,  // TODO move to InputConfig
+        val output: OutputConfig
+)
+
+data class OutputConfig(
         val pagesFolder: File
+)
+
+data class PagePath(
+        val path: String
 )

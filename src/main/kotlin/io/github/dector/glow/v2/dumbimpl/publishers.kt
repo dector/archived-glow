@@ -2,14 +2,13 @@ package io.github.dector.glow.v2.dumbimpl
 
 import io.github.dector.glow.v2.DistDirName
 import io.github.dector.glow.v2.PathToProject
-import io.github.dector.glow.v2.core.DataPublisher
-import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.core.ProcessedPage
-import io.github.dector.glow.v2.core.PublishResult
+import io.github.dector.glow.v2.core.*
 import java.io.File
 
 
 val dumbDataPublisher = object : DataPublisher {
+
+    override fun publishPage(page: RenderedPage) = error("")
 
     override fun publish(data: ProcessedData): PublishResult {
         val buildDir = File("v2/out").apply {

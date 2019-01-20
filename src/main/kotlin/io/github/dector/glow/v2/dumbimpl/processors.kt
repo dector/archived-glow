@@ -14,6 +14,9 @@ typealias DataFilter = (List<Post>) -> List<Post>
 private val filter: DataFilter = ::nonDraftsFilter
 
 val dumbDataRenderer = object : DataProcessor {
+
+    override fun render(page: Page) = error("")
+
     override fun processBlogData(blog: BlogData): ProcessedData {
         return processPosts(filter(blog.posts))
     }

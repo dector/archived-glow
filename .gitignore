@@ -10,6 +10,7 @@
 # Build files
 out/
 build/
+v2/out2
 
 # Distribution files
 distrib/*.jar

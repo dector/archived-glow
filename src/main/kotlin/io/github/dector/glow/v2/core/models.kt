@@ -1,5 +1,6 @@
 package io.github.dector.glow.v2.core
 
+import io.github.dector.glow.v2.mockimpl.PagePath
 import java.io.File
 
 data class BlogData(val posts: List<Post>)
@@ -32,4 +33,13 @@ data class PageInfo(
         val id: String,
         val title: String,
         val sourceFile: File
+)
+
+data class Page(
+        val info: PageInfo
+)
+
+data class RenderedPage(
+        val path: PagePath,
+        val content: String
 )

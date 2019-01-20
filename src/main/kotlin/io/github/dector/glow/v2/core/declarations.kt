@@ -16,10 +16,15 @@ interface DataProvider {
 
 interface DataProcessor {
 
+    fun render(page: Page): RenderedPage
+
+    @Deprecated("Use render()")
     fun processBlogData(blog: BlogData): ProcessedData
 }
 
 interface DataPublisher {
+
+    fun publishPage(page: RenderedPage)
 
     fun publish(data: ProcessedData): PublishResult
 }
@@ -31,16 +36,24 @@ class DefaultGlowEngine : GlowEngine {
 
         val metaInfo = dataProvider.fetchMetaInfo()
 
-        println("Loaded.")
         println("Found pages: ${metaInfo.pages.size}")
         println()
 
         println("Processing data...")
-        metaInfo.pages.forEach { page ->
-            println("Processing ${page.title}")
+        metaInfo.pages.forEach { pageInfo ->
+            println("Processing '${pageInfo.title}'")
+
+            val page = page(pageInfo)
+
+            val renderedPage = dataProcessor.render(page)
+
+            println("Publishing '${pageInfo.title}'")
+            dataPublisher.publishPage(renderedPage)
         }
         println()
 
         return GlowExecutionResult()
     }
+
+    private fun page(info: PageInfo) = Page(info = info)
 }
