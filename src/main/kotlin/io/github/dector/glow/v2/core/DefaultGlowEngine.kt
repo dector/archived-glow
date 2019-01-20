@@ -1,8 +1,12 @@
 package io.github.dector.glow.v2.core
 
 import io.github.dector.glow.logger.UiLogger
+import io.github.dector.glow.v2.mockimpl.ProjectConfig
+import java.io.File
 
-class DefaultGlowEngine : GlowEngine {
+class DefaultGlowEngine(
+        private val config: ProjectConfig
+) : GlowEngine {
 
     private val log = UiLogger//logger()
 
@@ -25,8 +29,18 @@ class DefaultGlowEngine : GlowEngine {
             log.info("Publishing '${pageInfo.title}'")
             dataPublisher.publishPage(renderedPage)
         }
-        log.info("\n")
+
+        log.info("Copying static...")
+        copyStatic(config.input.staticFolder, config.output.staticFolder)
+        log.info("Done\n")
 
         return GlowExecutionResult()
+    }
+
+    private fun copyStatic(inputFolder: File, outputFolder: File) {
+        inputFolder.copyRecursively(outputFolder, onError = { file, err ->
+            log.error("File '${file.absolutePath}' exists. Skipping.")
+            OnErrorAction.SKIP
+        })
     }
 }
