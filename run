@@ -1,5 +1,7 @@
 #!/bin/bash
 
-cd distrib
-exec ./glow "$@"
-cd -
+if [[ -z "$@" ]]; then
+    ./gradlew --console plain -q :run
+else
+    ./gradlew --console plain -q :run --args "'$@'"
+fi
