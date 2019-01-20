@@ -4,18 +4,36 @@ import io.github.dector.glow.v2.core.*
 import java.io.File
 
 
-class MockDataProvider : DataProvider {
+class MockDataProvider(
+        private val config: ProjectConfig,
+        private val markdownParser: MarkdownParser) : DataProvider {
 
-    override fun fetchMetaInfo() = MetaInfo(
-            pages = listOf(
-                    PageInfo(1, "Index", File("v2/src/pages/index.md")),
-                    PageInfo(2, "Projects", File("v2/src/pages/projects.md")),
-                    PageInfo(3, "About", File("v2/src/pages/about.md"))
-            )
-    )
+    private fun parseTitle(markdownFile: File): String {
+        val meta = markdownParser.parseInsecureYFM(markdownFile)
 
-    override fun fetchBlogData(): BlogData {
-        error("Shouldn't be called")
+        return meta["title"] ?: "n/a"
+    }
+
+    override fun fetchMetaInfo() = run {
+        if (!config.pagesFolder.exists())
+            error("Pages folder '${config.pagesFolder.absolutePath}' not exists.")
+
+        var latestPageIndex = 0
+        val pages = config.pagesFolder
+                .listFiles { file ->
+                    file.isFile && file.extension == "md"
+                }
+                .map { file ->
+                    PageInfo(
+                            id = (++latestPageIndex).toString(),
+                            title = parseTitle(file),
+                            sourceFile = file
+                    )
+                }
+
+        MetaInfo(
+                pages = pages
+        )
     }
 }
 
@@ -32,3 +50,11 @@ class MockDataPublisher : DataPublisher {
         TODO()
     }
 }
+
+fun mockProjectsConfig() = ProjectConfig(
+        pagesFolder = File("v2/src/pages")
+)
+
+data class ProjectConfig(
+        val pagesFolder: File
+)

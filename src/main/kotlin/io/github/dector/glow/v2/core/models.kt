@@ -29,7 +29,7 @@ data class MetaInfo(    // Config?
 )
 
 data class PageInfo(
-        val id: Int,
+        val id: String,
         val title: String,
         val sourceFile: File
 )

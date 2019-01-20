@@ -5,21 +5,13 @@ interface GlowEngine {
 
     fun execute(dataProvider: DataProvider,
                 dataProcessor: DataProcessor,
-                dataPublisher: DataPublisher): GlowExecutionResult {
-        val data = dataProvider.fetchBlogData()
-        val processedData = dataProcessor.processBlogData(data)
-        val publishResult = dataPublisher.publish(processedData)
-
-        return GlowExecutionResult()
-    }
+                dataPublisher: DataPublisher): GlowExecutionResult
 }
 
 interface DataProvider {
 
     fun fetchMetaInfo(): MetaInfo
 
-    @Deprecated("Use fetchMetaInfo()")
-    fun fetchBlogData(): BlogData
 }
 
 interface DataProcessor {
@@ -41,6 +33,13 @@ class DefaultGlowEngine : GlowEngine {
 
         println("Loaded.")
         println("Found pages: ${metaInfo.pages.size}")
+        println()
+
+        println("Processing data...")
+        metaInfo.pages.forEach { page ->
+            println("Processing ${page.title}")
+        }
+        println()
 
         return GlowExecutionResult()
     }

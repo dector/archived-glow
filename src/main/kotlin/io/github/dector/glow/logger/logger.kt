@@ -18,7 +18,7 @@ fun disableUiLogger() {
 
 fun Any.logger(): Logger = LoggerFactory.getLogger(javaClass)
 
-fun rootLogger(): Logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)
+fun rootLogger(): Logger = LoggerFactory.getLogger("")
 
 open class TransparentLogger : MarkerIgnoringBase() {
 
