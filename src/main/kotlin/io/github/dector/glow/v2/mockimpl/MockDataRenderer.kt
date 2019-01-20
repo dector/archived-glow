@@ -58,13 +58,15 @@ private fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString 
                 div("navigation") {
                     ul {
                         li { a(href = "/") { +"Home" } }
-                        li { a(href = "/notes.html") { +"Notes" } }
+                        li { a(href = "/notes/") { +"Notes" } }
                         li { a(href = "/projects.html") { +"Projects" } }
                         li { a(href = "/about.html") { +"About" } }
                     }
                 }
 
                 div("content") {
+                    h1 { +title }
+
                     contentBlock()
                 }
             }
