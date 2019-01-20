@@ -21,7 +21,7 @@ class GlowCommand : CliktCommand(name = "glow") {
 
         DI.get<GlowEngine>().execute(
                 dataProvider = DI.get(),
-                dataProcessor = DI.get(),
+                dataRenderer = DI.get(),
                 dataPublisher = DI.get()
         )
     }

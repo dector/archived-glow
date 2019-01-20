@@ -8,12 +8,13 @@ import com.vladsch.flexmark.util.options.MutableDataSet
 import java.io.File
 
 
-interface MarkdownParser {
+interface MarkdownParser<T> {
 
     fun parseInsecureYFM(markdownFile: File): Map<String, String>
+    fun parse(markdown: String): T
 }
 
-class SimpleMarkdownParser : MarkdownParser {
+class SimpleMarkdownParser : MarkdownParser<Node> {
 
     val parser = buildParser()
 
@@ -32,6 +33,10 @@ class SimpleMarkdownParser : MarkdownParser {
         return headerData
                 .map { (key, value) -> key to value.joinToString(", ") }
                 .toMap()
+    }
+
+    override fun parse(markdown: String): Node {
+        return parser.parse(markdown)
     }
 
     private fun parseYamlHeader(doc: Node): Map<String, List<String>> {

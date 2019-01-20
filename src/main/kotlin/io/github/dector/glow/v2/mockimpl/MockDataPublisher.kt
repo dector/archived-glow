@@ -10,17 +10,19 @@ class MockDataPublisher(
 
     override fun publishPage(page: RenderedPage) {
         val file = File(config.output.pagesFolder, pageFileName(page))
+
         file.parentFile.mkdirs()
 
-        if (file.exists()) {
+        if (file.exists() && !config.output.overrideFiles) {
             println("File '${file.absolutePath}' exists. Skipping.")
         } else {
             file.writeText(page.content)
         }
-
     }
 
-    private fun pageFileName(page: RenderedPage) = "${page.path.path}.html"
+    private fun pageFileName(page: RenderedPage) =
+            if (page.path.path == "index") "index.html"
+            else "${page.path.path}.html"
 
     override fun publish(data: ProcessedData) = error("")
 }

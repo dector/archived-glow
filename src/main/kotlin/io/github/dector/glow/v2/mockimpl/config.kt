@@ -8,7 +8,8 @@ fun mockProjectsConfig() = ProjectConfig(
                 pagesFolder = File("v2/src/pages")
         ),
         output = OutputConfig(
-                pagesFolder = File("v2/out2/pages")
+                pagesFolder = File("v2/out2/pages"),
+                overrideFiles = true
         )
 )
 
@@ -23,6 +24,7 @@ data class InputConfig(
 
 
 data class OutputConfig(
-        val pagesFolder: File
+        val pagesFolder: File,
+        val overrideFiles: Boolean = false
 )
 

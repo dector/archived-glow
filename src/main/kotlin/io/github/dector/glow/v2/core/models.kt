@@ -36,7 +36,8 @@ data class PageInfo(
 )
 
 data class Page(
-        val info: PageInfo
+        val info: PageInfo,
+        val markdownContent: String
 )
 
 data class RenderedPage(

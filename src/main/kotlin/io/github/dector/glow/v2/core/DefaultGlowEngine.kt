@@ -6,7 +6,7 @@ class DefaultGlowEngine : GlowEngine {
 
     private val log = UiLogger//logger()
 
-    override fun execute(dataProvider: DataProvider, dataProcessor: DataProcessor, dataPublisher: DataPublisher): GlowExecutionResult {
+    override fun execute(dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher): GlowExecutionResult {
         log.info("Loading data...")
 
         val metaInfo = dataProvider.fetchMetaInfo()
@@ -18,9 +18,9 @@ class DefaultGlowEngine : GlowEngine {
         metaInfo.pages.forEach { pageInfo ->
             log.info("Processing '${pageInfo.title}'")
 
-            val page = page(pageInfo)
+            val page = dataProvider.fetchPage(pageInfo)
 
-            val renderedPage = dataProcessor.render(page)
+            val renderedPage = dataRenderer.render(page)
 
             log.info("Publishing '${pageInfo.title}'")
             dataPublisher.publishPage(renderedPage)
@@ -29,6 +29,4 @@ class DefaultGlowEngine : GlowEngine {
 
         return GlowExecutionResult()
     }
-
-    private fun page(info: PageInfo) = Page(info = info)
 }

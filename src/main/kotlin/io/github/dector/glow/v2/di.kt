@@ -1,5 +1,6 @@
 package io.github.dector.glow.v2
 
+import com.vladsch.flexmark.ast.Node
 import io.github.dector.glow.v2.core.*
 import io.github.dector.glow.v2.mockimpl.*
 import org.kodein.di.Kodein
@@ -10,7 +11,7 @@ import org.kodein.di.generic.singleton
 
 val v2Module = Kodein.Module("V2") {
 
-    bind<MarkdownParser>() with singleton { SimpleMarkdownParser() }
+    bind<MarkdownParser<Node>>() with singleton { SimpleMarkdownParser() }
 
     import(mockImplementations)
 
@@ -23,6 +24,6 @@ private val mockImplementations = Kodein.Module("V2 mock") {
 
     bind<ProjectConfig>() with singleton { mockProjectsConfig() }
     bind<DataProvider>() with singleton { MockDataProvider(instance(), instance()) }
-    bind<DataProcessor>() with singleton { MockDataProcessor() }
+    bind<DataRenderer>() with singleton { MockDataRenderer(instance()) }
     bind<DataPublisher>() with singleton { MockDataPublisher(instance()) }
 }

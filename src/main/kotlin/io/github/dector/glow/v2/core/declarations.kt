@@ -4,16 +4,17 @@ package io.github.dector.glow.v2.core
 interface GlowEngine {
 
     fun execute(dataProvider: DataProvider,
-                dataProcessor: DataProcessor,
+                dataRenderer: DataRenderer,
                 dataPublisher: DataPublisher): GlowExecutionResult
 }
 
 interface DataProvider {
 
     fun fetchMetaInfo(): MetaInfo
+    fun fetchPage(pageInfo: PageInfo): Page
 }
 
-interface DataProcessor {
+interface DataRenderer {
 
     fun render(page: Page): RenderedPage
 }
