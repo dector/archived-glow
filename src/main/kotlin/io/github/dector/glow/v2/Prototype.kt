@@ -15,5 +15,5 @@ fun main(args: Array<String>) {
             dumbDataRenderer,
             dumbDataPublisher)
 
-    println("Glow finished with publishing result: ${result.publishResult::class.simpleName}")
+    println("Glow finished with publishing result: ${result}")
 }

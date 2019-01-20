@@ -1,4 +1,4 @@
-package io.github.dector.glow.cli
+package io.github.dector.glow.cli.legacy
 
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.Parameters
@@ -29,8 +29,8 @@ data class GlowCommandMainOptions(
 
 @Parameters(separators = "=", commandDescription = "Initialize new project")
 data class GlowCommandInitOptions(
-    @Parameter()
-    var targetFolder: List<String> = arrayListOf()) {
+        @Parameter()
+        var targetFolder: List<String> = emptyList()) {
 
     companion object {
 
@@ -40,20 +40,20 @@ data class GlowCommandInitOptions(
 
 @Parameters(separators = "=", commandDescription = "Build project")
 data class GlowCommandBuildOptions(
-    @Parameter(names = ["-i", "--input"], converter = FileConverter::class)
-    var inputDir: File? = null,
+        @Parameter(names = ["-i", "--input"], converter = FileConverter::class)
+        var inputDir: File? = null,
 
-    @Parameter(names = ["-o", "--output"], converter = FileConverter::class)
-    var outputDir: File? = null,
+        @Parameter(names = ["-o", "--output"], converter = FileConverter::class)
+        var outputDir: File? = null,
 
-    @Parameter(names = ["-t", "--theme"], converter = FileConverter::class)
-    var themeDir: File? = null,
+        @Parameter(names = ["-t", "--theme"], converter = FileConverter::class)
+        var themeDir: File? = null,
 
-    @Parameter(names = ["--clear-output"])
-    var clearOutputDir: Boolean = false,
+        @Parameter(names = ["--clear-output"])
+        var clearOutputDir: Boolean = false,
 
-    @Parameter(names = ["--title"])
-    var blogTitle: String = "") {
+        @Parameter(names = ["--title"])
+        var blogTitle: String = "") {
 
     companion object {
 
@@ -65,11 +65,9 @@ class OptionsValidator {
 
     private val logger = logger()
 
-    fun validateInitCommand(opts: GlowCommandInitOptions): Boolean
-            = validateNewProjectTargetDir(opts.targetFolder)
+    fun validateInitCommand(opts: GlowCommandInitOptions): Boolean = validateNewProjectTargetDir(opts.targetFolder)
 
-    fun validateBuildCommand(opts: GlowCommandBuildOptions): Boolean
-            = validateInputDir(opts.inputDir)
+    fun validateBuildCommand(opts: GlowCommandBuildOptions): Boolean = validateInputDir(opts.inputDir)
             && validateOutputDir(opts.outputDir, opts.clearOutputDir)
             && validateThemeDir(opts.themeDir)
 
@@ -78,7 +76,8 @@ class OptionsValidator {
         assert("Only one target dir should be set", logger) { dirs.size == 1 } ?: return false
 
         File(dirs[0]).also {
-            assert("Target dir shouldn't exists or must be empty", logger) { !it.exists() || (it.isDirectory && it.listFiles().isEmpty()) } ?: return false
+            assert("Target dir shouldn't exists or must be empty", logger) { !it.exists() || (it.isDirectory && it.listFiles().isEmpty()) }
+                    ?: return false
         }
 
         return true
@@ -95,7 +94,9 @@ class OptionsValidator {
         assert("Output dir should be set", logger) { dir != null } ?: return false
 
         if (!canExist) {
-            assert("Output dir should not exist", logger) { !(dir?.exists() ?: false) || dir?.listFiles()?.isEmpty().isTrue() }
+            assert("Output dir should not exist", logger) {
+                !(dir?.exists() ?: false) || dir?.listFiles()?.isEmpty().isTrue()
+            }
                     ?: return false
         }
 

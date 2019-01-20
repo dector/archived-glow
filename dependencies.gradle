@@ -7,6 +7,9 @@ ext.versions = [
         slf4jSimple : '1.7.25',
         buildConfig : '1.1.8',
 
+        kodein : '6.0.1',
+
+        clikt : '1.6.0',
         jcommander : '1.48',
         json : '20160810',
 
@@ -29,6 +32,9 @@ ext.libraries = [
 
         slf4jSimple : "org.slf4j:slf4j-simple:$versions.slf4jSimple",
 
+        kodein : "org.kodein.di:kodein-di-generic-jvm:$versions.kodein",
+
+        clikt : "com.github.ajalt:clikt:$versions.clikt",
         jcommander : "com.beust:jcommander:$versions.jcommander",
         json : "org.json:json:$versions.json",
 

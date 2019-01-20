@@ -6,18 +6,17 @@ import io.github.dector.glow.tools.nextOrNull
 import io.github.dector.glow.tools.prevOrNull
 import io.github.dector.glow.v2.PaginationIndexPostsCount
 import io.github.dector.glow.v2.PaginationTagPostsCount
-import io.github.dector.glow.v2.core.DataProcessor
-import io.github.dector.glow.v2.core.Post
-import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.core.ProcessedPage
+import io.github.dector.glow.v2.core.*
 
 
 typealias DataFilter = (List<Post>) -> List<Post>
 
 private val filter: DataFilter = ::nonDraftsFilter
 
-val dumbDataRenderer: DataProcessor = { data ->
-    processPosts(filter(data.posts))
+val dumbDataRenderer = object : DataProcessor {
+    override fun processBlogData(blog: BlogData): ProcessedData {
+        return processPosts(filter(blog.posts))
+    }
 }
 
 private fun nonDraftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }
@@ -85,8 +84,10 @@ private fun processTagPages(posts: List<Post>): List<ProcessedPage> {
             val info = PaginatedPage(
                     pageNumber = index + 1,
                     totalPages = chunks.size,
-                    prevPagePath = chunks.prevOrNull(it)?.let { tagPagePathResolver(tag, chunks.indexOf(it) + 1) } ?: "",
-                    nextPagePath = chunks.nextOrNull(it)?.let { tagPagePathResolver(tag, chunks.indexOf(it) + 1) } ?: "",
+                    prevPagePath = chunks.prevOrNull(it)?.let { tagPagePathResolver(tag, chunks.indexOf(it) + 1) }
+                            ?: "",
+                    nextPagePath = chunks.nextOrNull(it)?.let { tagPagePathResolver(tag, chunks.indexOf(it) + 1) }
+                            ?: "",
                     posts = it
             )
 

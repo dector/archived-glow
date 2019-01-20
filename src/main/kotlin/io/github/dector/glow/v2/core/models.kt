@@ -1,5 +1,7 @@
 package io.github.dector.glow.v2.core
 
+import java.io.File
+
 data class BlogData(val posts: List<Post>)
 data class ProcessedData(val indexPages: List<ProcessedPage>,
                          val postPages: List<ProcessedPage>,
@@ -10,7 +12,7 @@ sealed class PublishResult {
     class Fail : PublishResult()
 }
 
-data class Result(val publishResult: PublishResult)
+class GlowExecutionResult
 
 data class Post(
         val title: String,
@@ -21,3 +23,13 @@ data class Post(
 data class ProcessedPage(
         val path: String,   // FIXME remove path from processed model. Should be handled in Publisher instead
         val content: String)
+
+data class MetaInfo(    // Config?
+        val pages: List<PageInfo>
+)
+
+data class PageInfo(
+        val id: Int,
+        val title: String,
+        val sourceFile: File
+)

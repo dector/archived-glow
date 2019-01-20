@@ -1,6 +1,6 @@
 package io.github.dector.glow.creator
 
-import io.github.dector.glow.cli.GlowCommandInitOptions
+import io.github.dector.glow.cli.legacy.GlowCommandInitOptions
 import io.github.dector.glow.logger.UiLogger
 import io.github.dector.glow.logger.logger
 import java.io.File

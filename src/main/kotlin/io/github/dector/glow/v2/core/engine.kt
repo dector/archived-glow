@@ -3,10 +3,10 @@ package io.github.dector.glow.v2.core
 
 fun execute(dataProvider: DataProvider,
             dataProcessor: DataProcessor,
-            dataPublisher: DataPublisher): Result {
-    val data = dataProvider()
-    val processedData = dataProcessor(data)
-    val publishResult = dataPublisher(processedData)
+            dataPublisher: DataPublisher): GlowExecutionResult {
+    val data = dataProvider.fetchBlogData()
+    val processedData = dataProcessor.processBlogData(data)
+    val publishResult = dataPublisher.publish(processedData)
 
-    return Result(publishResult)
+    return GlowExecutionResult()
 }

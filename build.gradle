@@ -37,6 +37,9 @@ dependencies {
 
     compile libraries.slf4jSimple
 
+    compile libraries.kodein
+    
+    compile libraries.clikt
     compile libraries.jcommander
     compile libraries.json
 

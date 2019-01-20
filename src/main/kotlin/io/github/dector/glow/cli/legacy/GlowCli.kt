@@ -1,39 +1,35 @@
-package io.github.dector.glow.cli
+package io.github.dector.glow.cli.legacy
 
 import com.beust.jcommander.JCommander
-import io.github.dector.glow.AppVersion
-import io.github.dector.glow.CliHeader
 import io.github.dector.glow.CurrentConfigVersion
 import io.github.dector.glow.builder.GlowBuilder
 import io.github.dector.glow.creator.GlowProjectCreator
 import io.github.dector.glow.logger.UiLogger
-import io.github.dector.glow.logger.disableUiLogger
 import io.github.dector.glow.logger.logger
-import io.github.dector.glow.tools.StopWatch
 import io.github.dector.glow.tools.boolean
 import io.github.dector.glow.tools.string
 import org.json.JSONObject
 import java.io.File
-import kotlin.system.exitProcess
 
+@Deprecated("Use new version instead")
 class GlowCli(
         private val optionsProcessor: IOptionsProcessor = defaultOptionsProcessor()) {
 
     fun execute(vararg args: String) {
-        val stopWatch = StopWatch().start()
+//        val stopWatch = StopWatch().start()
 
         val opts = parseArguments(args = *args)
-        if (opts.commandMainOptions.quiet)
-            disableUiLogger()
+//        if (opts.commandMainOptions.quiet)
+//            disableUiLogger()
 
-        UiLogger.info(CliHeader)
+//        UiLogger.info(CliHeader)
 
-        if (!optionsProcessor.process(opts)) {
-            UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
-            exitProcess(1)
-        }
-
-        UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
+//        if (!optionsProcessor.process(opts)) {
+//            UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
+//            exitProcess(1)
+//        }
+//
+//        UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
     }
 
     private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: String): GlowOptions {

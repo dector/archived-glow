@@ -9,7 +9,7 @@ import io.github.dector.glow.builder.parser.ParsedPost
 import io.github.dector.glow.builder.renderer.IRenderer
 import io.github.dector.glow.builder.renderer.PageType
 import io.github.dector.glow.builder.renderer.mustache.MustacheRenderer
-import io.github.dector.glow.cli.GlowCommandBuildOptions
+import io.github.dector.glow.cli.legacy.GlowCommandBuildOptions
 import io.github.dector.glow.logger.UiLogger
 import io.github.dector.glow.tools.nextOrNull
 import io.github.dector.glow.tools.prevOrNull
