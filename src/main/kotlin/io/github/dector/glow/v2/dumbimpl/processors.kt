@@ -6,21 +6,21 @@ import io.github.dector.glow.tools.nextOrNull
 import io.github.dector.glow.tools.prevOrNull
 import io.github.dector.glow.v2.PaginationIndexPostsCount
 import io.github.dector.glow.v2.PaginationTagPostsCount
-import io.github.dector.glow.v2.core.*
+import io.github.dector.glow.v2.core.Post
+import io.github.dector.glow.v2.core.ProcessedData
+import io.github.dector.glow.v2.core.ProcessedPage
 
 
 typealias DataFilter = (List<Post>) -> List<Post>
 
 private val filter: DataFilter = ::nonDraftsFilter
 
-val dumbDataRenderer = object : DataProcessor {
-
-    override fun render(page: Page) = error("")
+/*val dumbDataRenderer = object : DataProcessor {
 
     override fun processBlogData(blog: BlogData): ProcessedData {
         return processPosts(filter(blog.posts))
     }
-}
+}*/
 
 private fun nonDraftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }
 
