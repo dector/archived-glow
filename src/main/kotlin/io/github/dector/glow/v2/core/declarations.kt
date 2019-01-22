@@ -19,6 +19,7 @@ interface DataRenderer {
 
     fun render(page: Page): RenderedPage
     fun render(note: Note): RenderedNote
+    fun renderNotesIndex(notes: List<NoteInfo>): String
 }
 
 interface DataPublisher {
@@ -27,5 +28,6 @@ interface DataPublisher {
     fun publishNote(note: RenderedNote)
 
     fun publish(data: ProcessedData): PublishResult
+    fun publishNotesIndex(htmlContent: String)
 }
 

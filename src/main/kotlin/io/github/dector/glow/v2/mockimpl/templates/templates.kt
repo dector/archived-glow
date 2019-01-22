@@ -1,8 +1,11 @@
 package io.github.dector.glow.v2.mockimpl.templates
 
 import io.github.dector.glow.v2.core.Note
+import io.github.dector.glow.v2.core.NoteInfo
 import io.github.dector.glow.v2.core.Page
 import kotlinx.html.h1
+import kotlinx.html.li
+import kotlinx.html.ul
 import kotlinx.html.unsafe
 
 
@@ -21,6 +24,16 @@ object Templates {
 
         unsafe {
             +content
+        }
+    }
+
+    fun notesIndex(notes: List<NoteInfo>) = htmlPage("Notes") {
+        h1 { +"Notes" }
+
+        ul {
+            notes.forEach { note ->
+                li { +note.title }
+            }
         }
     }
 }

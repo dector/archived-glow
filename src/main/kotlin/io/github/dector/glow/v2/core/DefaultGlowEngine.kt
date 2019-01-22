@@ -11,7 +11,8 @@ class DefaultGlowEngine(
     private val log = UiLogger//logger()
 
     override fun execute(dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher): GlowExecutionResult {
-        log.info("Loading data...\n")
+        log.info("Loading data...")
+        log.info("")
 
         val metaInfo = dataProvider.fetchMetaInfo()
 
@@ -20,7 +21,8 @@ class DefaultGlowEngine(
 
         log.info("Copying static...")
         copyStatic(config.input.staticFolder, config.output.staticFolder)
-        log.info("Done\n")
+        log.info("Done")
+        log.info("")
 
         return GlowExecutionResult()
     }
@@ -38,7 +40,7 @@ class DefaultGlowEngine(
             log.info("Publishing '${pageInfo.title}'")
             dataPublisher.publishPage(renderedPage)
         }
-        log.info("\n")
+        log.info("")
     }
 
     private fun executeForNotes(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
@@ -56,7 +58,10 @@ class DefaultGlowEngine(
             log.info("Publishing '${noteInfo.title}'")
             dataPublisher.publishNote(renderedNote)
         }
-        log.info("\n")
+        log.info("")
+
+        log.info("Building index page")
+        dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(nonDraftNotes))
     }
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {

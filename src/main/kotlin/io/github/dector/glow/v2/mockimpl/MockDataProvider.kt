@@ -24,7 +24,6 @@ class MockDataProvider(
             if (!pagesFolder.exists())
                 error("Pages folder '${pagesFolder.absolutePath}' not exists.")
 
-
             loadPagesFrom(pagesFolder)
         }
 
@@ -34,7 +33,6 @@ class MockDataProvider(
             if (!notesFolder.exists())
                 error("Notes folder '${notesFolder.absolutePath}' not exists.")
             loadNotesFrom(notesFolder)
-
         }
 
         MetaInfo(

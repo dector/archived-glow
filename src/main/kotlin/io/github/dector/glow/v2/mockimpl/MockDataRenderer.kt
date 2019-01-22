@@ -21,6 +21,10 @@ class MockDataRenderer(
         )
     }
 
+    override fun renderNotesIndex(notes: List<NoteInfo>) = run {
+        Templates.notesIndex(notes)
+    }
+
     override fun render(note: Note): RenderedNote {
         val content = htmlRenderer.render(markdownParser.parse(note.markdownContent))
 
