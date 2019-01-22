@@ -6,6 +6,7 @@ import io.github.dector.glow.v2.core.*
 import io.github.dector.glow.v2.mockimpl.templates.Templates
 
 class MockDataRenderer(
+        private val pathResolver: PathResolver,
         private val markdownParser: MarkdownParser<Node>
 ) : DataRenderer {
 
@@ -16,7 +17,7 @@ class MockDataRenderer(
 
         val htmlContent = Templates.page(page, content)
         return RenderedPage(
-                path = PagePath(page.info.id),
+                path = pathResolver.resolveForPage(page.info),
                 content = htmlContent
         )
     }

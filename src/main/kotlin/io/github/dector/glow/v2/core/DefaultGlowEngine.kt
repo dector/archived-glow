@@ -58,10 +58,11 @@ class DefaultGlowEngine(
             log.info("Publishing '${noteInfo.title}'")
             dataPublisher.publishNote(renderedNote)
         }
-        log.info("")
 
         log.info("Building index page")
         dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(nonDraftNotes))
+
+        log.info("")
     }
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {

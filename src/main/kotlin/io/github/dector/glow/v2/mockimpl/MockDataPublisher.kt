@@ -10,7 +10,7 @@ class MockDataPublisher(
         private val config: ProjectConfig) : DataPublisher {
 
     override fun publishPage(page: RenderedPage) {
-        val file = File(config.output.pagesFolder, pageFileName(page))
+        val file = File(config.output.pagesFolder, page.path.instancePath)
 
         file.parentFile.mkdirs()
 
@@ -32,10 +32,6 @@ class MockDataPublisher(
             file.writeText(note.content)
         }
     }
-
-    private fun pageFileName(page: RenderedPage) =
-            if (page.path.path == "index") "index.html"
-            else "${page.path.path}.html"
 
     private fun noteFileName(note: RenderedNote) =
 //            if (note.path.path == "index") "index.html"
