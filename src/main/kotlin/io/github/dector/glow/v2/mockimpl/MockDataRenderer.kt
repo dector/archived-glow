@@ -2,9 +2,7 @@ package io.github.dector.glow.v2.mockimpl
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.v2.core.DataRenderer
-import io.github.dector.glow.v2.core.Page
-import io.github.dector.glow.v2.core.RenderedPage
+import io.github.dector.glow.v2.core.*
 import io.github.dector.glow.v2.mockimpl.templates.Templates
 
 class MockDataRenderer(
@@ -19,6 +17,16 @@ class MockDataRenderer(
         val htmlContent = Templates.page(page, content)
         return RenderedPage(
                 path = PagePath(page.info.id),
+                content = htmlContent
+        )
+    }
+
+    override fun render(note: Note): RenderedNote {
+        val content = htmlRenderer.render(markdownParser.parse(note.markdownContent))
+
+        val htmlContent = Templates.note(note, content)
+        return RenderedNote(
+                path = NotePath(note.info.id),
                 content = htmlContent
         )
     }

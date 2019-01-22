@@ -1,7 +1,9 @@
 package io.github.dector.glow.v2.core
 
+import io.github.dector.glow.v2.mockimpl.NotePath
 import io.github.dector.glow.v2.mockimpl.PagePath
 import java.io.File
+import java.time.Instant
 
 data class BlogData(val posts: List<Post>)
 data class ProcessedData(val indexPages: List<ProcessedPage>,
@@ -26,7 +28,8 @@ data class ProcessedPage(
         val content: String)
 
 data class MetaInfo(    // Config?
-        val pages: List<PageInfo>
+        val pages: List<PageInfo>,
+        val notes: List<NoteInfo>
 )
 
 data class PageInfo(
@@ -35,12 +38,30 @@ data class PageInfo(
         val sourceFile: File
 )
 
+data class NoteInfo(
+        val id: String,
+        val title: String,
+        val isDraft: Boolean,
+        val createdAt: Instant,
+        val sourceFile: File
+)
+
 data class Page(
         val info: PageInfo,
         val markdownContent: String
 )
 
+data class Note(
+        val info: NoteInfo,
+        val markdownContent: String
+)
+
 data class RenderedPage(
         val path: PagePath,
+        val content: String
+)
+
+data class RenderedNote(
+        val path: NotePath,
         val content: String
 )

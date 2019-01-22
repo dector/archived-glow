@@ -12,16 +12,19 @@ interface DataProvider {
 
     fun fetchMetaInfo(): MetaInfo
     fun fetchPage(pageInfo: PageInfo): Page
+    fun fetchNote(noteInfo: NoteInfo): Note
 }
 
 interface DataRenderer {
 
     fun render(page: Page): RenderedPage
+    fun render(note: Note): RenderedNote
 }
 
 interface DataPublisher {
 
     fun publishPage(page: RenderedPage)
+    fun publishNote(note: RenderedNote)
 
     fun publish(data: ProcessedData): PublishResult
 }

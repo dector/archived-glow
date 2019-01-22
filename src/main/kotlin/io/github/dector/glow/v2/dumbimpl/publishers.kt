@@ -9,6 +9,7 @@ import java.io.File
 val dumbDataPublisher = object : DataPublisher {
 
     override fun publishPage(page: RenderedPage) = error("")
+    override fun publishNote(note: RenderedNote) = error("")
 
     override fun publish(data: ProcessedData): PublishResult {
         val buildDir = File("v2/out").apply {
