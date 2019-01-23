@@ -10,6 +10,7 @@ interface PathResolver {
     fun resolve(page: Page2): WebPagePath
     fun resolve(note: Note2): WebPagePath
     fun resolveNotesIndex(): WebPagePath
+    fun resolveNotesArchive(): WebPagePath
 }
 
 class WebPathResolver(private val config: ProjectConfig) : PathResolver {
@@ -36,6 +37,10 @@ class WebPathResolver(private val config: ProjectConfig) : PathResolver {
 
     override fun resolveNotesIndex(): WebPagePath {
         return WebPagePath(config.output.notesPath + "/index.html")
+    }
+
+    override fun resolveNotesArchive(): WebPagePath {
+        return WebPagePath(config.output.notesPath + "/archive/index.html")
     }
 
     private fun String.simplify() = this

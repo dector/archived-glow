@@ -41,6 +41,18 @@ object Templates {
             p { unsafe { +note.content.value } }
         }
     }
+
+    fun notesArchive(notes: List<Note2VM>) = htmlPage("Archive") {
+        h1 { +"Archive" }
+
+        notes.forEach { note ->
+            h3 { a(href = note.path.value) { +note.title } }
+
+            p { +(note.publishedAt?.formatAsMidDateTime() ?: "") }
+
+            p { unsafe { +note.content.value } }
+        }
+    }
 }
 
 private fun Instant.formatAsMidDateTime() = DateTimeFormatter

@@ -58,11 +58,22 @@ class DefaultGlowEngine(
         }
         log.info("")
 
-        log.info("Notes index")
-        log.info("Processing...")
-        val webPage = dataRenderer.renderNotesIndex(notes)
-        log.info("Publishing...")
-        dataPublisher.publish(webPage)
+        run {
+            log.info("Notes index")
+            log.info("Processing...")
+            val webPage = dataRenderer.renderNotesIndex(notes)
+            log.info("Publishing...")
+            dataPublisher.publish(webPage)
+            log.info("")
+        }
+
+        run {
+            log.info("Notes archive")
+            log.info("Processing...")
+            val webPage = dataRenderer.renderNotesArchive(notes)
+            log.info("Publishing...")
+            dataPublisher.publish(webPage)
+        }
 
         log.info("")
     }
