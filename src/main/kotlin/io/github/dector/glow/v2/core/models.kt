@@ -1,7 +1,5 @@
 package io.github.dector.glow.v2.core
 
-import io.github.dector.glow.v2.mockimpl.NotePath
-import io.github.dector.glow.v2.mockimpl.PagePath
 import java.io.File
 import java.time.Instant
 
@@ -12,12 +10,6 @@ data class BlogData(val posts: List<Post>)
 data class ProcessedData(val indexPages: List<ProcessedPage>,
                          val postPages: List<ProcessedPage>,
                          val tagPages: List<ProcessedPage>)
-
-@Deprecated("")
-sealed class PublishResult {
-    class Success : PublishResult()
-    class Fail : PublishResult()
-}
 
 class GlowExecutionResult
 
@@ -32,10 +24,6 @@ data class Post(
 data class ProcessedPage(
         val path: String,   // FIXME remove path from processed model. Should be handled in Publisher instead
         val content: String)
-
-data class MetaInfo(    // Config?
-        val notes: List<NoteInfo>
-)
 
 data class PageInfo(
         val id: String,
@@ -83,25 +71,9 @@ data class Note2(
         val content: MarkdownContent
 )
 
-data class Note(
-        val info: NoteInfo,
-        val markdownContent: String
-)
-
 data class Note2VM(
         val title: String,
         val createdAt: Instant?,
         val path: WebPagePath,
         val content: HtmlContent
-)
-
-data class RenderedPage(
-        val path: PagePath,
-        val content: String
-)
-
-data class RenderedNote(
-        val path: NotePath,
-        val info: NoteInfo,
-        val content: String
 )
