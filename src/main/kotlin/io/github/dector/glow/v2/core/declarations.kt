@@ -3,9 +3,7 @@ package io.github.dector.glow.v2.core
 
 interface GlowEngine {
 
-    fun execute(dataProvider: DataProvider,
-                dataRenderer: DataRenderer,
-                dataPublisher: DataPublisher): GlowExecutionResult
+    fun execute(): GlowExecutionResult
 }
 
 interface DataProvider {

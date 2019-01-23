@@ -23,11 +23,7 @@ class BuildCommand : CliktCommand(name = "build") {
 
         UiLogger.info(CliHeader)
 
-        DI.get<GlowEngine>().execute(
-                dataProvider = DI.get(),
-                dataRenderer = DI.get(),
-                dataPublisher = DI.get()
-        )
+        DI.get<GlowEngine>().execute()
     }
 }
 

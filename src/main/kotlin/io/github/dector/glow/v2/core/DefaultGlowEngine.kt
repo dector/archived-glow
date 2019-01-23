@@ -5,22 +5,25 @@ import io.github.dector.glow.v2.mockimpl.ProjectConfig
 import java.io.File
 
 class DefaultGlowEngine(
+        private val dataProvider: DataProvider,
+        private val dataRenderer: DataRenderer,
+        private val dataPublisher: DataPublisher,
         private val config: ProjectConfig
 ) : GlowEngine {
 
     private val log = UiLogger//logger()
 
-    override fun execute(dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher): GlowExecutionResult {
+    override fun execute(): GlowExecutionResult {
         log.info("Loading data...")
         log.info("")
 
-        handlePages(dataProvider, dataRenderer, dataPublisher)
+        handlePages()
 
         // Deprecated
         run {
             val metaInfo = dataProvider.fetchMetaInfo()
 
-            executeForNotes(metaInfo, dataProvider, dataRenderer, dataPublisher)
+            executeForNotes(metaInfo)
         }
 
         log.info("Copying static...")
@@ -31,7 +34,7 @@ class DefaultGlowEngine(
         return GlowExecutionResult()
     }
 
-    private fun handlePages(dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
+    private fun handlePages() {
         val pages = dataProvider.fetchPages()
 
         log.info("Found pages: ${pages.size}")
@@ -47,7 +50,7 @@ class DefaultGlowEngine(
         log.info("")
     }
 
-    private fun executeForNotes(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
+    private fun executeForNotes(metaInfo: MetaInfo) {
         val nonDraftNotes = metaInfo.notes.filter { !it.isDraft }
 
         log.info("Found non-draft notes: ${nonDraftNotes.size}")

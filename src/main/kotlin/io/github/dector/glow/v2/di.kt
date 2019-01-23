@@ -17,7 +17,7 @@ val v2Module = Kodein.Module("V2") {
     import(mockImplementations)
 
     bind<GlowEngine>() with singleton {
-        DefaultGlowEngine(instance())
+        DefaultGlowEngine(instance(), instance(), instance(), instance())
     }
 }
 
