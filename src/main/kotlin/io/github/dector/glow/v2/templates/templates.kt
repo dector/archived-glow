@@ -1,8 +1,11 @@
-package io.github.dector.glow.v2.mockimpl.templates
+package io.github.dector.glow.v2.templates
 
 import io.github.dector.glow.v2.core.Note2VM
 import io.github.dector.glow.v2.core.Page2VM
 import kotlinx.html.*
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 
 object Templates {
@@ -20,7 +23,7 @@ object Templates {
 
         if (note.publishedAt != null) {
             p {
-                +"Published: ${note.publishedAt}"
+                +"Published: ${note.publishedAt.formatAsMidDateTime()}"
             }
         }
 
@@ -39,3 +42,8 @@ object Templates {
         }
     }
 }
+
+private fun Instant.formatAsMidDateTime() = DateTimeFormatter
+        .ofPattern("E, dd MMM uuuu HH:mm")
+        .withZone(ZoneOffset.UTC)
+        .format(this)

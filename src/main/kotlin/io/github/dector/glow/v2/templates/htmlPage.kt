@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.mockimpl.templates
+package io.github.dector.glow.v2.templates
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML

@@ -3,7 +3,7 @@ package io.github.dector.glow.v2.mockimpl
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.v2.core.*
-import io.github.dector.glow.v2.mockimpl.templates.Templates
+import io.github.dector.glow.v2.templates.Templates
 
 class MockDataRenderer(
         private val pathResolver: PathResolver,
