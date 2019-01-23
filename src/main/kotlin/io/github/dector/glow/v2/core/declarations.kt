@@ -16,6 +16,7 @@ interface DataRenderer {
 
     fun render(page: Page2): WebPage
     fun render(note: Note2): WebPage
+    fun renderNotesIndex(notes: List<Note2>): WebPage
 }
 
 interface DataPublisher {

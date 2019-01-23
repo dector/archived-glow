@@ -9,7 +9,6 @@ class MockDataRenderer(
         private val pathResolver: PathResolver,
         private val markdownParser: MarkdownParser<Node>
 ) : DataRenderer {
-
     private val htmlRenderer = buildRenderer()
 
     override fun render(page: Page2): WebPage {
@@ -32,6 +31,18 @@ class MockDataRenderer(
         val renderedPage = Templates.note(vm)
         return WebPage(
                 path = pathResolver.resolve(note),
+                content = HtmlWebPageContent(renderedPage)
+        )
+    }
+
+    override fun renderNotesIndex(notes: List<Note2>): WebPage {
+        val renderedPage = Templates.notesIndex(notes.map {
+            val content = htmlRenderer.render(markdownParser.parse(it.content.value))
+
+            createNoteVM(it, content)
+        })
+        return WebPage(
+                path = pathResolver.resolveNotesIndex(),
                 content = HtmlWebPageContent(renderedPage)
         )
     }

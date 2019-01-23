@@ -9,7 +9,7 @@ fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
         lang = "en"
 
         head {
-            title(title)
+            title("Dead Art Space :: $title")
 
             meta {
                 name = "viewport"

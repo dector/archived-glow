@@ -48,25 +48,21 @@ class DefaultGlowEngine(
         log.info("Found non-draft notes: ${notes.size}")
 
         notes.forEach { note ->
-            log.info("Processing '${note.title}'")
+            log.info(" * ${note.sourceFile.nameWithoutExtension}")
+            log.info("Processing...")
 
             val webPage = dataRenderer.render(note)
 
-            log.info("Publishing '${note.title}'")
+            log.info("Publishing...")
             dataPublisher.publish(webPage)
         }
+        log.info("")
 
-//        run {
-//            val notes = nonDraftNotes.map {
-//                dataProvider.fetchNote(it)
-////                NoteItem(
-////                        note = dataProvider.fetchNote(it),
-////                        path = pathResolver.resolveForNote(it)
-////                )
-//            }
-//            log.info("Building index page")
-//            dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(notes).content)
-//        }
+        log.info("Notes index")
+        log.info("Processing...")
+        val webPage = dataRenderer.renderNotesIndex(notes)
+        log.info("Publishing...")
+        dataPublisher.publish(webPage)
 
         log.info("")
     }
