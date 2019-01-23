@@ -5,7 +5,8 @@ import io.github.dector.glow.v2.mockimpl.ProjectConfig
 import java.io.File
 
 class DefaultGlowEngine(
-        private val config: ProjectConfig
+        private val config: ProjectConfig,
+        private val pathResolver: PathResolver
 ) : GlowEngine {
 
     private val log = UiLogger//logger()
@@ -59,8 +60,17 @@ class DefaultGlowEngine(
             dataPublisher.publishNote(renderedNote)
         }
 
-        log.info("Building index page")
-        dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(nonDraftNotes))
+        run {
+            val notes = nonDraftNotes.map {
+                dataProvider.fetchNote(it)
+//                NoteItem(
+//                        note = dataProvider.fetchNote(it),
+//                        path = pathResolver.resolveForNote(it)
+//                )
+            }
+            log.info("Building index page")
+            dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(notes).content)
+        }
 
         log.info("")
     }

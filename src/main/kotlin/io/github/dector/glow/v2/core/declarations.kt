@@ -18,8 +18,8 @@ interface DataProvider {
 interface DataRenderer {
 
     fun render(page: Page): RenderedPage
-    fun render(note: Note): RenderedNote
-    fun renderNotesIndex(notes: List<NoteInfo>): String
+    fun render(note: Note, asPage: Boolean = true): RenderedNote
+    fun renderNotesIndex(notes: List<Note>): RenderedPage
 }
 
 interface DataPublisher {

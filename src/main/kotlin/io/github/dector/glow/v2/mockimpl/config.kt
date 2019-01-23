@@ -13,6 +13,7 @@ fun mockProjectsConfig() = ProjectConfig(
                 staticFolder = File("v2/out2"),
                 pagesFolder = File("v2/out2"),
                 notesFolder = File("v2/out2/notes"),
+                notesPath = "/notes",
                 overrideFiles = true
         )
 )
@@ -33,6 +34,7 @@ data class OutputConfig(
         val staticFolder: File,
         val pagesFolder: File,
         val notesFolder: File,
+        val notesPath: String,
         val overrideFiles: Boolean = false
 )
 

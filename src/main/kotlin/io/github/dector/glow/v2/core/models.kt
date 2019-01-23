@@ -63,5 +63,6 @@ data class RenderedPage(
 
 data class RenderedNote(
         val path: NotePath,
+        val info: NoteInfo,
         val content: String
 )

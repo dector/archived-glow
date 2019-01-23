@@ -22,19 +22,32 @@ class MockDataRenderer(
         )
     }
 
-    override fun renderNotesIndex(notes: List<NoteInfo>) = run {
-        Templates.notesIndex(notes)
+    override fun renderNotesIndex(notes: List<Note>): RenderedPage {
+        val processedNotes = notes.map { note ->
+            render(note, asPage = false)
+        }
+
+        val content = Templates.notesIndex(processedNotes)
+
+        return RenderedPage(
+                path = pathResolver.notesIndex(),
+                content = content
+        )
     }
 
-    override fun render(note: Note): RenderedNote {
-        val content = htmlRenderer.render(markdownParser.parse(note.markdownContent))
+    override fun render(note: Note, asPage: Boolean): RenderedNote {
+        val content = renderNoteContent(note)
 
-        val htmlContent = Templates.note(note, content)
+        val htmlContent = if (asPage) Templates.note(note, content) else content
         return RenderedNote(
                 path = NotePath(note.info.id),
+                info = note.info,
                 content = htmlContent
         )
     }
+
+    private fun renderNoteContent(note: Note) =
+            htmlRenderer.render(markdownParser.parse(note.markdownContent))
 
     private fun buildRenderer(): HtmlRenderer = HtmlRenderer.builder().build()
 }
