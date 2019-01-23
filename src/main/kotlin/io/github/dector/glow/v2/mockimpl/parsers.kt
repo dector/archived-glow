@@ -11,6 +11,7 @@ import java.io.File
 interface MarkdownParser<T> {
 
     fun parseInsecureYFM(markdownFile: File): Map<String, String>
+    fun parseInsecureYFM(markdown: String): Map<String, String>
     fun parse(markdown: String): T
 }
 
@@ -27,7 +28,11 @@ class SimpleMarkdownParser : MarkdownParser<Node> {
     }
 
     override fun parseInsecureYFM(markdownFile: File): Map<String, String> {
-        val doc = parser.parse(markdownFile.readText())
+        return parseInsecureYFM(markdownFile.readText())
+    }
+
+    override fun parseInsecureYFM(markdown: String): Map<String, String> {
+        val doc = parser.parse(markdown)
         val headerData = parseYamlHeader(doc)
 
         return headerData

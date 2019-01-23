@@ -3,6 +3,7 @@ package io.github.dector.glow.v2.mockimpl.templates
 import io.github.dector.glow.v2.core.Note2VM
 import io.github.dector.glow.v2.core.Page2VM
 import kotlinx.html.h1
+import kotlinx.html.p
 import kotlinx.html.unsafe
 
 
@@ -18,6 +19,12 @@ object Templates {
 
     fun note(note: Note2VM) = htmlPage(note.title) {
         h1 { +note.title }
+
+        if (note.publishedAt != null) {
+            p {
+                +"Published: ${note.publishedAt}"
+            }
+        }
 
         unsafe {
             +note.content.value

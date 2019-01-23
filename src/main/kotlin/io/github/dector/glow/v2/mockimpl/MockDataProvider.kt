@@ -35,14 +35,19 @@ class MockDataProvider(
         }
 
         return notes.map {
+            val content = it.sourceFile.readText()
+            val header = markdownParser.parseInsecureYFM(content)
+
             Note2(
                     title = it.title,
                     sourceFile = it.sourceFile,
                     isDraft = it.isDraft,
-                    content = MarkdownContent(it.sourceFile.readText()),
-                    createdAt = null
+                    content = MarkdownContent(content),
+                    createdAt = header["createdAt"]?.parseInstant() ?: Instant.MIN,
+                    publishedAt = header["publishedAt"]?.parseInstant() ?: Instant.MIN
             )
         }
+                .sortedByDescending { it.publishedAt }
     }
 
     private fun parseTitle(markdownFile: File): String {
@@ -65,6 +70,12 @@ class MockDataProvider(
                         sourceFile = file
                 )
             }
+
+    private fun String.parseInstant() = try {
+        Instant.parse(this)
+    } catch (e: Throwable) {
+        null
+    }
 
     private fun parseInstant(str: String?, fallback: () -> Instant): Instant {
         str ?: fallback()

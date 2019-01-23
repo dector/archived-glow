@@ -49,6 +49,7 @@ class MockDataRenderer(
         Note2VM(
                 title = note.title,
                 createdAt = note.createdAt,
+                publishedAt = note.publishedAt,
                 path = pathResolver.resolve(note),
                 content = HtmlContent(content)
         )

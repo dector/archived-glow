@@ -66,6 +66,7 @@ data class WebPage(
 data class Note2(
         val title: String,
         val createdAt: Instant?,
+        val publishedAt: Instant?,
         val isDraft: Boolean,
         val sourceFile: File,
         val content: MarkdownContent
@@ -74,6 +75,7 @@ data class Note2(
 data class Note2VM(
         val title: String,
         val createdAt: Instant?,
+        val publishedAt: Instant?,
         val path: WebPagePath,
         val content: HtmlContent
 )
