@@ -75,9 +75,24 @@ data class WebPage(
         val content: HtmlWebPageContent
 )
 
+data class Note2(
+        val title: String,
+        val createdAt: Instant?,
+        val isDraft: Boolean,
+        val sourceFile: File,
+        val content: MarkdownContent
+)
+
 data class Note(
         val info: NoteInfo,
         val markdownContent: String
+)
+
+data class Note2VM(
+        val title: String,
+        val createdAt: Instant?,
+        val path: WebPagePath,
+        val content: HtmlContent
 )
 
 data class RenderedPage(

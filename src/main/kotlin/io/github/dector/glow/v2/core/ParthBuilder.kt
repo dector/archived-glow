@@ -8,6 +8,7 @@ import io.github.dector.glow.v2.mockimpl.ProjectConfig
 interface PathResolver {
 
     fun resolve(page: Page2): WebPagePath
+    fun resolve(note: Note2): WebPagePath
     fun resolveForPage(info: PageInfo): PagePath
     fun resolveForNote(it: NoteInfo): NotePath
     fun notesIndex(): PagePath
@@ -20,6 +21,12 @@ class WebPathResolver(private val config: ProjectConfig) : PathResolver {
         else "${page.sourceFile.nameWithoutExtension}.html"
 
         return WebPagePath(instancePath)
+    }
+
+    override fun resolve(note: Note2): WebPagePath {
+        val instancePath = "${note.sourceFile.nameWithoutExtension}.html"
+
+        return WebPagePath(config.output.notesPath + "/" + instancePath)
     }
 
     override fun resolveForPage(info: PageInfo) = run {

@@ -10,6 +10,8 @@ fun mockProjectsConfig() = ProjectConfig(
                 notesFolder = File("v2/src/notes")
         ),
         output = OutputConfig(
+                outputFolder = File("v2/out2"),
+
                 staticFolder = File("v2/out2"),
                 pagesFolder = File("v2/out2"),
                 notesFolder = File("v2/out2/notes"),
@@ -31,6 +33,8 @@ data class InputConfig(
 
 
 data class OutputConfig(
+        val outputFolder: File,
+
         val staticFolder: File,
         val pagesFolder: File,
         val notesFolder: File,

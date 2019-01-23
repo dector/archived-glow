@@ -1,44 +1,37 @@
 package io.github.dector.glow.v2.mockimpl
 
+import io.github.dector.glow.logger.logger
 import io.github.dector.glow.v2.core.DataPublisher
-import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.core.RenderedNote
 import io.github.dector.glow.v2.core.WebPage
+import io.github.dector.glow.v2.core.WebPagePath
 import java.io.File
 
 class MockDataPublisher(
         private val config: ProjectConfig) : DataPublisher {
 
+    private val log = logger()
+
     override fun publish(webPage: WebPage) {
-        val file = File(config.output.pagesFolder, webPage.path.value)
+        val file = resolveFilePath(webPage.path)
 
         file.parentFile.mkdirs()
 
         if (file.exists() && !config.output.overrideFiles) {
-            println("File '${file.absolutePath}' exists. Skipping.")
+            log.warn("File '${file.absolutePath}' exists. Skipping.")
         } else {
             file.writeText(webPage.content.value)
         }
     }
 
-    override fun publishNote(note: RenderedNote) {
-        val file = File(config.output.notesFolder, noteFileName(note))
-
-        file.parentFile.mkdirs()
-
-        if (file.exists() && !config.output.overrideFiles) {
-            println("File '${file.absolutePath}' exists. Skipping.")
-        } else {
-            file.writeText(note.content)
-        }
+    private fun resolveFilePath(path: WebPagePath): File {
+        return config.output.outputFolder
+                .absoluteFile
+                .toPath()
+                .resolve(path.value.removePrefix("/"))
+                .toFile()
     }
 
-    private fun noteFileName(note: RenderedNote) =
-//            if (note.path.path == "index") "index.html"
-//            else
-            "${note.path.path}.html"
-
-    override fun publishNotesIndex(htmlContent: String) {
+    /*override fun publishNotesIndex(htmlContent: String) {
         val file = File(config.output.notesFolder, "index.html")
 
         file.parentFile.mkdirs()
@@ -48,7 +41,5 @@ class MockDataPublisher(
         } else {
             file.writeText(htmlContent)
         }
-    }
-
-    override fun publish(data: ProcessedData) = error("")
+    }*/
 }

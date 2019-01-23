@@ -25,16 +25,7 @@ class MockDataProvider(
                 }
     }
 
-    private fun parseTitle(markdownFile: File): String {
-        val meta = parseYFM(markdownFile)
-
-        return meta["title"] ?: "n/a"
-    }
-
-    private fun parseYFM(markdownFile: File) =
-            markdownParser.parseInsecureYFM(markdownFile)
-
-    override fun fetchMetaInfo() = run {
+    override fun fetchNotes(): List<Note2> {
         val notes = run {
             val notesFolder = config.input.notesFolder
 
@@ -43,10 +34,25 @@ class MockDataProvider(
             loadNotesFrom(notesFolder)
         }
 
-        MetaInfo(
-                notes = notes
-        )
+        return notes.map {
+            Note2(
+                    title = it.title,
+                    sourceFile = it.sourceFile,
+                    isDraft = it.isDraft,
+                    content = MarkdownContent(it.sourceFile.readText()),
+                    createdAt = null
+            )
+        }
     }
+
+    private fun parseTitle(markdownFile: File): String {
+        val meta = parseYFM(markdownFile)
+
+        return meta["title"] ?: "n/a"
+    }
+
+    private fun parseYFM(markdownFile: File) =
+            markdownParser.parseInsecureYFM(markdownFile)
 
     private fun loadPagesFrom(folder: File) = folder
             .listFiles { file ->
@@ -85,15 +91,6 @@ class MockDataProvider(
                         sourceFile = file
                 )
             }
-
-    override fun fetchNote(noteInfo: NoteInfo): Note {
-        val file = noteFile(noteInfo.id)
-
-        return Note(
-                info = noteInfo,
-                markdownContent = file.readText()
-        )
-    }
 
     private fun markdownFileId(file: File) = file.nameWithoutExtension
             .toLowerCase()

@@ -1,6 +1,7 @@
 package io.github.dector.glow.v2.mockimpl.templates
 
 import io.github.dector.glow.v2.core.Note
+import io.github.dector.glow.v2.core.Note2VM
 import io.github.dector.glow.v2.core.Page2VM
 import io.github.dector.glow.v2.core.RenderedNote
 import kotlinx.html.*
@@ -13,6 +14,14 @@ object Templates {
 
         unsafe {
             +page.content.value
+        }
+    }
+
+    fun note(note: Note2VM) = htmlPage(note.title) {
+        h1 { +note.title }
+
+        unsafe {
+            +note.content.value
         }
     }
 

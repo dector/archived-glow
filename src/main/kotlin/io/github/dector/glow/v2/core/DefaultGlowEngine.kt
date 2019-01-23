@@ -18,18 +18,9 @@ class DefaultGlowEngine(
         log.info("")
 
         handlePages()
+        handleNotes()
 
-        // Deprecated
-        run {
-            val metaInfo = dataProvider.fetchMetaInfo()
-
-            executeForNotes(metaInfo)
-        }
-
-        log.info("Copying static...")
-        copyStatic(config.input.staticFolder, config.output.staticFolder)
-        log.info("Done")
-        log.info("")
+        handleStatic()
 
         return GlowExecutionResult()
     }
@@ -50,40 +41,46 @@ class DefaultGlowEngine(
         log.info("")
     }
 
-    private fun executeForNotes(metaInfo: MetaInfo) {
-        val nonDraftNotes = metaInfo.notes.filter { !it.isDraft }
+    private fun handleNotes() {
+        val notes = dataProvider.fetchNotes()
+                .filter { !it.isDraft }
 
-        log.info("Found non-draft notes: ${nonDraftNotes.size}")
+        log.info("Found non-draft notes: ${notes.size}")
 
-        nonDraftNotes.forEach { noteInfo ->
-            log.info("Processing '${noteInfo.title}'")
+        notes.forEach { note ->
+            log.info("Processing '${note.title}'")
 
-            val note = dataProvider.fetchNote(noteInfo)
+            val webPage = dataRenderer.render(note)
 
-            val renderedNote = dataRenderer.render(note)
-
-            log.info("Publishing '${noteInfo.title}'")
-            dataPublisher.publishNote(renderedNote)
+            log.info("Publishing '${note.title}'")
+            dataPublisher.publish(webPage)
         }
 
-        run {
-            val notes = nonDraftNotes.map {
-                dataProvider.fetchNote(it)
-//                NoteItem(
-//                        note = dataProvider.fetchNote(it),
-//                        path = pathResolver.resolveForNote(it)
-//                )
-            }
-            log.info("Building index page")
-            dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(notes).content)
-        }
+//        run {
+//            val notes = nonDraftNotes.map {
+//                dataProvider.fetchNote(it)
+////                NoteItem(
+////                        note = dataProvider.fetchNote(it),
+////                        path = pathResolver.resolveForNote(it)
+////                )
+//            }
+//            log.info("Building index page")
+//            dataPublisher.publishNotesIndex(dataRenderer.renderNotesIndex(notes).content)
+//        }
 
+        log.info("")
+    }
+
+    private fun handleStatic() {
+        log.info("Copying static...")
+        copyStatic(config.input.staticFolder, config.output.staticFolder)
+        log.info("Done")
         log.info("")
     }
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {
         inputFolder.copyRecursively(outputFolder, onError = { file, err ->
-            log.error("File '${file.absolutePath}' exists. Skipping.")
+            log.error("File '${file.absolutePath}' exists. Skipping.", err)
             OnErrorAction.SKIP
         })
     }

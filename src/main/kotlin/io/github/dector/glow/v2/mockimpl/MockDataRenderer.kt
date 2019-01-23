@@ -24,6 +24,18 @@ class MockDataRenderer(
         )
     }
 
+    override fun render(note: Note2): WebPage {
+        val content = htmlRenderer.render(markdownParser.parse(note.content.value))
+
+        val vm = createNoteVM(note, content)
+
+        val renderedPage = Templates.note(vm)
+        return WebPage(
+                path = pathResolver.resolve(note),
+                content = HtmlWebPageContent(renderedPage)
+        )
+    }
+
     private fun createPageVM(page: Page2, content: String) = run {
         Page2VM(
                 title = page.title,
@@ -33,7 +45,16 @@ class MockDataRenderer(
         )
     }
 
-    override fun renderNotesIndex(notes: List<Note>): RenderedPage {
+    private fun createNoteVM(note: Note2, content: String) = run {
+        Note2VM(
+                title = note.title,
+                createdAt = note.createdAt,
+                path = pathResolver.resolve(note),
+                content = HtmlContent(content)
+        )
+    }
+
+    /*override fun renderNotesIndex(notes: List<Note>): RenderedPage {
         val processedNotes = notes.map { note ->
             render(note, asPage = false)
         }
@@ -44,21 +65,10 @@ class MockDataRenderer(
                 path = pathResolver.notesIndex(),
                 content = content
         )
-    }
+    }*/
 
-    override fun render(note: Note, asPage: Boolean): RenderedNote {
-        val content = renderNoteContent(note)
-
-        val htmlContent = if (asPage) Templates.note(note, content) else content
-        return RenderedNote(
-                path = NotePath(note.info.id),
-                info = note.info,
-                content = htmlContent
-        )
-    }
-
-    private fun renderNoteContent(note: Note) =
-            htmlRenderer.render(markdownParser.parse(note.markdownContent))
+//    private fun renderNoteContent(note: Note) =
+//            htmlRenderer.render(markdownParser.parse(note.markdownContent))
 
     private fun buildRenderer(): HtmlRenderer = HtmlRenderer.builder().build()
 }
