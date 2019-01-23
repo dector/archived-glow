@@ -35,15 +35,6 @@ class MockDataProvider(
             markdownParser.parseInsecureYFM(markdownFile)
 
     override fun fetchMetaInfo() = run {
-        val pages = run {
-            val pagesFolder = config.input.pagesFolder
-
-            if (!pagesFolder.exists())
-                error("Pages folder '${pagesFolder.absolutePath}' not exists.")
-
-            loadPagesFrom(pagesFolder)
-        }
-
         val notes = run {
             val notesFolder = config.input.notesFolder
 
@@ -53,7 +44,6 @@ class MockDataProvider(
         }
 
         MetaInfo(
-                pages = pages,
                 notes = notes
         )
     }
@@ -96,15 +86,6 @@ class MockDataProvider(
                 )
             }
 
-    override fun fetchPage(pageInfo: PageInfo): Page {
-        val file = pageFile(pageInfo.id)
-
-        return Page(
-                info = pageInfo,
-                markdownContent = file.readText()
-        )
-    }
-
     override fun fetchNote(noteInfo: NoteInfo): Note {
         val file = noteFile(noteInfo.id)
 
@@ -117,8 +98,6 @@ class MockDataProvider(
     private fun markdownFileId(file: File) = file.nameWithoutExtension
             .toLowerCase()
             .replace(" ", "-")
-
-    private fun pageFile(id: String) = File(config.input.pagesFolder, "$id.md")
 
     private fun noteFile(id: String) = File(config.input.notesFolder, "$id.md")
 }

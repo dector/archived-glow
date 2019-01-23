@@ -33,16 +33,6 @@ class MockDataRenderer(
         )
     }
 
-    override fun render(page: Page): RenderedPage {
-        val content = htmlRenderer.render(markdownParser.parse(page.markdownContent))
-
-        val htmlContent = Templates.page(page, content)
-        return RenderedPage(
-                path = pathResolver.resolveForPage(page.info),
-                content = htmlContent
-        )
-    }
-
     override fun renderNotesIndex(notes: List<Note>): RenderedPage {
         val processedNotes = notes.map { note ->
             render(note, asPage = false)

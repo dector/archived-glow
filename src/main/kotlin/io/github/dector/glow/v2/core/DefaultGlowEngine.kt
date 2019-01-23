@@ -5,8 +5,7 @@ import io.github.dector.glow.v2.mockimpl.ProjectConfig
 import java.io.File
 
 class DefaultGlowEngine(
-        private val config: ProjectConfig,
-        private val pathResolver: PathResolver
+        private val config: ProjectConfig
 ) : GlowEngine {
 
     private val log = UiLogger//logger()
@@ -21,7 +20,6 @@ class DefaultGlowEngine(
         run {
             val metaInfo = dataProvider.fetchMetaInfo()
 
-//        executeForPages(metaInfo, dataProvider, dataRenderer, dataPublisher)
             executeForNotes(metaInfo, dataProvider, dataRenderer, dataPublisher)
         }
 
@@ -48,22 +46,6 @@ class DefaultGlowEngine(
         }
         log.info("")
     }
-
-    /*private fun executeForPages(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
-        log.info("Found pages: ${metaInfo.pages.size}")
-
-        metaInfo.pages.forEach { pageInfo ->
-            log.info("Processing '${pageInfo.title}'")
-
-            val page = dataProvider.fetchPage(pageInfo)
-
-            val renderedPage = dataRenderer.render(page)
-
-            log.info("Publishing '${pageInfo.title}'")
-            dataPublisher.publishPage(renderedPage)
-        }
-        log.info("")
-    }*/
 
     private fun executeForNotes(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
         val nonDraftNotes = metaInfo.notes.filter { !it.isDraft }

@@ -34,7 +34,6 @@ data class ProcessedPage(
         val content: String)
 
 data class MetaInfo(    // Config?
-        val pages: List<PageInfo>,
         val notes: List<NoteInfo>
 )
 
@@ -50,11 +49,6 @@ data class NoteInfo(
         val isDraft: Boolean,
         val createdAt: Instant,
         val sourceFile: File
-)
-
-data class Page(
-        val info: PageInfo,
-        val markdownContent: String
 )
 
 inline class MarkdownContent(val value: String)
