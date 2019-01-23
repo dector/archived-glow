@@ -29,7 +29,10 @@ class WebPathResolver(private val config: ProjectConfig) : PathResolver {
         } else {
             "lost"
         }
-        val instancePath = "${note.sourceFile.nameWithoutExtension}.html"
+        val unifiedTitle = note.title
+                .replace(" ", "-")
+                .replace(Regex("\\W"), "")
+        val instancePath = "$unifiedTitle.html"
 
         return WebPagePath(config.output.notesPath + "/" + dir + "/" + instancePath)
     }
