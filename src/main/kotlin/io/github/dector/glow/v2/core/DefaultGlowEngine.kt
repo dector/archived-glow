@@ -15,10 +15,15 @@ class DefaultGlowEngine(
         log.info("Loading data...")
         log.info("")
 
-        val metaInfo = dataProvider.fetchMetaInfo()
+        handlePages(dataProvider, dataRenderer, dataPublisher)
 
-        executeForPages(metaInfo, dataProvider, dataRenderer, dataPublisher)
-        executeForNotes(metaInfo, dataProvider, dataRenderer, dataPublisher)
+        // Deprecated
+        run {
+            val metaInfo = dataProvider.fetchMetaInfo()
+
+//        executeForPages(metaInfo, dataProvider, dataRenderer, dataPublisher)
+            executeForNotes(metaInfo, dataProvider, dataRenderer, dataPublisher)
+        }
 
         log.info("Copying static...")
         copyStatic(config.input.staticFolder, config.output.staticFolder)
@@ -28,7 +33,23 @@ class DefaultGlowEngine(
         return GlowExecutionResult()
     }
 
-    private fun executeForPages(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
+    private fun handlePages(dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
+        val pages = dataProvider.fetchPages()
+
+        log.info("Found pages: ${pages.size}")
+
+        pages.forEach { page ->
+            log.info("Processing '${page.title}'")
+
+            val webPage = dataRenderer.render(page)
+
+            log.info("Publishing '${page.title}'")
+            dataPublisher.publish(webPage)
+        }
+        log.info("")
+    }
+
+    /*private fun executeForPages(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
         log.info("Found pages: ${metaInfo.pages.size}")
 
         metaInfo.pages.forEach { pageInfo ->
@@ -42,7 +63,7 @@ class DefaultGlowEngine(
             dataPublisher.publishPage(renderedPage)
         }
         log.info("")
-    }
+    }*/
 
     private fun executeForNotes(metaInfo: MetaInfo, dataProvider: DataProvider, dataRenderer: DataRenderer, dataPublisher: DataPublisher) {
         val nonDraftNotes = metaInfo.notes.filter { !it.isDraft }

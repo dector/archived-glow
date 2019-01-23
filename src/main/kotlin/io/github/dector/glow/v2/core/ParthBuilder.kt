@@ -7,12 +7,20 @@ import io.github.dector.glow.v2.mockimpl.ProjectConfig
 
 interface PathResolver {
 
+    fun resolve(page: Page2): WebPagePath
     fun resolveForPage(info: PageInfo): PagePath
     fun resolveForNote(it: NoteInfo): NotePath
     fun notesIndex(): PagePath
 }
 
 class WebPathResolver(private val config: ProjectConfig) : PathResolver {
+
+    override fun resolve(page: Page2): WebPagePath {
+        val instancePath = if (page.sourceFile.nameWithoutExtension == "index") "index.html"
+        else "${page.sourceFile.nameWithoutExtension}.html"
+
+        return WebPagePath(instancePath)
+    }
 
     override fun resolveForPage(info: PageInfo) = run {
         val instancePath = if (isIndexPage(info)) "index.html"

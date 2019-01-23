@@ -12,6 +12,27 @@ class MockDataRenderer(
 
     private val htmlRenderer = buildRenderer()
 
+    override fun render(page: Page2): WebPage {
+        val content = htmlRenderer.render(markdownParser.parse(page.content.value))
+
+        val vm = createPageVM(page, content)
+
+        val renderedPage = Templates.page(vm)
+        return WebPage(
+                path = pathResolver.resolve(page),
+                content = HtmlWebPageContent(renderedPage)
+        )
+    }
+
+    private fun createPageVM(page: Page2, content: String) = run {
+        Page2VM(
+                title = page.title,
+                createdAt = page.createdAt,
+                path = pathResolver.resolve(page),
+                content = HtmlContent(content)
+        )
+    }
+
     override fun render(page: Page): RenderedPage {
         val content = htmlRenderer.render(markdownParser.parse(page.markdownContent))
 

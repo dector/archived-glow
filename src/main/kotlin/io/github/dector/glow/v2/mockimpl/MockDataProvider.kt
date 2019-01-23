@@ -8,6 +8,23 @@ class MockDataProvider(
         private val config: ProjectConfig,
         private val markdownParser: MarkdownParser<*>) : DataProvider {
 
+    override fun fetchPages(): List<Page2> {
+        val pagesFolder = config.input.pagesFolder
+
+        if (!pagesFolder.exists())
+            error("Pages folder '${pagesFolder.absolutePath}' not exists.")
+
+        return loadPagesFrom(pagesFolder)
+                .map {
+                    Page2(
+                            title = it.title,
+                            createdAt = null,
+                            sourceFile = it.sourceFile,
+                            content = MarkdownContent(it.sourceFile.readText())
+                    )
+                }
+    }
+
     private fun parseTitle(markdownFile: File): String {
         val meta = parseYFM(markdownFile)
 

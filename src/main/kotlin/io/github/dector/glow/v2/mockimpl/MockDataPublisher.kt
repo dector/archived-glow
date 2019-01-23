@@ -1,13 +1,22 @@
 package io.github.dector.glow.v2.mockimpl
 
-import io.github.dector.glow.v2.core.DataPublisher
-import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.core.RenderedNote
-import io.github.dector.glow.v2.core.RenderedPage
+import io.github.dector.glow.v2.core.*
 import java.io.File
 
 class MockDataPublisher(
         private val config: ProjectConfig) : DataPublisher {
+
+    override fun publish(webPage: WebPage) {
+        val file = File(config.output.pagesFolder, webPage.path.value)
+
+        file.parentFile.mkdirs()
+
+        if (file.exists() && !config.output.overrideFiles) {
+            println("File '${file.absolutePath}' exists. Skipping.")
+        } else {
+            file.writeText(webPage.content.value)
+        }
+    }
 
     override fun publishPage(page: RenderedPage) {
         val file = File(config.output.pagesFolder, page.path.instancePath)
