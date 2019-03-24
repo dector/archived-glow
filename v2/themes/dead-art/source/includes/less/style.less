@@ -1,10 +1,12 @@
 @_color_bg: hsl(0, 0%, 15%);
 @_color_fg: hsl(0, 0%, 80%);
+@_color_fg_muted: hsl(0, 0%, 50%);
 @_color_accent: hsl(0, 100%, 30%);
 
 @color_background: @_color_bg;
 @color_title: @_color_accent;
 @color_text: @_color_fg;
+@color_timestamp: @_color_fg_muted;
 @color_link: @_color_accent;
 @color_link_hover: @color_background;
 @color_link_hover_bg: @color_link;
@@ -21,7 +23,7 @@
 body {
     background-color: @color_background;
     color: @color_text;
-    
+
     font-family: @font;
     //font-size: 100%;
 
@@ -76,6 +78,16 @@ body {
 
 .content ul li::before {
     content: '⬝ ';
+}
+
+.content .title_timestamp {
+    color: @color_timestamp;
+    font-weight: normal;
+    font-size: 65%;
+}
+
+.content .title_timestamp::after {
+    content: ' ';
 }
 
 .page {
