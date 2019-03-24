@@ -28,7 +28,8 @@ data class ProcessedPage(
 data class PageInfo(
         val id: String,
         val title: String,
-        val sourceFile: File
+        val sourceFile: File,
+        val isSection: Boolean
 )
 
 data class NoteInfo(
@@ -48,7 +49,8 @@ data class Page2(
         val title: String,
         val createdAt: Instant?,
         val sourceFile: File,
-        val content: MarkdownContent
+        val content: MarkdownContent,
+        val isSection: Boolean
 )
 
 data class Page2VM(

@@ -30,8 +30,8 @@ fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
                     ul {
                         li { a(href = "/") { +"Home" } }
                         li { a(href = "/notes/") { +"Notes" } }
-                        li { a(href = "/projects.html") { +"Projects" } }
-                        li { a(href = "/about.html") { +"About" } }
+                        li { a(href = "/projects/") { +"Projects" } }
+                        li { a(href = "/about/") { +"About" } }
                     }
                 }
 

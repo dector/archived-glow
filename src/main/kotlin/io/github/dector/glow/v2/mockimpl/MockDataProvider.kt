@@ -20,7 +20,8 @@ class MockDataProvider(
                             title = it.title,
                             createdAt = null,
                             sourceFile = it.sourceFile,
-                            content = MarkdownContent(it.sourceFile.readText())
+                            content = MarkdownContent(it.sourceFile.readText()),
+                            isSection = it.isSection
                     )
                 }
     }
@@ -50,10 +51,8 @@ class MockDataProvider(
                 .sortedByDescending { it.publishedAt }
     }
 
-    private fun parseTitle(markdownFile: File): String {
-        val meta = parseYFM(markdownFile)
-
-        return meta["title"] ?: "n/a"
+    private fun parseMetaInfo(markdownFile: File): Map<String, String> {
+        return parseYFM(markdownFile)
     }
 
     private fun parseYFM(markdownFile: File) =
@@ -64,9 +63,12 @@ class MockDataProvider(
                 file.isFile && file.extension == "md"
             }
             .map { file ->
+                val meta = parseMetaInfo(file)
+
                 PageInfo(
                         id = markdownFileId(file),
-                        title = parseTitle(file),
+                        title = meta["title"] ?: "n/a",
+                        isSection = meta["isSection"]?.toBoolean() ?: false,
                         sourceFile = file
                 )
             }

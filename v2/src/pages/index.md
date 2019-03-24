@@ -2,4 +2,6 @@
 title: Home
 ---
 
-Hello, stranger. Stay awhile and li[...](https://en.wikipedia.org/wiki/Diablo_(series))
+Hello, stranger. This is my personal web site.
+
+Check [notes](notes/) or my [projects](projects/).
