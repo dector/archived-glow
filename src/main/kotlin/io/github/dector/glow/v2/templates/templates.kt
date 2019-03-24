@@ -22,8 +22,8 @@ object Templates {
         h1 { +note.title }
 
         if (note.publishedAt != null) {
-            p {
-                +"Published: ${note.publishedAt.formatAsMidDateTime()}"
+            p("timestamp") {
+                +note.publishedAt.formatAsMidDateTime()
             }
         }
 
