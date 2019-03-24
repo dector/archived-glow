@@ -74,7 +74,8 @@ class MockDataRenderer(
                 createdAt = note.createdAt,
                 publishedAt = note.publishedAt,
                 path = pathResolver.resolve(note),
-                content = HtmlContent(content)
+                content = HtmlContent(content),
+                previewContent = HtmlContent(content.substring(0..500))
         )
     }
 

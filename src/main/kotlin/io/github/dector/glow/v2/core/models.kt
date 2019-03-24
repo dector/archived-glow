@@ -79,5 +79,6 @@ data class Note2VM(
         val createdAt: Instant?,
         val publishedAt: Instant?,
         val path: WebPagePath,
-        val content: HtmlContent
+        val content: HtmlContent,
+        val previewContent: HtmlContent
 )

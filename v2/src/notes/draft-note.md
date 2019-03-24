@@ -1,6 +1,12 @@
 ---
-title: Test note as draft
-draft: true
+title: (Draft) American Gods (mock from Wikipedia)
+isDraft: true
 ---
 
-This is draft note
+American Gods (2001) is a fantasy novel by English author Neil Gaiman. The novel is a blend of Americana, fantasy, and various strands of ancient and modern mythology, all centering on the mysterious and taciturn Shadow.
+
+The book was published in 2001 by Headline in the United Kingdom and by William Morrow in the United States. It gained a positive critical response and won the Hugo and Nebula awards in 2002.[1]
+
+A special tenth anniversary edition, which includes the "author's preferred text" and 12,000 additional words, was published in June 2011 by William Morrow. Two audio versions of the book were produced and published by Harper Audio: an unabridged version of the original published edition, read by George Guidall, released in 2001; and a full cast audiobook version of the tenth anniversary edition, released in 2011. In March 2017, The Folio Society published a special collector's edition of American Gods, with many corrections to the author's preferred text version.[2]
+
+In April 2017, Starz began airing a television adaptation of the novel. Bryan Fuller and Michael Green served as showrunners,[3] and Gaiman is an executive producer.[4] Fuller and Green departed the show after the first season.[5]

@@ -36,9 +36,15 @@ object Templates {
         h1 { +"Notes" }
 
         notes.forEach { note ->
-            h3 { a(href = note.path.value) { +note.title } }
+            h2 {
+                span("title_timestamp") { +"24 Mar 2019" }
+                a(href = note.path.value) { +note.title }
+            }
 
-            p { unsafe { +note.content.value } }
+            p {
+                unsafe { +note.previewContent.value }
+                a(href = note.path.value) { +"..." }
+            }
         }
     }
 

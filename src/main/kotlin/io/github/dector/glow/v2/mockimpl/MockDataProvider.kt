@@ -99,7 +99,7 @@ class MockDataProvider(
                 NoteInfo(
                         id = markdownFileId(file),
                         title = yfm["title"] ?: "n/a",
-                        isDraft = yfm["draft"]?.toBoolean() ?: false,
+                        isDraft = yfm["isDraft"]?.toBoolean() ?: false,
                         createdAt = parseInstant(yfm["created"]) { Instant.MIN },
                         sourceFile = file
                 )
