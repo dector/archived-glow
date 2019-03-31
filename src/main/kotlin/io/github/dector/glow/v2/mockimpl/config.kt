@@ -1,11 +1,12 @@
 package io.github.dector.glow.v2.mockimpl
 
+import io.github.dector.glow.v2.mockimpl.BuildConfig.DevMode
 import java.io.File
 
 
 fun mockProjectsConfig() = ProjectConfig(
         input = InputConfig(
-                staticFolder = File("v2/themes/dead-art/source"),
+                staticFolder = File("v2/themes/dead-art/source" + (if (DevMode) "-dev" else "")),
                 pagesFolder = File("v2/src/pages"),
                 notesFolder = File("v2/src/notes")
         ),

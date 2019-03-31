@@ -88,7 +88,7 @@ class DefaultGlowEngine(
     }
 
     private fun buildStyles(inputFolder: File, outputFolder: File) {
-        val inputFile = File(inputFolder, "includes/less/style.less")
+        val inputFile = File(inputFolder, "../source-dev/includes/less/style.less")
         val outputFile = File(outputFolder, "includes/css/style.css")
 
         fun createCompilerProcess(vararg arguments: String) = ProcessBuilder("lessc", *arguments)
@@ -120,7 +120,11 @@ class DefaultGlowEngine(
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {
         inputFolder.copyRecursively(outputFolder, onError = { file, err ->
-            log.warn("File '${file.absolutePath}' exists. Overwriting.")
+            log.warn(err.message)
+
+            if (err is FileAlreadyExistsException)
+                log.warn("File '${file.absolutePath}' exists. Overwriting.")
+
             OnErrorAction.SKIP
         }, overwrite = true)
     }
