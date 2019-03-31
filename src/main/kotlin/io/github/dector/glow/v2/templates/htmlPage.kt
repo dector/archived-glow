@@ -1,10 +1,11 @@
 package io.github.dector.glow.v2.templates
 
 import io.github.dector.glow.v2.mockimpl.BuildConfig.DevMode
+import io.github.dector.glow.v2.mockimpl.NavigationItem
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 
-fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
+fun htmlPage(title: String, navigation: List<NavigationItem>, contentBlock: DIV.() -> Unit) = buildString {
     appendln("<!DOCTYPE html>")
     appendHTML().html {
         lang = "en"
@@ -37,10 +38,9 @@ fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
             div("page") {
                 div("navigation") {
                     ul {
-                        li { a(href = "/") { +"Home" } }
-                        li { a(href = "/notes/") { +"Notes" } }
-                        li { a(href = "/projects/") { +"Projects" } }
-                        li { a(href = "/about/") { +"About" } }
+                        navigation.forEach { item ->
+                            li { a(href = item.path) { +item.title } }
+                        }
                     }
                 }
 

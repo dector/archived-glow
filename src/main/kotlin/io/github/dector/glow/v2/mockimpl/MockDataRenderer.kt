@@ -7,7 +7,8 @@ import io.github.dector.glow.v2.templates.Templates
 
 class MockDataRenderer(
         private val pathResolver: PathResolver,
-        private val markdownParser: MarkdownParser<Node>
+        private val markdownParser: MarkdownParser<Node>,
+        private val projectConfig: ProjectConfig
 ) : DataRenderer {
     private val htmlRenderer = buildRenderer()
 
@@ -16,7 +17,7 @@ class MockDataRenderer(
 
         val vm = createPageVM(page, content)
 
-        val renderedPage = Templates.page(vm)
+        val renderedPage = Templates.page(vm, projectConfig.navigation)
         return WebPage(
                 path = pathResolver.resolve(page),
                 content = HtmlWebPageContent(renderedPage)
@@ -28,7 +29,7 @@ class MockDataRenderer(
 
         val vm = createNoteVM(note, content)
 
-        val renderedPage = Templates.note(vm)
+        val renderedPage = Templates.note(vm, projectConfig.navigation)
         return WebPage(
                 path = pathResolver.resolve(note),
                 content = HtmlWebPageContent(renderedPage)
@@ -40,7 +41,7 @@ class MockDataRenderer(
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))
 
             createNoteVM(it, content)
-        })
+        }, projectConfig.navigation)
         return WebPage(
                 path = pathResolver.resolveNotesIndex(),
                 content = HtmlWebPageContent(renderedPage)
@@ -52,7 +53,7 @@ class MockDataRenderer(
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))
 
             createNoteVM(it, content)
-        })
+        }, projectConfig.navigation)
         return WebPage(
                 path = pathResolver.resolveNotesArchive(),
                 content = HtmlWebPageContent(renderedPage)

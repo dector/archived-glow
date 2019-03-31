@@ -25,6 +25,6 @@ private val mockImplementations = Kodein.Module("V2 mock") {
 
     bind<ProjectConfig>() with singleton { mockProjectsConfig() }
     bind<DataProvider>() with singleton { MockDataProvider(instance(), instance()) }
-    bind<DataRenderer>() with singleton { MockDataRenderer(instance(), instance()) }
+    bind<DataRenderer>() with singleton { MockDataRenderer(instance(), instance(), instance()) }
     bind<DataPublisher>() with singleton { MockDataPublisher(instance()) }
 }

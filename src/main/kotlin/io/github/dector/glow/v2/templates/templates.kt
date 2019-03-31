@@ -2,6 +2,7 @@ package io.github.dector.glow.v2.templates
 
 import io.github.dector.glow.v2.core.Note2VM
 import io.github.dector.glow.v2.core.Page2VM
+import io.github.dector.glow.v2.mockimpl.NavigationItem
 import kotlinx.html.*
 import java.time.Instant
 import java.time.ZoneOffset
@@ -10,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 object Templates {
 
-    fun page(page: Page2VM) = htmlPage(page.title) {
+    fun page(page: Page2VM, navigation: List<NavigationItem>) = htmlPage(page.title, navigation) {
         h1 { +page.title }
 
         unsafe {
@@ -18,7 +19,7 @@ object Templates {
         }
     }
 
-    fun note(note: Note2VM) = htmlPage(note.title) {
+    fun note(note: Note2VM, navigation: List<NavigationItem>) = htmlPage(note.title, navigation) {
         h1 { +note.title }
 
         if (note.publishedAt != null) {
@@ -32,7 +33,7 @@ object Templates {
         }
     }
 
-    fun notesIndex(notes: List<Note2VM>) = htmlPage("Notes") {
+    fun notesIndex(notes: List<Note2VM>, navigation: List<NavigationItem>) = htmlPage("Notes", navigation) {
         h1 { +"Notes" }
 
         notes.forEach { note ->
@@ -48,7 +49,7 @@ object Templates {
         }
     }
 
-    fun notesArchive(notes: List<Note2VM>) = htmlPage("Archive") {
+    fun notesArchive(notes: List<Note2VM>, navigation: List<NavigationItem>) = htmlPage("Archive", navigation) {
         h1 { +"Archive" }
 
         notes.forEach { note ->
