@@ -12,5 +12,9 @@ out/
 build/
 v2/out2
 
+# Website
+website/
+v2/website-out/
+
 # Distribution files
 distrib/*.jar

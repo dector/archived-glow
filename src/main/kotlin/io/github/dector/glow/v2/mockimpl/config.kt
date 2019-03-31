@@ -7,13 +7,13 @@ import java.io.File
 fun mockProjectsConfig() = ProjectConfig(
         input = InputConfig(
                 staticFolder = File("v2/themes/dead-art/source" + (if (DevMode) "-dev" else "")),
-                pagesFolder = File("v2/src/pages"),
-                notesFolder = File("v2/src/notes")
+                pagesFolder = File("website/src/pages"),
+                notesFolder = File("website/src/notes")
         ),
         output = OutputConfig(
-                outputFolder = File("v2/out2"),
+                outputFolder = File("v2/website-out/"),
 
-                staticFolder = File("v2/out2"),
+                staticFolder = File("v2/website-out/"),
                 notesPath = "/notes",
                 overrideFiles = true
         ),
