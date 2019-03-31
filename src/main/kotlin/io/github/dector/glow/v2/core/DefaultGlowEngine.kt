@@ -79,10 +79,43 @@ class DefaultGlowEngine(
     }
 
     private fun handleStatic() {
+        log.info("Building styles...")
+        buildStyles(config.input.staticFolder, config.output.staticFolder)
         log.info("Copying static...")
         copyStatic(config.input.staticFolder, config.output.staticFolder)
         log.info("Done")
         log.info("")
+    }
+
+    private fun buildStyles(inputFolder: File, outputFolder: File) {
+        val inputFile = File(inputFolder, "includes/less/style.less")
+        val outputFile = File(outputFolder, "includes/css/style.css")
+
+        fun createCompilerProcess(vararg arguments: String) = ProcessBuilder("lessc", *arguments)
+
+        fun checkIfLessCompilerExists() = createCompilerProcess("--version")
+                .start()
+                .run {
+                    waitFor()
+                    exitValue()
+                } == 0
+
+        if (!checkIfLessCompilerExists()) {
+            log.error("Less compiler not found in system. Consider installing it: `npm install -g less`.")
+            log.warn("Website style will be broken or out-of-dated.")
+            return
+        }
+
+        val exitCode = createCompilerProcess(inputFile.absolutePath, outputFile.absolutePath)
+                .start()
+                .run {
+                    waitFor()
+                    exitValue()
+                }
+
+        if (exitCode != 0) {
+            log.error("Less compiler failed to execute request.")
+        }
     }
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {

@@ -1,5 +1,6 @@
 package io.github.dector.glow.v2.templates
 
+import io.github.dector.glow.v2.mockimpl.BuildConfig.DevMode
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 
@@ -17,10 +18,18 @@ fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
             }
             meta(charset = "UTF-8")
 
-            link {
-                rel = "stylesheet/less"
-                type = "text/css"
-                href = "/includes/less/style.less"
+            if (DevMode) {
+                link {
+                    rel = "stylesheet/less"
+                    type = "text/css"
+                    href = "/includes/less/style.less"
+                }
+            } else {
+                link {
+                    rel = "stylesheet"
+                    type = "text/css"
+                    href = "/includes/css/style.css"
+                }
             }
         }
 
@@ -42,7 +51,9 @@ fun htmlPage(title: String, contentBlock: DIV.() -> Unit) = buildString {
 
             div("corner")
 
-            script(src = "/includes/js/less-3.9.0.js") {}
+            if (DevMode) {
+                script(src = "/includes/js/less-3.9.0.js") {}
+            }
         }
     }
 }
