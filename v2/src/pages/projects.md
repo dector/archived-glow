@@ -5,4 +5,4 @@ isSection: true
 
 ## Ongoing
 
-  - [HFT Hydroponics System](projects/hydroponics/)
+  - [HFT Hydroponics System](/projects/hydroponics)

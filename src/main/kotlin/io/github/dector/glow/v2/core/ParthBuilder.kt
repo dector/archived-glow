@@ -18,7 +18,12 @@ class WebPathResolver(private val config: ProjectConfig) : PathResolver {
             .withZone(ZoneOffset.UTC)
 
     override fun resolve(page: Page2): WebPagePath {
-        fun pageInstanceName() = page.title.simplify()
+        fun pageInstanceName() = run {
+            val path = config.input.pagesFolder.toURI()
+                    .relativize(page.sourceFile.toURI())
+
+            path.resolve(page.title.simplify())
+        }
 
         val instancePath = when {
             page.sourceFile.nameWithoutExtension == "index" -> "index.html"

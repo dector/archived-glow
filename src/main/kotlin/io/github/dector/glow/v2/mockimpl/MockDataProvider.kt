@@ -58,8 +58,15 @@ class MockDataProvider(
     private fun parseYFM(markdownFile: File) =
             markdownParser.parseInsecureYFM(markdownFile)
 
+    private fun File.listFilesRecursively(): List<File> = listFiles()
+            .flatMap {
+                if (it.isDirectory) it.listFilesRecursively()
+                else listOf(it)
+            }
+
     private fun loadPagesFrom(folder: File) = folder
-            .listFiles { file ->
+            .listFilesRecursively()
+            .filter { file ->
                 file.isFile && file.extension == "md"
             }
             .map { file ->
