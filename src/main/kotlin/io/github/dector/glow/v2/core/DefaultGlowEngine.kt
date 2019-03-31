@@ -87,8 +87,8 @@ class DefaultGlowEngine(
 
     private fun copyStatic(inputFolder: File, outputFolder: File) {
         inputFolder.copyRecursively(outputFolder, onError = { file, err ->
-            log.warn("File '${file.absolutePath}' exists. Skipping.")
+            log.warn("File '${file.absolutePath}' exists. Overwriting.")
             OnErrorAction.SKIP
-        })
+        }, overwrite = true)
     }
 }
