@@ -3,17 +3,17 @@ package io.github.dector.glow.v2.core
 import java.io.File
 import java.time.Instant
 
-@Deprecated("")
+/*@Deprecated("")
 data class BlogData(val posts: List<Post>)
 
 @Deprecated("")
 data class ProcessedData(val indexPages: List<ProcessedPage>,
                          val postPages: List<ProcessedPage>,
-                         val tagPages: List<ProcessedPage>)
+                         val tagPages: List<ProcessedPage>)*/
 
 class GlowExecutionResult
 
-@Deprecated("")
+/*@Deprecated("")
 data class Post(
         val title: String,
         val content: String,
@@ -23,7 +23,7 @@ data class Post(
 @Deprecated("")
 data class ProcessedPage(
         val path: String,   // FIXME remove path from processed model. Should be handled in Publisher instead
-        val content: String)
+        val content: String)*/
 
 data class PageInfo(
         val id: String,
