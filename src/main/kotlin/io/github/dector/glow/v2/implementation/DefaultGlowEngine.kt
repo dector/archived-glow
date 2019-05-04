@@ -1,7 +1,7 @@
 package io.github.dector.glow.v2.implementation
 
 import io.github.dector.glow.core.logger.UiLogger
-import io.github.dector.glow.v2.core.*
+import io.github.dector.glow.v2.core.GlowExecutionResult
 import io.github.dector.glow.v2.core.components.DataProvider
 import io.github.dector.glow.v2.core.components.DataPublisher
 import io.github.dector.glow.v2.core.components.DataRenderer
@@ -25,7 +25,7 @@ class DefaultGlowEngine(
 
         handleStatic()
 
-        return GlowExecutionResult()
+        return GlowExecutionResult.Success
     }
 
     private fun handlePages() {

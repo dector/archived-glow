@@ -11,7 +11,10 @@ data class ProcessedData(val indexPages: List<ProcessedPage>,
                          val postPages: List<ProcessedPage>,
                          val tagPages: List<ProcessedPage>)*/
 
-class GlowExecutionResult
+sealed class GlowExecutionResult {
+    object Success : GlowExecutionResult()
+    object Fail : GlowExecutionResult()
+}
 
 /*@Deprecated("")
 data class Post(
