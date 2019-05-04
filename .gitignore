@@ -13,7 +13,7 @@ build/
 v2/out2
 
 # Website
-website/
+website
 v2/website-out/
 
 # Distribution files
