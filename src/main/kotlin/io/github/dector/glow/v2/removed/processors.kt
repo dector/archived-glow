@@ -1,19 +1,9 @@
-package io.github.dector.glow.v2.dumbimpl
-
-import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import io.github.dector.glow.core.utils.nextOrNull
-import io.github.dector.glow.core.utils.prevOrNull
-import io.github.dector.glow.v2.PaginationIndexPostsCount
-import io.github.dector.glow.v2.PaginationTagPostsCount
-import io.github.dector.glow.v2.core.Post
-import io.github.dector.glow.v2.core.ProcessedData
-import io.github.dector.glow.v2.core.ProcessedPage
+package io.github.dector.glow.v2.removed
 
 
-typealias DataFilter = (List<Post>) -> List<Post>
+/*typealias DataFilter = (List<Post>) -> List<Post>*/
 
-private val filter: DataFilter = ::nonDraftsFilter
+/*private val filter: DataFilter = ::nonDraftsFilter*/
 
 /*val dumbDataRenderer = object : DataRenderer {
 
@@ -22,34 +12,34 @@ private val filter: DataFilter = ::nonDraftsFilter
     }
 }*/
 
-private fun nonDraftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }
+/*private fun nonDraftsFilter(posts: List<Post>): List<Post> = posts.filterNot { it.isDraft }*/
 
-private fun processPosts(posts: List<Post>): ProcessedData {
+/*private fun processPosts(posts: List<Post>): ProcessedData {
     val preparedPosts = convertMarkdown(posts)
 
     return ProcessedData(
             indexPages = processIndexPages(preparedPosts),
             postPages = processPostPages(preparedPosts),
             tagPages = processTagPages(preparedPosts))
-}
+}*/
 
-private fun convertMarkdown(posts: List<Post>): List<Post> {
+/*private fun convertMarkdown(posts: List<Post>): List<Post> {
     val mdParser = Parser.builder().build()
     val htmlRenderer = HtmlRenderer.builder().build()
 
     return posts.map {
         it.copy(content = htmlRenderer.render(mdParser.parse(it.content)))
     }
-}
+}*/
 
-data class PaginatedPage(
+/*data class PaginatedPage(
         val pageNumber: Int,
         val totalPages: Int,
         val prevPagePath: String,
         val nextPagePath: String,
-        val posts: List<Post>)
+        val posts: List<Post>)*/
 
-private fun processIndexPages(posts: List<Post>): List<ProcessedPage> {
+/*private fun processIndexPages(posts: List<Post>): List<ProcessedPage> {
     val chunks = posts.chunked(PaginationIndexPostsCount)
 
     val renderer: IndexPagesRenderer = indexPagesRenderer
@@ -65,14 +55,15 @@ private fun processIndexPages(posts: List<Post>): List<ProcessedPage> {
 
         ProcessedPage(indexPagePathResolver(info.pageNumber), content = renderer(info))
     }
-}
+}*/
 
-private fun processPostPages(posts: List<Post>) = posts.map {
+/*private fun processPostPages(posts: List<Post>) = posts.map {
     ProcessedPage(
             path = postPagePathResolver(it),
             content = postPageRenderer(it))
-}
+}*/
 
+/*
 private fun processTagPages(posts: List<Post>): List<ProcessedPage> {
     val tags = posts.flatMap { it.tags }.distinct()
 
@@ -100,4 +91,4 @@ private fun processTagPages(posts: List<Post>): List<ProcessedPage> {
         }
 
     }
-}
+}*/

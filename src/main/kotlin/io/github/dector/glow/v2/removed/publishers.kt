@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.dumbimpl
+package io.github.dector.glow.v2.removed
 
 
 //val dumbDataPublisher = object : DataPublisher {

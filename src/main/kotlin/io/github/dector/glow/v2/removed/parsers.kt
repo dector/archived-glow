@@ -1,18 +1,9 @@
-package io.github.dector.glow.v2.dumbimpl
-
-import com.vladsch.flexmark.ast.Node
-import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
-import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
-import com.vladsch.flexmark.formatter.internal.Formatter
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
-import io.github.dector.glow.v2.core.BlogData
-import io.github.dector.glow.v2.core.Post
+package io.github.dector.glow.v2.removed
 
 
-typealias DataConverter = (List<String>) -> BlogData
+/*typealias DataConverter = (List<String>) -> BlogData*/
 
-val markdownFileParser: DataConverter = { data ->
+/*val markdownFileParser: DataConverter = { data ->
     val parser = Parser.builder(MutableDataSet().apply {
         set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
     }).build()
@@ -31,9 +22,9 @@ val markdownFileParser: DataConverter = { data ->
     }.sortedBy { it.title } // FIXME sort by date
 
     BlogData(posts = posts)
-}
+}*/
 
-private fun parseHeader(doc: Node): Header = AbstractYamlFrontMatterVisitor().run {
+/*private fun parseHeader(doc: Node): Header = AbstractYamlFrontMatterVisitor().run {
 
     visit(doc)
 
@@ -51,9 +42,10 @@ private fun parseHeader(doc: Node): Header = AbstractYamlFrontMatterVisitor().ru
             title = title,
             tags = tags,
             isDraft = isDraft)
-}
+}*/
 
+/*
 private data class Header(
         val title: String,
         val tags: List<String>,
-        val isDraft: Boolean)
+        val isDraft: Boolean)*/

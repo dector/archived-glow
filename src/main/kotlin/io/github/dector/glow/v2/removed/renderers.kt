@@ -1,18 +1,13 @@
-package io.github.dector.glow.v2.dumbimpl
-
-import io.github.dector.glow.v2.core.Post
-import io.github.dector.glow.v2.dumbimpl.utils.htmlPage
-import io.github.dector.glow.v2.dumbimpl.utils.isLast
-import kotlinx.html.*
+package io.github.dector.glow.v2.removed
 
 
-typealias Tag = String
+/*typealias Tag = String*/
 
-typealias IndexPagesRenderer = (PaginatedPage) -> String
+/*typealias IndexPagesRenderer = (PaginatedPage) -> String
 typealias PostPageRenderer = (Post) -> String
-typealias TagPageRender = (Tag, PaginatedPage) -> String
+typealias TagPageRender = (Tag, PaginatedPage) -> String*/
 
-val indexPagesRenderer: IndexPagesRenderer = { info ->
+/*val indexPagesRenderer: IndexPagesRenderer = { info ->
     htmlPage("${info.pageNumber} / ${info.totalPages}") {
         info.posts.forEach { post ->
             renderPost(post)
@@ -22,15 +17,15 @@ val indexPagesRenderer: IndexPagesRenderer = { info ->
 
         renderPaging(info)
     }
-}
+}*/
 
-val postPageRenderer: PostPageRenderer = { post ->
+/*val postPageRenderer: PostPageRenderer = { post ->
     htmlPage(post.title) {
         renderPost(post)
     }
-}
+}*/
 
-val tagPageRenderer: TagPageRender = { tag, info ->
+/*val tagPageRenderer: TagPageRender = { tag, info ->
     htmlPage("[$tag] :: ${info.pageNumber} / ${info.totalPages}") {
         +tag; hr { }
 
@@ -42,9 +37,9 @@ val tagPageRenderer: TagPageRender = { tag, info ->
 
         renderPaging(info)
     }
-}
+}*/
 
-private fun DIV.renderPost(post: Post) {
+/*private fun DIV.renderPost(post: Post) {
     h2 {
         a(href = postPagePathResolver(post)) { +post.title }
     }
@@ -64,8 +59,9 @@ private fun DIV.renderPost(post: Post) {
             +"]"
         }
     }
-}
+}*/
 
+/*
 private fun DIV.renderPaging(info: PaginatedPage) {
     if (info.prevPagePath.isNotEmpty()) {
         br; br
@@ -76,4 +72,4 @@ private fun DIV.renderPaging(info: PaginatedPage) {
         br; br
         a(href = info.nextPagePath) { +"Next >>" }
     }
-}
+}*/

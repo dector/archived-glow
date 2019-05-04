@@ -1,9 +1,7 @@
-package io.github.dector.glow.v2.dumbimpl.utils
-
-import kotlinx.html.*
-import kotlinx.html.stream.appendHTML
+package io.github.dector.glow.v2.removed.utils
 
 
+/*
 fun htmlPage(titleStr: String, body: DIV.() -> Unit) = buildString {
     appendln("<!DOCTYPE html>")
     appendHTML().html {
@@ -37,4 +35,4 @@ fun htmlPage(titleStr: String, body: DIV.() -> Unit) = buildString {
             }
         }
     }
-}
+}*/
