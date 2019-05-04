@@ -1,6 +1,6 @@
 package io.github.dector.glow.v2.mockimpl
 
-import io.github.dector.glow.logger.logger
+import io.github.dector.glow.core.logger.logger
 import io.github.dector.glow.v2.core.DataPublisher
 import io.github.dector.glow.v2.core.WebPage
 import io.github.dector.glow.v2.core.WebPagePath

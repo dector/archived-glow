@@ -1,6 +1,6 @@
 package io.github.dector.glow.v2.core
 
-import io.github.dector.glow.logger.UiLogger
+import io.github.dector.glow.core.logger.UiLogger
 import io.github.dector.glow.v2.mockimpl.ProjectConfig
 import java.io.File
 

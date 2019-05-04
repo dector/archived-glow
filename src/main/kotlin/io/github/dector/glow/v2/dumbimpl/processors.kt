@@ -2,8 +2,8 @@ package io.github.dector.glow.v2.dumbimpl
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import io.github.dector.glow.tools.nextOrNull
-import io.github.dector.glow.tools.prevOrNull
+import io.github.dector.glow.core.utils.nextOrNull
+import io.github.dector.glow.core.utils.prevOrNull
 import io.github.dector.glow.v2.PaginationIndexPostsCount
 import io.github.dector.glow.v2.PaginationTagPostsCount
 import io.github.dector.glow.v2.core.Post

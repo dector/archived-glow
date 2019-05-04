@@ -1,10 +1,10 @@
 package io.github.dector.glow
 
-import io.github.dector.glow.cli.cliCommands
-import io.github.dector.glow.di.DI
-import io.github.dector.glow.logger.UiLogger
-import io.github.dector.glow.logger.rootLogger
-import io.github.dector.glow.tools.StopWatch.Companion.DefaultSecondsFormatter
+import io.github.dector.glow.core.cli.cliCommands
+import io.github.dector.glow.core.di.DI
+import io.github.dector.glow.core.logger.UiLogger
+import io.github.dector.glow.core.logger.rootLogger
+import io.github.dector.glow.core.utils.StopWatch.Companion.DefaultSecondsFormatter
 import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
 
@@ -37,8 +37,8 @@ private fun executeApp(args: Array<String>): ExecutionResult {
         }
     }
 
-    error.let { err ->
-        return if (err == null) Success(executionTime)
+    return error.let { err ->
+        if (err == null) Success(executionTime)
         else Failed(executionTime, err)
     }
 }
