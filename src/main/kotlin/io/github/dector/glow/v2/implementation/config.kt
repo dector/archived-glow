@@ -4,7 +4,30 @@ import io.github.dector.glow.v2.core.BuildConfig.DevMode
 import java.io.File
 
 
-fun mockProjectsConfig() = ProjectConfig(
+fun mockProjectsConfig() = TestConfig
+
+private val TestConfig = ProjectConfig(
+        input = InputConfig(
+                staticFolder = File("v2/themes/plain/source" + (if (DevMode) "-dev" else "")),
+                pagesFolder = File("v2/src/pages"),
+                notesFolder = File("v2/src/notes")
+        ),
+        output = OutputConfig(
+                outputFolder = File("v2/out2/"),
+
+                staticFolder = File("v2/out2/"),
+                notesPath = "/notes",
+                overrideFiles = true
+        ),
+        navigation = listOf(
+                NavigationItem("/", "Home"),
+                NavigationItem("/notes", "Notes"),
+                NavigationItem("/projects", "Projects"),
+                NavigationItem("/about", "About")
+        )
+)
+
+private val ProdConfig = ProjectConfig(
         input = InputConfig(
                 staticFolder = File("v2/themes/dead-art/source" + (if (DevMode) "-dev" else "")),
                 pagesFolder = File("website/src/pages"),
