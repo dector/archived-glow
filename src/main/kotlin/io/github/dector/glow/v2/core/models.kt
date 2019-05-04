@@ -13,7 +13,7 @@ data class ProcessedData(val indexPages: List<ProcessedPage>,
 
 sealed class GlowExecutionResult {
     object Success : GlowExecutionResult()
-    object Fail : GlowExecutionResult()
+    data class Fail(val reason: Throwable) : GlowExecutionResult()
 }
 
 /*@Deprecated("")

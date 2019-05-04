@@ -4,25 +4,20 @@ import io.github.dector.glow.v2.core.GlowExecutionResult
 import io.github.dector.glow.v2.core.components.GlowEngine
 
 
-class PipelinedGlowEngine : GlowEngine {
-
-    private val pipeline = GlowPipeline()
+class PipelinedGlowEngine(
+        private val pipeline: GlowPipeline
+) : GlowEngine {
 
     override fun execute(): GlowExecutionResult {
-
-        // Do nothing
-
-        return GlowExecutionResult.Success
+        try {
+            pipeline.execute()
+            return GlowExecutionResult.Success
+        } catch (e: Throwable) {
+            return GlowExecutionResult.Fail(e)
+        }
     }
 }
 
-class GlowPipeline {
-
-    private val dataProviders = mutableListOf<DataProvider3>()
-    private val dataRenderers = mutableListOf<DataRenderer3>()
-    private val dataPublishers = mutableListOf<DataPublisher3>()
+interface GlowPipeline {
+    fun execute()
 }
-
-interface DataProvider3 {}
-interface DataRenderer3 {}
-interface DataPublisher3 {}
