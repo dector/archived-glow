@@ -48,12 +48,20 @@ dependencies {
 
     compile libraries.flexmark
     compile libraries.jmustache
+
+    testCompile libraries.truth
+    testCompile libraries.jupiter_api
+    testCompile libraries.jupiter_engine
 }
 
 mainClassName = 'io.github.dector.glow.GlowKt'
 
 shadowJar {
     classifier = null
+}
+
+test {
+    useJUnitPlatform()
 }
 
 task distrib(dependsOn: 'shadowJar') {
