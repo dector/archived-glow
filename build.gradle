@@ -69,3 +69,9 @@ task distrib(dependsOn: 'shadowJar') {
         println "Distribution saved to ./$relativePath"
     }
 }
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
+    }
+}
