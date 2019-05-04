@@ -1,10 +1,11 @@
-package io.github.dector.glow.v2.mockimpl
+package io.github.dector.glow.v2.implementation
 
 import io.github.dector.glow.v2.core.*
+import io.github.dector.glow.v2.core.components.DataProvider
 import java.io.File
 import java.time.Instant
 
-class MockDataProvider(
+class DefaultDataProvider(
         private val config: ProjectConfig,
         private val markdownParser: MarkdownParser<*>) : DataProvider {
 

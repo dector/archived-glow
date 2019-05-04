@@ -1,7 +1,11 @@
-package io.github.dector.glow.v2.core
+package io.github.dector.glow.v2.implementation
 
 import io.github.dector.glow.core.logger.UiLogger
-import io.github.dector.glow.v2.mockimpl.ProjectConfig
+import io.github.dector.glow.v2.core.*
+import io.github.dector.glow.v2.core.components.DataProvider
+import io.github.dector.glow.v2.core.components.DataPublisher
+import io.github.dector.glow.v2.core.components.DataRenderer
+import io.github.dector.glow.v2.core.components.GlowEngine
 import java.io.File
 
 class DefaultGlowEngine(

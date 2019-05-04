@@ -1,7 +1,7 @@
 package io.github.dector.glow.v2.templates
 
-import io.github.dector.glow.v2.mockimpl.BuildConfig.DevMode
-import io.github.dector.glow.v2.mockimpl.NavigationItem
+import io.github.dector.glow.v2.core.BuildConfig.DevMode
+import io.github.dector.glow.v2.implementation.NavigationItem
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 

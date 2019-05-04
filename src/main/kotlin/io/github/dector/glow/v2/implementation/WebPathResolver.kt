@@ -1,17 +1,12 @@
-package io.github.dector.glow.v2.core
+package io.github.dector.glow.v2.implementation
 
-import io.github.dector.glow.v2.mockimpl.ProjectConfig
+import io.github.dector.glow.v2.core.Note2
+import io.github.dector.glow.v2.core.Page2
+import io.github.dector.glow.v2.core.WebPagePath
+import io.github.dector.glow.v2.core.components.PathResolver
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-
-interface PathResolver {
-
-    fun resolve(page: Page2): WebPagePath
-    fun resolve(note: Note2): WebPagePath
-    fun resolveNotesIndex(): WebPagePath
-    fun resolveNotesArchive(): WebPagePath
-}
 
 class WebPathResolver(private val config: ProjectConfig) : PathResolver {
     private val notePathDateFormatter = DateTimeFormatter.ofPattern("uuuu/MM/dd")

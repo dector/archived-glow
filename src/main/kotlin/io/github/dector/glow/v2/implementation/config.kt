@@ -1,6 +1,6 @@
-package io.github.dector.glow.v2.mockimpl
+package io.github.dector.glow.v2.implementation
 
-import io.github.dector.glow.v2.mockimpl.BuildConfig.DevMode
+import io.github.dector.glow.v2.core.BuildConfig.DevMode
 import java.io.File
 
 

@@ -8,7 +8,7 @@ import io.github.dector.glow.CliHeader
 import io.github.dector.glow.core.di.DI
 import io.github.dector.glow.core.logger.UiLogger
 import io.github.dector.glow.core.logger.disableUiLogger
-import io.github.dector.glow.v2.core.GlowEngine
+import io.github.dector.glow.v2.core.components.GlowEngine
 
 class GlowCommand : CliktCommand(name = "glow") {
     override fun run() {}

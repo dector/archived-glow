@@ -1,11 +1,13 @@
-package io.github.dector.glow.v2.mockimpl
+package io.github.dector.glow.v2.implementation
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.v2.core.*
+import io.github.dector.glow.v2.core.components.DataRenderer
+import io.github.dector.glow.v2.core.components.PathResolver
 import io.github.dector.glow.v2.templates.Templates
 
-class MockDataRenderer(
+class DefaultDataRenderer(
         private val pathResolver: PathResolver,
         private val markdownParser: MarkdownParser<Node>,
         private val projectConfig: ProjectConfig

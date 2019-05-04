@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.mockimpl
+package io.github.dector.glow.v2.core
 
 
 object BuildConfig {
