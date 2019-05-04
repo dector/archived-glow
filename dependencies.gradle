@@ -3,6 +3,7 @@ ext.versions = [
         kotlinxHtml : '0.6.11',
 
         shadowJar : '5.0.0',
+        versionsPlugin : '0.21.0',
 
         slf4jSimple : '1.7.25',
         buildConfig : '1.1.8',
@@ -22,7 +23,9 @@ ext.gradlePlugins = [
 
         buildConfig : "gradle.plugin.de.fuerstenau:BuildConfigPlugin:$versions.buildConfig",
 
-        shadowJar : "com.github.jengelman.gradle.plugins:shadow:$versions.shadowJar"
+        shadowJar : "com.github.jengelman.gradle.plugins:shadow:$versions.shadowJar",
+        
+        versionsPlugin : "com.github.ben-manes:gradle-versions-plugin:$versions.versionsPlugin"
 ]
 
 ext.libraries = [

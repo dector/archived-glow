@@ -14,6 +14,7 @@ buildscript {
         classpath gradlePlugins.buildConfig
 
         classpath gradlePlugins.shadowJar
+        classpath gradlePlugins.versionsPlugin
     }
 }
 
@@ -24,6 +25,7 @@ apply plugin: 'de.fuerstenau.buildconfig'
 apply plugin: 'idea' // Required for build config IDE support
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.github.ben-manes.versions'
 
 repositories {
     jcenter()
