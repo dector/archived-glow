@@ -27,6 +27,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 repositories {
     jcenter()
+    maven { url "https://dl.bintray.com/kodein-framework/Kodein-DI/" }
 }
 
 dependencies {
@@ -38,7 +39,7 @@ dependencies {
     compile libraries.slf4jSimple
 
     compile libraries.kodein
-    
+
     compile libraries.clikt
     compile libraries.jcommander
     compile libraries.json
