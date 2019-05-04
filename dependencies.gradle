@@ -1,5 +1,5 @@
 ext.versions = [
-        kotlin : '1.3.11',
+        kotlin : '1.3.31',
         kotlinxHtml : '0.6.11',
 
         shadowJar : '2.0.4',
