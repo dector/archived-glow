@@ -14,8 +14,7 @@ class DefaultGlowEngine(
     private val log = UiLogger//logger()
 
     override fun execute(): GlowExecutionResult {
-        log.info("Loading data...")
-        log.info("")
+        "Loading data...".logn()
 
         handlePages()
         handleNotes()
@@ -28,63 +27,67 @@ class DefaultGlowEngine(
     private fun handlePages() {
         val pages = dataProvider.fetchPages()
 
-        log.info("Found pages: ${pages.size}")
+        "Found pages: ${pages.size}".log()
 
         pages.forEach { page ->
-            log.info("Processing '${page.title}'")
+            "Processing '${page.title}'".log()
 
             val webPage = dataRenderer.render(page)
 
-            log.info("Publishing '${page.title}'")
+            "Publishing '${page.title}'".log()
             dataPublisher.publish(webPage)
         }
-        log.info("")
+        "".log()
     }
 
     private fun handleNotes() {
         val notes = dataProvider.fetchNotes()
                 .filter { !it.isDraft }
 
-        log.info("Found non-draft notes: ${notes.size}")
+        "Found non-draft notes: ${notes.size}".log()
 
         notes.forEach { note ->
-            log.info(" * ${note.sourceFile.nameWithoutExtension}")
-            log.info("Processing...")
+            " * ${note.sourceFile.nameWithoutExtension}".log()
+            "Processing...".log()
 
             val webPage = dataRenderer.render(note)
 
-            log.info("Publishing...")
+            "Publishing...".log()
             dataPublisher.publish(webPage)
         }
-        log.info("")
+        "".log()
 
         run {
-            log.info("Notes index")
-            log.info("Processing...")
+            "Notes index".log()
+            "Processing...".log()
             val webPage = dataRenderer.renderNotesIndex(notes)
-            log.info("Publishing...")
+
+            "Publishing...".log()
             dataPublisher.publish(webPage)
-            log.info("")
+
+            "".log()
         }
 
         run {
-            log.info("Notes archive")
-            log.info("Processing...")
+            "Notes archive".log()
+            "Processing...".log()
             val webPage = dataRenderer.renderNotesArchive(notes)
-            log.info("Publishing...")
+
+            "Publishing...".log()
             dataPublisher.publish(webPage)
         }
 
-        log.info("")
+        "".log()
     }
 
     private fun handleStatic() {
-        log.info("Building styles...")
+        "Building styles...".log()
         buildStyles(config.input.staticFolder, config.output.staticFolder)
-        log.info("Copying static...")
+
+        "Copying static...".log()
         copyStatic(config.input.staticFolder, config.output.staticFolder)
-        log.info("Done")
-        log.info("")
+
+        "Done".logn()
     }
 
     private fun buildStyles(inputFolder: File, outputFolder: File) {
@@ -127,5 +130,14 @@ class DefaultGlowEngine(
 
             OnErrorAction.SKIP
         }, overwrite = true)
+    }
+
+    private fun String.log() {
+        log.info(this)
+    }
+
+    private fun String.logn() {
+        this.log()
+        "".log()
     }
 }
