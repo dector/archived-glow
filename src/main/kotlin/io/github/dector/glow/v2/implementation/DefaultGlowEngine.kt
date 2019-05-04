@@ -98,7 +98,7 @@ class DefaultGlowEngine(
         val inputFile = File(inputFolder, "../source-dev/includes/less/style.less")
         val outputFile = File(outputFolder, "includes/css/style.css")
 
-        fun createCompilerProcess(vararg arguments: String) = ProcessBuilder("lessc", *arguments)
+        fun createCompilerProcess(vararg arguments: String) = ProcessBuilder("/home/linuxbrew/.linuxbrew/bin/lessc", *arguments)
 
         fun checkIfLessCompilerExists() = createCompilerProcess("--version")
                 .start()
