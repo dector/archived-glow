@@ -27,5 +27,20 @@ class BuildCommand : CliktCommand(name = "build") {
     }
 }
 
+class FishCommand : CliktCommand(name = "fish") {
+
+    private val fish = """
+          /`·.¸
+         /¸...¸`:·
+     ¸.·´  ¸   `·.¸.·´)
+    : © ):´;      ¸  {
+     `·.¸ `·  ¸.·´\`·¸)
+         `\\´´\¸.·´     Hi, there!"""
+
+    override fun run() {
+        UiLogger.info(fish)
+    }
+}
+
 fun cliCommands() = GlowCommand()
-        .subcommands(BuildCommand())
+        .subcommands(BuildCommand(), FishCommand())
