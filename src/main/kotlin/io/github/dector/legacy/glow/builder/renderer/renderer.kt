@@ -1,6 +1,6 @@
-package io.github.dector.glow.core.builder.renderer
+package io.github.dector.legacy.glow.builder.renderer
 
-import io.github.dector.glow.core.builder.models.PageData
+import io.github.dector.legacy.glow.builder.models.PageData
 import java.time.LocalDate
 
 interface IRenderer {

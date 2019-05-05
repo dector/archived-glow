@@ -1,18 +1,18 @@
-package io.github.dector.glow.core.builder
+package io.github.dector.legacy.glow.builder
 
-import io.github.dector.glow.core.builder.models.BlogData
-import io.github.dector.glow.core.builder.models.PageData
-import io.github.dector.glow.core.builder.models.PostMeta
-import io.github.dector.glow.core.builder.parser.DefaultPostParser
-import io.github.dector.glow.core.builder.parser.IPostParser
-import io.github.dector.glow.core.builder.parser.ParsedPost
-import io.github.dector.glow.core.builder.renderer.IRenderer
-import io.github.dector.glow.core.builder.renderer.PageType
-import io.github.dector.glow.core.builder.renderer.mustache.MustacheRenderer
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.utils.nextOrNull
 import io.github.dector.glow.core.utils.prevOrNull
-import io.github.dector.glow.legacy.cli.GlowCommandBuildOptions
+import io.github.dector.legacy.glow.builder.models.BlogData
+import io.github.dector.legacy.glow.builder.models.PageData
+import io.github.dector.legacy.glow.builder.models.PostMeta
+import io.github.dector.legacy.glow.builder.parser.DefaultPostParser
+import io.github.dector.legacy.glow.builder.parser.IPostParser
+import io.github.dector.legacy.glow.builder.parser.ParsedPost
+import io.github.dector.legacy.glow.builder.renderer.IRenderer
+import io.github.dector.legacy.glow.builder.renderer.PageType
+import io.github.dector.legacy.glow.builder.renderer.mustache.MustacheRenderer
+import io.github.dector.legacy.glow.cli.GlowCommandBuildOptions
 import java.io.File
 import java.io.FileFilter
 

@@ -1,8 +1,8 @@
-package io.github.dector.glow.legacy.creator
+package io.github.dector.legacy.glow.creator
 
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.logger
-import io.github.dector.glow.legacy.cli.GlowCommandInitOptions
+import io.github.dector.legacy.glow.cli.GlowCommandInitOptions
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.builder.parser
+package io.github.dector.legacy.glow.builder.parser
 
 import java.io.File
 

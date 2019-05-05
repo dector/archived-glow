@@ -1,4 +1,4 @@
-package io.github.dector.glow.legacy.cli
+package io.github.dector.legacy.glow.cli
 
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.Parameters

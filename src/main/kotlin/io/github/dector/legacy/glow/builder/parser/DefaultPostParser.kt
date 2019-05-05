@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.builder.parser
+package io.github.dector.legacy.glow.builder.parser
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
@@ -6,7 +6,7 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
-import io.github.dector.glow.core.builder.models.PostMeta
+import io.github.dector.legacy.glow.builder.models.PostMeta
 import java.io.File
 import java.time.LocalDate
 
