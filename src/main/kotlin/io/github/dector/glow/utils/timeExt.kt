@@ -33,7 +33,7 @@ inline fun Long.msLessThanMinutes(min: Int): Boolean = this.msToMin() <= min
 inline fun <R> measureTimeMillis(block: () -> R): Pair<R, Long> {
     val startTime = System.currentTimeMillis()
     val result = block()
-    val endTime = System.currentTimeMillis() - startTime
+    val endTime = System.currentTimeMillis()
 
     return result to (endTime - startTime)
 }
