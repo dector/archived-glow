@@ -1,8 +1,8 @@
 package io.github.dector.legacy.glow.builder
 
 import io.github.dector.glow.core.logger.UILogger
-import io.github.dector.glow.core.utils.nextOrNull
-import io.github.dector.glow.core.utils.prevOrNull
+import io.github.dector.glow.utils.nextOrNull
+import io.github.dector.glow.utils.prevOrNull
 import io.github.dector.legacy.glow.builder.models.BlogData
 import io.github.dector.legacy.glow.builder.models.PageData
 import io.github.dector.legacy.glow.builder.models.PostMeta

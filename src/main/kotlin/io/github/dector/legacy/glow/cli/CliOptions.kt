@@ -4,8 +4,8 @@ import com.beust.jcommander.Parameter
 import com.beust.jcommander.Parameters
 import com.beust.jcommander.converters.FileConverter
 import io.github.dector.glow.core.logger.logger
-import io.github.dector.glow.core.utils.assert
-import io.github.dector.glow.core.utils.isTrue
+import io.github.dector.glow.utils.assert
+import io.github.dector.glow.utils.isTrue
 import java.io.File
 
 data class GlowOptions(

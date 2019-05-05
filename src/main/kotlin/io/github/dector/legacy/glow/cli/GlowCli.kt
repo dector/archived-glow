@@ -1,11 +1,11 @@
 package io.github.dector.legacy.glow.cli
 
 import com.beust.jcommander.JCommander
+import io.github.dector.glow.Constants.CurrentConfigVersion
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.logger
-import io.github.dector.glow.core.utils.boolean
-import io.github.dector.glow.core.utils.string
-import io.github.dector.glow.v2.core.Constants.CurrentConfigVersion
+import io.github.dector.glow.utils.boolean
+import io.github.dector.glow.utils.string
 import io.github.dector.legacy.glow.builder.GlowBuilder
 import io.github.dector.legacy.glow.creator.GlowProjectCreator
 import org.json.JSONObject
