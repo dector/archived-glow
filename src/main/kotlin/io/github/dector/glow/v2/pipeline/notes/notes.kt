@@ -1,20 +1,22 @@
-package io.github.dector.glow.v2.pipeline
+package io.github.dector.glow.v2.pipeline.notes
 
-import io.github.dector.glow.core.logger.UiLogger
 import io.github.dector.glow.v2.core.Note2
 import io.github.dector.glow.v2.core.WebPage
 import io.github.dector.glow.v2.core.components.DataPublisher
+import io.github.dector.glow.v2.pipeline.GlowPipeline
+import org.slf4j.Logger
 
 
 class NotesPipeline(
-        val dataProvider: NotesDataProvider,
-        val dataRenderer: NotesDataRenderer,
-        val dataPublisher: DataPublisher
+        private val dataProvider: NotesDataProvider,
+        private val dataRenderer: NotesDataRenderer,
+        private val dataPublisher: DataPublisher,
+        private val logger: Logger
 ) : GlowPipeline {
 
-    private val log = UiLogger   // TODO provide it
-
     override fun execute() {
+        "Loading notes...".logn()
+
         val notes = dataProvider.fetchNotes()
                 .filter { !it.isDraft }
 
@@ -55,8 +57,13 @@ class NotesPipeline(
     }
 
     private fun String.log() {
-        log.info(this)
+        logger.info(this)
     }
+    private fun String.logn() {
+        this.log()
+        "".log()
+    }
+
 }
 
 interface NotesDataProvider {
