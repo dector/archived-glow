@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.implementation.legacy
 
 import io.github.dector.glow.core.logger.UiLogger
 import io.github.dector.glow.v2.core.GlowExecutionResult
@@ -6,6 +6,7 @@ import io.github.dector.glow.v2.core.components.DataProvider
 import io.github.dector.glow.v2.core.components.DataPublisher
 import io.github.dector.glow.v2.core.components.DataRenderer
 import io.github.dector.glow.v2.core.components.GlowEngine
+import io.github.dector.glow.v2.implementation.ProjectConfig
 import java.io.File
 
 class DefaultGlowEngine(
