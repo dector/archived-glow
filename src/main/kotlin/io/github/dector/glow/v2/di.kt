@@ -7,7 +7,9 @@ import io.github.dector.glow.v2.core.components.DataRenderer
 import io.github.dector.glow.v2.core.components.GlowEngine
 import io.github.dector.glow.v2.core.components.PathResolver
 import io.github.dector.glow.v2.implementation.*
-import io.github.dector.glow.v2.pipeline.*
+import io.github.dector.glow.v2.pipeline.CombinedPipeline
+import io.github.dector.glow.v2.pipeline.GlowPipeline
+import io.github.dector.glow.v2.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.v2.pipeline.notes.DefaultNotesDataProvider
 import io.github.dector.glow.v2.pipeline.notes.NotesDataProvider
 import io.github.dector.glow.v2.pipeline.notes.NotesPipeline
@@ -25,7 +27,6 @@ val v2Module = Kodein.Module("V2") {
 
     bind<PathResolver>() with singleton { WebPathResolver(instance()) }
     bind<MarkdownParser<Node>>() with singleton { SimpleMarkdownParser() }
-    bind<MarkdownParserWrapper>() with singleton { MarkdownParserWrapper(instance()) }
 
     import(defaultImplementationsModule)
 

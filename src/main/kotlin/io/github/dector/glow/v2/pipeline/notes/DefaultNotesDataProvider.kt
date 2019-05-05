@@ -3,16 +3,17 @@ package io.github.dector.glow.v2.pipeline.notes
 import io.github.dector.glow.v2.core.MarkdownContent
 import io.github.dector.glow.v2.core.Note2
 import io.github.dector.glow.v2.core.NoteInfo
-import io.github.dector.glow.v2.implementation.MarkdownParserWrapper
+import io.github.dector.glow.v2.implementation.MarkdownParser
 import io.github.dector.glow.v2.implementation.ProjectConfig
 import io.github.dector.glow.v2.implementation.markdownFileId
 import io.github.dector.glow.v2.implementation.parseInstant
 import java.io.File
 import java.time.Instant
 
+
 class DefaultNotesDataProvider(
         private val config: ProjectConfig,
-        private val mdParser: MarkdownParserWrapper
+        private val mdParser: MarkdownParser<*>
 ) : NotesDataProvider {
 
     override fun fetchNotes(): List<Note2> {
@@ -26,7 +27,7 @@ class DefaultNotesDataProvider(
 
         return notes.map {
             val content = it.sourceFile.readText()
-            val header = mdParser.parseYFM(content)
+            val header = mdParser.parseInsecureYFM(content)
 
             Note2(
                     title = it.title,
@@ -45,7 +46,7 @@ class DefaultNotesDataProvider(
                 file.isFile && file.extension == "md"
             }
             .map { file ->
-                val yfm = mdParser.parseYFM(file)
+                val yfm = mdParser.parseInsecureYFM(file)
 
                 NoteInfo(
                         id = markdownFileId(file),
