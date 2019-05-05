@@ -31,7 +31,9 @@ data class Time(val millisFraction: Long, val seconds: Long, val minutes: Long, 
 inline fun Long.msLessThanMinutes(min: Int): Boolean = this.msToMin() <= min
 
 inline fun <R> measureTimeMillis(block: () -> R): Pair<R, Long> {
-    val start = System.currentTimeMillis()
+    val startTime = System.currentTimeMillis()
     val result = block()
-    return result to (System.currentTimeMillis() - start)
+    val endTime = System.currentTimeMillis() - startTime
+
+    return result to (endTime - startTime)
 }

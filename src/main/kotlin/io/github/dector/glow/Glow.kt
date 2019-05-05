@@ -20,24 +20,30 @@ private fun initApp() {
     DI.init()
 }
 
-private fun measureAndPrintExecution(operation: () -> Result<Unit>) {
-    val result = measureTimeMillis(operation)
+private fun measureAndPrintExecution(operation: () -> Unit) {
+    val result = measureTimeMillis {
+        try {
+            operation()
+            null
+        } catch (e: Throwable) {
+            e
+        }
+    }
     val timeToDisplay = DefaultSecondsFormatter(result.second)
 
-    when {
-        result.first.isSuccess ->
-            UILogger.info("\nFinished in $timeToDisplay.")
-        result.first.isFailure -> {
-            UILogger.info("\nFailed after $timeToDisplay.")
-            exitProcess(1)
-        }
+    if (result.first == null) {
+        UILogger.info("\nFinished in $timeToDisplay.")
+    } else {
+        UILogger.info("\nFailed after $timeToDisplay.")
+        exitProcess(1)
     }
 }
 
-private fun executeApp(args: Array<String>): Result<Unit> = try {
-    cliCommands().main(args)
-    Result.success(Unit)
-} catch (e: Throwable) {
-    RootLogger.error(e.message, e)
-    Result.failure(e)
+private fun executeApp(args: Array<String>) {
+    try {
+        cliCommands().main(args)
+    } catch (e: Throwable) {
+        RootLogger.error(e.message, e)
+        throw e
+    }
 }
