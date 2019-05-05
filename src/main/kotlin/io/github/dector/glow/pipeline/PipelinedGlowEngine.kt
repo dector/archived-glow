@@ -1,6 +1,5 @@
 package io.github.dector.glow.pipeline
 
-import io.github.dector.glow.core.GlowExecutionResult
 import io.github.dector.glow.core.components.GlowEngine
 
 
@@ -8,12 +7,12 @@ class PipelinedGlowEngine(
         private val pipeline: GlowPipeline
 ) : GlowEngine {
 
-    override fun execute(): GlowExecutionResult {
+    override fun execute(): Result<Unit> {
         try {
             pipeline.execute()
-            return GlowExecutionResult.Success
+            return Result.success(Unit)
         } catch (e: Throwable) {
-            return GlowExecutionResult.Fail(e)
+            return Result.failure(e)
         }
     }
 }

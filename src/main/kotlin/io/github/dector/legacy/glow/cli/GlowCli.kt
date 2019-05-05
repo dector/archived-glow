@@ -22,7 +22,7 @@ class GlowCli(
 //        if (opts.commandMainOptions.quiet)
 //            disableUiLogger()
 
-//        UILogger.info(CliHeader)
+//        UILogger.info(CLI_HEADER)
 
 //        if (!optionsProcessor.process(opts)) {
 //            UILogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")

@@ -6,7 +6,7 @@ import org.slf4j.Logger
 import java.io.File
 
 
-class StaticResourcesPipeline(
+class StaticResourcesPlugin(
         private val config: ProjectConfig,
         private val logger: Logger
 ) : GlowPipeline {

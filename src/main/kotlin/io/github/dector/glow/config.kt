@@ -16,7 +16,7 @@ object Constants {
     const val AppVersion = BuildConfig.VERSION
 }
 
-val CliHeader = """
+val CLI_HEADER = """
     #
     #      _  |  _
     #     (_| | (_) \/\/

@@ -1,8 +1,6 @@
 package io.github.dector.glow.pipeline
 
 import com.google.common.truth.Truth.assertThat
-import io.github.dector.ext.truth.isInstanceOf
-import io.github.dector.glow.core.GlowExecutionResult
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -21,8 +19,8 @@ internal class PipelinedGlowEngineTest {
         val result = engine.execute()
 
         // Then
-        assertThat(result)
-                .isInstanceOf<GlowExecutionResult.Success>()
+        assertThat(result.isSuccess)
+                .isTrue()
     }
 
     @Test
@@ -34,11 +32,11 @@ internal class PipelinedGlowEngineTest {
         )
 
         // When
-        val result = engine.execute() as? GlowExecutionResult.Fail
+        val result = engine.execute()
 
         // Then
-        assertThat(result)
-                .isNotNull()
+        assertThat(result.isSuccess)
+                .isFalse()
     }
 }
 

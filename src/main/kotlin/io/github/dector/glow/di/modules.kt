@@ -10,12 +10,12 @@ import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.mockProjectsConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
-import io.github.dector.glow.pipeline.CombinedPipeline
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.pipeline.PipelinedGlowEngine
+import io.github.dector.glow.pipeline.PluggablePipeline
 import io.github.dector.glow.plugins.notes.*
 import io.github.dector.glow.plugins.pages.*
-import io.github.dector.glow.plugins.resources.StaticResourcesPipeline
+import io.github.dector.glow.plugins.resources.StaticResourcesPlugin
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -32,10 +32,10 @@ val v2Module = Kodein.Module("V2") {
     bind<GlowPipeline>() with singleton {
         val logger = UILogger
 
-        CombinedPipeline(
-                NotesPipeline(instance(), instance(), instance(), logger),
-                PagesPipeline(instance(), instance(), instance(), logger),
-                StaticResourcesPipeline(instance(), logger)
+        PluggablePipeline(
+                NotesPlugin(instance(), instance(), instance(), logger),
+                PagesPlugin(instance(), instance(), instance(), logger),
+                StaticResourcesPlugin(instance(), logger)
         )
 
     }

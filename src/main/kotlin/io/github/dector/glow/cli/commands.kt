@@ -4,7 +4,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
-import io.github.dector.glow.CliHeader
+import io.github.dector.glow.CLI_HEADER
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.disableUiLogger
@@ -21,7 +21,7 @@ class BuildCommand : CliktCommand(name = "build") {
     override fun run() {
         if (quiet) disableUiLogger()
 
-        UILogger.info(CliHeader)
+        UILogger.info(CLI_HEADER)
 
         DI.get<GlowEngine>().execute()
     }

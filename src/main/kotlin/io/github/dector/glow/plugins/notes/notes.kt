@@ -7,7 +7,7 @@ import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 
 
-class NotesPipeline(
+class NotesPlugin(
         private val dataProvider: NotesDataProvider,
         private val dataRenderer: NotesDataRenderer,
         private val dataPublisher: DataPublisher,

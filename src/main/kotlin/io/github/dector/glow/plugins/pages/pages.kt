@@ -7,7 +7,7 @@ import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 
 
-class PagesPipeline(
+class PagesPlugin(
         private val dataProvider: PagesDataProvider,
         private val dataRenderer: PagesDataRenderer,
         private val dataPublisher: DataPublisher,
