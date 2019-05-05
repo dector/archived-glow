@@ -1,8 +1,8 @@
 package io.github.dector.glow.legacy.creator
 
-import io.github.dector.glow.legacy.cli.GlowCommandInitOptions
-import io.github.dector.glow.core.logger.UiLogger
+import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.logger
+import io.github.dector.glow.legacy.cli.GlowCommandInitOptions
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -18,7 +18,7 @@ class GlowProjectCreator(private val opts: GlowCommandInitOptions) {
         val targetFolderPath = opts.targetFolder[0]
         val targetFolder = File(targetFolderPath)
 
-        UiLogger.info("[Building] Initializing project in `$targetFolderPath`...")
+        UILogger.info("[Building] Initializing project in `$targetFolderPath`...")
         targetFolder.mkdirs()
 
         // TODO read as stream (for jar packaging)
@@ -28,12 +28,12 @@ class GlowProjectCreator(private val opts: GlowCommandInitOptions) {
             return false
         }
 
-        UiLogger.info("[Building] Deploying template...")
+        UILogger.info("[Building] Deploying template...")
         File(templateUri).copyRecursively(
                 target = targetFolder,
-                onError = { file, e -> logger.error("Failed to deploy template file ${file.name}", e); OnErrorAction.TERMINATE})
+                onError = { file, e -> logger.error("Failed to deploy template file ${file.name}", e); OnErrorAction.TERMINATE })
 
-        UiLogger.info("[Building] Modifying template...")
+        UILogger.info("[Building] Modifying template...")
         val initPostFile = File(targetFolder, InitialPostPath)
         if (!initPostFile.exists()) {
             logger.error("Failed to modify template post. Check it manually :).")

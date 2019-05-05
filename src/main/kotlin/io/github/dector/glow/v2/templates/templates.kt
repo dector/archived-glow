@@ -1,8 +1,8 @@
 package io.github.dector.glow.v2.templates
 
+import io.github.dector.glow.v2.core.NavigationItem
 import io.github.dector.glow.v2.core.Note2VM
 import io.github.dector.glow.v2.core.Page2VM
-import io.github.dector.glow.v2.implementation.NavigationItem
 import kotlinx.html.*
 import java.time.Instant
 import java.time.ZoneOffset

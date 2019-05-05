@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.core
 
 import io.github.dector.glow.v2.core.BuildConfig.DevMode
 import java.io.File

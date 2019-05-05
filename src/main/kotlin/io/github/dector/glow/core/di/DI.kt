@@ -1,6 +1,6 @@
 package io.github.dector.glow.core.di
 
-import io.github.dector.glow.v2.implementation.v2Module
+import io.github.dector.glow.v2.core.v2Module
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.instance

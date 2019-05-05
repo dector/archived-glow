@@ -23,11 +23,11 @@ class DefaultPostParser(
                 .trim()
 
         val meta = PostMeta(
-                title   = header.title,
-                tags    = header.tags,
+                title = header.title,
+                tags = header.tags,
                 isDraft = header.isDraft,
-                file    = file,
-                url     = urlBuilder(file.nameWithoutExtension),
+                file = file,
+                url = urlBuilder(file.nameWithoutExtension),
                 pubDate = postPubDateFromFilename(file.nameWithoutExtension))
         return ParsedPost(
                 meta = meta,
@@ -59,8 +59,8 @@ class DefaultPostParser(
                 ?.toBoolean() ?: false
 
         return Header(
-                title   = title,
-                tags    = tags,
+                title = title,
+                tags = tags,
                 isDraft = isDraft)
     }
 

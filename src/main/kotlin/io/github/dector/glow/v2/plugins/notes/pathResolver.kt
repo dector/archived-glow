@@ -1,9 +1,9 @@
-package io.github.dector.glow.v2.notes
+package io.github.dector.glow.v2.plugins.notes
 
 import io.github.dector.glow.v2.core.Note2
+import io.github.dector.glow.v2.core.ProjectConfig
 import io.github.dector.glow.v2.core.WebPagePath
-import io.github.dector.glow.v2.implementation.ProjectConfig
-import io.github.dector.glow.v2.implementation.simplifyForWebPath
+import io.github.dector.glow.v2.core.simplifyForWebPath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 

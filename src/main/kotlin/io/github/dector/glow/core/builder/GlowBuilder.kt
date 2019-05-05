@@ -9,10 +9,10 @@ import io.github.dector.glow.core.builder.parser.ParsedPost
 import io.github.dector.glow.core.builder.renderer.IRenderer
 import io.github.dector.glow.core.builder.renderer.PageType
 import io.github.dector.glow.core.builder.renderer.mustache.MustacheRenderer
-import io.github.dector.glow.legacy.cli.GlowCommandBuildOptions
-import io.github.dector.glow.core.logger.UiLogger
+import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.utils.nextOrNull
 import io.github.dector.glow.core.utils.prevOrNull
+import io.github.dector.glow.legacy.cli.GlowCommandBuildOptions
 import java.io.File
 import java.io.FileFilter
 
@@ -27,7 +27,7 @@ class GlowBuilder(
 
         val blogData = collectBlogData(false)
 
-        UiLogger.info("[Building] ${blogData.posts.size} posts found...")
+        UILogger.info("[Building] ${blogData.posts.size} posts found...")
 
         buildPostPages(blogData)
         buildArchivePage(blogData)
@@ -35,7 +35,7 @@ class GlowBuilder(
 
         copyAssets()
 
-        UiLogger.info("[Building] ${blogData.posts.size} file(s) proceed...")
+        UILogger.info("[Building] ${blogData.posts.size} file(s) proceed...")
 
         return true
     }
@@ -43,14 +43,14 @@ class GlowBuilder(
     // --- Preparations
 
     private fun prepareDirs() {
-        UiLogger.info("[Preparation] Checking output directories...")
+        UILogger.info("[Preparation] Checking output directories...")
 
         if (opts.clearOutputDir) {
-            UiLogger.info("[Preparation] Removing existing output dir...")
+            UILogger.info("[Preparation] Removing existing output dir...")
             opts.outputDir?.deleteRecursively()
         }
 
-        UiLogger.info("[Preparation] Creating output dir...")
+        UILogger.info("[Preparation] Creating output dir...")
         opts.outputDir?.mkdirs()
     }
 
@@ -75,14 +75,14 @@ class GlowBuilder(
 
     private fun listPostFiles(): Array<File> {
         return opts.inputDir
-            ?.listFiles(FileFilter { it.extension == "md" })
-            ?: emptyArray()
+                ?.listFiles(FileFilter { it.extension == "md" })
+                ?: emptyArray()
     }
 
     // --- Post Pages
 
     private fun buildPostPages(blogData: BlogData) {
-        UiLogger.info("[Building] Posts...")
+        UILogger.info("[Building] Posts...")
 
         for (item in blogData.posts) {
             // Newer posts are in the beginning
@@ -101,11 +101,11 @@ class GlowBuilder(
     // --- Archive Page
 
     private fun buildArchivePage(blogData: BlogData) {
-        UiLogger.info("[Building] Archive page...")
+        UILogger.info("[Building] Archive page...")
 
         val page = PageData(
-                blog    = blogData,
-                title   = "Archive")
+                blog = blogData,
+                title = "Archive")
         val content = renderPage(PageType.Archive, page)
 
         outputDirFile("archive.html")
@@ -115,10 +115,10 @@ class GlowBuilder(
     // --- Index Page
 
     private fun buildIndexPage(data: BlogData) {
-        UiLogger.info("[Building] Index page...")
+        UILogger.info("[Building] Index page...")
 
         val page = PageData(
-                blog    = data)
+                blog = data)
         val content = renderPage(PageType.Index, page)
 
         outputDirFile("index.html")
@@ -128,7 +128,7 @@ class GlowBuilder(
     // --- Assets
 
     private fun copyAssets() {
-        UiLogger.info("[Building] Copying theme assets to output...")
+        UILogger.info("[Building] Copying theme assets to output...")
 
         themeDirFile("assets")
                 .copyRecursively(outputDirFile("assets"))
@@ -138,37 +138,31 @@ class GlowBuilder(
 
     private fun renderPost(post: ParsedPost, data: BlogData, prevAndNext: Pair<PostMeta?, PostMeta?> = Pair(null, null)): String {
         val page = PageData(
-                title   = post.meta.title,
-                tags    = post.meta.tags,
+                title = post.meta.title,
+                tags = post.meta.tags,
                 pubDate = post.meta.pubDate,
                 content = post.content,
-                prev    = prevAndNext.first,
-                next    = prevAndNext.second,
-                blog    = data)
+                prev = prevAndNext.first,
+                next = prevAndNext.second,
+                blog = data)
 
         return renderPage(PageType.Post, page)
     }
 
-    private fun renderPage(pageType: PageType, page: PageData): String
-            = renderer.render(pageType, page)
+    private fun renderPage(pageType: PageType, page: PageData): String = renderer.render(pageType, page)
 
     // --- File tools
 
-    private fun outputPostFile(inputFile: File): File
-            = outputDirFile(outputPostFileName(inputFile))
+    private fun outputPostFile(inputFile: File): File = outputDirFile(outputPostFileName(inputFile))
 
-    private fun outputPostFileName(inputFile: File): String
-            = urlBuilder(inputFile.nameWithoutExtension)
+    private fun outputPostFileName(inputFile: File): String = urlBuilder(inputFile.nameWithoutExtension)
 
-    private fun outputDirFile(name: String): File
-            = File(opts.outputDir, name)
+    private fun outputDirFile(name: String): File = File(opts.outputDir, name)
 
-    private fun themeDirFile(name: String): File
-            = File(opts.themeDir, name)
+    private fun themeDirFile(name: String): File = File(opts.themeDir, name)
 
     // ---
 
 }
 
-fun defaultRenderer(opts: GlowCommandBuildOptions): IRenderer
-        = MustacheRenderer(templatesDir = opts.themeDir!!)
+fun defaultRenderer(opts: GlowCommandBuildOptions): IRenderer = MustacheRenderer(templatesDir = opts.themeDir!!)

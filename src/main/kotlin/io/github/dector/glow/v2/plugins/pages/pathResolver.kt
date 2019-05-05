@@ -1,9 +1,9 @@
-package io.github.dector.glow.v2.pages
+package io.github.dector.glow.v2.plugins.pages
 
 import io.github.dector.glow.v2.core.Page2
+import io.github.dector.glow.v2.core.ProjectConfig
 import io.github.dector.glow.v2.core.WebPagePath
-import io.github.dector.glow.v2.implementation.ProjectConfig
-import io.github.dector.glow.v2.implementation.simplifyForWebPath
+import io.github.dector.glow.v2.core.simplifyForWebPath
 
 
 interface PagesPathResolver {

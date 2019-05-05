@@ -1,10 +1,9 @@
-package io.github.dector.glow.v2.pages
+package io.github.dector.glow.v2.plugins.pages
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.v2.core.*
-import io.github.dector.glow.v2.implementation.ProjectConfig
-import io.github.dector.glow.v2.implementation.parser.MarkdownParser
+import io.github.dector.glow.v2.core.parser.MarkdownParser
 import io.github.dector.glow.v2.templates.Templates
 
 class DefaultPagesDataRenderer(

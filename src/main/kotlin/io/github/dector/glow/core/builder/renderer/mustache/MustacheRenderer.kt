@@ -24,48 +24,46 @@ class MustacheRenderer(
             .compile(templateReader(pageType))
             .execute(vmBuilder[pageType, data])
 
-    private fun templateReader(pageType: PageType): Reader
-            = templateFile(pageType.filename).reader()
+    private fun templateReader(pageType: PageType): Reader = templateFile(pageType.filename).reader()
 
-    private fun templateFile(name: String): File
-            = File(templatesDir, "$name.mustache")
+    private fun templateFile(name: String): File = File(templatesDir, "$name.mustache")
 }
 
 private class VMBuilder(
         private val formatter: IRenderFormatter = DefaultRenderFormatter()) {
 
-    operator fun get(pageType: PageType, page: PageData): BaseVM = when(pageType) {
+    operator fun get(pageType: PageType, page: PageData): BaseVM = when (pageType) {
         PageType.Index -> buildIndexVM(page)
         PageType.Archive -> buildArchiveVM(page)
         PageType.Post -> buildPostVM(page)
     }
 
     private fun buildBaseVM(page: PageData) = BaseVM(
-            blogTitle   = page.blog.title,
-            title       = page.title)
+            blogTitle = page.blog.title,
+            title = page.title)
 
     private fun buildIndexVM(page: PageData) = IndexVM(
-            baseVM      = buildBaseVM(page),
-            blogPosts   = page.blog.posts.asVM())
+            baseVM = buildBaseVM(page),
+            blogPosts = page.blog.posts.asVM())
 
     private fun buildArchiveVM(page: PageData) = ArchiveVM(
-            baseVM      = buildBaseVM(page),
-            blogPosts   = page.blog.posts.asVM())
+            baseVM = buildBaseVM(page),
+            blogPosts = page.blog.posts.asVM())
 
     private fun buildPostVM(page: PageData) = PostVM(
-            baseVM      = buildBaseVM(page),
-            tags        = page.tags,
-            pubdate     = formatter.formatPubDate(page.pubDate),
+            baseVM = buildBaseVM(page),
+            tags = page.tags,
+            pubdate = formatter.formatPubDate(page.pubDate),
             pubdateHint = formatter.formatPubDateHint(page.pubDate),
-            content     = page.content,
-            prevPost    = page.prev?.asVM(),
-            nextPost    = page.next?.asVM())
+            content = page.content,
+            prevPost = page.prev?.asVM(),
+            nextPost = page.next?.asVM())
 
     private fun List<PostMeta>.asVM() = map { it.asVM() }
 
     private fun PostMeta.asVM() = PostInfoVM(
-            title   = title,
-            url     = url,
+            title = title,
+            url = url,
             pubdate = formatter.formatPubDate(pubDate))
 }
 
@@ -74,8 +72,8 @@ private open class BaseVM(
         var title: String) {
 
     constructor(it: BaseVM) : this(
-            blogTitle   = it.blogTitle,
-            title       = it.title)
+            blogTitle = it.blogTitle,
+            title = it.title)
 }
 
 private class PostInfoVM(
@@ -104,7 +102,7 @@ private class PostVM(
         var pubdateHint: String,
         var content: String,
         var prevPost: PostInfoVM?,
-        var nextPost: PostInfoVM?): BaseVM(baseVM) {
+        var nextPost: PostInfoVM?) : BaseVM(baseVM) {
 
     val hasTags by another { tags.isNotEmpty() }
     val hasPrevPost by another { prevPost != null }

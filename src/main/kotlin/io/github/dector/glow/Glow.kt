@@ -2,8 +2,8 @@ package io.github.dector.glow
 
 import io.github.dector.glow.core.cli.cliCommands
 import io.github.dector.glow.core.di.DI
-import io.github.dector.glow.core.logger.UiLogger
-import io.github.dector.glow.core.logger.rootLogger
+import io.github.dector.glow.core.logger.RootLogger
+import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.utils.StopWatch.Companion.DefaultSecondsFormatter
 import kotlin.system.exitProcess
 import kotlin.system.measureTimeMillis
@@ -14,9 +14,9 @@ fun main(args: Array<String>) {
 
     when (executionResult) {
         is Success ->
-            UiLogger.info("\nFinished in $timeToDisplay.")
+            UILogger.info("\nFinished in $timeToDisplay.")
         is Failed -> {
-            UiLogger.info("\nFailed after $timeToDisplay.")
+            UILogger.info("\nFailed after $timeToDisplay.")
             exitProcess(1)
         }
     }
@@ -32,7 +32,7 @@ private fun executeApp(args: Array<String>): ExecutionResult {
             cliCommands()
                     .main(args)
         } catch (e: Throwable) {
-            rootLogger().error(e.message, e)
+            RootLogger.error(e.message, e)
             error = e
         }
     }

@@ -2,8 +2,6 @@ package io.github.dector.glow.core.utils
 
 import org.json.JSONObject
 
-fun JSONObject.string(name: String, fallback: String = ""): String
-        = if (has(name)) getString(name) else fallback
+fun JSONObject.string(name: String, fallback: String = ""): String = if (has(name)) getString(name) else fallback
 
-fun JSONObject.boolean(name: String, fallback: Boolean = false): Boolean
-        = if (has(name)) getBoolean(name) else fallback
+fun JSONObject.boolean(name: String, fallback: Boolean = false): Boolean = if (has(name)) getBoolean(name) else fallback

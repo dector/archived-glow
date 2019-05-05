@@ -1,6 +1,6 @@
-package io.github.dector.glow.v2.resources
+package io.github.dector.glow.v2.plugins.resources
 
-import io.github.dector.glow.v2.implementation.ProjectConfig
+import io.github.dector.glow.v2.core.ProjectConfig
 import io.github.dector.glow.v2.pipeline.GlowPipeline
 import org.slf4j.Logger
 import java.io.File

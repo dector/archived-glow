@@ -61,6 +61,5 @@ class StopWatch {
         return this
     }
 
-    fun timeFormatted(formatter: TimeFormatter = StopWatch.DefaultSecondsFormatter): String
-            = formatter(time)
+    fun timeFormatted(formatter: TimeFormatter = StopWatch.DefaultSecondsFormatter): String = formatter(time)
 }

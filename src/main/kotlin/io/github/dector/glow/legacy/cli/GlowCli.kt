@@ -1,13 +1,13 @@
 package io.github.dector.glow.legacy.cli
 
 import com.beust.jcommander.JCommander
-import io.github.dector.glow.CurrentConfigVersion
 import io.github.dector.glow.core.builder.GlowBuilder
-import io.github.dector.glow.legacy.creator.GlowProjectCreator
-import io.github.dector.glow.core.logger.UiLogger
+import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.logger
 import io.github.dector.glow.core.utils.boolean
 import io.github.dector.glow.core.utils.string
+import io.github.dector.glow.legacy.creator.GlowProjectCreator
+import io.github.dector.glow.v2.core.Constants.CurrentConfigVersion
 import org.json.JSONObject
 import java.io.File
 
@@ -22,14 +22,14 @@ class GlowCli(
 //        if (opts.commandMainOptions.quiet)
 //            disableUiLogger()
 
-//        UiLogger.info(CliHeader)
+//        UILogger.info(CliHeader)
 
 //        if (!optionsProcessor.process(opts)) {
-//            UiLogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
+//            UILogger.info("\nFailed after ${stopWatch.stop().timeFormatted()}.")
 //            exitProcess(1)
 //        }
 //
-//        UiLogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
+//        UILogger.info("\nFinished in ${stopWatch.stop().timeFormatted()}.")
     }
 
     private fun parseArguments(baseOpts: GlowOptions = GlowOptions(), vararg args: String): GlowOptions {
@@ -67,7 +67,7 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
         else -> {
             when {
                 opts.commandMainOptions.help -> {
-                    UiLogger.info(opts.commandMainOptions.usageText)
+                    UILogger.info(opts.commandMainOptions.usageText)
                     true
                 }
                 opts.command.isEmpty() -> true
@@ -93,10 +93,10 @@ private class DefaultOptionsProcessor : IOptionsProcessor {
         }
 
         val buildOpts = if (configBuildOpts != null) {
-            UiLogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
+            UILogger.info("[Preparation] Config file found. CLI arguments will be ignored...")
             configBuildOpts
         } else {
-            UiLogger.info("[Preparation] Config file not found. CLI arguments will be used...")
+            UILogger.info("[Preparation] Config file not found. CLI arguments will be used...")
             opts
         }
 

@@ -1,8 +1,6 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.core
 
 import io.github.dector.glow.core.logger.logger
-import io.github.dector.glow.v2.core.WebPage
-import io.github.dector.glow.v2.core.WebPagePath
 import io.github.dector.glow.v2.core.components.DataPublisher
 import java.io.File
 

@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.notes
+package io.github.dector.glow.v2.plugins.notes
 
 import io.github.dector.glow.v2.core.Note2
 import io.github.dector.glow.v2.core.WebPage

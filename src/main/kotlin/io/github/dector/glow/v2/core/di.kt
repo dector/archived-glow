@@ -1,18 +1,18 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.core
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.core.logger.UiLogger
+import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.v2.core.components.DataPublisher
 import io.github.dector.glow.v2.core.components.GlowEngine
-import io.github.dector.glow.v2.implementation.parser.MarkdownParser
-import io.github.dector.glow.v2.implementation.parser.SimpleMarkdownParser
-import io.github.dector.glow.v2.notes.*
-import io.github.dector.glow.v2.pages.*
+import io.github.dector.glow.v2.core.parser.MarkdownParser
+import io.github.dector.glow.v2.core.parser.SimpleMarkdownParser
 import io.github.dector.glow.v2.pipeline.CombinedPipeline
 import io.github.dector.glow.v2.pipeline.GlowPipeline
 import io.github.dector.glow.v2.pipeline.PipelinedGlowEngine
-import io.github.dector.glow.v2.resources.StaticResourcesPipeline
+import io.github.dector.glow.v2.plugins.notes.*
+import io.github.dector.glow.v2.plugins.pages.*
+import io.github.dector.glow.v2.plugins.resources.StaticResourcesPipeline
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -27,7 +27,7 @@ val v2Module = Kodein.Module("V2") {
     import(defaultImplementationsModule)
 
     bind<GlowPipeline>() with singleton {
-        val logger = UiLogger
+        val logger = UILogger
 
         CombinedPipeline(
                 NotesPipeline(instance(), instance(), instance(), logger),

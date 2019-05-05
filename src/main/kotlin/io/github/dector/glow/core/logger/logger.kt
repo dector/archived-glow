@@ -8,7 +8,7 @@ import org.slf4j.helpers.SubstituteLoggerFactory
 
 private val _UiLogger: SubstituteLogger = (SubstituteLoggerFactory().getLogger("") as SubstituteLogger)
         .apply { setDelegate(TransparentLogger()) }
-val UiLogger: Logger = _UiLogger
+val UILogger: Logger = _UiLogger
 
 val EmptyLogger: Logger = SubstituteLoggerFactory().getLogger("")
 
