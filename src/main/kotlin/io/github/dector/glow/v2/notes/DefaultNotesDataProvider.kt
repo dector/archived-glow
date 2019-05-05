@@ -1,12 +1,12 @@
-package io.github.dector.glow.v2.pipeline.notes
+package io.github.dector.glow.v2.notes
 
 import io.github.dector.glow.v2.core.MarkdownContent
 import io.github.dector.glow.v2.core.Note2
 import io.github.dector.glow.v2.core.NoteInfo
-import io.github.dector.glow.v2.implementation.MarkdownParser
+import io.github.dector.glow.v2.implementation.parser.MarkdownParser
 import io.github.dector.glow.v2.implementation.ProjectConfig
-import io.github.dector.glow.v2.implementation.markdownFileId
-import io.github.dector.glow.v2.implementation.parseInstant
+import io.github.dector.glow.v2.implementation.parser.markdownFileId
+import io.github.dector.glow.v2.implementation.parser.parseInstant
 import java.io.File
 import java.time.Instant
 

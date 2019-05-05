@@ -1,22 +1,18 @@
-package io.github.dector.glow.v2
+package io.github.dector.glow.v2.implementation
 
 import com.vladsch.flexmark.ast.Node
+import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.core.logger.UiLogger
 import io.github.dector.glow.v2.core.components.DataPublisher
-import io.github.dector.glow.v2.core.components.DataRenderer
 import io.github.dector.glow.v2.core.components.GlowEngine
-import io.github.dector.glow.v2.core.components.PathResolver
-import io.github.dector.glow.v2.implementation.*
+import io.github.dector.glow.v2.implementation.parser.MarkdownParser
+import io.github.dector.glow.v2.implementation.parser.SimpleMarkdownParser
+import io.github.dector.glow.v2.notes.*
+import io.github.dector.glow.v2.pages.*
 import io.github.dector.glow.v2.pipeline.CombinedPipeline
 import io.github.dector.glow.v2.pipeline.GlowPipeline
 import io.github.dector.glow.v2.pipeline.PipelinedGlowEngine
-import io.github.dector.glow.v2.pipeline.notes.DefaultNotesDataProvider
-import io.github.dector.glow.v2.pipeline.notes.NotesDataProvider
-import io.github.dector.glow.v2.pipeline.notes.NotesPipeline
-import io.github.dector.glow.v2.pipeline.pages.DefaultPagesDataProvider
-import io.github.dector.glow.v2.pipeline.pages.PagesDataProvider
-import io.github.dector.glow.v2.pipeline.pages.PagesPipeline
-import io.github.dector.glow.v2.pipeline.resources.StaticResourcesPipeline
+import io.github.dector.glow.v2.resources.StaticResourcesPipeline
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -25,8 +21,8 @@ import org.kodein.di.generic.singleton
 
 val v2Module = Kodein.Module("V2") {
 
-    bind<PathResolver>() with singleton { WebPathResolver(instance()) }
     bind<MarkdownParser<Node>>() with singleton { SimpleMarkdownParser() }
+    bind<HtmlRenderer>() with singleton { HtmlRenderer.builder().build() }
 
     import(defaultImplementationsModule)
 
@@ -48,7 +44,6 @@ val v2Module = Kodein.Module("V2") {
 private val defaultImplementationsModule = Kodein.Module("V2 mock") {
 
     bind<ProjectConfig>() with singleton { mockProjectsConfig() }
-    bind<DataRenderer>() with singleton { DefaultDataRenderer(instance(), instance(), instance()) }
     bind<DataPublisher>() with singleton { DefaultDataPublisher(instance()) }
 
     import(notesModule)
@@ -56,9 +51,13 @@ private val defaultImplementationsModule = Kodein.Module("V2 mock") {
 }
 
 private val notesModule = Kodein.Module("Notes pipeline") {
+    bind<NotesPathResolver>() with singleton { NotesWebPathResolver(instance()) }
     bind<NotesDataProvider>() with singleton { DefaultNotesDataProvider(instance(), instance()) }
+    bind<NotesDataRenderer>() with singleton { DefaultNotesDataRenderer(instance(), instance(), instance(), instance()) }
 }
 
 private val pagesModule = Kodein.Module("Pages pipeline") {
+    bind<PagesPathResolver>() with singleton { PagesWebPathResolver(instance()) }
     bind<PagesDataProvider>() with singleton { DefaultPagesDataProvider(instance(), instance()) }
+    bind<PagesDataRenderer>() with singleton { DefaultPagesDataRenderer(instance(), instance(), instance(), instance()) }
 }

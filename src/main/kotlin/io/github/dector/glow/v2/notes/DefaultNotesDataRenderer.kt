@@ -1,30 +1,18 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.notes
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.v2.core.*
-import io.github.dector.glow.v2.core.components.DataRenderer
-import io.github.dector.glow.v2.core.components.PathResolver
+import io.github.dector.glow.v2.implementation.ProjectConfig
+import io.github.dector.glow.v2.implementation.parser.MarkdownParser
 import io.github.dector.glow.v2.templates.Templates
 
-class DefaultDataRenderer(
-        private val pathResolver: PathResolver,
+class DefaultNotesDataRenderer(
+        private val pathResolver: NotesPathResolver,
         private val markdownParser: MarkdownParser<Node>,
-        private val projectConfig: ProjectConfig
-) : DataRenderer {
-    private val htmlRenderer = buildRenderer()
-
-    override fun render(page: Page2): WebPage {
-        val content = htmlRenderer.render(markdownParser.parse(page.content.value))
-
-        val vm = createPageVM(page, content)
-
-        val renderedPage = Templates.page(vm, projectConfig.navigation)
-        return WebPage(
-                path = pathResolver.resolve(page),
-                content = HtmlWebPageContent(renderedPage)
-        )
-    }
+        private val projectConfig: ProjectConfig,
+        private val htmlRenderer: HtmlRenderer
+) : NotesDataRenderer {
 
     override fun render(note: Note2): WebPage {
         val content = htmlRenderer.render(markdownParser.parse(note.content.value))
@@ -62,15 +50,6 @@ class DefaultDataRenderer(
         )
     }
 
-    private fun createPageVM(page: Page2, content: String) = run {
-        Page2VM(
-                title = page.title,
-                createdAt = page.createdAt,
-                path = pathResolver.resolve(page),
-                content = HtmlContent(content)
-        )
-    }
-
     private fun createNoteVM(note: Note2, content: String) = run {
         Note2VM(
                 title = note.title,
@@ -81,7 +60,5 @@ class DefaultDataRenderer(
                 previewContent = HtmlContent(content.substring(0..500))
         )
     }
-
-    private fun buildRenderer(): HtmlRenderer = HtmlRenderer.builder().build()
 }
 

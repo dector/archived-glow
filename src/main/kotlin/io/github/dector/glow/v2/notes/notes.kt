@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.pipeline.notes
+package io.github.dector.glow.v2.notes
 
 import io.github.dector.glow.v2.core.Note2
 import io.github.dector.glow.v2.core.WebPage
@@ -59,6 +59,7 @@ class NotesPipeline(
     private fun String.log() {
         logger.info(this)
     }
+
     private fun String.logn() {
         this.log()
         "".log()

@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.pipeline.pages
+package io.github.dector.glow.v2.pages
 
 import io.github.dector.glow.v2.core.Page2
 import io.github.dector.glow.v2.core.WebPage

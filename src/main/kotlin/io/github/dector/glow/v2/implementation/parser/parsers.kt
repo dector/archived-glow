@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.implementation.parser
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor

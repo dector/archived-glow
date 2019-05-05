@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.pipeline.resources
+package io.github.dector.glow.v2.resources
 
 import io.github.dector.glow.v2.implementation.ProjectConfig
 import io.github.dector.glow.v2.pipeline.GlowPipeline

@@ -30,16 +30,4 @@ class DefaultDataPublisher(
                 .resolve(path.value.removePrefix("/"))
                 .toFile()
     }
-
-    /*override fun publishNotesIndex(htmlContent: String) {
-        val file = File(config.output.notesFolder, "index.html")
-
-        file.parentFile.mkdirs()
-
-        if (file.exists() && !config.output.overrideFiles) {
-            println("File '${file.absolutePath}' exists. Skipping.")
-        } else {
-            file.writeText(htmlContent)
-        }
-    }*/
 }

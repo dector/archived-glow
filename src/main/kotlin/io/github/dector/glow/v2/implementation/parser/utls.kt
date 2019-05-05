@@ -1,4 +1,4 @@
-package io.github.dector.glow.v2.implementation
+package io.github.dector.glow.v2.implementation.parser
 
 import java.io.File
 import java.time.Instant

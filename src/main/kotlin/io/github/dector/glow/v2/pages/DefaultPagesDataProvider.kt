@@ -1,11 +1,11 @@
-package io.github.dector.glow.v2.pipeline.pages
+package io.github.dector.glow.v2.pages
 
 import io.github.dector.glow.v2.core.MarkdownContent
 import io.github.dector.glow.v2.core.Page2
 import io.github.dector.glow.v2.core.PageInfo
-import io.github.dector.glow.v2.implementation.MarkdownParser
+import io.github.dector.glow.v2.implementation.parser.MarkdownParser
 import io.github.dector.glow.v2.implementation.ProjectConfig
-import io.github.dector.glow.v2.implementation.markdownFileId
+import io.github.dector.glow.v2.implementation.parser.markdownFileId
 import java.io.File
 
 class DefaultPagesDataProvider(
