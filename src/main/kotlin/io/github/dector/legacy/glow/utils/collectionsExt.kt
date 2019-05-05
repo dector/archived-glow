@@ -1,4 +1,4 @@
-package io.github.dector.glow.utils
+package io.github.dector.legacy.glow.utils
 
 fun <E> List<E>.prevOrNull(item: E): E? {
     val index = indexOf(item)

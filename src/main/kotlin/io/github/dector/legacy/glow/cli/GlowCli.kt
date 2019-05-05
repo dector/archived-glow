@@ -4,10 +4,10 @@ import com.beust.jcommander.JCommander
 import io.github.dector.glow.Constants.CurrentConfigVersion
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.logger
-import io.github.dector.glow.utils.boolean
-import io.github.dector.glow.utils.string
 import io.github.dector.legacy.glow.builder.GlowBuilder
 import io.github.dector.legacy.glow.creator.GlowProjectCreator
+import io.github.dector.legacy.glow.utils.boolean
+import io.github.dector.legacy.glow.utils.string
 import org.json.JSONObject
 import java.io.File
 
