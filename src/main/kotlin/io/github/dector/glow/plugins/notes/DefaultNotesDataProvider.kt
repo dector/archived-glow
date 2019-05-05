@@ -1,8 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.MarkdownContent
-import io.github.dector.glow.core.Note2
-import io.github.dector.glow.core.NoteInfo
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId

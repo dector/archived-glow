@@ -2,7 +2,10 @@ package io.github.dector.glow.plugins.notes
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.core.*
+import io.github.dector.glow.core.HtmlContent
+import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.core.ProjectConfig
+import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.templates.Templates
 

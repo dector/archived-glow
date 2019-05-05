@@ -15,7 +15,7 @@ class GlowCommand : CliktCommand(name = "glow") {
 }
 
 class BuildCommand : CliktCommand(name = "build") {
-    val quiet by option("-q", "--quiet",
+    private val quiet by option("-q", "--quiet",
             help = "Don't print anything").flag()
 
     override fun run() {

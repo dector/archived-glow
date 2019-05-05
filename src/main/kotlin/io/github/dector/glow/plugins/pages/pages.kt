@@ -1,6 +1,5 @@
 package io.github.dector.glow.plugins.pages
 
-import io.github.dector.glow.core.Page2
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.pipeline.GlowPipeline

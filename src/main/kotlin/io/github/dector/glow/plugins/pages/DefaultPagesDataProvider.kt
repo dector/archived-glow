@@ -1,8 +1,6 @@
 package io.github.dector.glow.plugins.pages
 
 import io.github.dector.glow.core.MarkdownContent
-import io.github.dector.glow.core.Page2
-import io.github.dector.glow.core.PageInfo
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId

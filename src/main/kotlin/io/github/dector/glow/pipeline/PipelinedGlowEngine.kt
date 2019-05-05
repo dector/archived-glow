@@ -7,13 +7,11 @@ class PipelinedGlowEngine(
         private val pipeline: GlowPipeline
 ) : GlowEngine {
 
-    override fun execute(): Result<Unit> {
-        try {
-            pipeline.execute()
-            return Result.success(Unit)
-        } catch (e: Throwable) {
-            return Result.failure(e)
-        }
+    override fun execute(): Result<Unit> = try {
+        pipeline.execute()
+        Result.success(Unit)
+    } catch (e: Throwable) {
+        Result.failure(e)
     }
 }
 

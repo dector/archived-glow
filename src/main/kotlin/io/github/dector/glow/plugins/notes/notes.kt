@@ -1,6 +1,5 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.core.Note2
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.pipeline.GlowPipeline

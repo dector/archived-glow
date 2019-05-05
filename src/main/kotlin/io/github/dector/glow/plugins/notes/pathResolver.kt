@@ -1,6 +1,5 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.core.Note2
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.simplifyForWebPath
