@@ -57,17 +57,25 @@ private fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
 }
 
 private fun DIV.tContentContainer(contentBuilder: DIV.() -> Unit) {
-    div("container mt-3") {
+    div("container my-4") {
         contentBuilder()
     }
 }
 
 private fun DIV.tFooter(footer: FooterVM) {
+    hr {}
+
     p("text-muted text-center") {
         +"${footer.author}, ${footer.year}. Content distributed under the "
         a(href = footer.licenseUrl) {
             +footer.licenseName
         }
         +"."
+    }
+}
+
+fun DIV.tTitle(title: String) {
+    div("mb-3") {
+        h1 { +title }
     }
 }

@@ -17,10 +17,6 @@ fun DIV.tNotesIndexContent(notes: List<Note2VM>, title: String = "Notes", displa
     }
 }
 
-private fun DIV.tTitle(title: String) {
-    h1 { +title }
-}
-
 private fun DIV.tNoteTitle(note: Note2VM) {
     a {
         href = note.path.value

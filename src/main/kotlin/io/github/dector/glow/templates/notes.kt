@@ -1,10 +1,13 @@
 package io.github.dector.glow.templates
 
 import io.github.dector.glow.plugins.notes.Note2VM
-import kotlinx.html.*
+import kotlinx.html.DIV
+import kotlinx.html.div
+import kotlinx.html.p
+import kotlinx.html.unsafe
 
 fun DIV.tNoteContent(note: Note2VM) {
-    tTitle(note)
+    tTitle(note.title)
 
     tPublicationDateTime(note)
     tTags(note)
@@ -13,10 +16,6 @@ fun DIV.tNoteContent(note: Note2VM) {
 
     tPrevEntry(note)
     tNextEntry(note)
-}
-
-private fun DIV.tTitle(note: Note2VM) {
-    h1 { +note.title }
 }
 
 private fun DIV.tPublicationDateTime(note: Note2VM) {
