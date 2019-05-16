@@ -1,10 +1,27 @@
 package io.github.dector.glow.core
 
 import io.github.dector.glow.BuildSetup.DevMode
+import io.github.dector.glow.core.NavItemType.*
 import java.io.File
 
 
 fun mockProjectsConfig() = TestConfig
+
+fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
+        title = "Dead Art Space",
+        navigation = listOf(
+                NavigationItem("/", "Home", Home),
+                NavigationItem("/notes", "Notes", Notes),
+                NavigationItem("/projects", "Projects", Projects),
+                NavigationItem("/about", "About", About)
+        ),
+        footer = FooterVM(
+                author = "Dead Art Space",
+                year = "2019",
+                licenseName = "Creative Commons Attribution-ShareAlike 4.0",
+                licenseUrl = "http://creativecommons.org/licenses/by-sa/4.0/"
+        )
+)
 
 private val TestConfig = ProjectConfig(
         input = InputConfig(
@@ -19,12 +36,7 @@ private val TestConfig = ProjectConfig(
                 notesPath = "/notes",
                 overrideFiles = true
         ),
-        navigation = listOf(
-                NavigationItem("/", "Home"),
-                NavigationItem("/notes", "Notes"),
-                NavigationItem("/projects", "Projects"),
-                NavigationItem("/about", "About")
-        )
+        navigation = provideBlogVM().navigation
 )
 
 private val ProdConfig = ProjectConfig(
@@ -40,12 +52,7 @@ private val ProdConfig = ProjectConfig(
                 notesPath = "/notes",
                 overrideFiles = true
         ),
-        navigation = listOf(
-                NavigationItem("/", "Home"),
-                NavigationItem("/notes", "Notes"),
-                NavigationItem("/projects", "Projects"),
-                NavigationItem("/about", "About")
-        )
+        navigation = provideBlogVM().navigation
 )
 
 data class ProjectConfig(
@@ -56,8 +63,13 @@ data class ProjectConfig(
 
 data class NavigationItem(
         val path: String,
-        val title: String
+        val title: String,
+        val type: NavItemType
 )
+
+enum class NavItemType {
+    Home, Notes, Projects, About
+}
 
 data class InputConfig(
         val staticFolder: File,

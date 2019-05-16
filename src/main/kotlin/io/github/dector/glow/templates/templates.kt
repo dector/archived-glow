@@ -62,7 +62,7 @@ object Templates {
     }
 }
 
-private fun Instant.formatAsMidDateTime() = DateTimeFormatter
-        .ofPattern("E, dd MMM uuuu HH:mm")
+fun Instant.formatAsMidDateTime(): String = DateTimeFormatter
+        .ofPattern("E, dd MMM uuuu 'at' HH:mm")
         .withZone(ZoneOffset.UTC)
         .format(this)
