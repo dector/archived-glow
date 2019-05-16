@@ -4,50 +4,6 @@ import io.github.dector.glow.plugins.notes.Note2VM
 import kotlinx.html.*
 
 fun DIV.tNotesIndexContent(notes: List<Note2VM>, title: String = "Notes", displayFullNotes: Boolean = false) {
-    fun DIV.tTitle(title: String) {
-        h1 { +title }
-    }
-
-    fun DIV.tNoteTitle(note: Note2VM) {
-        a {
-            href = note.path.value
-
-            h3 { +note.title }
-        }
-    }
-
-    fun DIV.tPublicationDateTime(note: Note2VM) {
-        p("text-muted") {
-            +note.publishedAtValue
-        }
-    }
-
-    fun DIV.tTags(note: Note2VM) {
-        /*if (note.tags.isNotEmpty())
-            p { +"Tags:" }*/
-    }
-
-    fun DIV.tNoteLink(note: Note2VM) {
-        span {
-            a(classes = "px-1 ml-1 border font-weight-bolder") {
-                href = note.path.value
-
-                +"..."
-            }
-        }
-    }
-
-    fun DIV.tContent(note: Note2VM, displayFullNotes: Boolean) {
-        div("text-justify") {
-            unsafe {
-                +(if (displayFullNotes) note.content else note.previewContent).value
-            }
-
-            if (!displayFullNotes)
-                tNoteLink(note)
-        }
-    }
-
     tTitle(title)
 
     notes.forEach { note ->
@@ -58,5 +14,49 @@ fun DIV.tNotesIndexContent(notes: List<Note2VM>, title: String = "Notes", displa
 
             tContent(note, displayFullNotes)
         }
+    }
+}
+
+private fun DIV.tTitle(title: String) {
+    h1 { +title }
+}
+
+private fun DIV.tNoteTitle(note: Note2VM) {
+    a {
+        href = note.path.value
+
+        h3 { +note.title }
+    }
+}
+
+private fun DIV.tPublicationDateTime(note: Note2VM) {
+    p("text-muted") {
+        +note.publishedAtValue
+    }
+}
+
+private fun DIV.tTags(note: Note2VM) {
+    /*if (note.tags.isNotEmpty())
+        p { +"Tags:" }*/
+}
+
+private fun DIV.tNoteLink(note: Note2VM) {
+    span {
+        a(classes = "px-1 ml-1 border font-weight-bolder") {
+            href = note.path.value
+
+            +"..."
+        }
+    }
+}
+
+private fun DIV.tContent(note: Note2VM, displayFullNotes: Boolean) {
+    div("text-justify") {
+        unsafe {
+            +(if (displayFullNotes) note.content else note.previewContent).value
+        }
+
+        if (!displayFullNotes)
+            tNoteLink(note)
     }
 }

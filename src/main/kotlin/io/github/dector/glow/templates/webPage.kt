@@ -35,7 +35,7 @@ fun tWebPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() 
     }
 }.let { html -> "<!DOCTYPE html>\n$html" }
 
-fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
+private fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
     nav("navbar navbar-expand navbar-dark bg-dark") {
         a(classes = "navbar-brand") {
             href = "/"
@@ -56,13 +56,13 @@ fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
     }
 }
 
-fun DIV.tContentContainer(contentBuilder: DIV.() -> Unit) {
+private fun DIV.tContentContainer(contentBuilder: DIV.() -> Unit) {
     div("container mt-3") {
         contentBuilder()
     }
 }
 
-fun DIV.tFooter(footer: FooterVM) {
+private fun DIV.tFooter(footer: FooterVM) {
     p("text-muted text-center") {
         +"${footer.author}, ${footer.year}. Content distributed under the "
         a(href = footer.licenseUrl) {
