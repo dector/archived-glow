@@ -2,25 +2,33 @@ package io.github.dector.glow.plugins.pages
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.core.*
+import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.HtmlContent
+import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.parser.MarkdownParser
+import io.github.dector.glow.detectNavItem
 import io.github.dector.glow.templates.Templates
 
 class DefaultPagesDataRenderer(
         private val pathResolver: PagesPathResolver,
         private val markdownParser: MarkdownParser<Node>,
-        private val projectConfig: ProjectConfig,
         private val htmlRenderer: HtmlRenderer
 ) : PagesDataRenderer {
 
-    override fun render(page: Page2): WebPage {
+    override fun render(blog: BlogVM, page: Page2): WebPage {
         val content = htmlRenderer.render(markdownParser.parse(page.content.value))
 
         val vm = createPageVM(page, content)
 
-        val renderedPage = Templates.page(vm, projectConfig.navigation)
+        val pagePath = pathResolver.resolve(page)
+        val navItem = blog.detectNavItem(pagePath)
+
+        println("Page: ${page.title}, path: $pagePath, navItem: ${navItem?.path}")
+
+        val renderedPage = Templates.page(blog, vm, navItem)
         return WebPage(
-                path = pathResolver.resolve(page),
+                path = pagePath,
                 content = HtmlWebPageContent(renderedPage)
         )
     }
@@ -34,4 +42,3 @@ class DefaultPagesDataRenderer(
         )
     }
 }
-

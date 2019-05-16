@@ -12,14 +12,14 @@ data class WebPage(
 )
 
 data class BlogVM(
-        val title: String,
-        val footer: FooterVM,
-        val navigation: List<NavigationItem>
+        val title: String = "",
+        val footer: FooterVM = FooterVM(),
+        val navigation: List<NavigationItem> = emptyList()
 )
 
 data class FooterVM(
-        val author: String,
-        val year: String,
-        val licenseName: String,
-        val licenseUrl: String
+        val author: String = "",
+        val year: String = "",
+        val licenseName: String = "",
+        val licenseUrl: String = ""
 )

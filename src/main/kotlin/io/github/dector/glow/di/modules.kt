@@ -15,6 +15,7 @@ import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
 import io.github.dector.glow.plugins.notes.*
 import io.github.dector.glow.plugins.pages.*
+import io.github.dector.glow.plugins.resources.StaticResourcesPlugin
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -32,9 +33,9 @@ val v2Module = Kodein.Module("V2") {
         val logger = UILogger
 
         PluggablePipeline(
-                NotesPlugin(instance(), instance(), instance(), logger)/*,
+                NotesPlugin(instance(), instance(), instance(), logger),
                 PagesPlugin(instance(), instance(), instance(), logger),
-                StaticResourcesPlugin(instance(), logger)*/
+                StaticResourcesPlugin(instance(), logger)
         )
 
     }
@@ -55,11 +56,11 @@ private val defaultImplementationsModule = Kodein.Module("V2 mock") {
 private val notesModule = Kodein.Module("Notes pipeline") {
     bind<NotesPathResolver>() with singleton { NotesWebPathResolver(instance()) }
     bind<NotesDataProvider>() with singleton { DefaultNotesDataProvider(instance(), instance()) }
-    bind<NotesDataRenderer>() with singleton { DefaultNotesDataRenderer(instance(), instance(), instance(), instance()) }
+    bind<NotesDataRenderer>() with singleton { DefaultNotesDataRenderer(instance(), instance(), instance()) }
 }
 
 private val pagesModule = Kodein.Module("Pages pipeline") {
     bind<PagesPathResolver>() with singleton { PagesWebPathResolver(instance()) }
     bind<PagesDataProvider>() with singleton { DefaultPagesDataProvider(instance(), instance()) }
-    bind<PagesDataRenderer>() with singleton { DefaultPagesDataRenderer(instance(), instance(), instance(), instance()) }
+    bind<PagesDataRenderer>() with singleton { DefaultPagesDataRenderer(instance(), instance(), instance()) }
 }

@@ -1,7 +1,9 @@
 package io.github.dector.glow.plugins.pages
 
+import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
+import io.github.dector.glow.core.provideBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 
@@ -20,10 +22,12 @@ class PagesPlugin(
 
         "Found pages: ${pages.size}".log()
 
+        val blog = provideBlogVM()
+
         pages.forEach { page ->
             "Processing '${page.title}'".log()
 
-            val webPage = dataRenderer.render(page)
+            val webPage = dataRenderer.render(blog, page)
 
             "Publishing '${page.title}'".log()
             dataPublisher.publish(webPage)
@@ -46,5 +50,5 @@ interface PagesDataProvider {
 }
 
 interface PagesDataRenderer {
-    fun render(page: Page2): WebPage
+    fun render(blog: BlogVM, page: Page2): WebPage
 }

@@ -2,16 +2,17 @@ package io.github.dector.glow.plugins.notes
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.core.*
+import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.HtmlContent
+import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.parser.MarkdownParser
+import io.github.dector.glow.formatAsMidDateTime
 import io.github.dector.glow.templates.Templates
-import io.github.dector.glow.templates.Templates2
-import io.github.dector.glow.templates.formatAsMidDateTime
 
 class DefaultNotesDataRenderer(
         private val pathResolver: NotesPathResolver,
         private val markdownParser: MarkdownParser<Node>,
-        private val projectConfig: ProjectConfig,
         private val htmlRenderer: HtmlRenderer
 ) : NotesDataRenderer {
 
@@ -20,7 +21,7 @@ class DefaultNotesDataRenderer(
 
         val vm = createNoteVM(note, content)
 
-        val renderedPage = Templates2.note(blog, vm)  //Templates.note(vm, projectConfig.navigation)
+        val renderedPage = Templates.note(blog, vm)
         return WebPage(
                 path = pathResolver.resolve(note),
                 content = HtmlWebPageContent(renderedPage)
@@ -28,11 +29,11 @@ class DefaultNotesDataRenderer(
     }
 
     override fun renderNotesIndex(blog: BlogVM, notes: List<Note2>): WebPage {
-        val renderedPage = Templates.notesIndex(notes.map {
+        val renderedPage = Templates.notesIndex(blog, notes.map {
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))
 
             createNoteVM(it, content)
-        }, projectConfig.navigation)
+        })
         return WebPage(
                 path = pathResolver.resolveNotesIndex(),
                 content = HtmlWebPageContent(renderedPage)
@@ -40,11 +41,11 @@ class DefaultNotesDataRenderer(
     }
 
     override fun renderNotesArchive(blog: BlogVM, notes: List<Note2>): WebPage {
-        val renderedPage = Templates.notesArchive(notes.map {
+        val renderedPage = Templates.notesArchive(blog, notes.map {
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))
 
             createNoteVM(it, content)
-        }, projectConfig.navigation)
+        })
         return WebPage(
                 path = pathResolver.resolveNotesArchive(),
                 content = HtmlWebPageContent(renderedPage)
