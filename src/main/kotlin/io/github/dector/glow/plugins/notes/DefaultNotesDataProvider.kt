@@ -32,11 +32,10 @@ class DefaultNotesDataProvider(
                     sourceFile = it.sourceFile,
                     isDraft = it.isDraft,
                     content = MarkdownContent(content),
-                    createdAt = header["createdAt"]?.parseInstant() ?: Instant.MIN,
-                    publishedAt = header["publishedAt"]?.parseInstant() ?: Instant.MIN
+                    createdAt = header["createdAt"]?.parseInstant(),
+                    publishedAt = header["publishedAt"]?.parseInstant()
             )
-        }
-                .sortedByDescending { it.publishedAt }
+        }.sortedByDescending { it.publishedAt ?: Instant.MIN }
     }
 
     private fun loadNotesFrom(folder: File) = folder

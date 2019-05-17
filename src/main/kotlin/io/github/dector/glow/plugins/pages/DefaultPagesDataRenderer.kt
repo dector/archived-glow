@@ -24,8 +24,6 @@ class DefaultPagesDataRenderer(
         val pagePath = pathResolver.resolve(page)
         val navItem = blog.detectNavItem(pagePath)
 
-        println("Page: ${page.title}, path: $pagePath, navItem: ${navItem?.path}")
-
         val renderedPage = Templates.page(blog, vm, navItem)
         return WebPage(
                 path = pagePath,

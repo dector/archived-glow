@@ -46,8 +46,10 @@ class DefaultPagesDataProvider(
                 PageInfo(
                         id = markdownFileId(file),
                         title = meta["title"] ?: "n/a",
+                        isDraft = meta["isDraft"]?.toBoolean() ?: false,
                         isSection = meta["isSection"]?.toBoolean() ?: false,
                         sourceFile = file
                 )
             }
+            .filter { !it.isDraft }
 }

@@ -10,6 +10,7 @@ data class PageInfo(
         val id: String,
         val title: String,
         val sourceFile: File,
+        val isDraft: Boolean,
         val isSection: Boolean
 )
 

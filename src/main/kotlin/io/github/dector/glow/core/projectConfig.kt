@@ -5,20 +5,21 @@ import io.github.dector.glow.core.NavItemType.*
 import java.io.File
 
 
-fun mockProjectsConfig() = TestConfig
+fun mockProjectsConfig() = ProdConfig
 
 fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
         title = "Dead Art Space",
         navigation = listOf(
                 NavigationItem("/", "Home", Home),
                 NavigationItem("/notes", "Notes", Notes),
-                NavigationItem("/projects", "Projects", Projects),
-                NavigationItem("/about", "About", About)
+                NavigationItem("https://forms.gle/PDqcYSiBY8Y4iVP5A", "Feedback", Feedback)
+//                NavigationItem("/projects", "Projects", Projects),
+//                NavigationItem("/about", "About", About)
         ),
         footer = FooterVM(
                 author = "Dead Art Space",
                 year = "2019",
-                licenseName = "Creative Commons Attribution-ShareAlike 4.0",
+                licenseName = "CC BY-SA 4.0",
                 licenseUrl = "http://creativecommons.org/licenses/by-sa/4.0/"
         )
 )
@@ -68,7 +69,8 @@ data class NavigationItem(
 )
 
 enum class NavItemType {
-    Home, Notes, Projects, About
+    Home, Notes, Projects, About,
+    Feedback
 }
 
 data class InputConfig(

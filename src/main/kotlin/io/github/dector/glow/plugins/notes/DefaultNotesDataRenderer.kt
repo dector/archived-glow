@@ -53,15 +53,22 @@ class DefaultNotesDataRenderer(
     }
 
     private fun createNoteVM(note: Note2, content: String) = run {
+        val htmlContent = HtmlContent(content)
+
         Note2VM(
                 title = note.title,
                 createdAt = note.createdAt,
                 publishedAt = note.publishedAt,
                 publishedAtValue = note.publishedAt?.formatAsMidDateTime() ?: "",
                 path = pathResolver.resolve(note),
-                content = HtmlContent(content),
-                previewContent = HtmlContent(content.substring(0..500))
+                content = htmlContent,
+                // FIXME should be stripped before rendering
+                previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
+                    htmlContent
+                else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW))
         )
     }
 }
+
+private const val MAX_SYMBOLS_IN_CONTENT_PREVIEW = 500
 
