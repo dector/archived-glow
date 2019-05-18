@@ -47,7 +47,7 @@ class DefaultNotesDataProvider(
 
                 NoteInfo(
                         id = markdownFileId(file),
-                        title = yfm["title"] ?: "n/a",
+                        title = yfm["title"] ?: "",
                         isDraft = yfm["isDraft"]?.toBoolean() ?: false,
                         createdAt = parseInstant(yfm["created"]) { Instant.MIN },
                         sourceFile = file
