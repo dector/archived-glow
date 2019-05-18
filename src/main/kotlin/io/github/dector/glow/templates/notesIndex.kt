@@ -3,7 +3,7 @@ package io.github.dector.glow.templates
 import io.github.dector.glow.plugins.notes.Note2VM
 import kotlinx.html.*
 
-fun DIV.tNotesIndexContent(notes: List<Note2VM>, title: String = "Notes", displayFullNotes: Boolean = false) {
+fun DIV.tNotesIndexContent(notes: List<Note2VM>, title: String = "", displayFullNotes: Boolean = false) {
     tTitle(title)
 
     notes.forEach { note ->
