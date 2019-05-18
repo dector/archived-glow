@@ -1,7 +1,7 @@
 package io.github.dector.glow.core
 
 import io.github.dector.glow.BuildSetup.DevMode
-import io.github.dector.glow.core.NavItemType.*
+import io.github.dector.glow.core.NavItemType.Notes
 import java.io.File
 
 
@@ -10,9 +10,11 @@ fun mockProjectsConfig() = ProdConfig
 fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
         title = "Dead Art Space",
         navigation = listOf(
-                NavigationItem("/", "Home", Home),
-                NavigationItem("/notes", "Notes", Notes),
-                NavigationItem("https://forms.gle/PDqcYSiBY8Y4iVP5A", "Feedback", Feedback)
+                // FIXME
+//                NavigationItem("/", "Home", Home),
+//                NavigationItem("/notes", "Notes", Notes, visible = false),
+                NavigationItem("/", "Notes", Notes)//,
+//                NavigationItem("https://forms.gle/PDqcYSiBY8Y4iVP5A", "Feedback", Feedback)
 //                NavigationItem("/projects", "Projects", Projects),
 //                NavigationItem("/about", "About", About)
         ),
@@ -65,7 +67,8 @@ data class ProjectConfig(
 data class NavigationItem(
         val path: String,
         val title: String,
-        val type: NavItemType
+        val type: NavItemType,
+        val visible: Boolean = true
 )
 
 enum class NavItemType {

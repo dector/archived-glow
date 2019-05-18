@@ -2,6 +2,7 @@ package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.provideBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
@@ -43,6 +44,11 @@ class NotesPlugin(
 
             "Publishing...".log()
             dataPublisher.publish(webPage)
+
+            // FIXME
+            webPage.copy(path = WebPagePath("/index.html")).let {
+                dataPublisher.publish(it)
+            }
 
             "".log()
         }

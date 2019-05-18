@@ -1,0 +1,2 @@
+#!/bin/bash
+live-server --no-browser v2/website-out

@@ -15,7 +15,6 @@ import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
 import io.github.dector.glow.plugins.notes.*
 import io.github.dector.glow.plugins.pages.*
-import io.github.dector.glow.plugins.resources.StaticResourcesPlugin
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -33,9 +32,9 @@ val v2Module = Kodein.Module("V2") {
         val logger = UILogger
 
         PluggablePipeline(
-                NotesPlugin(instance(), instance(), instance(), logger),
-                PagesPlugin(instance(), instance(), instance(), logger),
-                StaticResourcesPlugin(instance(), logger)
+                NotesPlugin(instance(), instance(), instance(), logger)//,
+//                PagesPlugin(instance(), instance(), instance(), logger),
+//                StaticResourcesPlugin(instance(), logger)
         )
 
     }

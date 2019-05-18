@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./gradlew -t --no-daemon run --args="build"

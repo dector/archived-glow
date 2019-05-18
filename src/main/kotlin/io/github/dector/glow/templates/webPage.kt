@@ -43,7 +43,7 @@ private fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
         }
 
         div("navbar-nav ml-auto") {
-            blog.navigation.forEach { item ->
+            blog.navigation.filter { it.visible }.forEach { item ->
                 a {
                     classes = setOf("nav-item", "nav-link") +
                             (if (item.type == pageType) "active" else "")
