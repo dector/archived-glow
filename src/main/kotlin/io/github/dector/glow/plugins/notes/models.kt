@@ -20,6 +20,7 @@ data class Note2(
         val publishedAt: Instant?,
         val isDraft: Boolean,
         val sourceFile: File,
+        val previewContent: MarkdownContent?,
         val content: MarkdownContent
 )
 
@@ -30,5 +31,6 @@ data class Note2VM(
         val publishedAtValue: String,
         val path: WebPagePath,
         val content: HtmlContent,
-        val previewContent: HtmlContent
+        val previewContent: HtmlContent,
+        val isTrimmed: Boolean
 )

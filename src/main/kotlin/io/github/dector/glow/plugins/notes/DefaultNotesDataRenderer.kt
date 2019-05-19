@@ -30,9 +30,10 @@ class DefaultNotesDataRenderer(
 
     override fun renderNotesIndex(blog: BlogVM, notes: List<Note2>): WebPage {
         val renderedPage = Templates.notesIndex(blog, notes.map {
-            val content = htmlRenderer.render(markdownParser.parse(it.content.value))
+            val markdown = it.previewContent ?: it.content
+            val content = htmlRenderer.render(markdownParser.parse(markdown.value))
 
-            createNoteVM(it, content)
+            createNoteVM(it, content, isTrimmed = it.previewContent != null)
         })
         return WebPage(
                 path = pathResolver.resolveNotesIndex(),
@@ -52,7 +53,7 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    private fun createNoteVM(note: Note2, content: String) = run {
+    private fun createNoteVM(note: Note2, content: String, isTrimmed: Boolean = false) = run {
         val htmlContent = HtmlContent(content)
 
         Note2VM(
@@ -65,7 +66,8 @@ class DefaultNotesDataRenderer(
                 // FIXME should be stripped before rendering
                 previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
                     htmlContent
-                else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW))
+                else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
+                isTrimmed = isTrimmed
         )
     }
 }

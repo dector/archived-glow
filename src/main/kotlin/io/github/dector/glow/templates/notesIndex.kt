@@ -52,7 +52,7 @@ private fun DIV.tContent(note: Note2VM, displayFullNotes: Boolean) {
             +(if (displayFullNotes) note.content else note.previewContent).value
         }
 
-        if (!displayFullNotes && (note.previewContent != note.content))
+        if (!displayFullNotes && ((note.previewContent != note.content) || note.isTrimmed))
             tNoteLink(note)
     }
 }

@@ -23,14 +23,29 @@ class DefaultNotesDataProvider(
             loadNotesFrom(notesFolder)
         }
 
-        return notes.map {
-            val content = it.sourceFile.readText()
+        return notes.map { note ->
+            val content = note.sourceFile.readText()
             val header = mdParser.parseInsecureYFM(content)
 
+            val previewContent = run {
+                val lines = content.lines()
+                val cutLineIndex = lines
+                        .indexOfFirst { line ->
+                            line.contains("__cut")
+                                    && line.trim().startsWith("<!--")
+                                    && line.trim().endsWith("-->")
+                        }
+
+                if (cutLineIndex != -1)
+                    lines.take(cutLineIndex + 1).joinToString(separator = "\n")
+                else null
+            }
+
             Note2(
-                    title = it.title,
-                    sourceFile = it.sourceFile,
-                    isDraft = it.isDraft,
+                    title = note.title,
+                    sourceFile = note.sourceFile,
+                    isDraft = note.isDraft,
+                    previewContent = previewContent?.let { MarkdownContent(it) },
                     content = MarkdownContent(content),
                     createdAt = header["createdAt"]?.parseInstant(),
                     publishedAt = header["publishedAt"]?.parseInstant()
