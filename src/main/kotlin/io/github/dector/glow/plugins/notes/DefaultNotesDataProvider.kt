@@ -4,6 +4,7 @@ import io.github.dector.glow.core.MarkdownContent
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId
+import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parseInstant
 import java.io.File
 import java.time.Instant
@@ -64,7 +65,7 @@ class DefaultNotesDataProvider(
                         id = markdownFileId(file),
                         title = yfm["title"] ?: "",
                         isDraft = yfm["isDraft"]?.toBoolean() ?: false,
-                        createdAt = parseInstant(yfm["created"]) { Instant.MIN },
+                        createdAt = parseCreatedAt(yfm["created"]),
                         sourceFile = file
                 )
             }
