@@ -30,6 +30,14 @@ fun WebPagePath.pathToFolder(): String {
 
 }
 
+fun formatPublishDate(instant: Instant?): String {
+    instant ?: return ""
+
+    return DateTimeFormatter.ofPattern("E, dd MMM uuuu")
+            .withZone(ZoneOffset.UTC)
+            .format(instant)
+}
+
 fun Instant.formatAsMidDateTime(): String = DateTimeFormatter.ofPattern("E, dd MMM uuuu 'at' HH:mm")
         .withZone(ZoneOffset.UTC)
         .format(this)

@@ -5,7 +5,7 @@ import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId
 import io.github.dector.glow.core.parser.parseCreatedAt
-import io.github.dector.glow.core.parser.parseInstant
+import io.github.dector.glow.core.parser.parsePublishedAt
 import java.io.File
 import java.time.Instant
 
@@ -48,8 +48,8 @@ class DefaultNotesDataProvider(
                     isDraft = note.isDraft,
                     previewContent = previewContent?.let { MarkdownContent(it) },
                     content = MarkdownContent(content),
-                    createdAt = header["createdAt"]?.parseInstant(),
-                    publishedAt = header["publishedAt"]?.parseInstant()
+                    createdAt = parseCreatedAt(header["createdAt"]),
+                    publishedAt = parsePublishedAt(header["publishedAt"])
             )
         }.sortedByDescending { it.publishedAt ?: Instant.MIN }
     }
@@ -65,7 +65,7 @@ class DefaultNotesDataProvider(
                         id = markdownFileId(file),
                         title = yfm["title"] ?: "",
                         isDraft = yfm["isDraft"]?.toBoolean() ?: false,
-                        createdAt = parseCreatedAt(yfm["created"]),
+                        createdAt = parseCreatedAt(yfm["created"]) ?: Instant.MIN,
                         sourceFile = file
                 )
             }

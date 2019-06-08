@@ -28,8 +28,11 @@ internal fun markdownFileId(file: File) = file.nameWithoutExtension
         .toLowerCase()
         .replace(" ", "-")
 
-internal fun parseCreatedAt(str: String?, default: () -> Instant = { Instant.MIN }): Instant {
-    str ?: return default()
+internal fun parsePublishedAt(str: String?): Instant? =
+        parseCreatedAt(str)
+
+internal fun parseCreatedAt(str: String?): Instant? {
+    str ?: return null
 
     var localDate: LocalDate? = null
 
@@ -50,5 +53,5 @@ internal fun parseCreatedAt(str: String?, default: () -> Instant = { Instant.MIN
     return if (localDate != null) localDate
             .atStartOfDay()
             .toInstant(ZoneOffset.UTC)
-    else default()
+    else null
 }

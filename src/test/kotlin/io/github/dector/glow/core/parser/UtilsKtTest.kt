@@ -10,24 +10,31 @@ import java.time.ZoneOffset
 class UtilsKtTest {
 
     @Test
-    @DisplayName("parseCreatedAt()")
-    fun parseCreatedAt_suit() {
+    @DisplayName("parseCreatedAt() with invalid string")
+    fun `parseCreatedAt invalid`() {
         assertThat(parseCreatedAt(null))
-                .isEqualTo(Instant.MIN)
-        assertThat(parseCreatedAt(null) { Instant.MAX })
-                .isEqualTo(Instant.MAX)
-        assertThat(parseCreatedAt("9-06-2019"))
-                .isEqualTo(date(9, 6, 2019))
-        assertThat(parseCreatedAt("9-06-19"))
-                .isEqualTo(date(9, 6, 2019))
-        assertThat(parseCreatedAt("9-6-19"))
-                .isEqualTo(date(9, 6, 2019))
-        assertThat(parseCreatedAt("9-06-2019"))
-                .isEqualTo(date(9, 6, 2019))
-        assertThat(parseCreatedAt("09-06-2019"))
-                .isEqualTo(date(9, 6, 2019))
+                .isNull()
+        assertThat(parseCreatedAt(null))
+                .isNull()
         assertThat(parseCreatedAt("32-06-19"))
-                .isEqualTo(Instant.MIN)
+                .isNull()
+    }
+
+    @Test
+    @DisplayName("parseCreatedAt() with valid string")
+    fun `parseCreatedAt valid`() {
+        val expectedDate = date(9, 6, 2019)
+
+        assertThat(parseCreatedAt("9-06-2019"))
+                .isEqualTo(expectedDate)
+        assertThat(parseCreatedAt("9-06-19"))
+                .isEqualTo(expectedDate)
+        assertThat(parseCreatedAt("9-6-19"))
+                .isEqualTo(expectedDate)
+        assertThat(parseCreatedAt("9-06-2019"))
+                .isEqualTo(expectedDate)
+        assertThat(parseCreatedAt("09-06-2019"))
+                .isEqualTo(expectedDate)
     }
 }
 

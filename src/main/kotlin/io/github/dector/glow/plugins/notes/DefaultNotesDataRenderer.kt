@@ -7,7 +7,7 @@ import io.github.dector.glow.core.HtmlContent
 import io.github.dector.glow.core.HtmlWebPageContent
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.parser.MarkdownParser
-import io.github.dector.glow.formatAsMidDateTime
+import io.github.dector.glow.formatPublishDate
 import io.github.dector.glow.templates.Templates
 
 class DefaultNotesDataRenderer(
@@ -60,7 +60,7 @@ class DefaultNotesDataRenderer(
                 title = note.title,
                 createdAt = note.createdAt,
                 publishedAt = note.publishedAt,
-                publishedAtValue = note.publishedAt?.formatAsMidDateTime() ?: "",
+                publishedAtValue = formatPublishDate(note.publishedAt),
                 path = pathResolver.resolve(note),
                 content = htmlContent,
                 // FIXME should be stripped before rendering
