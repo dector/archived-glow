@@ -4,7 +4,9 @@ package io.github.dector.glow.core
 inline class MarkdownContent(val value: String)
 inline class HtmlContent(val value: String)
 inline class HtmlWebPageContent(val value: String)
-inline class WebPagePath(val value: String)
+inline class WebPagePath(val value: String) {
+    companion object
+}
 
 data class WebPage(
         val path: WebPagePath,
@@ -23,3 +25,7 @@ data class FooterVM(
         val licenseName: String = "",
         val licenseUrl: String = ""
 )
+
+val WebPagePath.isLost: Boolean get() = value.isEmpty()
+
+fun WebPagePath.Companion.empty() = WebPagePath("")

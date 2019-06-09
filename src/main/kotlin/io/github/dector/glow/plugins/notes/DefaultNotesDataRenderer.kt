@@ -61,7 +61,7 @@ class DefaultNotesDataRenderer(
                 createdAt = note.createdAt,
                 publishedAt = note.publishedAt,
                 publishedAtValue = formatPublishDate(note.publishedAt),
-                path = pathResolver.resolve(note),
+                path = pathResolver.resolve(note, buildUrlPath = true),
                 content = htmlContent,
                 // FIXME should be stripped before rendering
                 previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)

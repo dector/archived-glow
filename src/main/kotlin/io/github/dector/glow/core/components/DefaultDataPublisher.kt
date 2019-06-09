@@ -3,6 +3,7 @@ package io.github.dector.glow.core.components
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.core.isLost
 import io.github.dector.glow.core.logger.logger
 import java.io.File
 
@@ -12,6 +13,9 @@ class DefaultDataPublisher(
     private val log = logger()
 
     override fun publish(webPage: WebPage) {
+        // Do not publish "lost" pages
+        if (webPage.path.isLost) return
+
         val file = resolveFilePath(webPage.path)
 
         file.parentFile.mkdirs()
