@@ -36,7 +36,7 @@ fun tWebPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() 
 }.let { html -> "<!DOCTYPE html>\n$html" }
 
 private fun DIV.tHeader(blog: BlogVM, pageType: NavItemType?) {
-    nav("navbar navbar-expand navbar-dark bg-dark") {
+    nav("navbar navbar-expand") {
         a(classes = "navbar-brand") {
             href = "/"
             +blog.title
