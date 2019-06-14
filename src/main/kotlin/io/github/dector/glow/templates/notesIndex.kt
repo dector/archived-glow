@@ -37,11 +37,11 @@ private fun DIV.tTags(note: Note2VM) {
 }
 
 private fun DIV.tNoteLink(note: Note2VM) {
-    span {
-        a(classes = "px-1 ml-1 border font-weight-bolder") {
+    p("mb-3") {
+        a(classes = "font-weight-bolder") {
             href = note.path.value
 
-            +"..."
+            +"More"
         }
     }
 }
