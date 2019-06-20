@@ -1,54 +1,62 @@
 package io.github.dector.glow
 
-import com.google.common.truth.Truth.assertThat
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.NavItemType
 import io.github.dector.glow.core.NavigationItem
 import io.github.dector.glow.core.WebPagePath
-import org.junit.jupiter.api.Test
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.BehaviorSpec
 
-class UtilsTest {
+class UtilsTest : BehaviorSpec({
 
-    @Test
-    fun detectNavItem() {
+    Given("blog view model") {
         val blog = BlogVM(
-                navigation = listOf(
-                        NavigationItem("/", "Home", NavItemType.Home),
-                        NavigationItem("/notes", "Notes", NavItemType.Notes),
-                        NavigationItem("/projects", "Projects", NavItemType.Projects),
-                        NavigationItem("/about", "About", NavItemType.About)
-                )
+            navigation = listOf(
+                NavigationItem("/", "Home", NavItemType.Home),
+                NavigationItem("/notes", "Notes", NavItemType.Notes),
+                NavigationItem("/projects", "Projects", NavItemType.Projects),
+                NavigationItem("/about", "About", NavItemType.About)
+            )
         )
 
-        assertThat(blog.detectNavItem(WebPagePath("/"))?.path)
-                .isEqualTo("/")
-        assertThat(blog.detectNavItem(WebPagePath("index.html"))?.path)
-                .isEqualTo("/")
-        assertThat(blog.detectNavItem(WebPagePath("/index.html"))?.path)
-                .isEqualTo("/")
-        assertThat(blog.detectNavItem(WebPagePath("/notes/index.html"))?.path)
-                .isEqualTo("/notes")
-        assertThat(blog.detectNavItem(WebPagePath("/projects/some/index.html"))?.path)
-                .isEqualTo("/projects")
-        assertThat(blog.detectNavItem(WebPagePath("/about/some.html"))?.path)
-                .isEqualTo("/about")
+        val cases = mapOf(
+            WebPagePath("/") to "/",
+            WebPagePath("index.html") to "/",
+            WebPagePath("/index.html") to "/",
+            WebPagePath("/notes/index.html") to "/notes",
+            WebPagePath("/projects/some/index.html") to "/projects",
+            WebPagePath("/about/some.html") to "/about"
+        )
+
+        cases.forEach { (pagePath, expectedNavItemPath) ->
+            When("page path is '${pagePath.value}'") {
+                val navItemPath = blog.detectNavItem(pagePath)?.path
+
+                Then("nav item path is $expectedNavItemPath") {
+                    navItemPath shouldBe expectedNavItemPath
+                }
+            }
+        }
     }
 
-    @Test
-    fun pathToParent() {
-        assertThat(WebPagePath("").pathToFolder())
-                .isEqualTo("/")
-        assertThat(WebPagePath("/").pathToFolder())
-                .isEqualTo("/")
-        assertThat(WebPagePath("/index.html").pathToFolder())
-                .isEqualTo("/")
-        assertThat(WebPagePath("index.html").pathToFolder())
-                .isEqualTo("/")
-        assertThat(WebPagePath("/notes/index.html").pathToFolder())
-                .isEqualTo("/notes")
-        assertThat(WebPagePath("/notes/some/").pathToFolder())
-                .isEqualTo("/notes/some")
-        assertThat(WebPagePath("/notes/some/index.html").pathToFolder())
-                .isEqualTo("/notes/some")
+    Given("") {
+        val cases = mapOf(
+            WebPagePath("/") to "/",
+            WebPagePath("index.html") to "/",
+            WebPagePath("/index.html") to "/",
+            WebPagePath("/notes/index.html") to "/notes",
+            WebPagePath("/projects/some/index.html") to "/projects/some",
+            WebPagePath("/about/some.html") to "/about"
+        )
+
+        cases.forEach { (pagePath, expectedFolderPath) ->
+            When("page path is '${pagePath.value}'") {
+                val folderPath = pagePath.pathToFolder()
+
+                Then("folder path is $expectedFolderPath") {
+                    folderPath shouldBe expectedFolderPath
+                }
+            }
+        }
     }
-}
+})

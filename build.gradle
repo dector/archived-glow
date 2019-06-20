@@ -49,6 +49,7 @@ dependencies {
     compile libraries.flexmark
     compile libraries.jmustache
 
+    testCompile libraries.kotlin_test
     testCompile libraries.truth
     testCompile libraries.jupiter_api
     testCompile libraries.jupiter_engine

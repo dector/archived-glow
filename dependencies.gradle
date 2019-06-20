@@ -17,6 +17,7 @@ ext.versions = [
         flexmark      : '0.18.5',
         jmustache     : '1.13',
 
+        kotlin_test   : '3.3.2',
         truth         : '0.44',
         jupiter_api   : '5.4.2',
         jupiter_engine: '5.4.2'
@@ -48,6 +49,7 @@ ext.libraries = [
         flexmark        : "com.vladsch.flexmark:flexmark-all:$versions.flexmark",
         jmustache       : "com.samskivert:jmustache:$versions.jmustache",
 
+        kotlin_test     : "io.kotlintest:kotlintest-runner-junit5:$versions.kotlin_test",
         truth           : "com.google.truth:truth:$versions.truth",
         jupiter_api     : "org.junit.jupiter:junit-jupiter-api:$versions.jupiter_api",
         jupiter_engine  : "org.junit.jupiter:junit-jupiter-engine:$versions.jupiter_engine"
