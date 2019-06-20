@@ -80,6 +80,6 @@ task distrib(dependsOn: 'shadowJar') {
 
 compileKotlin {
     kotlinOptions {
-        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xallow-result-return-type"]
+        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-XXLanguage:+NewInference", "-Xallow-result-return-type"]
     }
 }
