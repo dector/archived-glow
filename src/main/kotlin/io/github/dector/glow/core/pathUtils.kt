@@ -1,7 +1,9 @@
 package io.github.dector.glow.core
 
-
 internal fun String.simplifyForWebPath() = this
-        .replace(" ", "-")
-        .replace(Regex("[^\\w_-]"), "")
-        .toLowerCase()
+    .trim()
+    .replace(Regex("/+"), "-")
+    .replace(Regex(" +"), "-")
+    .replace(Regex("[^\\w_-]"), "")
+    .trim('-')
+    .toLowerCase()
