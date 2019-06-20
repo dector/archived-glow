@@ -1,44 +1,38 @@
 package io.github.dector.glow.pipeline
 
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.BehaviorSpec
 
-@DisplayName("Pipeline engine with extensions")
-internal class PipelinedGlowEngineTest {
+class PipelinedGlowEngineTest : BehaviorSpec({
 
-    @Test
-    @DisplayName("Execute empty pipeline")
-    fun execute_withEmptyPipeline() {
-        // Given
+    Given("empty pipeline") {
         val engine = PipelinedGlowEngine(
-                pipeline = EmptyPipeline()
+            pipeline = EmptyPipeline()
         )
 
-        // When
-        val result = engine.execute()
+        When("it is executed") {
+            val result = engine.execute()
 
-        // Then
-        assertThat(result.isSuccess)
-                .isTrue()
+            Then("execution should be success") {
+                result.isSuccess shouldBe true
+            }
+        }
     }
 
-    @Test
-    @DisplayName("Execute empty pipeline that throws error")
-    fun execute_withEmptyPipelineThatThrows() {
-        // Given
+    Given("empty pipeline that throws error") {
         val engine = PipelinedGlowEngine(
-                pipeline = ErrorPipeline()
+            pipeline = ErrorPipeline()
         )
 
-        // When
-        val result = engine.execute()
+        When("it is executed") {
+            val result = engine.execute()
 
-        // Then
-        assertThat(result.isSuccess)
-                .isFalse()
+            Then("execution should be failure") {
+                result.isSuccess shouldBe false
+            }
+        }
     }
-}
+})
 
 private class EmptyPipeline : GlowPipeline {
 
