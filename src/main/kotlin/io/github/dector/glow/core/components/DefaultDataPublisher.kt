@@ -8,7 +8,8 @@ import io.github.dector.glow.core.logger.logger
 import java.io.File
 
 class DefaultDataPublisher(
-        private val config: ProjectConfig) : DataPublisher {
+        private val config: ProjectConfig
+) : DataPublisher {
 
     private val log = logger()
 

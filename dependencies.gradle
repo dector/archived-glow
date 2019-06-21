@@ -13,6 +13,8 @@ ext.versions = [
         clikt         : '1.6.0',
         jcommander    : '1.48',
         json          : '20160810',
+        
+        javalin       : '3.0.0',
 
         flexmark      : '0.18.5',
         jmustache     : '1.13',
@@ -43,6 +45,8 @@ ext.libraries = [
         jcommander      : "com.beust:jcommander:$versions.jcommander",
         json            : "org.json:json:$versions.json",
 
+        javalin         : "io.javalin:javalin:$versions.javalin",
+        
         flexmark        : "com.vladsch.flexmark:flexmark-all:$versions.flexmark",
         jmustache       : "com.samskivert:jmustache:$versions.jmustache",
 

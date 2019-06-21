@@ -29,3 +29,6 @@ data class FooterVM(
 val WebPagePath.isLost: Boolean get() = value.isEmpty()
 
 val WebPagePath.Companion.Empty get() = WebPagePath("")
+
+val WebPagePath.isIndex: Boolean
+    get() = (value == "index.html") || (value.endsWith("/index.html"))

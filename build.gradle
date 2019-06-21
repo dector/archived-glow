@@ -45,6 +45,8 @@ dependencies {
     compile libraries.clikt
     compile libraries.jcommander
     compile libraries.json
+    
+    compile libraries.javalin
 
     compile libraries.flexmark
     compile libraries.jmustache
