@@ -1,19 +1,17 @@
 package io.github.dector.glow.di
 
-import org.kodein.di.Kodein
-import org.kodein.di.direct
-import org.kodein.di.generic.instance
-
+import org.koin.core.KoinApplication
+import org.koin.core.context.startKoin
 
 object DI {
 
-    val kodein = Kodein.lazy {
-        import(v2Module)
-    }
+    lateinit var app: KoinApplication
 
     fun init() {
-        // Init Kodein automatically
+        app = startKoin {
+            modules(appModule)
+        }
     }
 
-    inline fun <reified T : Any> get() = kodein.direct.instance<T>()
+    inline fun <reified T : Any> get() = app.koin.get<T>()
 }

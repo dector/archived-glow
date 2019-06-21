@@ -40,7 +40,7 @@ dependencies {
 
     compile libraries.slf4jSimple
 
-    compile libraries.kodein
+    compile libraries.koin
 
     compile libraries.clikt
     compile libraries.jcommander
