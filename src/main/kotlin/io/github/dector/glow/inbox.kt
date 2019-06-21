@@ -16,9 +16,11 @@ fun BlogVM.detectNavItem(path: WebPagePath): NavigationItem? {
     val folderPath = path.pathToFolder()
 
     return navigation
-            .sortedByDescending { it.path.length }
-            .find { folderPath.startsWith(it.path) }
+        .sortedByDescending { it.path.length }
+        .find { folderPath.startsWith(it.path) }
 }
+
+fun WebPagePath.parentFolder() = WebPagePath(pathToFolder())
 
 fun WebPagePath.pathToFolder(): String {
     val latestCutIndex = value.lastIndexOf('/')
@@ -34,10 +36,10 @@ fun formatPublishDate(instant: Instant?): String {
     instant ?: return ""
 
     return DateTimeFormatter.ofPattern("E, dd MMM uuuu")
-            .withZone(ZoneOffset.UTC)
-            .format(instant)
+        .withZone(ZoneOffset.UTC)
+        .format(instant)
 }
 
 fun Instant.formatAsMidDateTime(): String = DateTimeFormatter.ofPattern("E, dd MMM uuuu 'at' HH:mm")
-        .withZone(ZoneOffset.UTC)
-        .format(this)
+    .withZone(ZoneOffset.UTC)
+    .format(this)

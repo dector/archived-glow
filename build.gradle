@@ -45,7 +45,7 @@ dependencies {
     compile libraries.clikt
     compile libraries.jcommander
     compile libraries.json
-    
+
     compile libraries.javalin
 
     compile libraries.flexmark
@@ -80,6 +80,10 @@ task distrib(dependsOn: 'shadowJar') {
 
 compileKotlin {
     kotlinOptions {
-        freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-XXLanguage:+NewInference", "-Xallow-result-return-type"]
+        freeCompilerArgs = [
+                "-XXLanguage:+InlineClasses",
+                "-XXLanguage:+NewInference",
+                "-Xallow-result-return-type"
+        ]
     }
 }

@@ -1,41 +1,62 @@
 package io.github.dector.glow.server
 
+import io.github.dector.glow.core.HtmlWebPageContent
 import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.core.isIndex
 import io.github.dector.glow.di.DI
-import io.github.dector.glow.pathToFolder
+import io.github.dector.glow.parentFolder
 import io.javalin.Javalin
 import org.koin.dsl.module
 
-fun main() {
-    val pagesStorage = mutableSetOf<WebPage>()
+class Server {
 
-    DI.init()
-    DI.app.modules(module {
-        single<DataPublisher>(override = true) { InMemoryDataPublisher(pagesStorage) }
-    })
+    private val pagesStorage = mutableSetOf<WebPage>()
 
-    val app = Javalin
-        .create()
-        .start(9217)
+    init {
+        prepareServerDependencies()
+    }
 
-    println("Running app")
-    DI.get<GlowEngine>()
-        .execute()
+    fun run() {
+        print("Running server... ")
 
-    println("Publishing")
-    pagesStorage.forEach { page ->
-        if (page.path.isIndex) {
-            app.get(page.path.pathToFolder()) { ctx ->
-                ctx.html(page.content.value)
+        val app = runServer()
+
+        println("on port ${app.port()}")
+
+        println("Building blog...")
+        DI.get(GlowEngine::class)
+            .execute()
+
+        pagesStorage.forEach { page ->
+            app.serve(page.path, page.content)
+
+            if (page.path.isIndex) {
+                app.serve(page.path.parentFolder(), page.content)
             }
         }
+    }
 
-        app.get(page.path.value) { ctx ->
-            ctx.html(page.content.value)
+    private fun prepareServerDependencies() {
+        DI.modify { koin ->
+            koin.modules(module {
+                single<DataPublisher>(override = true) {
+                    InMemoryDataPublisher(pagesStorage)
+                }
+            })
         }
     }
 }
+
+private fun Javalin.serve(path: WebPagePath, content: HtmlWebPageContent) {
+    get(path.value) { ctx ->
+        ctx.html(content.value)
+    }
+}
+
+private fun runServer() = Javalin
+    .create()
+    .start(9217)
