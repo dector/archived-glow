@@ -1,12 +1,12 @@
 package io.github.dector.glow.server
 
-import io.github.dector.glow.core.*
+import io.github.dector.glow.core.ProjectConfig
+import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
-import io.github.dector.glow.parentFolder
 import io.github.dector.glow.utils.FileWatcher
 import io.javalin.Javalin
 import org.koin.dsl.module
@@ -17,7 +17,9 @@ class Server {
     private val pagesStorage = mutableSetOf<WebPage>()
 
     private lateinit var glowEngine: GlowEngine
-    private lateinit var app: Javalin
+
+    private val app: Javalin = Javalin.create()
+    private val rootHandler = RootHandler(pagesStorage)
 
     init {
         provideDependencies()
@@ -26,11 +28,10 @@ class Server {
     fun run() {
         injectDependencies()
 
-        startServer()
+        startServer(PORT)
         buildAndServeBlog()
 
         watchForBlogSources {
-            restartServer()
             buildAndServeBlog()
         }
     }
@@ -66,37 +67,15 @@ class Server {
         pagesStorage.clear()
         glowEngine.execute()
 
-        pagesStorage.forEach(app::serve)
-
         println("Ready!")
     }
 
-    private fun restartServer() {
-        println("Stopping server...")
-        app.stop()
+    private fun startServer(port: Int) {
+        println("Running server on port $port... ")
 
-        startServer()
-    }
-
-    private fun startServer() {
-        print("Running server... ")
-
-        app = Javalin.create().start(9217)
-
-        println("on port ${app.port()}")
+        app.get("/*", rootHandler)
+        app.start(port)
     }
 }
 
-private fun Javalin.serve(page: WebPage) {
-    serve(page.path, page.content)
-
-    if (page.path.isIndex) {
-        serve(page.path.parentFolder(), page.content)
-    }
-}
-
-private fun Javalin.serve(path: WebPagePath, content: HtmlWebPageContent) {
-    get(path.value) { ctx ->
-        ctx.html(content.value)
-    }
-}
+private const val PORT = 9217
