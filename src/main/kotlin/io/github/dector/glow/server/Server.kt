@@ -20,23 +20,22 @@ class Server {
     private lateinit var app: Javalin
 
     init {
-        prepareServerDependencies()
+        provideDependencies()
     }
 
     fun run() {
-        glowEngine = DI.get(GlowEngine::class)
+        injectDependencies()
 
+        startServer()
         buildAndServeBlog()
 
-        val projectConfig = DI.get<ProjectConfig>()
-        println("Serving ${projectConfig.input.sourcesFolder.absolutePath}")
-
-        watchForBlogSources(projectConfig) {
+        watchForBlogSources {
+            restartServer()
             buildAndServeBlog()
         }
     }
 
-    private fun prepareServerDependencies() {
+    private fun provideDependencies() {
         DI.modify { koin ->
             koin.modules(module {
                 single<DataPublisher>(override = true) {
@@ -46,9 +45,18 @@ class Server {
         }
     }
 
-    private fun watchForBlogSources(config: ProjectConfig, body: () -> Unit) {
+    private fun injectDependencies() {
+        glowEngine = DI.get()
+    }
+
+    private fun watchForBlogSources(body: () -> Unit) {
+        val sourcesFolder = DI.get<ProjectConfig>()
+            .input
+            .sourcesFolder
+        println("Serving '${sourcesFolder.absolutePath}'")
+
         FileWatcher().watchRecursively(
-            config.input.sourcesFolder,
+            sourcesFolder,
             ENTRY_CREATE, ENTRY_MODIFY, ENTRY_DELETE
         ) { body() }
     }
@@ -58,30 +66,32 @@ class Server {
         pagesStorage.clear()
         glowEngine.execute()
 
-        restartServer()
-        pagesStorage.forEach { page ->
-            app.serve(page.path, page.content)
-
-            if (page.path.isIndex) {
-                app.serve(page.path.parentFolder(), page.content)
-            }
-        }
+        pagesStorage.forEach(app::serve)
 
         println("Ready!")
     }
 
     private fun restartServer() {
-        if (::app.isInitialized) {
-            println("Stopping server...")
+        println("Stopping server...")
+        app.stop()
 
-            app.stop()
-        }
+        startServer()
+    }
 
+    private fun startServer() {
         print("Running server... ")
 
         app = Javalin.create().start(9217)
 
         println("on port ${app.port()}")
+    }
+}
+
+private fun Javalin.serve(page: WebPage) {
+    serve(page.path, page.content)
+
+    if (page.path.isIndex) {
+        serve(page.path.parentFolder(), page.content)
     }
 }
 
