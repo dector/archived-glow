@@ -7,19 +7,16 @@ import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.parentFolder
+import io.github.dector.glow.utils.FileWatcher
 import io.javalin.Javalin
 import org.koin.dsl.module
-import java.nio.file.FileSystems
-import java.nio.file.FileVisitResult
-import java.nio.file.Files.walkFileTree
-import java.nio.file.Path
-import java.nio.file.SimpleFileVisitor
 import java.nio.file.StandardWatchEventKinds.*
-import java.nio.file.attribute.BasicFileAttributes
 
 class Server {
 
     private val pagesStorage = mutableSetOf<WebPage>()
+
+    private lateinit var glowEngine: GlowEngine
     private lateinit var app: Javalin
 
     init {
@@ -27,6 +24,8 @@ class Server {
     }
 
     fun run() {
+        glowEngine = DI.get(GlowEngine::class)
+
         buildAndServeBlog()
 
         val projectConfig = DI.get<ProjectConfig>()
@@ -48,40 +47,16 @@ class Server {
     }
 
     private fun watchForBlogSources(config: ProjectConfig, body: () -> Unit) {
-        val watcher = FileSystems.getDefault().newWatchService()
-        val path = config.input.sourcesFolder.toPath()
-
-        walkFileTree(path, object : SimpleFileVisitor<Path>() {
-            override fun preVisitDirectory(dir: Path, attrs: BasicFileAttributes?): FileVisitResult {
-                dir.register(watcher,
-                    ENTRY_CREATE,
-                    ENTRY_MODIFY,
-                    ENTRY_DELETE)
-                return FileVisitResult.CONTINUE
-            }
-        })
-
-        var process = true
-        while (process) {
-            val watcherKey = watcher.take()
-            if (watcherKey == null) {
-                process = false
-                continue
-            }
-
-            val events = watcherKey.pollEvents()
-            if (events.isNotEmpty())
-                body()
-
-            watcherKey.reset()
-        }
+        FileWatcher().watchRecursively(
+            config.input.sourcesFolder,
+            ENTRY_CREATE, ENTRY_MODIFY, ENTRY_DELETE
+        ) { body() }
     }
 
     private fun buildAndServeBlog() {
         println("Building blog...")
         pagesStorage.clear()
-        DI.get(GlowEngine::class)
-            .execute()
+        glowEngine.execute()
 
         restartServer()
         pagesStorage.forEach { page ->
