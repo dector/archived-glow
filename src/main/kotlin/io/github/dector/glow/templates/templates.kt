@@ -20,7 +20,7 @@ object Templates {
     }
 
     fun notesArchive(blog: BlogVM, notes: List<Note2VM>) = tWebPage(blog, blog.notesNavigationItem()) {
-        tNotesIndexContent(notes, displayFullNotes = true)
+        tNotesArchiveContent(notes)
     }
 
     fun page(blog: BlogVM, page: Page2VM, navItem: NavigationItem?) = tWebPage(blog, navItem) {
