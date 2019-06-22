@@ -21,16 +21,7 @@ fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
     navigation =
     provideProjectConfig().blog.navigation.map {
         NavigationItem(path = it.path, title = it.title, type = it.type)
-    }
-
-// FIXME
-//                NavigationItem("/", "Home", Home),
-//                NavigationItem("/notes", "Notes", Notes, visible = false),
-//        NavigationItem("/", "Notes", Notes)//,
-//                NavigationItem("https://forms.gle/PDqcYSiBY8Y4iVP5A", "Feedback", Feedback)
-//                NavigationItem("/projects", "Projects", Projects),
-//                NavigationItem("/about", "About", About)
-    ,
+    },
     footer = FooterVM(
         author = "Dead Art Space",
         year = "2019",
@@ -52,8 +43,7 @@ private val TestConfig = ProjectConfig(
         staticFolder = File("v2/out2/"),
         notesPath = "/notes",
         overrideFiles = true
-    ),
-    navigation = provideBlogVM().navigation
+    )
 )
 
 private val ProdConfig = ProjectConfig(
@@ -69,15 +59,13 @@ private val ProdConfig = ProjectConfig(
         staticFolder = File("v2/website-out/"),
         notesPath = "/notes",
         overrideFiles = true
-    ),
-    navigation = provideBlogVM().navigation
+    )
 )
 
 @Deprecated("")
 data class ProjectConfig(
     val input: InputConfig,
-    val output: OutputConfig,
-    val navigation: List<NavigationItem>
+    val output: OutputConfig
 )
 
 data class NavigationItem(

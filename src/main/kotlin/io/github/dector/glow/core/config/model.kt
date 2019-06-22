@@ -1,12 +1,15 @@
 package io.github.dector.glow.core.config
 
 import io.github.dector.glow.core.NavItemType
+import io.github.dector.glow.core.ProjectConfig
+import io.github.dector.glow.core.mockProjectsConfig
 import java.io.File
 
 data class Config(
     val glow: CGlow,
     val blog: CBlog,
-    val plugins: CPlugins
+    val plugins: CPlugins,
+    val old: ProjectConfig = mockProjectsConfig()   // FIXME
 )
 
 data class CGlow(val config: CConfig)
@@ -34,4 +37,4 @@ data class CFooter(
 
 data class CPlugins(val notes: CNotesPlugin)
 
-data class CNotesPlugin(val sourceDir: String)  // File
+data class CNotesPlugin(val sourceDir: File)

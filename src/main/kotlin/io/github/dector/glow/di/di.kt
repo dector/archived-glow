@@ -2,13 +2,11 @@ package io.github.dector.glow.di
 
 import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
-import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.DefaultDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.logger.UILogger
-import io.github.dector.glow.core.mockProjectsConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
 import io.github.dector.glow.core.provideProjectConfig
@@ -36,7 +34,6 @@ val appModule = module {
 
     // mocks
 
-    single<ProjectConfig> { mockProjectsConfig() }
     single<Config> { provideProjectConfig() }
     single<DataPublisher> { DefaultDataPublisher(get()) }
 

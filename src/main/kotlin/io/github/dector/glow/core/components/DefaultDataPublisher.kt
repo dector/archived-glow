@@ -1,14 +1,14 @@
 package io.github.dector.glow.core.components
 
-import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.isLost
 import io.github.dector.glow.core.logger.logger
 import java.io.File
 
 class DefaultDataPublisher(
-        private val config: ProjectConfig
+    private val config: Config
 ) : DataPublisher {
 
     private val log = logger()
@@ -21,7 +21,7 @@ class DefaultDataPublisher(
 
         file.parentFile.mkdirs()
 
-        if (file.exists() && !config.output.overrideFiles) {
+        if (file.exists() && !config.old.output.overrideFiles) {
             log.warn("File '${file.absolutePath}' exists. Skipping.")
         } else {
             file.writeText(webPage.content.value)
@@ -29,10 +29,10 @@ class DefaultDataPublisher(
     }
 
     private fun resolveFilePath(path: WebPagePath): File {
-        return config.output.outputFolder
-                .absoluteFile
-                .toPath()
-                .resolve(path.value.removePrefix("/"))
-                .toFile()
+        return config.old.output.outputFolder
+            .absoluteFile
+            .toPath()
+            .resolve(path.value.removePrefix("/"))
+            .toFile()
     }
 }

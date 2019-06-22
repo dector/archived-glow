@@ -1,8 +1,8 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.Empty
-import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.simplifyForWebPath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -16,7 +16,7 @@ interface NotesPathResolver {
 }
 
 class NotesWebPathResolver(
-    private val config: ProjectConfig
+    private val config: Config
 ) : NotesPathResolver {
 
     private val notePathDateFormatter = DateTimeFormatter
@@ -29,17 +29,17 @@ class NotesWebPathResolver(
         val dir = notePathDateFormatter.format(note.publishedAt)
         val instancePath = note.title.simplifyForWebPath()
 
-        val path = "${config.output.notesPath}/$dir/$instancePath/"
+        val path = "${config.old.output.notesPath}/$dir/$instancePath/"
         return if (buildUrlPath)
             WebPagePath(path)
         else indexWebPath(path)
     }
 
     override fun resolveNotesIndex(): WebPagePath =
-        indexWebPath(config.output.notesPath)
+        indexWebPath(config.old.output.notesPath)
 
     override fun resolveNotesArchive(): WebPagePath =
-        indexWebPath("${config.output.notesPath}/archive")
+        indexWebPath("${config.old.output.notesPath}/archive")
 }
 
 private fun indexWebPath(path: String) = WebPagePath(

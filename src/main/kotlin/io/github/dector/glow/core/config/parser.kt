@@ -7,6 +7,7 @@ import io.github.dector.glow.core.NavItemType
 import io.github.dector.glow.div
 import java.io.File
 
+// TODO use parsing context
 fun parseConfig(dir: File, content: String): Config = Yaml
     .createYamlInput(content)
     .readYamlMapping()
@@ -15,7 +16,7 @@ fun parseConfig(dir: File, content: String): Config = Yaml
 private fun YamlMapping.asConfig(dir: File) = Config(
     glow = yamlMapping("glow").asCGlow(),
     blog = yamlMapping("blog").asCBlog(dir),
-    plugins = yamlMapping("plugins").asCPlugins()
+    plugins = yamlMapping("plugins").asCPlugins(dir)
 )
 
 private fun YamlMapping.asCGlow() = CGlow(
@@ -50,12 +51,12 @@ private fun YamlMapping.asCFooter() = CFooter(
     licenseName = string("licenseName")
 )
 
-private fun YamlMapping.asCPlugins() = CPlugins(
-    notes = yamlMapping("notes").asCNotesPlugin()
+private fun YamlMapping.asCPlugins(dir: File) = CPlugins(
+    notes = yamlMapping("notes").asCNotesPlugin(dir)
 )
 
-private fun YamlMapping.asCNotesPlugin() = CNotesPlugin(
-    sourceDir = string("sourceDir")
+private fun YamlMapping.asCNotesPlugin(dir: File) = CNotesPlugin(
+    sourceDir = dir / string("sourceDir")
 )
 
 fun main() {
