@@ -4,16 +4,17 @@ import com.amihaiemil.eoyaml.Yaml
 import com.amihaiemil.eoyaml.YamlMapping
 import com.amihaiemil.eoyaml.YamlSequence
 import io.github.dector.glow.core.NavItemType
+import io.github.dector.glow.div
 import java.io.File
 
-fun parseConfig(content: String): Config = Yaml
+fun parseConfig(dir: File, content: String): Config = Yaml
     .createYamlInput(content)
     .readYamlMapping()
-    .asConfig()
+    .asConfig(dir)
 
-private fun YamlMapping.asConfig() = Config(
+private fun YamlMapping.asConfig(dir: File) = Config(
     glow = yamlMapping("glow").asCGlow(),
-    blog = yamlMapping("blog").asCBlog(),
+    blog = yamlMapping("blog").asCBlog(dir),
     plugins = yamlMapping("plugins").asCPlugins()
 )
 
@@ -25,11 +26,11 @@ private fun YamlMapping.asCConfig() = CConfig(
     version = string("version")
 )
 
-private fun YamlMapping.asCBlog() = CBlog(
+private fun YamlMapping.asCBlog(dir: File) = CBlog(
     title = string("title"),
     navigation = yamlSequence("navigation")?.asCNavigationList() ?: emptyList(),
     footer = yamlMapping("footer").asCFooter(),
-    sourceDir = string("sourceDir")
+    sourceDir = dir / string("sourceDir")
 )
 
 private fun YamlSequence.asCNavigationList() =
@@ -58,5 +59,6 @@ private fun YamlMapping.asCNotesPlugin() = CNotesPlugin(
 )
 
 fun main() {
-    println(parseConfig(File("website/glow.yml").readText()))
+    val file = File("website/glow.yml")
+    println(parseConfig(file.parentFile, file.readText()))
 }

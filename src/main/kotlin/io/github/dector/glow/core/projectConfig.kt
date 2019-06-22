@@ -1,23 +1,36 @@
 package io.github.dector.glow.core
 
 import io.github.dector.glow.BuildSetup.DevMode
-import io.github.dector.glow.core.NavItemType.Notes
+import io.github.dector.glow.core.config.Config
+import io.github.dector.glow.core.config.parseConfig
 import java.io.File
 
-
+@Deprecated("")
 fun mockProjectsConfig() = ProdConfig
 
+fun provideProjectConfig(file: File): Config =
+    parseConfig(file.parentFile, file.readText())
+
+@Deprecated("")
+fun provideProjectConfig(): Config =
+    provideProjectConfig(File("website/glow.yml"))
+
+@Deprecated("")
 fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
     title = "Dead Art Space",
-    navigation = listOf(
-        // FIXME
+    navigation =
+    provideProjectConfig().blog.navigation.map {
+        NavigationItem(path = it.path, title = it.title, type = it.type)
+    }
+
+// FIXME
 //                NavigationItem("/", "Home", Home),
 //                NavigationItem("/notes", "Notes", Notes, visible = false),
-        NavigationItem("/", "Notes", Notes)//,
+//        NavigationItem("/", "Notes", Notes)//,
 //                NavigationItem("https://forms.gle/PDqcYSiBY8Y4iVP5A", "Feedback", Feedback)
 //                NavigationItem("/projects", "Projects", Projects),
 //                NavigationItem("/about", "About", About)
-    ),
+    ,
     footer = FooterVM(
         author = "Dead Art Space",
         year = "2019",
@@ -60,6 +73,7 @@ private val ProdConfig = ProjectConfig(
     navigation = provideBlogVM().navigation
 )
 
+@Deprecated("")
 data class ProjectConfig(
     val input: InputConfig,
     val output: OutputConfig,

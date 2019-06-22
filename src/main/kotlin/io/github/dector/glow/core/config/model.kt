@@ -1,6 +1,7 @@
 package io.github.dector.glow.core.config
 
 import io.github.dector.glow.core.NavItemType
+import java.io.File
 
 data class Config(
     val glow: CGlow,
@@ -16,7 +17,7 @@ data class CBlog(
     val title: String,
     val navigation: List<CNavigation>,
     val footer: CFooter,
-    val sourceDir: String   // File
+    val sourceDir: File
 )
 
 data class CNavigation(
@@ -33,4 +34,4 @@ data class CFooter(
 
 data class CPlugins(val notes: CNotesPlugin)
 
-data class CNotesPlugin(val sourceDir: String)
+data class CNotesPlugin(val sourceDir: String)  // File

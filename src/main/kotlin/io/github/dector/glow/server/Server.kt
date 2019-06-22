@@ -1,11 +1,11 @@
 package io.github.dector.glow.server
 
 import arrow.core.Either
-import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.utils.FileWatcher
@@ -54,9 +54,9 @@ class Server {
     }
 
     private fun watchForBlogSources(body: () -> Unit) {
-        val sourcesFolder = DI.get<ProjectConfig>()
-            .input
-            .sourcesFolder
+        val sourcesFolder = DI.get<Config>()
+            .blog
+            .sourceDir
         println("Serving '${sourcesFolder.absolutePath}'")
 
         FileWatcher().watchRecursively(
