@@ -1,5 +1,6 @@
 package io.github.dector.glow
 
+import arrow.core.Either
 import io.github.dector.glow.cli.cliCommands
 import io.github.dector.glow.core.logger.RootLogger
 import io.github.dector.glow.core.logger.UILogger
@@ -24,9 +25,9 @@ private fun measureAndPrintExecution(operation: () -> Unit) {
     val result = measureTimeMillis {
         operation()
     }
-    val timeToDisplay = DefaultSecondsFormatter(result.second)
+    val timeToDisplay = DefaultSecondsFormatter(result.time)
 
-    if (result.first == null) {
+    if (result.result is Either.Right) {
         UILogger.info("\nFinished in $timeToDisplay.")
     } else {
         UILogger.info("\nFailed after $timeToDisplay.")

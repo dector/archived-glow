@@ -10,7 +10,7 @@ import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.utils.FileWatcher
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
-import io.github.dector.glow.utils.measureTimeMillis2
+import io.github.dector.glow.utils.measureTimeMillis
 import io.javalin.Javalin
 import org.koin.dsl.module
 import java.nio.file.StandardWatchEventKinds.*
@@ -69,7 +69,7 @@ class Server {
         println("Building blog...")
         pagesStorage.clear()
 
-        val executionResult = measureTimeMillis2 {
+        val executionResult = measureTimeMillis {
             glowEngine.execute()
         }
 
