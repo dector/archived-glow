@@ -73,9 +73,17 @@ data class NavigationItem(
     val visible: Boolean = true
 )
 
-enum class NavItemType {
-    Home, Notes, Projects, About,
-    Feedback
+enum class NavItemType(val id: String) {
+    Home("home"),
+    Notes("notes"),
+    Projects("projects"),
+    About("about"),
+    Feedback("feedback");
+
+    companion object {
+
+        fun from(id: String) = values().first { it.id == id }
+    }
 }
 
 data class InputConfig(

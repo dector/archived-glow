@@ -30,6 +30,7 @@ apply plugin: 'com.github.ben-manes.versions'
 repositories {
     jcenter()
     maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
+    maven { url "http://oss.sonatype.org/content/groups/public/" }
 }
 
 dependencies {
@@ -53,6 +54,7 @@ dependencies {
 
     compile libraries.flexmark
     compile libraries.jmustache
+    compile libraries.eo_yaml
 
     testCompile libraries.kotlin_test
 }
