@@ -29,7 +29,7 @@ apply plugin: 'com.github.ben-manes.versions'
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/kodein-framework/Kodein-DI/" }
+    maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
 }
 
 dependencies {
@@ -39,6 +39,9 @@ dependencies {
     compile libraries.kotlinxHtml
 
     compile libraries.slf4jSimple
+    
+    compile libraries.arrow_core_data
+    compile libraries.arrow_core_extensions
 
     compile libraries.koin
 

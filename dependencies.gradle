@@ -7,6 +7,8 @@ ext.versions = [
 
         slf4jSimple   : '1.7.25',
         buildConfig   : '1.1.8',
+        
+        arrow         : '0.9.0',
 
         koin          : '2.0.1',
 
@@ -39,6 +41,9 @@ ext.libraries = [
 
         slf4jSimple     : "org.slf4j:slf4j-simple:$versions.slf4jSimple",
 
+        arrow_core_data : "io.arrow-kt:arrow-core-data:$versions.arrow",
+        arrow_core_extensions : "io.arrow-kt:arrow-core-extensions:$versions.arrow",
+        
         koin            : "org.koin:koin-core:$versions.koin",
 
         clikt           : "com.github.ajalt:clikt:$versions.clikt",

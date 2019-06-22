@@ -22,12 +22,7 @@ private fun initApp() {
 
 private fun measureAndPrintExecution(operation: () -> Unit) {
     val result = measureTimeMillis {
-        try {
-            operation()
-            null
-        } catch (e: Throwable) {
-            e
-        }
+        operation()
     }
     val timeToDisplay = DefaultSecondsFormatter(result.second)
 

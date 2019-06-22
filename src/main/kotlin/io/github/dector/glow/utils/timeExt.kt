@@ -2,6 +2,8 @@
 
 package io.github.dector.glow.utils
 
+import arrow.core.Either
+
 inline fun Long.msToSec(): Long = this / 1000
 inline fun Long.msToMin(): Long = this.msToSec().secToMin()
 inline fun Long.msToHour(): Long = this.msToMin().minToHour()
@@ -20,16 +22,17 @@ inline fun Long.hourPartInMs(): Long = this.msToHour() % 60
 inline fun Long.daysPartInMs(): Long = this.msToDay() % 24
 
 fun decomposeTimeMs(time: Long): Time = Time(
-        millisFraction = time.msFractionPartInMs(),
-        seconds = time.secPartInMs(),
-        minutes = time.minPartInMs(),
-        hours = time.hourPartInMs(),
-        days = time.daysPartInMs())
+    millisFraction = time.msFractionPartInMs(),
+    seconds = time.secPartInMs(),
+    minutes = time.minPartInMs(),
+    hours = time.hourPartInMs(),
+    days = time.daysPartInMs())
 
 data class Time(val millisFraction: Long, val seconds: Long, val minutes: Long, val hours: Long, val days: Long)
 
 inline fun Long.msLessThanMinutes(min: Int): Boolean = this.msToMin() <= min
 
+@Deprecated("", ReplaceWith("measureTimeMillis2(block)"))
 inline fun <R> measureTimeMillis(block: () -> R): Pair<R, Long> {
     val startTime = System.currentTimeMillis()
     val result = block()
@@ -37,3 +40,21 @@ inline fun <R> measureTimeMillis(block: () -> R): Pair<R, Long> {
 
     return result to (endTime - startTime)
 }
+
+inline fun <T> measureTimeMillis2(block: () -> T): Execution<T> {
+    val startTime = System.currentTimeMillis()
+    val result: Either<Throwable, T> = try {
+        Either.Right(block())
+    } catch (e: Throwable) {
+        Either.Left(e)
+    }
+    val endTime = System.currentTimeMillis()
+    val executionTime = endTime - startTime
+
+    return Execution(result, executionTime)
+}
+
+data class Execution<T>(
+    val result: Either<Throwable, T>,
+    val time: Long
+)
