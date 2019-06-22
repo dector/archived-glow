@@ -10,17 +10,18 @@ import org.slf4j.Logger
 
 
 class NotesPlugin(
-        private val dataProvider: NotesDataProvider,
-        private val dataRenderer: NotesDataRenderer,
-        private val dataPublisher: DataPublisher,
-        private val logger: Logger
+    private val dataProvider: NotesDataProvider,
+    private val dataRenderer: NotesDataRenderer,
+    private val dataPublisher: DataPublisher,
+    private val logger: Logger
 ) : GlowPipeline {
 
     override fun execute() {
         "Loading notes...".logn()
 
         val notes = dataProvider.fetchNotes()
-                .filter { !it.isDraft }
+            .filter { !it.isDraft }
+            .filterNot { it.title.isEmpty() }
 
         "Found non-draft notes: ${notes.size}".log()
 
