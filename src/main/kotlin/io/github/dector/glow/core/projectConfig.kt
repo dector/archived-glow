@@ -35,8 +35,7 @@ private val TestConfig = ProjectConfig(
         pagesFolder = File("v2/src/pages")
     ),
     output = OutputConfig(
-        staticFolder = File("v2/out2/"),
-        overrideFiles = true
+        staticFolder = File("v2/out2/")
     )
 )
 
@@ -46,8 +45,7 @@ private val ProdConfig = ProjectConfig(
         pagesFolder = File("website/src/pages")
     ),
     output = OutputConfig(
-        staticFolder = File("v2/website-out/"),
-        overrideFiles = true
+        staticFolder = File("v2/website-out/")
     )
 )
 
@@ -77,13 +75,14 @@ enum class NavItemType(val id: String) {
     }
 }
 
+@Deprecated("")
 data class InputConfig(
     val staticFolder: File,
     val pagesFolder: File
 )
 
+@Deprecated("")
 data class OutputConfig(
-    val staticFolder: File,
-    val overrideFiles: Boolean = false
+    val staticFolder: File
 )
 

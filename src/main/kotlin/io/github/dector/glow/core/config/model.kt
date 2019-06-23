@@ -12,9 +12,14 @@ data class Config(
     val old: ProjectConfig = mockProjectsConfig()   // FIXME
 )
 
-data class CGlow(val config: CConfig)
+data class CGlow(
+    val config: CConfig,
+    val output: COutput
+)
 
 data class CConfig(val version: String)
+
+data class COutput(val overrideFiles: Boolean)
 
 data class CBlog(
     val title: String,

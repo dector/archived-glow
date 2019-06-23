@@ -20,11 +20,16 @@ private fun YamlMapping.asConfig(dir: File) = Config(
 )
 
 private fun YamlMapping.asCGlow() = CGlow(
-    config = yamlMapping("config").asCConfig()
+    config = yamlMapping("config").asCConfig(),
+    output = yamlMapping("output").asCOutput()
 )
 
 private fun YamlMapping.asCConfig() = CConfig(
     version = string("version")
+)
+
+private fun YamlMapping.asCOutput() = COutput(
+    overrideFiles = string("overrideFiles")!!.toBoolean()
 )
 
 private fun YamlMapping.asCBlog(dir: File) = CBlog(
