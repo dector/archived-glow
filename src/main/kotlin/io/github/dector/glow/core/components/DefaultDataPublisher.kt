@@ -29,7 +29,8 @@ class DefaultDataPublisher(
     }
 
     private fun resolveFilePath(path: WebPagePath): File {
-        return config.old.output.outputFolder
+        return config.blog
+            .outputDir
             .absoluteFile
             .toPath()
             .resolve(path.value.removePrefix("/"))

@@ -20,7 +20,8 @@ data class CBlog(
     val title: String,
     val navigation: List<CNavigation>,
     val footer: CFooter,
-    val sourceDir: File
+    val sourceDir: File,
+    val outputDir: File
 )
 
 data class CNavigation(

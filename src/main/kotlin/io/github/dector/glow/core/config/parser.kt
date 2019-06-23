@@ -31,7 +31,8 @@ private fun YamlMapping.asCBlog(dir: File) = CBlog(
     title = string("title"),
     navigation = yamlSequence("navigation")?.asCNavigationList() ?: emptyList(),
     footer = yamlMapping("footer").asCFooter(),
-    sourceDir = dir / string("sourceDir")
+    sourceDir = dir / string("sourceDir"),
+    outputDir = dir / string("outputDir")
 )
 
 private fun YamlSequence.asCNavigationList() =
