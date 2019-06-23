@@ -39,4 +39,7 @@ data class CFooter(
 
 data class CPlugins(val notes: CNotesPlugin)
 
-data class CNotesPlugin(val sourceDir: File)
+data class CNotesPlugin(
+    val sourceDir: File,
+    val path: String
+)

@@ -58,7 +58,8 @@ private fun YamlMapping.asCPlugins(dir: File) = CPlugins(
 )
 
 private fun YamlMapping.asCNotesPlugin(dir: File) = CNotesPlugin(
-    sourceDir = dir / string("sourceDir")
+    sourceDir = dir / string("sourceDir"),
+    path = string("path")
 )
 
 fun main() {

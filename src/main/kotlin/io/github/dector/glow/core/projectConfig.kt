@@ -36,7 +36,6 @@ private val TestConfig = ProjectConfig(
     ),
     output = OutputConfig(
         staticFolder = File("v2/out2/"),
-        notesPath = "/notes",
         overrideFiles = true
     )
 )
@@ -48,7 +47,6 @@ private val ProdConfig = ProjectConfig(
     ),
     output = OutputConfig(
         staticFolder = File("v2/website-out/"),
-        notesPath = "/notes",
         overrideFiles = true
     )
 )
@@ -85,8 +83,6 @@ data class InputConfig(
 )
 
 data class OutputConfig(
-    val notesPath: String,
-
     val staticFolder: File,
     val overrideFiles: Boolean = false
 )

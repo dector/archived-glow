@@ -16,8 +16,10 @@ interface NotesPathResolver {
 }
 
 class NotesWebPathResolver(
-    private val config: Config
+    config: Config
 ) : NotesPathResolver {
+
+    private val notesPath = config.plugins.notes.path
 
     private val notePathDateFormatter = DateTimeFormatter
         .ofPattern("uuuu/MM/dd")
@@ -29,17 +31,17 @@ class NotesWebPathResolver(
         val dir = notePathDateFormatter.format(note.publishedAt)
         val instancePath = note.title.simplifyForWebPath()
 
-        val path = "${config.old.output.notesPath}/$dir/$instancePath/"
+        val path = "${notesPath}/$dir/$instancePath/"
         return if (buildUrlPath)
             WebPagePath(path)
         else indexWebPath(path)
     }
 
     override fun resolveNotesIndex(): WebPagePath =
-        indexWebPath(config.old.output.notesPath)
+        indexWebPath(notesPath)
 
     override fun resolveNotesArchive(): WebPagePath =
-        indexWebPath("${config.old.output.notesPath}/archive")
+        indexWebPath("$notesPath/archive")
 }
 
 private fun indexWebPath(path: String) = WebPagePath(
