@@ -3,16 +3,18 @@ package io.github.dector.glow.plugins.pages
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.provideBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 
 
 class PagesPlugin(
-        private val dataProvider: PagesDataProvider,
-        private val dataRenderer: PagesDataRenderer,
-        private val dataPublisher: DataPublisher,
-        private val logger: Logger
+    private val dataProvider: PagesDataProvider,
+    private val dataRenderer: PagesDataRenderer,
+    private val dataPublisher: DataPublisher,
+    private val config: Config,
+    private val logger: Logger
 ) : GlowPipeline {
 
     override fun execute() {
@@ -22,7 +24,7 @@ class PagesPlugin(
 
         "Found pages: ${pages.size}".log()
 
-        val blog = provideBlogVM()
+        val blog = provideBlogVM(config)
 
         pages.forEach { page ->
             "Processing '${page.title}'".log()

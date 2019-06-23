@@ -16,26 +16,23 @@ fun provideProjectConfig(): Config =
     provideProjectConfig(File("website/glow.yml"))
 
 @Deprecated("")
-fun provideBlogVM() = BlogVM(   // Convert to VM later, provide setup model
-    title = "Dead Art Space",
-    navigation =
-    provideProjectConfig().blog.navigation.map {
+fun provideBlogVM(config: Config) = BlogVM(   // Convert to VM later, provide setup model
+    title = config.blog.title,
+    navigation = config.blog.navigation.map {
         NavigationItem(path = it.path, title = it.title, type = it.type)
     },
     footer = FooterVM(
-        author = "Dead Art Space",
-        year = "2019",
-        licenseName = "CC BY-SA 4.0",
-        licenseUrl = "http://creativecommons.org/licenses/by-sa/4.0/"
+        author = config.blog.footer.author,
+        year = config.blog.footer.year,
+        licenseName = config.blog.footer.licenseName,
+        licenseUrl = config.blog.footer.licenseUrl
     )
 )
 
 private val TestConfig = ProjectConfig(
     input = InputConfig(
-        sourcesFolder = File("v2/src/"),
         staticFolder = File("v2/themes/plain/source" + (if (DevMode) "-dev" else "")),
-        pagesFolder = File("v2/src/pages"),
-        notesFolder = File("v2/src/notes")
+        pagesFolder = File("v2/src/pages")
     ),
     output = OutputConfig(
         staticFolder = File("v2/out2/"),
@@ -46,10 +43,8 @@ private val TestConfig = ProjectConfig(
 
 private val ProdConfig = ProjectConfig(
     input = InputConfig(
-        sourcesFolder = File("website/src/"),
         staticFolder = File("v2/themes/dead-art/source" + (if (DevMode) "-dev" else "")),
-        pagesFolder = File("website/src/pages"),
-        notesFolder = File("website/src/notes")
+        pagesFolder = File("website/src/pages")
     ),
     output = OutputConfig(
         staticFolder = File("v2/website-out/"),
@@ -85,10 +80,8 @@ enum class NavItemType(val id: String) {
 }
 
 data class InputConfig(
-    val sourcesFolder: File,
     val staticFolder: File,
-    val pagesFolder: File,
-    val notesFolder: File
+    val pagesFolder: File
 )
 
 data class OutputConfig(

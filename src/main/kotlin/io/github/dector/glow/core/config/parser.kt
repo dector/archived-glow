@@ -49,7 +49,8 @@ private fun YamlMapping.asCNavigation() = CNavigation(
 private fun YamlMapping.asCFooter() = CFooter(
     author = string("author"),
     year = string("year"),
-    licenseName = string("licenseName")
+    licenseName = string("licenseName"),
+    licenseUrl = string("licenseUrl")
 )
 
 private fun YamlMapping.asCPlugins(dir: File) = CPlugins(

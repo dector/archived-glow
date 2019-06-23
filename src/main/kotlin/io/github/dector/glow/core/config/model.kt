@@ -33,7 +33,8 @@ data class CNavigation(
 data class CFooter(
     val author: String,
     val year: String,
-    val licenseName: String
+    val licenseName: String,
+    val licenseUrl: String
 )
 
 data class CPlugins(val notes: CNotesPlugin)

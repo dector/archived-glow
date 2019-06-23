@@ -22,7 +22,7 @@ val appModule = module {
         val logger = UILogger
 
         PluggablePipeline(
-            NotesPlugin(get(), get(), get(), logger)//,
+            NotesPlugin(get(), get(), get(), get(), logger)//,
 //                PagesPlugin(get(), get(), get(), logger),
 //                StaticResourcesPlugin(get(), logger)
         )
