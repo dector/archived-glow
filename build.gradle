@@ -2,23 +2,21 @@ group 'io.github.dector.glow'
 version '0.2.2'
 
 buildscript {
-    apply from: 'dependencies.gradle'
 
     repositories {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
+
     dependencies {
-        classpath gradlePlugins.kotlin
+        classpath GradlePlugins.kotlin
 
-        classpath gradlePlugins.buildConfig
+        classpath GradlePlugins.build_config
 
-        classpath gradlePlugins.shadowJar
-        classpath gradlePlugins.versionsPlugin
+        classpath GradlePlugins.shadow_jar
+        classpath GradlePlugins.versions_plugin
     }
 }
-
-apply from: 'dependencies.gradle'
 
 apply plugin: 'kotlin'
 apply plugin: 'de.fuerstenau.buildconfig'
@@ -34,29 +32,29 @@ repositories {
 }
 
 dependencies {
-    compile libraries.kotlinStdLibJdk8
-    compile libraries.kotlinReflection  // can be removed later
+    compile Deps.kotlin_stdlib_jdk8
+    compile Deps.kotlin_reflection  // can be removed later
 
-    compile libraries.kotlinxHtml
+    compile Deps.kotlinx_html
 
-    compile libraries.slf4jSimple
-    
-    compile libraries.arrow_core_data
-    compile libraries.arrow_core_extensions
+    compile Deps.slf4j_simple
 
-    compile libraries.koin
+    compile Deps.arrow_core_data
+    compile Deps.arrow_core_extensions
 
-    compile libraries.clikt
-    compile libraries.jcommander
-    compile libraries.json
+    compile Deps.koin
 
-    compile libraries.javalin
+    compile Deps.clikt
+    compile Deps.jcommander
+    compile Deps.json
 
-    compile libraries.flexmark
-    compile libraries.jmustache
-    compile libraries.eo_yaml
+    compile Deps.javalin
 
-    testCompile libraries.kotlin_test
+    compile Deps.flexmark
+    compile Deps.jmustache
+    compile Deps.eo_yaml
+
+    testCompile Deps.kotlin_test
 }
 
 mainClassName = 'io.github.dector.glow.GlowKt'
