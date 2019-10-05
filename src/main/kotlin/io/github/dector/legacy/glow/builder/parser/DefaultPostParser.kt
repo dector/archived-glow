@@ -1,37 +1,37 @@
 package io.github.dector.legacy.glow.builder.parser
 
-import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.ast.Node
+import com.vladsch.flexmark.util.data.MutableDataSet
 import io.github.dector.legacy.glow.builder.models.PostMeta
 import java.io.File
 import java.time.LocalDate
 
 class DefaultPostParser(
-        private val urlBuilder: (String) -> String) : IPostParser {
+    private val urlBuilder: (String) -> String) : IPostParser {
 
     override fun parse(file: File): ParsedPost {
         val doc = buildParser()
-                .parse(file.readText())
+            .parse(file.readText())
 
         val header = parseYamlHeader(doc)
         val content = buildRenderer()
-                .render(doc)
-                .trim()
+            .render(doc)
+            .trim()
 
         val meta = PostMeta(
-                title = header.title,
-                tags = header.tags,
-                isDraft = header.isDraft,
-                file = file,
-                url = urlBuilder(file.nameWithoutExtension),
-                pubDate = postPubDateFromFilename(file.nameWithoutExtension))
+            title = header.title,
+            tags = header.tags,
+            isDraft = header.isDraft,
+            file = file,
+            url = urlBuilder(file.nameWithoutExtension),
+            pubDate = postPubDateFromFilename(file.nameWithoutExtension))
         return ParsedPost(
-                meta = meta,
-                content = content)
+            meta = meta,
+            content = content)
     }
 
     private fun buildParser(): Parser {
@@ -49,19 +49,19 @@ class DefaultPostParser(
         visitor.visit(doc)
 
         val title = visitor.data["title"]
-                ?.get(0) ?: ""
+            ?.get(0) ?: ""
         val tags = visitor.data["tags"]
-                ?.get(0)
-                ?.split(",")
-                ?.map(String::trim) ?: emptyList()
+            ?.get(0)
+            ?.split(",")
+            ?.map(String::trim) ?: emptyList()
         val isDraft = visitor.data["draft"]
-                ?.get(0)
-                ?.toBoolean() ?: false
+            ?.get(0)
+            ?.toBoolean() ?: false
 
         return Header(
-                title = title,
-                tags = tags,
-                isDraft = isDraft)
+            title = title,
+            tags = tags,
+            isDraft = isDraft)
     }
 
     private fun postPubDateFromFilename(name: String): LocalDate? {
@@ -81,7 +81,7 @@ class DefaultPostParser(
     }
 
     private data class Header(
-            val title: String,
-            val tags: List<String>,
-            val isDraft: Boolean)
+        val title: String,
+        val tags: List<String>,
+        val isDraft: Boolean)
 }

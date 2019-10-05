@@ -1,10 +1,10 @@
 package io.github.dector.glow.core.parser
 
-import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.ast.Node
+import com.vladsch.flexmark.util.data.MutableDataSet
 import java.io.File
 
 
@@ -36,8 +36,8 @@ class SimpleMarkdownParser : MarkdownParser<Node> {
         val headerData = parseYamlHeader(doc)
 
         return headerData
-                .map { (key, value) -> key to value.joinToString(", ") }
-                .toMap()
+            .map { (key, value) -> key to value.joinToString(", ") }
+            .toMap()
     }
 
     override fun parse(markdown: String): Node {

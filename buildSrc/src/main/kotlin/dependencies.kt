@@ -7,7 +7,6 @@ object Deps {
     const val slf4j_simple = "org.slf4j:slf4j-simple:${Versions.slf4j_simple}"
 
     const val arrow_core_data = "io.arrow-kt:arrow-core-data:${Versions.arrow}"
-    const val arrow_core_extensions = "io.arrow-kt:arrow-core-extensions:${Versions.arrow}"
 
     const val koin = "org.koin:koin-core:${Versions.koin}"
 

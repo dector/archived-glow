@@ -40,7 +40,6 @@ dependencies {
     implementation(Deps.slf4j_simple)
 
     implementation(Deps.arrow_core_data)
-    implementation(Deps.arrow_core_extensions)
 
     implementation(Deps.koin)
 

@@ -1,7 +1,7 @@
 package io.github.dector.glow.di
 
-import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.DefaultDataPublisher
 import io.github.dector.glow.core.components.GlowEngine

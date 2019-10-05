@@ -1,7 +1,7 @@
 package io.github.dector.glow.plugins.pages
 
-import com.vladsch.flexmark.ast.Node
 import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.HtmlContent
 import io.github.dector.glow.core.HtmlWebPageContent
