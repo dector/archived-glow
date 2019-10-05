@@ -14,7 +14,7 @@ class PipelinedGlowEngineTest : BehaviorSpec({
             val result = engine.execute()
 
             Then("execution should be success") {
-                result.isSuccess shouldBe true
+                result.isRight() shouldBe true
             }
         }
     }
@@ -28,7 +28,7 @@ class PipelinedGlowEngineTest : BehaviorSpec({
             val result = engine.execute()
 
             Then("execution should be failure") {
-                result.isSuccess shouldBe false
+                result.isLeft() shouldBe true
             }
         }
     }

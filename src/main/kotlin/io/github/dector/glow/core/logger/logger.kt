@@ -13,20 +13,16 @@ val UILogger: Logger = _UiLogger
 // FIXME remove global variable
 object UiConfig {
 
-    var uiLoggerEnabled: Boolean = true
-        internal set
+    var isUiLoggerEnabled: Boolean = true
+        internal set(enabled) {
+            field = enabled
+            _UiLogger.setDelegate(if (enabled) TransparentLogger() else NOPLogger.NOP_LOGGER)
+        }
 }
 
 val EmptyLogger: Logger = SubstituteLoggerFactory().getLogger("")
 
 val RootLogger: Logger = LoggerFactory.getLogger("")
-
-
-fun disableUiLogger() {
-    UiConfig.uiLoggerEnabled = false
-
-    _UiLogger.setDelegate(NOPLogger.NOP_LOGGER)
-}
 
 fun Any.logger(): Logger = LoggerFactory.getLogger(javaClass)
 

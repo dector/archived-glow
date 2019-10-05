@@ -2,6 +2,8 @@ package io.github.dector.glow.ui
 
 interface UiConsole {
 
+    var isEnabled: Boolean
+
     fun print(text: String)
     fun println(text: String)
 

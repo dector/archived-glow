@@ -26,8 +26,8 @@ class DefaultPagesDataRenderer(
 
         val renderedPage = Templates.page(blog, vm, navItem)
         return WebPage(
-                path = pagePath,
-                content = HtmlWebPageContent(renderedPage)
+            path = pagePath,
+            content = HtmlWebPageContent(renderedPage)
         )
     }
 

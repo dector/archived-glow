@@ -23,8 +23,8 @@ class DefaultNotesDataRenderer(
 
         val renderedPage = Templates.note(blog, vm)
         return WebPage(
-                path = pathResolver.resolve(note),
-                content = HtmlWebPageContent(renderedPage)
+            path = pathResolver.resolve(note),
+            content = HtmlWebPageContent(renderedPage)
         )
     }
 
@@ -36,8 +36,8 @@ class DefaultNotesDataRenderer(
             createNoteVM(it, content, isTrimmed = it.previewContent != null)
         })
         return WebPage(
-                path = pathResolver.resolveNotesIndex(),
-                content = HtmlWebPageContent(renderedPage)
+            path = pathResolver.resolveNotesIndex(),
+            content = HtmlWebPageContent(renderedPage)
         )
     }
 
@@ -48,8 +48,8 @@ class DefaultNotesDataRenderer(
             createNoteVM(it, content)
         })
         return WebPage(
-                path = pathResolver.resolveNotesArchive(),
-                content = HtmlWebPageContent(renderedPage)
+            path = pathResolver.resolveNotesArchive(),
+            content = HtmlWebPageContent(renderedPage)
         )
     }
 

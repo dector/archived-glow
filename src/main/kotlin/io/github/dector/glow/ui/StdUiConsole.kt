@@ -7,7 +7,11 @@ class StdUiConsole(
     private val out: PrintStream = System.out
 ) : UiConsole {
 
-    private val isEnabled: Boolean get() = UiConfig.uiLoggerEnabled
+    override var isEnabled: Boolean = true
+        set(value) {
+            field = value
+            UiConfig.isUiLoggerEnabled = value
+        }
 
     override fun print(text: String) {
         if (isEnabled) out.print(text)

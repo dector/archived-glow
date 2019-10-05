@@ -13,6 +13,6 @@ val CLI_HEADER = """
     #
     #      _  |  _
     #     (_| | (_) \/\/
-    #      _|            v ${AppVersion}
+    #      _|            v $AppVersion
     #
     """.trimMargin("#")

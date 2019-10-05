@@ -15,16 +15,16 @@ data class PageInfo(
 )
 
 data class Page2(
-        val title: String,
-        val createdAt: Instant?,
-        val sourceFile: File,
-        val content: MarkdownContent,
-        val isSection: Boolean
+    val title: String,
+    val createdAt: Instant?,
+    val sourceFile: File,
+    val content: MarkdownContent,
+    val isSection: Boolean
 )
 
 data class Page2VM(
-        val title: String,
-        val createdAt: Instant?,
-        val path: WebPagePath,
-        val content: HtmlContent
+    val title: String,
+    val createdAt: Instant?,
+    val path: WebPagePath,
+    val content: HtmlContent
 )

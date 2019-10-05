@@ -15,22 +15,22 @@ data class NoteInfo(
 )
 
 data class Note2(
-        val title: String,
-        val createdAt: Instant?,
-        val publishedAt: Instant?,
-        val isDraft: Boolean,
-        val sourceFile: File,
-        val previewContent: MarkdownContent?,
-        val content: MarkdownContent
+    val title: String,
+    val createdAt: Instant?,
+    val publishedAt: Instant?,
+    val isDraft: Boolean,
+    val sourceFile: File,
+    val previewContent: MarkdownContent?,
+    val content: MarkdownContent
 )
 
 data class Note2VM(
-        val title: String,
-        val createdAt: Instant?,
-        val publishedAt: Instant?,
-        val publishedAtValue: String,
-        val path: WebPagePath,
-        val content: HtmlContent,
-        val previewContent: HtmlContent,
-        val isTrimmed: Boolean
+    val title: String,
+    val createdAt: Instant?,
+    val publishedAt: Instant?,
+    val publishedAtValue: String,
+    val path: WebPagePath,
+    val content: HtmlContent,
+    val previewContent: HtmlContent,
+    val isTrimmed: Boolean
 )
