@@ -1,8 +1,8 @@
 package io.github.dector.glow.templates
 
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.NavItemType
-import io.github.dector.glow.core.NavigationItem
+import io.github.dector.glow.core.config.NavItemType
+import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.plugins.notes.Note2VM
 import io.github.dector.glow.plugins.pages.Page2VM
 

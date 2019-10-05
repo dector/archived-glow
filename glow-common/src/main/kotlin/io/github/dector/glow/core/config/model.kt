@@ -1,15 +1,11 @@
 package io.github.dector.glow.core.config
 
-import io.github.dector.glow.core.NavItemType
-import io.github.dector.glow.core.ProjectConfig
-import io.github.dector.glow.core.mockProjectsConfig
 import java.io.File
 
 data class Config(
     val glow: CGlow,
     val blog: CBlog,
-    val plugins: CPlugins,
-    val old: ProjectConfig = mockProjectsConfig()   // FIXME
+    val plugins: CPlugins
 )
 
 data class CGlow(

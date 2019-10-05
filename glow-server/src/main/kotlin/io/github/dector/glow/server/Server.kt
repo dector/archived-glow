@@ -8,6 +8,7 @@ import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
+import io.github.dector.glow.utils.Execution
 import io.github.dector.glow.utils.FileWatcher
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
 import io.github.dector.glow.utils.measureTimeMillis
@@ -69,12 +70,13 @@ class Server {
         println("Building blog...")
         pagesStorage.clear()
 
-        val executionResult = measureTimeMillis {
+        val executionResult: Execution<Unit> = measureTimeMillis {
             glowEngine.execute()
         }
 
-        if (executionResult.result is Either.Left) {
-            System.err.println("Failed: ${executionResult.result.a.message}")
+        val result = executionResult.result
+        if (result is Either.Left) {
+            System.err.println("Failed: ${result.a.message}")
         }
 
         val executionTime = DefaultSecondsFormatter(executionResult.time)

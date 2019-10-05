@@ -43,7 +43,6 @@ dependencies {
 
     implementation(Deps.koin)
 
-    implementation(Deps.clikt)
     implementation(Deps.json)
 
     implementation(Deps.javalin)

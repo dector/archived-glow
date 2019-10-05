@@ -1,5 +1,7 @@
 package io.github.dector.glow.core
 
+import io.github.dector.glow.core.config.NavigationItem
+
 data class BlogVM(
     val title: String = "",
     val footer: FooterVM = FooterVM(),

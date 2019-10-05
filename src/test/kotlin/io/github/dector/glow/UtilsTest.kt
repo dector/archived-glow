@@ -1,9 +1,9 @@
 package io.github.dector.glow
 
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.NavItemType
-import io.github.dector.glow.core.NavigationItem
 import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.core.config.NavItemType
+import io.github.dector.glow.core.config.NavigationItem
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 

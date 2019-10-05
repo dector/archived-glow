@@ -9,9 +9,7 @@ object DI {
     private lateinit var app: KoinApplication
 
     fun init() {
-        app = startKoin {
-            modules(appModule)
-        }
+        app = startKoin {}
     }
 
     fun modify(block: (KoinApplication) -> Unit) = block(app)
@@ -19,5 +17,5 @@ object DI {
     fun <T : Any> get(clazz: KClass<T>): T = app.koin.get(clazz, null, null) as T
 }
 
-inline fun <reified T : Any> DI.get(): T = DI.get(T::class)
+inline fun <reified T : Any> DI.get(): T = get(T::class)
 

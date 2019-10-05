@@ -2,6 +2,7 @@ package io.github.dector.glow.core
 
 import io.github.dector.glow.BuildSetup.DevMode
 import io.github.dector.glow.core.config.Config
+import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.config.parseConfig
 import java.io.File
 
@@ -54,26 +55,6 @@ data class ProjectConfig(
     val input: InputConfig,
     val output: OutputConfig
 )
-
-data class NavigationItem(
-    val path: String,
-    val title: String,
-    val type: NavItemType,
-    val visible: Boolean = true
-)
-
-enum class NavItemType(val id: String) {
-    Home("home"),
-    Notes("notes"),
-    Projects("projects"),
-    About("about"),
-    Feedback("feedback");
-
-    companion object {
-
-        fun from(id: String) = values().first { it.id == id }
-    }
-}
 
 @Deprecated("")
 data class InputConfig(

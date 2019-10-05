@@ -2,8 +2,8 @@ package io.github.dector.glow.templates
 
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.FooterVM
-import io.github.dector.glow.core.NavItemType
-import io.github.dector.glow.core.NavigationItem
+import io.github.dector.glow.core.config.NavItemType
+import io.github.dector.glow.core.config.NavigationItem
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 

@@ -3,6 +3,35 @@
 package io.github.dector.glow.utils
 
 import arrow.core.Either
+import arrow.core.left
+
+fun measureOperationTimeMillis(block: () -> Unit): Execution<Unit> =
+    measureTimeMillis<Unit> {
+        try {
+            block()
+            Either.right(Unit)
+        } catch (e: Throwable) {
+            Either.left(e)
+        }
+    }
+
+inline fun <T> measureTimeMillis(block: () -> Either<Throwable, T>): Execution<T> {
+    val startTime = System.currentTimeMillis()
+    val result: Either<Throwable, T> = try {
+        block()
+    } catch (e: Throwable) {
+        e.left()
+    }
+    val endTime = System.currentTimeMillis()
+    val executionTime = endTime - startTime
+
+    return Execution(result, executionTime)
+}
+
+data class Execution<T>(
+    val result: Either<Throwable, T>,
+    val time: Long
+)
 
 inline fun Long.msToSec(): Long = this / 1000
 inline fun Long.msToMin(): Long = this.msToSec().secToMin()
@@ -31,21 +60,3 @@ fun decomposeTimeMs(time: Long): Time = Time(
 data class Time(val millisFraction: Long, val seconds: Long, val minutes: Long, val hours: Long, val days: Long)
 
 inline fun Long.msLessThanMinutes(min: Int): Boolean = this.msToMin() <= min
-
-inline fun <T> measureTimeMillis(block: () -> T): Execution<T> {
-    val startTime = System.currentTimeMillis()
-    val result: Either<Throwable, T> = try {
-        Either.Right(block())
-    } catch (e: Throwable) {
-        Either.Left(e)
-    }
-    val endTime = System.currentTimeMillis()
-    val executionTime = endTime - startTime
-
-    return Execution(result, executionTime)
-}
-
-data class Execution<T>(
-    val result: Either<Throwable, T>,
-    val time: Long
-)

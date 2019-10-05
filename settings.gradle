@@ -1,3 +1,5 @@
 rootProject.name = 'glow'
 
-include "glow-common", 'glow-cli'
+include "glow-common",
+        "glow-server",
+        "glow-cli"

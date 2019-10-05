@@ -7,6 +7,7 @@ dependencies {
     implementation(Deps.arrow_core_data)
 
     implementation(project(":glow-common"))
+    implementation(project(":glow-server"))
 
     implementation(Deps.clikt)
 }

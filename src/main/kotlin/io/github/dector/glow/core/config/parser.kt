@@ -3,7 +3,6 @@ package io.github.dector.glow.core.config
 import com.amihaiemil.eoyaml.Yaml
 import com.amihaiemil.eoyaml.YamlMapping
 import com.amihaiemil.eoyaml.YamlSequence
-import io.github.dector.glow.core.NavItemType
 import io.github.dector.glow.div
 import java.io.File
 
