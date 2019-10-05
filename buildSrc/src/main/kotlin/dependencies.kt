@@ -52,7 +52,7 @@ object Versions {
 
     const val kotlin_test = "3.3.2"
 
-    const val shadow = "5.0.0"
+    const val shadow = "5.1.0"
     const val versions_plugin = "0.25.0"
     const val build_config = "1.1.8"
 }
