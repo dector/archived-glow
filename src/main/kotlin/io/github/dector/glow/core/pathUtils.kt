@@ -5,5 +5,6 @@ internal fun String.simplifyForWebPath() = this
     .replace(Regex("/+"), "-")
     .replace(Regex(" +"), "-")
     .replace(Regex("[^\\w_-]"), "")
+    .replace(Regex("--+"), "-")
     .trim('-')
     .toLowerCase()
