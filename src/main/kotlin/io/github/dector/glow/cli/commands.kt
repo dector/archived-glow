@@ -5,6 +5,8 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import io.github.dector.glow.CLI_HEADER
+import io.github.dector.glow.cli.commands.FishCommand
+import io.github.dector.glow.cli.commands.GlowCommand
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.logger.disableUiLogger
@@ -12,11 +14,6 @@ import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.server.Server
 import io.github.dector.glow.ui.UiConsole
-
-class GlowCommand : CliktCommand(name = "glow") {
-
-    override fun run() {}
-}
 
 class BuildCommand : CliktCommand(name = "build") {
 
