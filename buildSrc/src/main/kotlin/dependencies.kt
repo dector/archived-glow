@@ -42,7 +42,7 @@ object Versions {
 
     const val koin = "2.0.1"
 
-    const val clikt = "1.6.0"
+    const val clikt = "2.2.0"
     const val json = "20160810"
 
     const val javalin = "3.0.0"
