@@ -1,0 +1,115 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath(GradlePlugins.kotlin)
+
+        classpath(GradlePlugins.build_config)
+
+        classpath(GradlePlugins.shadow_jar)
+        classpath(GradlePlugins.versions_plugin)
+    }
+}
+
+plugins {
+    application
+
+    kotlin("jvm") version Versions.kotlin
+
+    id("de.fuerstenau.buildconfig") version "1.1.8"
+    idea    // Required for build config IDE support
+
+    id("com.github.johnrengelman.shadow") version "5.1.0"
+    id("com.github.ben-manes.versions") version "0.25.0"
+}
+
+repositories {
+    jcenter()
+    maven(url = "https://dl.bintray.com/arrow-kt/arrow-kt/")
+    maven(url = "http://oss.sonatype.org/content/groups/public/")
+}
+
+dependencies {
+    implementation(Deps.kotlin_stdlib_jdk8)
+    implementation(Deps.kotlin_reflection)  // can be removed later
+
+    implementation(project(":glow-common"))
+    implementation(project(":glow-cli"))
+
+    implementation(Deps.kotlinx_html)
+
+    implementation(Deps.slf4j_simple)
+
+    implementation(Deps.arrow_core_data)
+    implementation(Deps.arrow_core_extensions)
+
+    implementation(Deps.koin)
+
+    implementation(Deps.clikt)
+    implementation(Deps.jcommander)
+    implementation(Deps.json)
+
+    implementation(Deps.javalin)
+
+    implementation(Deps.flexmark)
+    implementation(Deps.jmustache)
+    implementation(Deps.eo_yaml)
+
+    testImplementation(Deps.kotlin_test)
+}
+
+
+application {
+    mainClassName = "io.github.dector.glow.GlowKt"
+}
+
+//shadowJar {
+//    classifier = null
+//}
+
+//task distrib(dependsOn: "shadowJar") {
+//    doLast {
+//        def distribFile = file("./distrib/${jar.archiveName}")
+//
+//        copy {
+//            from jar.archivePath
+//            into distribFile.parentFile
+//        }
+//
+//        def relativePath = file(".").toURI().relativize(distribFile.toURI())
+//        println "Distribution saved to ./$relativePath"
+//    }
+//}
+
+tasks.withType<KotlinCompile>().all {
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-XXLanguage:+InlineClasses",
+            "-XXLanguage:+NewInference",
+            "-Xallow-result-return-type"
+        )
+    }
+}
+
+allprojects {
+    group = "io.github.dector.glow"
+    version = Config.version
+
+    repositories {
+        jcenter()
+    }
+
+    tasks.withType<KotlinCompile>().all {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    tasks.withType<Test>().all {
+        useJUnitPlatform()
+    }
+}
+
