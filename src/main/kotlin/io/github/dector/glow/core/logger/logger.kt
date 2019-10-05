@@ -7,8 +7,15 @@ import org.slf4j.helpers.SubstituteLogger
 import org.slf4j.helpers.SubstituteLoggerFactory
 
 private val _UiLogger: SubstituteLogger = (SubstituteLoggerFactory().getLogger("") as SubstituteLogger)
-        .apply { setDelegate(TransparentLogger()) }
+    .apply { setDelegate(TransparentLogger()) }
 val UILogger: Logger = _UiLogger
+
+// FIXME remove global variable
+object UiConfig {
+
+    var uiLoggerEnabled: Boolean = true
+        internal set
+}
 
 val EmptyLogger: Logger = SubstituteLoggerFactory().getLogger("")
 
@@ -16,6 +23,8 @@ val RootLogger: Logger = LoggerFactory.getLogger("")
 
 
 fun disableUiLogger() {
+    UiConfig.uiLoggerEnabled = false
+
     _UiLogger.setDelegate(NOPLogger.NOP_LOGGER)
 }
 

@@ -15,6 +15,8 @@ import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
 import io.github.dector.glow.plugins.notes.*
 import io.github.dector.glow.plugins.pages.*
+import io.github.dector.glow.ui.StdUiConsole
+import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
 
 val appModule = module {
@@ -28,6 +30,8 @@ val appModule = module {
         )
     }
     single<GlowEngine> { PipelinedGlowEngine(get()) }
+
+    single<UiConsole> { StdUiConsole() }
 
     single<MarkdownParser<Node>> { SimpleMarkdownParser() }
     single<HtmlRenderer> { HtmlRenderer.builder().build() }

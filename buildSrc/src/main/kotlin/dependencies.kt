@@ -59,3 +59,8 @@ object Versions {
 
     val kotlin_test = "3.3.2"
 }
+
+object Config {
+
+    val version = "0.2.3-SNAPSHOT"
+}

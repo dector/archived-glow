@@ -11,6 +11,7 @@ import io.github.dector.glow.core.logger.disableUiLogger
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.server.Server
+import io.github.dector.glow.ui.UiConsole
 
 class GlowCommand : CliktCommand(name = "glow") {
 
@@ -38,20 +39,9 @@ class ServeCommand : CliktCommand(name = "serve") {
     }
 }
 
-class FishCommand : CliktCommand(name = "fish") {
+fun cliCommands() = run {
+    val ui = DI.get<UiConsole>()
 
-    private val fish = """
-          /`·.¸
-         /¸...¸`:·
-     ¸.·´  ¸   `·.¸.·´)
-    : © ):´;      ¸  {
-     `·.¸ `·  ¸.·´\`·¸)
-         `\\´´\¸.·´     Hi, there!"""
-
-    override fun run() {
-        UILogger.info(fish)
-    }
+    GlowCommand()
+        .subcommands(BuildCommand(), ServeCommand(), FishCommand(ui))
 }
-
-fun cliCommands() = GlowCommand()
-    .subcommands(BuildCommand(), ServeCommand(), FishCommand())

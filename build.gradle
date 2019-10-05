@@ -1,6 +1,3 @@
-group 'io.github.dector.glow'
-version '0.2.3-SNAPSHOT'
-
 buildscript {
 
     repositories {
@@ -32,39 +29,38 @@ repositories {
 }
 
 dependencies {
-    compile Deps.kotlin_stdlib_jdk8
-    compile Deps.kotlin_reflection  // can be removed later
+    implementation Deps.kotlin_stdlib_jdk8
+    implementation Deps.kotlin_reflection  // can be removed later
 
-    compile Deps.kotlinx_html
+    implementation project(":glow-common")
+    implementation project(":glow-cli")
 
-    compile Deps.slf4j_simple
+    implementation Deps.kotlinx_html
 
-    compile Deps.arrow_core_data
-    compile Deps.arrow_core_extensions
+    implementation Deps.slf4j_simple
 
-    compile Deps.koin
+    implementation Deps.arrow_core_data
+    implementation Deps.arrow_core_extensions
 
-    compile Deps.clikt
-    compile Deps.jcommander
-    compile Deps.json
+    implementation Deps.koin
 
-    compile Deps.javalin
+    implementation Deps.clikt
+    implementation Deps.jcommander
+    implementation Deps.json
 
-    compile Deps.flexmark
-    compile Deps.jmustache
-    compile Deps.eo_yaml
+    implementation Deps.javalin
 
-    testCompile Deps.kotlin_test
+    implementation Deps.flexmark
+    implementation Deps.jmustache
+    implementation Deps.eo_yaml
+
+    testImplementation Deps.kotlin_test
 }
 
 mainClassName = 'io.github.dector.glow.GlowKt'
 
 shadowJar {
     classifier = null
-}
-
-test {
-    useJUnitPlatform()
 }
 
 task distrib(dependsOn: 'shadowJar') {
@@ -88,5 +84,25 @@ compileKotlin {
                 "-XXLanguage:+NewInference",
                 "-Xallow-result-return-type"
         ]
+    }
+}
+
+allprojects {
+    group 'io.github.dector.glow'
+    version = Config.version
+
+    repositories {
+        jcenter()
+    }
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
