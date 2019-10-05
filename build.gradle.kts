@@ -50,7 +50,6 @@ dependencies {
     implementation(Deps.javalin)
 
     implementation(Deps.flexmark)
-    implementation(Deps.jmustache)
     implementation(Deps.eo_yaml)
 
     testImplementation(Deps.kotlin_test)

@@ -17,7 +17,6 @@ object Deps {
     const val javalin = "io.javalin:javalin:${Versions.javalin}"
 
     const val flexmark = "com.vladsch.flexmark:flexmark-all:${Versions.flexmark}"
-    const val jmustache = "com.samskivert:jmustache:${Versions.jmustache}"
     const val eo_yaml = "com.amihaiemil.web:eo-yaml:${Versions.eo_yaml}"
 
     const val kotlin_test = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlin_test}"
@@ -49,7 +48,6 @@ object Versions {
     const val javalin = "3.0.0"
 
     const val flexmark = "0.18.5"
-    const val jmustache = "1.13"
     const val eo_yaml = "2.0.1"
 
     const val kotlin_test = "3.3.2"
