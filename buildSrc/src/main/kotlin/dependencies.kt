@@ -34,7 +34,7 @@ object Versions {
     const val kotlin = "1.3.50"
     const val kotlinx_html = "0.6.12"
 
-    const val slf4j_simple = "2.0.0-alpha1"
+    const val slf4j_simple = "1.7.26"
 
     const val arrow = "0.10.0"
 
