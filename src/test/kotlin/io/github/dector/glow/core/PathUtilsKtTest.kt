@@ -13,7 +13,8 @@ class PathUtilsKtTest : BehaviorSpec({
             "  not trimmed  " to "not-trimmed",
             "title!@#$%^&*()" to "title",
             "/some/path" to "some-path",
-            "with digits 123 456 789 0" to "with-digits-123-456-789-0"
+            "with digits 123 456 789 0" to "with-digits-123-456-789-0",
+            "with sPecial | CharActers" to "with-special-characters"
         )
 
         cases.forEach { (sourceString, expectedString) ->
