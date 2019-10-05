@@ -51,7 +51,6 @@ dependencies {
     implementation(Deps.koin)
 
     implementation(Deps.clikt)
-    implementation(Deps.jcommander)
     implementation(Deps.json)
 
     implementation(Deps.javalin)

@@ -12,7 +12,6 @@ object Deps {
     const val koin = "org.koin:koin-core:${Versions.koin}"
 
     const val clikt = "com.github.ajalt:clikt:${Versions.clikt}"
-    const val jcommander = "com.beust:jcommander:${Versions.jcommander}"
     const val json = "org.json:json:${Versions.json}"
 
     const val javalin = "io.javalin:javalin:${Versions.javalin}"
@@ -48,7 +47,6 @@ object Versions {
     const val koin = "2.0.1"
 
     const val clikt = "1.6.0"
-    const val jcommander = "1.48"
     const val json = "20160810"
 
     const val javalin = "3.0.0"
