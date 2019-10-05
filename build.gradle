@@ -63,6 +63,10 @@ shadowJar {
     classifier = null
 }
 
+test {
+    useJUnitPlatform()
+}
+
 task distrib(dependsOn: 'shadowJar') {
     doLast {
         def distribFile = file("./distrib/${jar.archiveName}")
@@ -84,24 +88,5 @@ compileKotlin {
                 "-XXLanguage:+NewInference",
                 "-Xallow-result-return-type"
         ]
-    }
-}
-
-allprojects {
-    group 'io.github.dector.glow'
-
-    repositories {
-        jcenter()
-    }
-
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-
-    test {
-        useJUnitPlatform()
     }
 }
