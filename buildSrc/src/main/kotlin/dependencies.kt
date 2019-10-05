@@ -26,16 +26,13 @@ object Deps {
 object GradlePlugins {
 
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val build_config = "gradle.plugin.de.fuerstenau:BuildConfigPlugin:${Versions.build_config}"
-    const val shadow_jar = "com.github.jengelman.gradle.plugins:shadow:${Versions.shadow_jar}"
-    const val versions_plugin = "com.github.ben-manes:gradle-versions-plugin:${Versions.versions_plugin}"
+    const val build_config = "de.fuerstenau.buildconfig"
+    const val shadow = "com.github.johnrengelman.shadow"
+
+    const val versions = "com.github.ben-manes.versions"
 }
 
 object Versions {
-
-    const val shadow_jar = "5.0.0"
-    const val versions_plugin = "0.21.0"
-    const val build_config = "1.1.8"
 
     const val kotlin = "1.3.50"
     const val kotlinx_html = "0.6.11"
@@ -56,6 +53,10 @@ object Versions {
     const val eo_yaml = "2.0.1"
 
     const val kotlin_test = "3.3.2"
+
+    const val shadow = "5.0.0"
+    const val versions_plugin = "0.25.0"
+    const val build_config = "1.1.8"
 }
 
 object Config {

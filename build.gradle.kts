@@ -7,12 +7,6 @@ buildscript {
     }
 
     dependencies {
-        classpath(GradlePlugins.kotlin)
-
-        classpath(GradlePlugins.build_config)
-
-        classpath(GradlePlugins.shadow_jar)
-        classpath(GradlePlugins.versions_plugin)
     }
 }
 
@@ -21,11 +15,11 @@ plugins {
 
     kotlin("jvm") version Versions.kotlin
 
-    id("de.fuerstenau.buildconfig") version "1.1.8"
+    id(GradlePlugins.build_config) version Versions.build_config
     idea    // Required for build config IDE support
 
-    id("com.github.johnrengelman.shadow") version "5.1.0"
-    id("com.github.ben-manes.versions") version "0.25.0"
+    id(GradlePlugins.shadow) version Versions.shadow
+    id(GradlePlugins.versions) version Versions.versions_plugin
 }
 
 repositories {
