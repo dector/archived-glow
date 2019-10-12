@@ -19,10 +19,14 @@ fun main(args: Array<String>) {
 }
 
 private fun initApp() {
-    DI.init()
-    DI.modify {
-        it.modules(appModule)
+    //DI.init()
+    DI.resetAction = {
+        DI.init()
+        DI.modify {
+            it.modules(appModule)
+        }
     }
+    DI.reset()  // Will call init()
 }
 
 private fun measureAndPrintExecution(operation: () -> Unit) {

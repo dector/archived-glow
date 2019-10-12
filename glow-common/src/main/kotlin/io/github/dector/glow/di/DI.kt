@@ -2,14 +2,24 @@ package io.github.dector.glow.di
 
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import kotlin.reflect.KClass
 
 object DI {
 
+    // FIXME
+    var resetAction: (() -> Unit)? = null
+
     private lateinit var app: KoinApplication
 
     fun init() {
+        stopKoin() // FIXME
         app = startKoin {}
+    }
+
+    // FIXME
+    fun reset() {
+        resetAction?.invoke()
     }
 
     fun modify(block: (KoinApplication) -> Unit) = block(app)

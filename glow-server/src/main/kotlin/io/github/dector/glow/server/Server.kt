@@ -41,6 +41,7 @@ class Server {
     }
 
     private fun provideDependencies() {
+        DI.reset()
         DI.modify { koin ->
             koin.modules(module {
                 single<DataPublisher>(override = true) {
