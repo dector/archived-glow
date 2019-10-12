@@ -17,3 +17,7 @@ fun cliCommands() = run {
         FishCommand(ui)
     )
 }
+
+fun runCli(args: Array<String>) {
+    cliCommands().main(args)
+}

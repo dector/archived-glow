@@ -1,7 +1,7 @@
 package io.github.dector.glow
 
 import arrow.core.Either
-import io.github.dector.glow.cli.cliCommands
+import io.github.dector.glow.cli.runCli
 import io.github.dector.glow.core.logger.RootLogger
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.di.DI
@@ -41,7 +41,7 @@ private fun measureAndPrintExecution(operation: () -> Unit) {
 
 private fun executeApp(args: Array<String>) {
     try {
-        cliCommands().main(args)
+        runCli(args)
     } catch (e: Throwable) {
         RootLogger.error(e.message, e)
         throw e
