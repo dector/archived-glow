@@ -8,25 +8,28 @@ import kotlinx.html.*
 
 fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -> Unit) =
     htmlPage("${blog.title} | ${navItem?.title ?: ""}") {
-        section("section") {
-            div("container") {
-                pageHeader(blog, navItem?.type)
+        pageNavigation(blog, navItem?.type)
 
-                pageContentContainer(mainContentBuilder)
+        pageContent(mainContentBuilder)
 
-                pageFooter(blog.footer)
-            }
-        }
+        pageFooter(blog.footer)
     }
 
-private fun DIV.pageHeader(blog: BlogVM, pageType: NavItemType?) {
-    nav("navbar navbar-expand") {
-        a(classes = "navbar-brand") {
-            href = "/"
-            +blog.title
+private fun BODY.pageNavigation(blog: BlogVM, pageType: NavItemType?) {
+    nav("navbar") {
+        role = "navigation"
+
+        div("container") {
+            div("navbar-brand") {
+                a(classes = "navbar-item") {
+                    href = "/"
+                    +blog.title
+                }
+            }
         }
 
-        div("navbar-nav ml-auto") {
+        // TODO
+        /*div("navbar-nav ml-auto") {
             blog.navigation.filter { it.visible }.forEach { item ->
                 a {
                     classes = setOf("nav-item", "nav-link") +
@@ -36,24 +39,31 @@ private fun DIV.pageHeader(blog: BlogVM, pageType: NavItemType?) {
                     +item.title
                 }
             }
-        }
+        }*/
     }
 }
 
-private fun DIV.pageContentContainer(contentBuilder: DIV.() -> Unit) {
-    div("container my-4") {
+private fun BODY.pageContent(contentBuilder: DIV.() -> Unit) {
+    div("container content") {
         contentBuilder()
     }
 }
 
-private fun DIV.pageFooter(footer: FooterVM) {
-    hr {}
-
-    p("text-muted text-center") {
-        +"${footer.author}, ${footer.year}. Content distributed under the "
-        a(href = footer.licenseUrl) {
-            +footer.licenseName
+private fun BODY.pageFooter(footer: FooterVM) {
+    footer("footer") {
+        div("content has-text-centered") {
+            p {
+                +"${footer.author}, ${footer.year}. Content distributed under the "
+                a(href = footer.licenseUrl) {
+                    +footer.licenseName
+                }
+                +"."
+            }
         }
-        +"."
     }
+//    hr {}
+//
+//    p("text-muted text-center") {
+//
+//    }
 }
