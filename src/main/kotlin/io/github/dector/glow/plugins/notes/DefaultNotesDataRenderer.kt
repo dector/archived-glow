@@ -11,9 +11,9 @@ import io.github.dector.glow.formatPublishDate
 import io.github.dector.glow.templates.Templates
 
 class DefaultNotesDataRenderer(
-        private val pathResolver: NotesPathResolver,
-        private val markdownParser: MarkdownParser<Node>,
-        private val htmlRenderer: HtmlRenderer
+    private val pathResolver: NotesPathResolver,
+    private val markdownParser: MarkdownParser<Node>,
+    private val htmlRenderer: HtmlRenderer
 ) : NotesDataRenderer {
 
     override fun render(blog: BlogVM, note: Note2): WebPage {
@@ -37,7 +37,7 @@ class DefaultNotesDataRenderer(
         })
         return WebPage(
             path = pathResolver.resolveNotesIndex(),
-            content = HtmlWebPageContent(renderedPage)
+            content = renderedPage
         )
     }
 
@@ -57,17 +57,17 @@ class DefaultNotesDataRenderer(
         val htmlContent = HtmlContent(content)
 
         Note2VM(
-                title = note.title,
-                createdAt = note.createdAt,
-                publishedAt = note.publishedAt,
-                publishedAtValue = formatPublishDate(note.publishedAt),
-                path = pathResolver.resolve(note, buildUrlPath = true),
-                content = htmlContent,
-                // FIXME should be stripped before rendering
-                previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
-                    htmlContent
-                else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
-                isTrimmed = isTrimmed
+            title = note.title,
+            createdAt = note.createdAt,
+            publishedAt = note.publishedAt,
+            publishedAtValue = formatPublishDate(note.publishedAt),
+            path = pathResolver.resolve(note, buildUrlPath = true),
+            content = htmlContent,
+            // FIXME should be stripped before rendering
+            previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
+                htmlContent
+            else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
+            isTrimmed = isTrimmed
         )
     }
 }

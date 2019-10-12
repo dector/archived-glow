@@ -5,18 +5,19 @@ import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.plugins.notes.Note2VM
 import io.github.dector.glow.plugins.pages.Page2VM
-
+import io.github.dector.glow.templates.bulma.notesIndexContent
+import io.github.dector.glow.templates.bulma.webPage
 
 object Templates {
 
     private fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemType.Notes }
 
-    fun note(blog: BlogVM, note: Note2VM) = tWebPage(blog, blog.notesNavigationItem()) {
-        tNoteContent(note)
+    fun notesIndex(blog: BlogVM, notes: List<Note2VM>) = webPage(blog, blog.notesNavigationItem()) {
+        notesIndexContent(notes)
     }
 
-    fun notesIndex(blog: BlogVM, notes: List<Note2VM>) = tWebPage(blog, blog.notesNavigationItem()) {
-        tNotesIndexContent(notes)
+    fun note(blog: BlogVM, note: Note2VM) = tWebPage(blog, blog.notesNavigationItem()) {
+        tNoteContent(note)
     }
 
     fun notesArchive(blog: BlogVM, notes: List<Note2VM>) = tWebPage(blog, blog.notesNavigationItem()) {

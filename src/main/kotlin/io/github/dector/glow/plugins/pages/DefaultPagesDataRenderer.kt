@@ -11,9 +11,9 @@ import io.github.dector.glow.detectNavItem
 import io.github.dector.glow.templates.Templates
 
 class DefaultPagesDataRenderer(
-        private val pathResolver: PagesPathResolver,
-        private val markdownParser: MarkdownParser<Node>,
-        private val htmlRenderer: HtmlRenderer
+    private val pathResolver: PagesPathResolver,
+    private val markdownParser: MarkdownParser<Node>,
+    private val htmlRenderer: HtmlRenderer
 ) : PagesDataRenderer {
 
     override fun render(blog: BlogVM, page: Page2): WebPage {
@@ -33,10 +33,10 @@ class DefaultPagesDataRenderer(
 
     private fun createPageVM(page: Page2, content: String) = run {
         Page2VM(
-                title = page.title,
-                createdAt = page.createdAt,
-                path = pathResolver.resolve(page),
-                content = HtmlContent(content)
+            title = page.title,
+            createdAt = page.createdAt,
+            path = pathResolver.resolve(page),
+            content = HtmlContent(content)
         )
     }
 }
