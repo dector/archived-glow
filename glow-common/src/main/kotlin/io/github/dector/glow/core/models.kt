@@ -21,6 +21,7 @@ val WebPagePath.isIndex: Boolean
 
 data class BlogVM(
     val title: String = "",
+    val description: String = "",
     val footer: FooterVM = FooterVM(),
     val navigation: List<NavigationItem> = emptyList()
 )

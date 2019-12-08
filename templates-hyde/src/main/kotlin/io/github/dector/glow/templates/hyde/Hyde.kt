@@ -1,16 +1,17 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.config.NavigationItem
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.link
 import kotlinx.html.meta
 import kotlinx.html.nav
 import kotlinx.html.p
-import kotlinx.html.span
 import kotlinx.html.title
 import kotlinx.html.unsafe
 
@@ -77,7 +78,7 @@ object Hyde {
             }*/
         }
 
-        fun sidebar(body: BODY, blog: BlogVM) = body.apply {
+        fun sidebar(body: BODY, blog: BlogVM, currentNavItem: NavigationItem?) = body.apply {
             div("sidebar") {
                 div("container sidebar-sticky") {
                     div("sidebar-about") {
@@ -86,14 +87,17 @@ object Hyde {
                                 +blog.title
                             }
                         }
-                        p("lead") { +"""{{ site.description }}""" }
+
+                        if (blog.description.isNotBlank()) {
+                            p("lead") { +blog.description }
+                        }
                     }
 
                     nav("sidebar-nav") {
-                        a("sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}") {
+                        /*a("sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}") {
                             href = "{{ site.baseurl }}"
                             +"""Home"""
-                        }
+                        }*/
 
                         /*
                         {% comment %}
@@ -102,28 +106,29 @@ object Hyde {
                         {% endcomment %}
                         */
 
-                        """
-                          {% assign pages_list = site.pages %}
-                          {% for node in pages_list %}
-                            {% if node.title != null %}
-                              {% if node.layout == "page" %}"""
-                        a("sidebar-nav-item{% if page.url == node.url %} active{% endif %}") {
-                            href = "{{ node.url }}"
-                            +"""{{ node.title }}"""
-                        }
-                        """{% endif %}
-                            {% endif %}
-                          {% endfor %}"""
+                        blog.navigation.forEach { item ->
+                            // Include only pages
+//                            a("sidebar-nav-item{% if page.url == node.url %} active{% endif %}") {
+                            a(href = item.path) {
+                                classes = setOf("sidebar-nav-item").let {
+                                    if (item == currentNavItem) {
+                                        it + "active"
+                                    } else it
+                                }
 
-                        a("sidebar-nav-item") {
+                                +item.title
+                            }
+                        }
+
+                        /*a("sidebar-nav-item") {
                             href = "{{ site.github.repo }}/archive/v{{ site.version }}.zip"
                             +"""Download"""
-                        }
-                        a("sidebar-nav-item") {
+                        }*/
+                        /*a("sidebar-nav-item") {
                             href = "{{ site.github.repo }}"
                             +"""GitHub project"""
-                        }
-                        span("sidebar-nav-item") { +"""Currently v{{ site.version }}""" }
+                        }*/
+                        /*span("sidebar-nav-item") { +"""Currently v{{ site.version }}""" }*/
                     }
 
                     p { +"""&copy; {{ site.time | date: '%Y' }}. All rights reserved.""" }

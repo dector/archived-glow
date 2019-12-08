@@ -10,7 +10,7 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
     override fun handle(ctx: Context) {
         val path = ctx.path()
 
-        println(path)
+        println("GET: $path")
         // FIXME serve static resourses better
         if (path.startsWith("/public/")) {
             val resourcePath = path.removePrefix("/public/")

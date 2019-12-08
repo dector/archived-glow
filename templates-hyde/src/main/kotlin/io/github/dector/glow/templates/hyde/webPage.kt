@@ -14,7 +14,7 @@ fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -
         //bodyClasses = "layout-reverse",
         headExt = { Hyde.Includes.head(this, pageTitle) }
     ) {
-        Hyde.Includes.sidebar(this, blog)
+        Hyde.Includes.sidebar(this, blog, navItem)
 
         div("content container") {
             h1 { +"Hello, Hyde!" }
