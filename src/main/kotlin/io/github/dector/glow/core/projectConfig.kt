@@ -4,14 +4,15 @@ import io.github.dector.glow.BuildSetup.DevMode
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.config.ParsingContext
+import io.github.dector.glow.core.config.findConfig
 import io.github.dector.glow.core.config.parseConfig
 import java.io.File
 
 @Deprecated("")
 fun mockProjectsConfig() = ProdConfig
 
-fun provideProjectConfig(file: File): Config =
-    parseConfig(file, ParsingContext(dir = file.parentFile))
+fun provideProjectConfig(dir: File): Config =
+    parseConfig(findConfig(dir), ParsingContext(dir = dir))
 
 @Deprecated("")
 fun provideProjectConfig(): Config =

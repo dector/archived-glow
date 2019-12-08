@@ -65,7 +65,7 @@ private fun JsonObject.asCNotesPlugin(context: ParsingContext) = CNotesPlugin(
     path = get("path").asString()
 )
 
-private fun findConfig(dir: File): File {
+fun findConfig(dir: File): File {
     require(dir.isDirectory)
 
     val candidates = dir.listFiles()!!
