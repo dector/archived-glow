@@ -12,6 +12,7 @@ object Deps {
 
     const val clikt = "com.github.ajalt:clikt:${Versions.clikt}"
     const val json = "org.json:json:${Versions.json}"
+    const val hjson = "org.hjson:hjson:${Versions.hjson}"
 
     const val javalin = "io.javalin:javalin:${Versions.javalin}"
 
@@ -42,6 +43,7 @@ object Versions {
 
     const val clikt = "2.2.0"
     const val json = "20190722"
+    const val hjson = "3.0.0"
 
     const val javalin = "3.5.0"
 

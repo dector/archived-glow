@@ -3,6 +3,7 @@ package io.github.dector.glow.core
 import io.github.dector.glow.BuildSetup.DevMode
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.config.NavigationItem
+import io.github.dector.glow.core.config.ParsingContext
 import io.github.dector.glow.core.config.parseConfig
 import java.io.File
 
@@ -10,11 +11,11 @@ import java.io.File
 fun mockProjectsConfig() = ProdConfig
 
 fun provideProjectConfig(file: File): Config =
-    parseConfig(file.parentFile, file.readText())
+    parseConfig(file, ParsingContext(dir = file.parentFile))
 
 @Deprecated("")
 fun provideProjectConfig(): Config =
-    provideProjectConfig(File("website/glow.yml"))
+    provideProjectConfig(File("website"))
 
 @Deprecated("")
 fun provideBlogVM(config: Config) = BlogVM(   // Convert to VM later, provide setup model

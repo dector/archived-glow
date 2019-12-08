@@ -1,72 +1,97 @@
 package io.github.dector.glow.core.config
 
-import com.amihaiemil.eoyaml.Yaml
-import com.amihaiemil.eoyaml.YamlMapping
-import com.amihaiemil.eoyaml.YamlSequence
 import io.github.dector.glow.div
+import org.hjson.JsonArray
+import org.hjson.JsonObject
+import org.hjson.JsonValue
 import java.io.File
 
-// TODO use parsing context
-fun parseConfig(dir: File, content: String): Config = Yaml
-    .createYamlInput(content)
-    .readYamlMapping()
-    .asConfig(dir)
+fun parseConfig(file: File, context: ParsingContext): Config = JsonValue
+    .readHjson(file.readText())
+    .asObject()
+    .asConfig(context)
 
-private fun YamlMapping.asConfig(dir: File) = Config(
-    glow = yamlMapping("glow").asCGlow(),
-    blog = yamlMapping("blog").asCBlog(dir),
-    plugins = yamlMapping("plugins").asCPlugins(dir)
+private fun JsonObject.asConfig(context: ParsingContext) = Config(
+    glow = getObject("glow").asCGlow(),
+    blog = getObject("blog").asCBlog(context),
+    plugins = getObject("plugins").asCPlugins(context)
 )
 
-private fun YamlMapping.asCGlow() = CGlow(
-    config = yamlMapping("config").asCConfig(),
-    output = yamlMapping("output").asCOutput()
+private fun JsonObject.asCGlow() = CGlow(
+    config = getObject("config").asCConfig(),
+    output = getObject("output").asCOutput()
 )
 
-private fun YamlMapping.asCConfig() = CConfig(
-    version = string("version")
+private fun JsonObject.asCConfig() = CConfig(
+    version = get("version").toString()
 )
 
-private fun YamlMapping.asCOutput() = COutput(
-    overrideFiles = string("overrideFiles")!!.toBoolean()
+private fun JsonObject.asCOutput() = COutput(
+    overrideFiles = get("overrideFiles").asBoolean()
 )
 
-private fun YamlMapping.asCBlog(dir: File) = CBlog(
-    title = string("title"),
-    navigation = yamlSequence("navigation")?.asCNavigationList() ?: emptyList(),
-    footer = yamlMapping("footer").asCFooter(),
-    sourceDir = dir / string("sourceDir"),
-    outputDir = dir / string("outputDir")
+private fun JsonObject.asCBlog(context: ParsingContext) = CBlog(
+    title = get("title").asString(),
+    navigation = get("navigation").asArray().asCNavigationList(),
+    footer = getObject("footer").asCFooter(),
+    sourceDir = context.dir / get("sourceDir").asString(),
+    outputDir = context.dir / get("outputDir").asString()
 )
 
-private fun YamlSequence.asCNavigationList() =
+private fun JsonArray.asCNavigationList() =
     (0 until size())
-        .map { yamlMapping(it) }
+        .map { get(it).asObject() }
         .map { it.asCNavigation() }
 
-private fun YamlMapping.asCNavigation() = CNavigation(
-    title = string("title"),
-    path = string("path"),
-    type = NavItemType.from(string("type"))
+private fun JsonObject.asCNavigation() = CNavigation(
+    title = get("title").asString(),
+    path = get("path").asString(),
+    type = NavItemType.from(get("type").asString())
 )
 
-private fun YamlMapping.asCFooter() = CFooter(
-    author = string("author"),
-    year = string("year"),
-    licenseName = string("licenseName"),
-    licenseUrl = string("licenseUrl")
+private fun JsonObject.asCFooter() = CFooter(
+    author = get("author").asString(),
+    year = get("year").toString(),
+    licenseName = get("licenseName").asString(),
+    licenseUrl = get("licenseUrl").asString()
 )
 
-private fun YamlMapping.asCPlugins(dir: File) = CPlugins(
-    notes = yamlMapping("notes").asCNotesPlugin(dir)
+private fun JsonObject.asCPlugins(context: ParsingContext) = CPlugins(
+    notes = getObject("notes").asCNotesPlugin(context)
 )
 
-private fun YamlMapping.asCNotesPlugin(dir: File) = CNotesPlugin(
-    sourceDir = dir / string("sourceDir"),
-    path = string("path")
+private fun JsonObject.asCNotesPlugin(context: ParsingContext) = CNotesPlugin(
+    sourceDir = context.dir / get("sourceDir").asString(),
+    path = get("path").asString()
+)
+
+private fun findConfig(dir: File): File {
+    require(dir.isDirectory)
+
+    val candidates = dir.listFiles()!!
+        .filter { it.extension == "glow" }
+
+    require(candidates.isNotEmpty()) { "No `.glow` file found in ${dir.absolutePath}" }
+    require(candidates.size == 1)
+
+    return candidates.first()
+}
+
+data class ParsingContext(
+    val dir: File
 )
 
 fun main() {
-    val file = File("website/glow.yml")
-    println(parseConfig(file.parentFile, file.readText()))
+    val dir = File("website")
+
+    val context = ParsingContext(
+        dir = dir
+    )
+
+    val configFile = findConfig(dir)
+    val config = parseConfig(configFile, context)
+
+    println(config)
 }
+
+private fun JsonObject.getObject(name: String) = get(name).asObject()

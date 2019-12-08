@@ -45,6 +45,7 @@ dependencies {
     implementation(Deps.koin)
 
     implementation(Deps.json)
+    implementation(Deps.hjson)
 
     implementation(Deps.javalin)
 
