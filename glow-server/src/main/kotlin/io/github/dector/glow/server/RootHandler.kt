@@ -3,11 +3,30 @@ package io.github.dector.glow.server
 import io.github.dector.glow.core.WebPage
 import io.javalin.http.Context
 import io.javalin.http.Handler
+import java.io.File
 
 class RootHandler(private val storage: Collection<WebPage>) : Handler {
 
     override fun handle(ctx: Context) {
         val path = ctx.path()
+
+        println(path)
+        // FIXME serve static resourses better
+        if (path.startsWith("/public/")) {
+            val resourcePath = path.removePrefix("/public/")
+
+            val file = File("templates-hyde/src/main/res/$resourcePath")
+            if (file.exists()) {
+                when {
+                    resourcePath.endsWith(".css") ->
+                        ctx.contentType("text/css")
+                }
+                ctx.status(200).result(file.readText())
+            } else {
+                ctx.status(404).result("Resource not found")
+            }
+            return
+        }
 
         val page = findPageFor(path)
 

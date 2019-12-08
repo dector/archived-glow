@@ -5,8 +5,8 @@ import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.plugins.notes.Note2VM
 import io.github.dector.glow.plugins.pages.Page2VM
-import io.github.dector.glow.templates.bulma.notesIndexContent
-import io.github.dector.glow.templates.bulma.webPage
+import io.github.dector.glow.templates.hyde.notesIndexContent
+import io.github.dector.glow.templates.hyde.webPage
 
 object Templates {
 

@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":glow-common"))
     implementation(project(":glow-cli"))
 
-    implementation(project(":templates-shoelace"))
+    implementation(project(":templates-hyde"))
     implementation(Deps.kotlinx_html)
 
     implementation(Deps.slf4j_simple)

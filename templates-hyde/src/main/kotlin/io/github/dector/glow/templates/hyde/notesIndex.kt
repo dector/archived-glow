@@ -1,7 +1,13 @@
-package io.github.dector.glow.templates.bulma
+package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.plugins.notes.Note2VM
-import kotlinx.html.*
+import kotlinx.html.DIV
+import kotlinx.html.a
+import kotlinx.html.div
+import kotlinx.html.h1
+import kotlinx.html.h3
+import kotlinx.html.p
+import kotlinx.html.unsafe
 
 fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullNotes: Boolean = false) {
     tTitle(title)

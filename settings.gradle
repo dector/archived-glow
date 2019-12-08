@@ -3,4 +3,5 @@ rootProject.name = 'glow'
 include "glow-common",
         "glow-server",
         "glow-cli",
-        "templates-shoelace"
+//        "templates-shoelace",
+        "templates-hyde"
