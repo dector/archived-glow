@@ -1,5 +1,6 @@
 package io.github.dector.glow.templates.hyde
 
+import io.github.dector.glow.core.BlogVM
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a
@@ -76,14 +77,13 @@ object Hyde {
             }*/
         }
 
-        fun sidebar(body: BODY) = body.apply {
+        fun sidebar(body: BODY, blog: BlogVM) = body.apply {
             div("sidebar") {
                 div("container sidebar-sticky") {
                     div("sidebar-about") {
                         h1 {
-                            a {
-                                href = "{{ site.baseurl }}"
-                                +"""{{ site.title }}"""
+                            a(href = "{{ site.baseurl }}") {
+                                +blog.title
                             }
                         }
                         p("lead") { +"""{{ site.description }}""" }
@@ -95,22 +95,25 @@ object Hyde {
                             +"""Home"""
                         }
 
-                        +"""{% comment %}
-        The code below dynamically generates a sidebar nav of pages with
-        `layout: page` in the front-matter. See readme for usage.
-      {% endcomment %}
+                        /*
+                        {% comment %}
+                          The code below dynamically generates a sidebar nav of pages with
+                          `layout: page` in the front-matter. See readme for usage.
+                        {% endcomment %}
+                        */
 
-      {% assign pages_list = site.pages %}
-      {% for node in pages_list %}
-        {% if node.title != null %}
-          {% if node.layout == "page" %}"""
+                        """
+                          {% assign pages_list = site.pages %}
+                          {% for node in pages_list %}
+                            {% if node.title != null %}
+                              {% if node.layout == "page" %}"""
                         a("sidebar-nav-item{% if page.url == node.url %} active{% endif %}") {
                             href = "{{ node.url }}"
                             +"""{{ node.title }}"""
                         }
-                        +"""{% endif %}
-        {% endif %}
-      {% endfor %}"""
+                        """{% endif %}
+                            {% endif %}
+                          {% endfor %}"""
 
                         a("sidebar-nav-item") {
                             href = "{{ site.github.repo }}/archive/v{{ site.version }}.zip"

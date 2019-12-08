@@ -6,20 +6,27 @@ import kotlinx.html.DIV
 import kotlinx.html.div
 import kotlinx.html.h1
 
-fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -> Unit) =
-    htmlPage("${blog.title} | ${navItem?.title ?: ""}") {
-        Hyde.Includes.sidebar(this)
+fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -> Unit) = run {
+    val pageTitle = "${blog.title} | ${navItem?.title ?: ""}"
+
+    htmlPage(
+        pageTitle,
+        //bodyClasses = "layout-reverse",
+        headExt = { Hyde.Includes.head(this, pageTitle) }
+    ) {
+        Hyde.Includes.sidebar(this, blog)
 
         div("content container") {
             h1 { +"Hello, Hyde!" }
         }
+    }
 
 //        pageNavigation(blog, navItem?.type)
 //
 //        pageContent(mainContentBuilder)
 //
 //        pageFooter(blog.footer)
-    }
+}
 
 //private fun BODY.pageNavigation(blog: BlogVM, pageType: NavItemType?) {
 //    nav("navbar") {
