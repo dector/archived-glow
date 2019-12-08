@@ -20,10 +20,16 @@ fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullN
                     }
                 }
                 span("post-date") { +note.publishedAtValue }
-                if (displayFullNotes) {
-                    +note.content.value
+
+                val content = if (displayFullNotes) {
+                    note.content.value
                 } else {
-                    +note.previewContent.value
+                    note.previewContent.value
+                }
+                unsafe { +content }
+
+                a(href = note.path.value) {
+                    +"Read more..."
                 }
             }
         }

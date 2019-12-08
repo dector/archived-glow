@@ -131,7 +131,7 @@ object Hyde {
                         /*span("sidebar-nav-item") { +"""Currently v{{ site.version }}""" }*/
                     }
 
-                    p { +"""&copy; {{ site.time | date: '%Y' }}. All rights reserved.""" }
+                    //p { +"""&copy; {{ site.time | date: '%Y' }}. All rights reserved.""" }
                 }
             }
         }
