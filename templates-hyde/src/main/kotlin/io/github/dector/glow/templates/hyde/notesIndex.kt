@@ -7,10 +7,56 @@ import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.h3
 import kotlinx.html.p
+import kotlinx.html.span
 import kotlinx.html.unsafe
 
 fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullNotes: Boolean = false) {
-    tTitle(title)
+    div("posts") {
+        notes.forEach { note ->
+            div("post") {
+                h1("post-title") {
+                    a(href = note.path.value) {
+                        +note.title
+                    }
+                }
+                span("post-date") { +note.publishedAtValue }
+                if (displayFullNotes) {
+                    +note.content.value
+                } else {
+                    +note.previewContent.value
+                }
+            }
+        }
+    }
+
+    div("pagination") {
+        //        +"""{% if paginator.next_page %}"""
+//        a(href = "{{ site.baseurl }}page{{paginator.next_page}}") {
+//            classes = setOf("pagination-item", "older")
+//
+//            +"""Older"""
+//        }
+//        +"""{% else %}"""
+//        span(classes = "pagination-item older") { +"""Older""" }
+//        +"""{% endif %}
+//  {% if paginator.previous_page %}
+//    {% if paginator.page == 2 %}"""
+//        a(classes = "pagination-item newer") {
+//            href = "{{ site.baseurl }}"
+//            +"""Newer"""
+//        }
+//        +"""{% else %}"""
+//        a(classes = "pagination-item newer") {
+//            href = "{{ site.baseurl }}page{{paginator.previous_page}}"
+//            +"""Newer"""
+//        }
+//        +"""{% endif %}
+//  {% else %}"""
+//        span(classes = "pagination-item newer") { +"""Newer""" }
+//        +"""{% endif %}"""
+    }
+
+    /*tTitle(title)
 
     notes.forEach { note ->
         div {
@@ -20,7 +66,7 @@ fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullN
 
             tContent(note, displayFullNotes)
         }
-    }
+    }*/
 }
 
 private fun DIV.tNoteTitle(note: Note2VM) {

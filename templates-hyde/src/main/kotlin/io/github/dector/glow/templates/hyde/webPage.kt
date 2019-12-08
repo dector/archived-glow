@@ -4,7 +4,6 @@ import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.config.NavigationItem
 import kotlinx.html.DIV
 import kotlinx.html.div
-import kotlinx.html.h1
 
 fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -> Unit) = run {
     val pageTitle = "${blog.title} | ${navItem?.title ?: ""}"
@@ -17,7 +16,7 @@ fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -
         Hyde.Includes.sidebar(this, blog, navItem)
 
         div("content container") {
-            h1 { +"Hello, Hyde!" }
+            mainContentBuilder()
         }
     }
 
