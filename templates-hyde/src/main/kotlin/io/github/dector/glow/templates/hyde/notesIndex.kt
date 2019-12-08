@@ -8,6 +8,7 @@ import kotlinx.html.h1
 import kotlinx.html.h3
 import kotlinx.html.p
 import kotlinx.html.span
+import kotlinx.html.strong
 import kotlinx.html.unsafe
 
 fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullNotes: Boolean = false) {
@@ -29,7 +30,7 @@ fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullN
                 unsafe { +content }
 
                 a(href = note.path.value) {
-                    +"Read more..."
+                    strong { +"Read more..." }
                 }
             }
         }
