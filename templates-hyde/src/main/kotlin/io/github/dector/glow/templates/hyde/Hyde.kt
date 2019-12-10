@@ -19,7 +19,6 @@ import kotlinx.html.meta
 import kotlinx.html.nav
 import kotlinx.html.p
 import kotlinx.html.title
-import kotlinx.html.unsafe
 
 object Hyde {
 
@@ -36,7 +35,7 @@ object Hyde {
                 content = "text/html; charset=utf-8"
             }
 
-            unsafe { +"<!-- Enable responsiveness on mobile devices-->" }
+            // Enable responsiveness on mobile devices
             meta {
                 name = "viewport"
                 content = "width=device-width, initial-scale=1.0, maximum-scale=1"
@@ -46,7 +45,7 @@ object Hyde {
                 +title
             }
 
-            unsafe { +"""<!-- CSS -->""" }
+            // CSS
             link {
                 rel = "stylesheet"
                 href = "/public/css/poole.css"
@@ -64,7 +63,7 @@ object Hyde {
                 href = "http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
             }
 
-            comment("Icons")
+            // Icons
             link {
                 rel = "shortcut icon"
                 href = "/public/favicon.ico"
