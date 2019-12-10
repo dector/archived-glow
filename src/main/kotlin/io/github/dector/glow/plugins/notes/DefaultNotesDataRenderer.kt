@@ -5,9 +5,12 @@ import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.HtmlContent
 import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.formatPublishDate
+import io.github.dector.glow.plugins.rss.buildRss
+import io.github.dector.glow.plugins.rss.generate
 import io.github.dector.glow.templates.Templates
 
 class DefaultNotesDataRenderer(
@@ -50,6 +53,13 @@ class DefaultNotesDataRenderer(
         return WebPage(
             path = pathResolver.resolveNotesArchive(),
             content = HtmlWebPageContent(renderedPage)
+        )
+    }
+
+    override fun renderRss(blog: BlogVM, notes: List<Note2>): RssFeed {
+        return RssFeed(
+            filePath = "/rss/notes.xml",
+            content = buildRss(blog, notes).generate()
         )
     }
 

@@ -8,7 +8,7 @@ import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.plugins.notes.Note2
 import java.util.*
 
-fun buildRss(blog: BlogVM, notes: List<Note2>): RssFile {
+fun buildRss(blog: BlogVM, notes: List<Note2>): SyndFeed {
     val feed = SyndFeedImpl()
 
     feed.apply {
@@ -49,13 +49,8 @@ fun buildRss(blog: BlogVM, notes: List<Note2>): RssFile {
         </feed>
         """.trimIndent()*/
 
-    return RssFile(
-        filename = "atom.xml",
-        content = feed.generate()
-    )
+    return feed
 }
-
-data class RssFile(val filename: String, val content: String)
 
 internal fun Note2.asFeedEntry() = let { note ->
     SyndEntryImpl().apply {

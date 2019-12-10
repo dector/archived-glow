@@ -1,11 +1,12 @@
 package io.github.dector.glow.core.components
 
+import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.isLost
 import io.github.dector.glow.utils.prettyPrint
 import io.github.dector.glow.utils.transformIf
 
-class PrettyPrintDataPublisher(
+class PreprocessedDataPublisher(
     private val nextPublisher: DataPublisher
 ) : DataPublisher {
 
@@ -25,6 +26,8 @@ class PrettyPrintDataPublisher(
 
         nextPublisher.publish(transformedWebPage)
     }
+
+    override fun publish(rss: RssFeed) = nextPublisher.publish(rss)
 
     companion object {
         const val PRETTY_PRINT_HTML = true

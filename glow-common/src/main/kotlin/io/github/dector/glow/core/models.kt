@@ -32,3 +32,5 @@ data class FooterVM(
     val licenseName: String = "",
     val licenseUrl: String = ""
 )
+
+data class RssFeed(val filePath: String, val content: String)

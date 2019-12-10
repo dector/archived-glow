@@ -5,7 +5,7 @@ import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.core.components.PrettyPrintDataPublisher
+import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.parser.MarkdownParser
@@ -52,7 +52,7 @@ val appModule = module {
     // mocks
 
     single<Config> { provideProjectConfig() }
-    single<DataPublisher> { PrettyPrintDataPublisher(FileDataPublisher(get())) }
+    single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes
 

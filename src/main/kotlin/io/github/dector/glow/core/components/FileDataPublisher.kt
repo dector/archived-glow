@@ -1,5 +1,6 @@
 package io.github.dector.glow.core.components
 
+import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.config.Config
@@ -17,7 +18,15 @@ class FileDataPublisher(
     private val log = logger()
 
     override fun publish(webPage: WebPage) {
-        val file = resolveFilePath(webPage.path)
+        publish(webPage.path, webPage.content.value)
+    }
+
+    override fun publish(rss: RssFeed) {
+        publish(WebPagePath(rss.filePath), rss.content)
+    }
+
+    private fun publish(path: WebPagePath, content: String) {
+        val file = resolveFilePath(path)
             .ensureParentDirectoryExists()
 
         if (file.exists() && !overrideFiles) {
@@ -25,7 +34,7 @@ class FileDataPublisher(
             return
         }
 
-        file.writeText(webPage.content.value)
+        file.writeText(content)
     }
 
     private fun resolveFilePath(path: WebPagePath): File {

@@ -51,7 +51,13 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
             return
         }
 
-        ctx.status(OK_200).html(page.content.value)
+        ctx.status(OK_200)
+        if (resource.fullPath.endsWith(".xml")) {
+            ctx.contentType("text/xml")
+        } else {
+            ctx.contentType("text/html")
+        }
+        ctx.result(page.content.value)
     }
 
     private fun findPageFor(path: String): WebPage? {

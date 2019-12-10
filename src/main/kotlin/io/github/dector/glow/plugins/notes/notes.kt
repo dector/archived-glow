@@ -1,13 +1,13 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.provideBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
-import io.github.dector.glow.plugins.rss.buildRss
 import org.slf4j.Logger
 
 
@@ -66,9 +66,11 @@ class NotesPlugin(
             dataPublisher.publish(webPage)
         }
 
+        // FIXME implement as a separate plugin
         run {
-            // FIXME implement as a separate plugin
-            println(buildRss(blog, notes))
+            val rss = dataRenderer.renderRss(blog, notes)
+
+            dataPublisher.publish(rss)
         }
 
         "".log()
@@ -93,4 +95,6 @@ interface NotesDataRenderer {
     fun render(blog: BlogVM, note: Note2): WebPage
     fun renderNotesIndex(blog: BlogVM, notes: List<Note2>): WebPage
     fun renderNotesArchive(blog: BlogVM, notes: List<Note2>): WebPage
+
+    fun renderRss(blog: BlogVM, notes: List<Note2>): RssFeed
 }

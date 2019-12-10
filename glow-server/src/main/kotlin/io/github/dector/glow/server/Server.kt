@@ -5,7 +5,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
-import io.github.dector.glow.core.components.PrettyPrintDataPublisher
+import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
@@ -48,7 +48,7 @@ class Server {
         DI.modify { koin ->
             koin.modules(module {
                 single<DataPublisher>(override = true) {
-                    PrettyPrintDataPublisher(InMemoryDataPublisher(pagesStorage))
+                    PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
             })
         }
