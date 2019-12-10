@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -z "$@" ]]; then
-    ./gradlew --console plain -q :run
+    ./gradlew --console plain -q run
 else
-    ./gradlew --console plain -q :run --args "'$@'"
+    ./gradlew --console plain -q run --args "'$@'"
 fi

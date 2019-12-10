@@ -26,6 +26,8 @@ repositories {
     jcenter()
     maven(url = "https://dl.bintray.com/arrow-kt/arrow-kt/")
     maven(url = "http://oss.sonatype.org/content/groups/public/")
+
+    // FIXME shouldn't be duplicated here but `./gradlew run` in failing.
     maven(url = "https://jitpack.io") {
         content { includeGroup("com.github.jtidy") }
     }

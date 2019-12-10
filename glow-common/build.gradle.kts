@@ -15,9 +15,8 @@ dependencies {
     implementation(Deps.jtidy)
 }
 
-// FIXME Should be enabled only in this project but don't work when doing `glow build`.
-/*repositories {
+repositories {
     maven(url = "https://jitpack.io") {
         content { includeGroup("com.github.jtidy") }
     }
-}*/
+}
