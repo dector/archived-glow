@@ -17,9 +17,8 @@ object Templates {
     fun notesIndex(blog: BlogVM, notes: List<Note2VM>) =
         theme.notesIndex(blog, notes)
 
-    fun note(blog: BlogVM, note: Note2VM) = tWebPage(blog, blog.notesNavigationItem()) {
-        tNoteContent(note)
-    }
+    fun note(blog: BlogVM, note: Note2VM) =
+        theme.note(blog, note)
 
     fun notesArchive(blog: BlogVM, notes: List<Note2VM>) = tWebPage(blog, blog.notesNavigationItem()) {
         tNotesArchiveContent(notes)

@@ -24,7 +24,7 @@ class DefaultNotesDataRenderer(
         val renderedPage = Templates.note(blog, vm)
         return WebPage(
             path = pathResolver.resolve(note),
-            content = HtmlWebPageContent(renderedPage)
+            content = renderedPage
         )
     }
 

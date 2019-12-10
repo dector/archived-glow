@@ -5,6 +5,9 @@ import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.theming.Theme
 import io.github.dector.glow.plugins.notes.Note2VM
+import io.github.dector.glow.templates.hyde.layouts.noteContent
+import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
+import io.github.dector.glow.templates.hyde.layouts.webPage
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a
@@ -46,15 +49,15 @@ object Hyde {
             unsafe { +"""<!-- CSS -->""" }
             link {
                 rel = "stylesheet"
-                href = "public/css/poole.css"
+                href = "/public/css/poole.css"
             }
             link {
                 rel = "stylesheet"
-                href = "public/css/syntax.css"
+                href = "/public/css/syntax.css"
             }
             link {
                 rel = "stylesheet"
-                href = "public/css/hyde.css"
+                href = "/public/css/hyde.css"
             }
             link {
                 rel = "stylesheet"
@@ -65,11 +68,11 @@ object Hyde {
             link {
                 rel = "apple-touch-icon-precomposed"
                 sizes = "144x144"
-                href = "public/apple-touch-icon-144-precomposed.png"
+                href = "/public/apple-touch-icon-144-precomposed.png"
             }
             link {
                 rel = "shortcut icon"
-                href = "public/favicon.ico"
+                href = "/public/favicon.ico"
             }
 
             /*+"<!-- RSS -->"
@@ -146,6 +149,11 @@ class HydeTheme : Theme {
     override fun notesIndex(blog: BlogVM, notes: List<Note2VM>) =
         webPage(blog, blog.notesNavigationItem()) {
             notesIndexContent(notes)
+        }
+
+    override fun note(blog: BlogVM, note: Note2VM) =
+        webPage(blog, blog.notesNavigationItem()) {
+            noteContent(blog, note)
         }
 }
 

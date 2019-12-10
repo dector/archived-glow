@@ -1,4 +1,4 @@
-package io.github.dector.glow.templates.hyde
+package io.github.dector.glow.templates.hyde.layouts
 
 import io.github.dector.glow.core.HtmlWebPageContent
 import kotlinx.html.BODY
