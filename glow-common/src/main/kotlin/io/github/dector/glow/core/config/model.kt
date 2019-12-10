@@ -10,7 +10,8 @@ data class Config(
 
 data class CGlow(
     val config: CConfig,
-    val output: COutput
+    val output: COutput,
+    val _theme: String
 )
 
 data class CConfig(val version: String)

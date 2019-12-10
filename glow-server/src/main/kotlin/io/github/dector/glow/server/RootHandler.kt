@@ -1,6 +1,7 @@
 package io.github.dector.glow.server
 
 import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.javalin.http.Context
 import io.javalin.http.Handler
@@ -9,7 +10,10 @@ import org.eclipse.jetty.http.HttpStatus.OK_200
 import java.io.File
 
 @Suppress("MoveVariableDeclarationIntoWhen")
-class RootHandler(private val storage: Collection<WebPage>) : Handler {
+class RootHandler(
+    private val config: Config,
+    private val storage: Collection<WebPage>
+) : Handler {
 
     override fun handle(ctx: Context) {
         val path = ctx.path()
@@ -25,7 +29,8 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
 
     private fun respondFor(ctx: Context, resource: StaticResource) {
         val resourcePath = resource.relativePath
-        val file = File("templates-hyde/src/main/res/$resourcePath")
+        val themeName = config.glow._theme
+        val file = File("templates-$themeName/src/main/res/$resourcePath")
 
         if (!file.exists()) {
             ctx.status(NOT_FOUND_404).result("Static resource not found")

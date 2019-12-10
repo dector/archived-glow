@@ -27,6 +27,7 @@ import io.github.dector.glow.plugins.pages.PagesDataProvider
 import io.github.dector.glow.plugins.pages.PagesDataRenderer
 import io.github.dector.glow.plugins.pages.PagesPathResolver
 import io.github.dector.glow.plugins.pages.PagesWebPathResolver
+import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 import io.github.dector.glow.ui.StdUiConsole
 import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
@@ -36,7 +37,8 @@ val appModule = module {
         val logger = UILogger
 
         PluggablePipeline(
-            NotesPlugin(get(), get(), get(), get(), logger)//,
+            NotesPlugin(get(), get(), get(), get(), logger),
+            ThemeAssetsPlugin(get(), logger)
             //RssPlugin()
 //                PagesPlugin(get(), get(), get(), logger),
 //                StaticResourcesPlugin(get(), logger)

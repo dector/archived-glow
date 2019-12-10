@@ -26,7 +26,7 @@ class Server {
     private lateinit var glowEngine: GlowEngine
 
     private val app: Javalin = Javalin.create()
-    private val rootHandler = RootHandler(pagesStorage)
+    private val rootHandler = RootHandler(DI.get(), pagesStorage)
 
     init {
         provideDependencies()
