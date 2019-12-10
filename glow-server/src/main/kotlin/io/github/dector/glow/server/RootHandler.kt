@@ -1,10 +1,14 @@
 package io.github.dector.glow.server
 
 import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.javalin.http.Context
 import io.javalin.http.Handler
+import org.eclipse.jetty.http.HttpStatus.NOT_FOUND_404
+import org.eclipse.jetty.http.HttpStatus.OK_200
 import java.io.File
 
+@Suppress("MoveVariableDeclarationIntoWhen")
 class RootHandler(private val storage: Collection<WebPage>) : Handler {
 
     override fun handle(ctx: Context) {
@@ -12,32 +16,42 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
 
         logRequest(path)
 
-        // FIXME serve static resourses better
-        if (path.startsWith("/public/")) {
-            val resourcePath = path.removePrefix("/public/")
+        val resource = detectRequestedResource(path)
+        when (resource) {
+            is StaticResource -> respondFor(ctx, resource)
+            is RequestedResource.Page -> respondFor(ctx, resource)
+        }
+    }
 
-            val file = File("templates-hyde/src/main/res/$resourcePath")
-            if (file.exists()) {
-                when {
-                    resourcePath.endsWith(".css") ->
-                        ctx.contentType("text/css")
-                    resourcePath.endsWith(".ico") ->
-                        ctx.contentType("image/x-icon")
-                }
-                ctx.status(200).result(file.readText())
-            } else {
-                ctx.status(404).result("Resource not found")
-            }
+    private fun respondFor(ctx: Context, resource: StaticResource) {
+        val resourcePath = resource.relativePath
+        val file = File("templates-hyde/src/main/res/$resourcePath")
+
+        if (!file.exists()) {
+            ctx.status(NOT_FOUND_404).result("Static resource not found")
             return
         }
 
-        val page = findPageFor(path)
-
-        if (page != null) {
-            ctx.html(page.content.value)
-        } else {
-            ctx.status(404).result("Not found")
+        val extension = resourcePath.substringAfterLast('.', "")
+        val contentType = when (extension) {
+            "css" -> "text/css"
+            "ico" -> "image/x-icon"
+            else -> ""
         }
+
+        if (contentType.isNotEmpty()) ctx.contentType(contentType)
+        ctx.status(OK_200).result(file.inputStream())
+    }
+
+    private fun respondFor(ctx: Context, resource: RequestedResource.Page) {
+        val page = findPageFor(resource.fullPath)
+
+        page ?: run {
+            ctx.status(NOT_FOUND_404).result("Page not found")
+            return
+        }
+
+        ctx.status(OK_200).html(page.content.value)
     }
 
     private fun findPageFor(path: String): WebPage? {
@@ -60,4 +74,16 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
 
         private const val LOG_REQUESTS = true
     }
+}
+
+sealed class RequestedResource {
+    data class StaticResource(val relativePath: String) : RequestedResource()
+    data class Page(val fullPath: String) : RequestedResource()
+}
+
+private fun detectRequestedResource(path: String): RequestedResource = when {
+    path.startsWith("/public/") ->
+        StaticResource(path.removePrefix("/public/"))
+    else ->
+        RequestedResource.Page(path)
 }
