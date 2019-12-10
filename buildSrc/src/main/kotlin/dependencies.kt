@@ -16,6 +16,7 @@ object Deps {
 
     const val javalin = "io.javalin:javalin:${Versions.javalin}"
 
+    const val jtidy = "com.github.jtidy:jtidy:${Versions.jtidy}"
     const val flexmark = "com.vladsch.flexmark:flexmark-all:${Versions.flexmark}"
     const val eo_yaml = "com.amihaiemil.web:eo-yaml:${Versions.eo_yaml}"
 
@@ -47,6 +48,7 @@ object Versions {
 
     const val javalin = "3.5.0"
 
+    const val jtidy = "1.0.1"
     const val flexmark = "0.50.40"
     const val eo_yaml = "2.0.1"
 

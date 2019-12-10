@@ -3,11 +3,11 @@ package io.github.dector.glow.core.components
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.config.Config
-import io.github.dector.glow.core.isLost
 import io.github.dector.glow.core.logger.logger
+import io.github.dector.glow.ensureParentDirectoryExists
 import java.io.File
 
-class DefaultDataPublisher(
+class FileDataPublisher(
     config: Config
 ) : DataPublisher {
 
@@ -17,18 +17,15 @@ class DefaultDataPublisher(
     private val log = logger()
 
     override fun publish(webPage: WebPage) {
-        // Do not publish "lost" pages
-        if (webPage.path.isLost) return
-
         val file = resolveFilePath(webPage.path)
-
-        file.parentFile.mkdirs()
+            .ensureParentDirectoryExists()
 
         if (file.exists() && !overrideFiles) {
             log.warn("File '${file.absolutePath}' exists. Skipping.")
-        } else {
-            file.writeText(webPage.content.value)
+            return
         }
+
+        file.writeText(webPage.content.value)
     }
 
     private fun resolveFilePath(path: WebPagePath): File {

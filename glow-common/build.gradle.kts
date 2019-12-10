@@ -11,4 +11,12 @@ dependencies {
     implementation(Deps.arrow_core_data)
 
     implementation(Deps.koin)
+
+    implementation(Deps.jtidy)
+}
+
+repositories {
+    maven(url = "https://jitpack.io") {
+        content { includeGroup("com.github.jtidy") }
+    }
 }

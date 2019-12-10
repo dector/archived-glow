@@ -5,6 +5,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
+import io.github.dector.glow.core.components.PrettyPrintDataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
@@ -14,7 +15,9 @@ import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
 import io.github.dector.glow.utils.measureTimeMillis
 import io.javalin.Javalin
 import org.koin.dsl.module
-import java.nio.file.StandardWatchEventKinds.*
+import java.nio.file.StandardWatchEventKinds.ENTRY_CREATE
+import java.nio.file.StandardWatchEventKinds.ENTRY_DELETE
+import java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
 
 class Server {
 
@@ -45,7 +48,7 @@ class Server {
         DI.modify { koin ->
             koin.modules(module {
                 single<DataPublisher>(override = true) {
-                    InMemoryDataPublisher(pagesStorage)
+                    PrettyPrintDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
             })
         }
