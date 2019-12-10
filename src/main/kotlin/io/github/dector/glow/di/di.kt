@@ -37,6 +37,7 @@ val appModule = module {
 
         PluggablePipeline(
             NotesPlugin(get(), get(), get(), get(), logger)//,
+            //RssPlugin()
 //                PagesPlugin(get(), get(), get(), logger),
 //                StaticResourcesPlugin(get(), logger)
         )

@@ -7,6 +7,7 @@ import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.provideBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
+import io.github.dector.glow.plugins.rss.buildRss
 import org.slf4j.Logger
 
 
@@ -63,6 +64,11 @@ class NotesPlugin(
 
             "Publishing...".log()
             dataPublisher.publish(webPage)
+        }
+
+        run {
+            // FIXME implement as a separate plugin
+            println(buildRss(blog, notes))
         }
 
         "".log()

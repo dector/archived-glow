@@ -49,6 +49,8 @@ dependencies {
 
     implementation(Deps.javalin)
 
+    implementation(Deps.rome)
+
     implementation(Deps.flexmark)
     implementation(Deps.eo_yaml)
 
