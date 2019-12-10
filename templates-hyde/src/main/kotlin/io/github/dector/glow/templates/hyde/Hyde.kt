@@ -64,12 +64,7 @@ object Hyde {
                 href = "http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
             }
 
-            unsafe { +"<!-- Icons -->" }
-            link {
-                rel = "apple-touch-icon-precomposed"
-                sizes = "144x144"
-                href = "/public/apple-touch-icon-144-precomposed.png"
-            }
+            comment("Icons")
             link {
                 rel = "shortcut icon"
                 href = "/public/favicon.ico"

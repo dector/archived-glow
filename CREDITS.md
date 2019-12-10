@@ -1,0 +1,2 @@
+  - [Hyde theme](https://github.com/poole/hyde).
+  - [NGC 4258 Nebula favicon](https://www.favicon.cc/?action=icon&file_id=86244).
