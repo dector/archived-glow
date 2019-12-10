@@ -20,6 +20,8 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
                 when {
                     resourcePath.endsWith(".css") ->
                         ctx.contentType("text/css")
+                    resourcePath.endsWith(".ico") ->
+                        ctx.contentType("image/x-icon")
                 }
                 ctx.status(200).result(file.readText())
             } else {
