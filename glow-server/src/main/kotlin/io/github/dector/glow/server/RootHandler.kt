@@ -10,7 +10,8 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
     override fun handle(ctx: Context) {
         val path = ctx.path()
 
-        println("GET: $path")
+        logRequest(path)
+
         // FIXME serve static resourses better
         if (path.startsWith("/public/")) {
             val resourcePath = path.removePrefix("/public/")
@@ -46,5 +47,17 @@ class RootHandler(private val storage: Collection<WebPage>) : Handler {
         val clearedPath = path.trimEnd('/')
         val pathToIndex = "$clearedPath/index.html"
         return storage.find { it.path.value == pathToIndex }
+    }
+
+    @Suppress("ConstantConditionIf")
+    private fun logRequest(path: String) {
+        if (!LOG_REQUESTS) return
+
+        println("GET: $path")
+    }
+
+    companion object {
+
+        private const val LOG_REQUESTS = true
     }
 }
