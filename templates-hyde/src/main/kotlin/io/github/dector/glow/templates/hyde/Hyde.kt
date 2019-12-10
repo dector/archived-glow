@@ -83,7 +83,7 @@ object Hyde {
                 div("container sidebar-sticky") {
                     div("sidebar-about") {
                         h1 {
-                            a(href = "{{ site.baseurl }}") {
+                            a(href = "/") {
                                 +blog.title
                             }
                         }
