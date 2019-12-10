@@ -8,7 +8,10 @@ import kotlinx.html.classes
 import kotlinx.html.head
 import kotlinx.html.html
 import kotlinx.html.lang
+import kotlinx.html.meta
 import kotlinx.html.stream.appendHTML
+import kotlinx.html.title
+import kotlinx.html.unsafe
 
 internal fun htmlPage(
     title: String,
@@ -23,10 +26,11 @@ internal fun htmlPage(
             lang = "en"
 
             head {
-                /*meta(charset = "utf-8")
-                meta(name = "viewport", content = "width=device-width, initial-scale=1, shrink-to-fit=no")
+                meta(charset = "utf-8")
+                //meta(name = "viewport", content = "width=device-width, initial-scale=1, shrink-to-fit=no")
 
-                title(title)*/
+                title { +title }
+                unsafe { +"<!-- Build with 'glow' (non-public yet) using Hyde theme (https://github.com/poole/hyde). -->" }
 
                 headExt()
             }

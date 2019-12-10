@@ -18,7 +18,6 @@ import kotlinx.html.link
 import kotlinx.html.meta
 import kotlinx.html.nav
 import kotlinx.html.p
-import kotlinx.html.title
 
 object Hyde {
 
@@ -39,10 +38,6 @@ object Hyde {
             meta {
                 name = "viewport"
                 content = "width=device-width, initial-scale=1.0, maximum-scale=1"
-            }
-
-            title {
-                +title
             }
 
             // CSS
