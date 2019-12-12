@@ -19,6 +19,12 @@ class NotesPlugin(
     private val logger: Logger
 ) : GlowPipeline {
 
+    private val steps = object {
+        val notesIndex = true
+        val archive = false
+        val rss = false
+    }
+
     override fun execute() {
         "Loading notes...".logn()
 
@@ -41,7 +47,7 @@ class NotesPlugin(
         }
         "".log()
 
-        run {
+        if (steps.notesIndex) {
             "Notes index".log()
             "Processing...".log()
             val webPage = dataRenderer.renderNotesIndex(blog, notes)
@@ -57,7 +63,7 @@ class NotesPlugin(
             "".log()
         }
 
-        run {
+        if (steps.archive) {
             "Notes archive".log()
             "Processing...".log()
             val webPage = dataRenderer.renderNotesArchive(blog, notes)
@@ -67,7 +73,7 @@ class NotesPlugin(
         }
 
         // FIXME implement as a separate plugin
-        run {
+        if (steps.rss) {
             val rss = dataRenderer.renderRss(blog, notes)
 
             dataPublisher.publish(rss)
@@ -84,7 +90,6 @@ class NotesPlugin(
         this.log()
         "".log()
     }
-
 }
 
 interface NotesDataProvider {
