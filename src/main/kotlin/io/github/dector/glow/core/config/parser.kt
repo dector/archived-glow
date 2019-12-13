@@ -5,6 +5,7 @@ import org.hjson.JsonArray
 import org.hjson.JsonObject
 import org.hjson.JsonValue
 import java.io.File
+import java.nio.file.Paths
 
 fun parseConfig(file: File, context: ParsingContext): Config = JsonValue
     .readHjson(file.readText())
@@ -20,6 +21,7 @@ private fun JsonObject.asConfig(context: ParsingContext) = Config(
 private fun JsonObject.asCGlow() = CGlow(
     config = getObject("config").asCConfig(),
     output = getObject("output").asCOutput(),
+    assets = getObject("assets").asCAssets(),
     _theme = get("_theme").asString()
 )
 
@@ -29,6 +31,10 @@ private fun JsonObject.asCConfig() = CConfig(
 
 private fun JsonObject.asCOutput() = COutput(
     overrideFiles = get("overrideFiles").asBoolean()
+)
+
+private fun JsonObject.asCAssets() = CAssets(
+    targetPath = get("targetPath").asString().let(Paths::get)
 )
 
 private fun JsonObject.asCBlog(context: ParsingContext) = CBlog(

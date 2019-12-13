@@ -1,9 +1,12 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.theming.Theme
+import io.github.dector.glow.di.DI
+import io.github.dector.glow.di.get
 import io.github.dector.glow.plugins.notes.Note2VM
 import io.github.dector.glow.templates.hyde.layouts.noteContent
 import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
@@ -18,6 +21,7 @@ import kotlinx.html.link
 import kotlinx.html.meta
 import kotlinx.html.nav
 import kotlinx.html.p
+import java.nio.file.Path
 
 object Hyde {
 
@@ -43,15 +47,15 @@ object Hyde {
             // CSS
             link {
                 rel = "stylesheet"
-                href = "/public/css/poole.css"
+                href = assetPath("css/poole.css")
             }
             link {
                 rel = "stylesheet"
-                href = "/public/css/syntax.css"
+                href = assetPath("css/syntax.css")
             }
             link {
                 rel = "stylesheet"
-                href = "/public/css/hyde.css"
+                href = assetPath("css/hyde.css")
             }
             link {
                 rel = "stylesheet"
@@ -61,7 +65,7 @@ object Hyde {
             // Icons
             link {
                 rel = "shortcut icon"
-                href = "/public/favicon.ico"
+                href = assetPath("favicon.ico")
             }
 
             /*+"<!-- RSS -->"
@@ -147,3 +151,9 @@ class HydeTheme : Theme {
 }
 
 private fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemType.Notes }
+
+internal fun assetPath(path: String, dirPath: Path): String =
+    dirPath.resolve(path).toString()
+
+private fun assetPath(path: String, config: Config = DI.get()): String =
+    assetPath(path, config.glow.assets.targetPath)

@@ -1,6 +1,7 @@
 package io.github.dector.glow.core.config
 
 import java.io.File
+import java.nio.file.Path
 
 data class Config(
     val glow: CGlow,
@@ -11,12 +12,15 @@ data class Config(
 data class CGlow(
     val config: CConfig,
     val output: COutput,
+    val assets: CAssets,
     val _theme: String
 )
 
 data class CConfig(val version: String)
 
 data class COutput(val overrideFiles: Boolean)
+
+data class CAssets(val targetPath: Path)
 
 data class CBlog(
     val title: String,

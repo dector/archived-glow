@@ -8,6 +8,7 @@ import io.javalin.http.Handler
 import org.eclipse.jetty.http.HttpStatus.NOT_FOUND_404
 import org.eclipse.jetty.http.HttpStatus.OK_200
 import java.io.File
+import java.nio.file.Paths
 
 @Suppress("MoveVariableDeclarationIntoWhen")
 class RootHandler(
@@ -74,6 +75,13 @@ class RootHandler(
         return storage.find { it.path.value == pathToIndex }
     }
 
+    private fun detectRequestedResource(path: String): RequestedResource = when {
+        path.startsWith(config.glow.assets.targetPath.toString()) ->
+            StaticResource(config.glow.assets.targetPath.relativize(Paths.get(path)).toString())
+        else ->
+            RequestedResource.Page(path)
+    }
+
     @Suppress("ConstantConditionIf")
     private fun logRequest(path: String) {
         if (!LOG_REQUESTS) return
@@ -90,11 +98,4 @@ class RootHandler(
 sealed class RequestedResource {
     data class StaticResource(val relativePath: String) : RequestedResource()
     data class Page(val fullPath: String) : RequestedResource()
-}
-
-private fun detectRequestedResource(path: String): RequestedResource = when {
-    path.startsWith("/public/") ->
-        StaticResource(path.removePrefix("/public/"))
-    else ->
-        RequestedResource.Page(path)
 }
