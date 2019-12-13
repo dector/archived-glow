@@ -1,6 +1,6 @@
-package io.github.dector.glow.core
+package io.github.dector.glow.core.path
 
-internal fun String.simplifyForWebPath() = this
+internal fun String.cleanupTitleForWebPath() = this
     .trim()
     .replace(Regex("/+"), "-")
     .replace(Regex(" +"), "-")

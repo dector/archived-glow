@@ -1,5 +1,6 @@
 package io.github.dector.glow.core
 
+import io.github.dector.glow.core.path.cleanupTitleForWebPath
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
@@ -19,7 +20,7 @@ class PathUtilsKtTest : BehaviorSpec({
 
         cases.forEach { (sourceString, expectedString) ->
             When("source string is '$sourceString'") {
-                val result = sourceString.simplifyForWebPath()
+                val result = sourceString.cleanupTitleForWebPath()
 
                 Then("simplified string is '$expectedString'") {
                     result shouldBe expectedString

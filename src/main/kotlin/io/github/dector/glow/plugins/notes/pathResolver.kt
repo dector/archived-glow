@@ -3,7 +3,7 @@ package io.github.dector.glow.plugins.notes
 import io.github.dector.glow.core.Empty
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.config.Config
-import io.github.dector.glow.core.simplifyForWebPath
+import io.github.dector.glow.core.path.cleanupTitleForWebPath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -29,7 +29,7 @@ class NotesWebPathResolver(
         note.publishedAt ?: return WebPagePath.Empty
 
         val dir = notePathDateFormatter.format(note.publishedAt)
-        val instancePath = note.title.simplifyForWebPath()
+        val instancePath = note.title.cleanupTitleForWebPath()
 
         val path = "${notesPath}/$dir/$instancePath/"
         return if (buildUrlPath)

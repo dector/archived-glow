@@ -2,7 +2,7 @@ package io.github.dector.glow.plugins.pages
 
 import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPagePath
-import io.github.dector.glow.core.simplifyForWebPath
+import io.github.dector.glow.core.path.cleanupTitleForWebPath
 
 
 interface PagesPathResolver {
@@ -19,7 +19,7 @@ class PagesWebPathResolver(
             val path = config.input.pagesFolder.toURI()
                     .relativize(page.sourceFile.toURI())
 
-            path.resolve(page.title.simplifyForWebPath())
+            path.resolve(page.title.cleanupTitleForWebPath())
         }
 
         val instancePath = when {
