@@ -1,14 +1,14 @@
 package io.github.dector.glow.plugins.pages
 
 import io.github.dector.glow.core.MarkdownContent
-import io.github.dector.glow.core.ProjectConfig
+import io.github.dector.glow.core.legacy.ProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId
 import java.io.File
 
 class DefaultPagesDataProvider(
-        private val config: ProjectConfig,
-        private val parser: MarkdownParser<*>) : PagesDataProvider {
+    private val config: ProjectConfig,
+    private val parser: MarkdownParser<*>) : PagesDataProvider {
 
     override fun fetchPages(): List<Page2> {
         val pagesFolder = config.input.pagesFolder

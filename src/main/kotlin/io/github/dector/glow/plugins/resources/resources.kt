@@ -1,14 +1,14 @@
 package io.github.dector.glow.plugins.resources
 
-import io.github.dector.glow.core.ProjectConfig
+import io.github.dector.glow.core.legacy.ProjectConfig
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 import java.io.File
 
 
 class StaticResourcesPlugin(
-        private val config: ProjectConfig,
-        private val logger: Logger
+    private val config: ProjectConfig,
+    private val logger: Logger
 ) : GlowPipeline {
 
     override fun execute() {

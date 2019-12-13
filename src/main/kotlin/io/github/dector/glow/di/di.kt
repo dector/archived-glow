@@ -7,10 +7,10 @@ import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.Config
+import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
-import io.github.dector.glow.core.provideProjectConfig
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
@@ -31,6 +31,7 @@ import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 import io.github.dector.glow.ui.StdUiConsole
 import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
+import java.io.File
 
 val appModule = module {
     single<GlowPipeline> {
@@ -53,7 +54,7 @@ val appModule = module {
 
     // mocks
 
-    single<Config> { provideProjectConfig() }
+    single<Config> { provideProjectConfig(File("website")) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes

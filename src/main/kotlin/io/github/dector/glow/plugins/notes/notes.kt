@@ -6,7 +6,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.config.Config
-import io.github.dector.glow.core.provideBlogVM
+import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 
@@ -34,7 +34,7 @@ class NotesPlugin(
 
         "Found non-draft notes: ${notes.size}".log()
 
-        val blog = provideBlogVM(config)
+        val blog = buildBlogVM(config)
 
         notes.forEach { note ->
             " * ${note.sourceFile.nameWithoutExtension}".log()

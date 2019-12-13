@@ -1,7 +1,7 @@
 package io.github.dector.glow.plugins.pages
 
-import io.github.dector.glow.core.ProjectConfig
 import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.core.legacy.ProjectConfig
 import io.github.dector.glow.core.path.cleanupTitleForWebPath
 
 
