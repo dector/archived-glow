@@ -51,7 +51,7 @@ object Versions {
     const val javalin = "3.5.0"
 
     const val rome = "1.12.2"
-    const val jtidy = "1.0.1"
+    const val jtidy = "1.0.2"
     const val flexmark = "0.50.40"
     const val eo_yaml = "2.0.1"
 

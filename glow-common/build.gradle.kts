@@ -12,7 +12,5 @@ dependencies {
 
     implementation(Deps.koin)
 
-    // Use dependency from maven repository when jtidy will be published
-    //implementation(Deps.jtidy)
-    implementation(files("libs/jtidy-1.0.2-SNAPSHOT.jar"))
+    implementation(Deps.jtidy)
 }
