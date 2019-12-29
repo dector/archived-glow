@@ -23,6 +23,7 @@ class NotesPlugin(
         val notesIndex = true
         val archive = false
         val rss = false
+        val copyAssets = true
     }
 
     override fun execute() {
@@ -70,6 +71,17 @@ class NotesPlugin(
 
             "Publishing...".log()
             dataPublisher.publish(webPage)
+        }
+
+        // FIXME
+        if (steps.copyAssets) {
+            val src = config.blog.sourceDir.resolve("assets")
+            val dest = config.blog.outputDir.resolve("assets")
+
+            src.copyRecursively(dest, onError = { file, e ->
+                System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
+                OnErrorAction.SKIP
+            })
         }
 
         // FIXME implement as a separate plugin

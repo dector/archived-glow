@@ -33,7 +33,7 @@ import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
 import java.io.File
 
-val appModule = module {
+fun appModule(projectDir: File) = module {
     single<GlowPipeline> {
         val logger = UILogger
 
@@ -54,7 +54,7 @@ val appModule = module {
 
     // mocks
 
-    single<Config> { provideProjectConfig(File("website")) }
+    single<Config> { provideProjectConfig(projectDir) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes
