@@ -17,6 +17,7 @@ class RootHandler(
 ) : Handler {
 
     override fun handle(ctx: Context) {
+        // TODO decode url
         val path = ctx.path()
 
         logRequest(path)
@@ -32,6 +33,12 @@ class RootHandler(
         val resourcePath = resource.relativePath
         val themeName = config.glow._theme
         val file = File("templates-$themeName/src/main/res/$resourcePath")
+            // FIXME hack
+            .let {
+                if (!it.exists())
+                    config.blog.sourceDir.resolve("assets/").resolve(resourcePath)
+                else it
+            }
 
         if (!file.exists()) {
             ctx.status(NOT_FOUND_404).result("Static resource not found")

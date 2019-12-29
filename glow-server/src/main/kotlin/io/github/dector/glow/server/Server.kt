@@ -25,7 +25,9 @@ class Server {
 
     private lateinit var glowEngine: GlowEngine
 
-    private val app: Javalin = Javalin.create()
+    private val app: Javalin = Javalin.create { config ->
+        config.showJavalinBanner = false
+    }
     private val rootHandler = RootHandler(DI.get(), pagesStorage)
 
     init {
@@ -92,6 +94,8 @@ class Server {
 
         app.get("/*", rootHandler)
         app.start(port)
+
+        println("Started on: http://localhost:$port")
     }
 }
 
