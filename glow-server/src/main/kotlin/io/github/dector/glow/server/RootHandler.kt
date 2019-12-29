@@ -49,6 +49,7 @@ class RootHandler(
         val contentType = when (extension) {
             "css" -> "text/css"
             "ico" -> "image/x-icon"
+            "png" -> "image/png"
             else -> ""
         }
 
