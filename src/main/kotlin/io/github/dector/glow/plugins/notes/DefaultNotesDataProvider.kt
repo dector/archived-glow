@@ -15,6 +15,9 @@ class DefaultNotesDataProvider(
 ) : NotesDataProvider {
 
     override fun fetchNotes(): List<Note2> {
+        val files = loadMarkdownFiles(config.plugins.notes.sourceDir)
+        // TODO use it
+
         val notes = run {
             val notesFolder = config.plugins.notes.sourceDir
 
@@ -68,4 +71,39 @@ class DefaultNotesDataProvider(
                 sourceFile = file
             )
         }
+}
+
+private fun loadMarkdownFiles(dir: File): List<MarkdownFile> {
+    require(dir.exists()) { "Notes folder '${dir.absolutePath}' not exists." }
+
+    return dir.listFiles()!!
+        .filter { it.extension == "md" }
+        .filter(File::isFile)
+        .map(MarkdownFile.Companion::parseFrom)
+}
+
+private data class MarkdownFile(
+    val sourceFile: File,
+    val meta: Set<MetaProperty>,
+    val content: MarkdownContent
+) {
+    companion object
+}
+
+private sealed class MetaProperty {
+    data class Title(val value: String) : MetaProperty()
+}
+
+private fun MarkdownFile.Companion.parseFrom(file: File): MarkdownFile {
+    val parseResult = parseMarkdownFrom(file.readText())
+
+    return MarkdownFile(
+        sourceFile = file,
+        meta = parseMeta(parseResult.header),
+        content = MarkdownContent(parseResult.content)
+    )
+}
+
+private fun parseMeta(header: String?): Set<MetaProperty> {
+    return emptySet() // TODO parse it
 }
