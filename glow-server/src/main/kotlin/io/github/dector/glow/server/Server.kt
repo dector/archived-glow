@@ -1,6 +1,5 @@
 package io.github.dector.glow.server
 
-import arrow.core.Either
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
@@ -76,13 +75,14 @@ class Server {
         println("Building blog...")
         pagesStorage.clear()
 
-        val executionResult: Execution<Unit> = measureTimeMillis {
+        val executionResult: Execution<GlowEngine.ExecutionResult> = measureTimeMillis {
             glowEngine.execute()
         }
 
-        val result = executionResult.result
-        if (result is Either.Left) {
-            System.err.println("Failed: ${result.a.message}")
+        executionResult.error.let { error ->
+            if (error != null) {
+                System.err.println("Failed: ${error.message}")
+            }
         }
 
         val executionTime = DefaultSecondsFormatter(executionResult.time)

@@ -1,18 +1,20 @@
 package io.github.dector.glow.pipeline
 
-import arrow.core.Either
 import io.github.dector.glow.core.components.GlowEngine
+import io.github.dector.glow.core.components.GlowEngine.ExecutionResult.Fail
+import io.github.dector.glow.core.components.GlowEngine.ExecutionResult.Success
 
 
 class PipelinedGlowEngine(
-        private val pipeline: GlowPipeline
+    private val pipeline: GlowPipeline
 ) : GlowEngine {
 
-    override fun execute(): Either<Throwable, Unit> = try {
-        pipeline.execute()
-        Either.right(Unit)
-    } catch (e: Throwable) {
-        Either.left(e)
+    override fun execute() = run {
+        val result = runCatching { pipeline.execute() }
+
+        if (result.isSuccess)
+            Success
+        else Fail(result.exceptionOrNull()!!)
     }
 }
 

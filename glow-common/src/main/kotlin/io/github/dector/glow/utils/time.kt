@@ -2,34 +2,18 @@
 
 package io.github.dector.glow.utils
 
-import arrow.core.Either
-import arrow.core.left
-
-fun measureOperationTimeMillis(block: () -> Unit): Execution<Unit> =
-    measureTimeMillis<Unit> {
-        try {
-            block()
-            Either.right(Unit)
-        } catch (e: Throwable) {
-            Either.left(e)
-        }
-    }
-
-inline fun <T> measureTimeMillis(block: () -> Either<Throwable, T>): Execution<T> {
+fun <T> measureTimeMillis(block: () -> T): Execution<T> {
     val startTime = System.currentTimeMillis()
-    val result: Either<Throwable, T> = try {
-        block()
-    } catch (e: Throwable) {
-        e.left()
-    }
+    val execution = runCatching { block() }
     val endTime = System.currentTimeMillis()
     val executionTime = endTime - startTime
 
-    return Execution(result, executionTime)
+    return Execution(execution.getOrNull(), execution.exceptionOrNull(), executionTime)
 }
 
 data class Execution<T>(
-    val result: Either<Throwable, T>,
+    val result: T?,
+    val error: Throwable?,
     val time: Long
 )
 

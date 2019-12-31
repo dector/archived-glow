@@ -1,19 +1,18 @@
 package io.github.dector.glow
 
-import arrow.core.Either
 import io.github.dector.glow.cli.runCli
 import io.github.dector.glow.core.logger.RootLogger
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
-import io.github.dector.glow.utils.measureOperationTimeMillis
+import io.github.dector.glow.utils.measureTimeMillis
 import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     // FIXME hack to parse config
-    require(args.isNotEmpty()) { "Should be run with '--project path/to/website/project' argument"}
+    require(args.isNotEmpty()) { "Should be run with '--project path/to/website/project' argument" }
 
     val projectPath = args.indexOfFirst { it.startsWith("--project") }
         .let { args[it + 1] }
@@ -39,14 +38,14 @@ private fun initApp(projectPath: String) {
 }
 
 private fun measureAndPrintExecution(operation: () -> Unit) {
-    val result = measureOperationTimeMillis {
+    val result = measureTimeMillis {
         operation()
     }
     val timeToDisplay = DefaultSecondsFormatter(result.time)
 
-    if (result.result is Either.Right) {
+    if (result.result != null) {
         UILogger.info("\nFinished in $timeToDisplay.")
-    } else {
+    } else if (result.error != null) {
         UILogger.info("\nFailed after $timeToDisplay.")
         exitProcess(1)
     }

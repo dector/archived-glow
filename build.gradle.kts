@@ -24,7 +24,6 @@ plugins {
 
 repositories {
     jcenter()
-    maven(url = "https://dl.bintray.com/arrow-kt/arrow-kt/")
     maven(url = "http://oss.sonatype.org/content/groups/public/")
 }
 
@@ -39,8 +38,6 @@ dependencies {
     implementation(Deps.kotlinx_html)
 
     implementation(Deps.slf4j_simple)
-
-    implementation(Deps.arrow_core_data)
 
     implementation(Deps.koin)
 
