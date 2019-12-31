@@ -1,6 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
-fun parseMarkdownFrom(text: String): ParsedResult {
+fun parseMarkdownPartsFrom(text: String): ParsedResult {
     val lines = text
         .trimStart()
         .lines()

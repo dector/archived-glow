@@ -5,7 +5,7 @@ import io.kotlintest.specs.BehaviorSpec
 
 class MarkdownUtilsTest : BehaviorSpec({
 
-    Given("Mardown content") {
+    Given("markdown file") {
         val cases = listOf(
             Case("pefect case", Headers.perfect, Content.perfect, Expectation.perfect),
             Case("header without content", Headers.perfect, Content.empty, Expectation.emptyContent),
@@ -16,7 +16,7 @@ class MarkdownUtilsTest : BehaviorSpec({
         cases.forEach { case ->
             When(case.name) {
                 Then("expect parsed result") {
-                    parseMarkdownFrom(case.header + "\n" + case.content) shouldBe case.expectation
+                    parseMarkdownPartsFrom(case.header + "\n" + case.content) shouldBe case.expectation
                 }
             }
         }

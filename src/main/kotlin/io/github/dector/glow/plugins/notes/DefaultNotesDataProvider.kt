@@ -95,7 +95,7 @@ private sealed class MetaProperty {
 }
 
 private fun MarkdownFile.Companion.parseFrom(file: File): MarkdownFile {
-    val parseResult = parseMarkdownFrom(file.readText())
+    val parseResult = parseMarkdownPartsFrom(file.readText())
 
     return MarkdownFile(
         sourceFile = file,
