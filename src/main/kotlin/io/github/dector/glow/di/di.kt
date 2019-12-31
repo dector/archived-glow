@@ -21,12 +21,6 @@ import io.github.dector.glow.plugins.notes.NotesDataRenderer
 import io.github.dector.glow.plugins.notes.NotesPathResolver
 import io.github.dector.glow.plugins.notes.NotesPlugin
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
-import io.github.dector.glow.plugins.pages.DefaultPagesDataProvider
-import io.github.dector.glow.plugins.pages.DefaultPagesDataRenderer
-import io.github.dector.glow.plugins.pages.PagesDataProvider
-import io.github.dector.glow.plugins.pages.PagesDataRenderer
-import io.github.dector.glow.plugins.pages.PagesPathResolver
-import io.github.dector.glow.plugins.pages.PagesWebPathResolver
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 import io.github.dector.glow.ui.StdUiConsole
 import io.github.dector.glow.ui.UiConsole
@@ -62,10 +56,4 @@ fun appModule(projectDir: File) = module {
     single<NotesPathResolver>() { NotesWebPathResolver(get()) }
     single<NotesDataProvider>() { DefaultNotesDataProvider(get(), get()) }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
-
-    // pages
-
-    single<PagesPathResolver>() { PagesWebPathResolver(get()) }
-    single<PagesDataProvider>() { DefaultPagesDataProvider(get(), get()) }
-    single<PagesDataRenderer>() { DefaultPagesDataRenderer(get(), get(), get()) }
 }
