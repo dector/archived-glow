@@ -6,6 +6,7 @@ import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.markdownFileId
 import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parsePublishedAt
+import io.github.dector.glow.core.parser.parseUpdatedAt
 import java.io.File
 import java.time.Instant
 
@@ -92,6 +93,11 @@ private data class MarkdownFile(
 
 private sealed class MetaProperty {
     data class Title(val value: String) : MetaProperty()
+    data class Draft(val value: Boolean) : MetaProperty()
+    data class CreatedAt(val value: Instant) : MetaProperty()
+    data class UpdatedAt(val value: Instant) : MetaProperty()
+    data class PublishedAt(val value: Instant) : MetaProperty()
+    data class Tags(val value: List<String>) : MetaProperty()
 }
 
 private fun MarkdownFile.Companion.parseFrom(file: File): MarkdownFile {
@@ -105,5 +111,22 @@ private fun MarkdownFile.Companion.parseFrom(file: File): MarkdownFile {
 }
 
 private fun parseMeta(header: String?): Set<MetaProperty> {
-    return emptySet() // TODO parse it
+    header ?: return emptySet()
+
+    return header.lines()
+        .map { line ->
+            line.substringBefore(':').trim() to line.substringAfter(':')
+        }
+        .mapNotNull { (key, value) ->
+            when (key) {
+                "title" -> MetaProperty.Title(value.trim())
+                "draft" -> MetaProperty.Draft(value.trim().toBoolean())
+                "createdAt" -> MetaProperty.CreatedAt(parseCreatedAt(value) ?: Instant.MAX)
+                "updatedAt" -> MetaProperty.UpdatedAt(parseUpdatedAt(value) ?: Instant.MAX)
+                "publishedAt" -> MetaProperty.PublishedAt(parsePublishedAt(value) ?: Instant.MAX)
+                "tags" -> MetaProperty.Tags(value.split(",").map(String::trim))
+                else -> null
+            }
+        }
+        .toSet()
 }

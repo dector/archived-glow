@@ -28,6 +28,9 @@ internal fun markdownFileId(file: File) = file.nameWithoutExtension
         .toLowerCase()
         .replace(" ", "-")
 
+internal fun parseUpdatedAt(str: String?): Instant? =
+    parseCreatedAt(str)
+
 internal fun parsePublishedAt(str: String?): Instant? =
         parseCreatedAt(str)
 
