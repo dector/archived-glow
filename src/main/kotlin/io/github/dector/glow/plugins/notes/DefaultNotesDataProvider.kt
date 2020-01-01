@@ -2,76 +2,42 @@ package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.MarkdownContent
 import io.github.dector.glow.core.config.Config
-import io.github.dector.glow.core.parser.MarkdownParser
-import io.github.dector.glow.core.parser.markdownFileId
 import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parsePublishedAt
 import io.github.dector.glow.core.parser.parseUpdatedAt
+import io.github.dector.glow.joinAsText
+import io.github.dector.glow.plugins.notes.MetaProperty.CreatedAt
+import io.github.dector.glow.plugins.notes.MetaProperty.Draft
+import io.github.dector.glow.plugins.notes.MetaProperty.PublishedAt
+import io.github.dector.glow.plugins.notes.MetaProperty.Tags
+import io.github.dector.glow.plugins.notes.MetaProperty.Title
+import io.github.dector.glow.plugins.notes.MetaProperty.UpdatedAt
 import java.io.File
 import java.time.Instant
+import kotlin.reflect.KClass
 
 class DefaultNotesDataProvider(
-    private val config: Config,
-    private val mdParser: MarkdownParser<*>
+    private val config: Config
 ) : NotesDataProvider {
 
-    override fun fetchNotes(): List<Note2> {
-        val files = loadMarkdownFiles(config.plugins.notes.sourceDir)
-        // TODO use it
+    override fun fetchNotes(): List<Note2> =
+        loadMarkdownFiles(config.plugins.notes.sourceDir)
+            .filterNot { it.get<Draft>()?.value ?: false }
+            .map { file ->
+                val previewContent = file.buildPreviewContent()
 
-        val notes = run {
-            val notesFolder = config.plugins.notes.sourceDir
+                Note2(
+                    sourceFile = file.sourceFile,
 
-            if (!notesFolder.exists())
-                error("Notes folder '${notesFolder.absolutePath}' not exists.")
-            loadNotesFrom(notesFolder)
-        }
+                    title = file.get<Title>()?.value ?: "",
+                    isDraft = file.get<Draft>()?.value ?: false,
+                    createdAt = file.get<CreatedAt>()?.value,
+                    publishedAt = file.get<PublishedAt>()?.value,
 
-        return notes.map { note ->
-            val content = note.sourceFile.readText()
-            val header = mdParser.parseInsecureYFM(content)
-
-            val previewContent = run {
-                val lines = content.lines()
-                val cutLineIndex = lines
-                    .indexOfFirst { line ->
-                        line.contains("__cut")
-                            && line.trim().startsWith("<!--")
-                            && line.trim().endsWith("-->")
-                    }
-
-                if (cutLineIndex != -1)
-                    lines.take(cutLineIndex + 1).joinToString(separator = "\n")
-                else null
-            }
-
-            Note2(
-                title = note.title,
-                sourceFile = note.sourceFile,
-                isDraft = note.isDraft,
-                previewContent = previewContent?.let { MarkdownContent(it) },
-                content = MarkdownContent(content),
-                createdAt = parseCreatedAt(header["createdAt"]),
-                publishedAt = parsePublishedAt(header["publishedAt"])
-            )
-        }.sortedByDescending { it.publishedAt ?: Instant.MIN }
-    }
-
-    private fun loadNotesFrom(folder: File) = folder
-        .listFiles { file ->
-            file.isFile && file.extension == "md"
-        }!!
-        .map { file ->
-            val yfm = mdParser.parseInsecureYFM(file)
-
-            NoteInfo(
-                id = markdownFileId(file),
-                title = yfm["title"] ?: "",
-                isDraft = yfm["isDraft"]?.toBoolean() ?: false,
-                createdAt = parseCreatedAt(yfm["created"]) ?: Instant.MIN,
-                sourceFile = file
-            )
-        }
+                    content = file.content,
+                    previewContent = previewContent
+                )
+            }.sortedByDescending { it.publishedAt ?: Instant.MIN }
 }
 
 private fun loadMarkdownFiles(dir: File): List<MarkdownFile> {
@@ -100,6 +66,13 @@ private sealed class MetaProperty {
     data class Tags(val value: List<String>) : MetaProperty()
 }
 
+private inline fun <reified T : MetaProperty> MarkdownFile.get(): T? =
+    get(T::class)
+
+private operator fun <T : MetaProperty> MarkdownFile.get(klass: KClass<T>): T? {
+    return meta.find { klass.isInstance(it) } as T?
+}
+
 private fun MarkdownFile.Companion.parseFrom(file: File): MarkdownFile {
     val parseResult = parseMarkdownPartsFrom(file.readText())
 
@@ -115,18 +88,34 @@ private fun parseMeta(header: String?): Set<MetaProperty> {
 
     return header.lines()
         .map { line ->
-            line.substringBefore(':').trim() to line.substringAfter(':')
+            line.substringBefore(':').trim() to line.substringAfter(':').trim()
         }
         .mapNotNull { (key, value) ->
             when (key) {
-                "title" -> MetaProperty.Title(value.trim())
-                "draft" -> MetaProperty.Draft(value.trim().toBoolean())
-                "createdAt" -> MetaProperty.CreatedAt(parseCreatedAt(value) ?: Instant.MAX)
-                "updatedAt" -> MetaProperty.UpdatedAt(parseUpdatedAt(value) ?: Instant.MAX)
-                "publishedAt" -> MetaProperty.PublishedAt(parsePublishedAt(value) ?: Instant.MAX)
-                "tags" -> MetaProperty.Tags(value.split(",").map(String::trim))
+                "title" -> Title(value)
+                "draft", "isDraft" -> Draft(value.toBoolean())
+                "createdAt" -> parseCreatedAt(value)?.let(::CreatedAt)
+                "updatedAt" -> parseUpdatedAt(value)?.let(::UpdatedAt)
+                "publishedAt" -> parsePublishedAt(value)?.let(::PublishedAt)
+                "tags" -> Tags(value.split(",").map(String::trim))
                 else -> null
             }
         }
         .toSet()
+}
+
+private fun MarkdownFile.buildPreviewContent(): MarkdownContent {
+    val lines = content.value.trim().lines()
+
+    fun String.isCutMarker() = contains("__cut") &&
+        trim().let { it.startsWith("<!--") && it.endsWith("-->") }
+
+    val preview = lines.takeWhile { !it.isCutMarker() }
+    if (preview != lines) return MarkdownContent(preview.joinAsText())
+
+    // If cut marker isn't present - take first paragraph
+
+    return lines.takeWhile { it.isNotBlank() }
+        .joinAsText()
+        .let(::MarkdownContent)
 }

@@ -48,3 +48,5 @@ fun Instant.formatAsMidDateTime(): String = DateTimeFormatter.ofPattern("E, dd M
 operator fun File.div(path: String) = resolve(path)
 
 fun File.ensureParentDirectoryExists() = apply { parentFile.mkdirs() }
+
+inline fun List<String>.joinAsText(): String = joinToString("\n")
