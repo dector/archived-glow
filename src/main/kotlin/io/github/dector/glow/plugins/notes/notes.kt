@@ -105,13 +105,13 @@ class NotesPlugin(
 }
 
 interface NotesDataProvider {
-    fun fetchNotes(): List<Note2>
+    fun fetchNotes(): List<Note>
 }
 
 interface NotesDataRenderer {
-    fun render(blog: BlogVM, note: Note2): WebPage
-    fun renderNotesIndex(blog: BlogVM, notes: List<Note2>): WebPage
-    fun renderNotesArchive(blog: BlogVM, notes: List<Note2>): WebPage
+    fun render(blog: BlogVM, note: Note): WebPage
+    fun renderNotesIndex(blog: BlogVM, notes: List<Note>): WebPage
+    fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage
 
-    fun renderRss(blog: BlogVM, notes: List<Note2>): RssFeed
+    fun renderRss(blog: BlogVM, notes: List<Note>): RssFeed
 }

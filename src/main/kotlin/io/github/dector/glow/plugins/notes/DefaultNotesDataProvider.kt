@@ -20,13 +20,13 @@ class DefaultNotesDataProvider(
     private val config: Config
 ) : NotesDataProvider {
 
-    override fun fetchNotes(): List<Note2> =
+    override fun fetchNotes(): List<Note> =
         loadMarkdownFiles(config.plugins.notes.sourceDir)
             .filterNot { it.get<Draft>()?.value ?: false }
             .map { file ->
                 val previewContent = file.buildPreviewContent()
 
-                Note2(
+                Note(
                     sourceFile = file.sourceFile,
 
                     title = file.get<Title>()?.value ?: "",

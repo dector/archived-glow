@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 
 interface NotesPathResolver {
 
-    fun resolve(note: Note2, buildUrlPath: Boolean = false): WebPagePath
+    fun resolve(note: Note, buildUrlPath: Boolean = false): WebPagePath
     fun resolveNotesIndex(): WebPagePath
     fun resolveNotesArchive(): WebPagePath
 }
@@ -25,7 +25,7 @@ class NotesWebPathResolver(
         .ofPattern("uuuu/MM/dd")
         .withZone(ZoneOffset.UTC)
 
-    override fun resolve(note: Note2, buildUrlPath: Boolean): WebPagePath {
+    override fun resolve(note: Note, buildUrlPath: Boolean): WebPagePath {
         note.publishedAt ?: return WebPagePath.Empty
 
         val dir = notePathDateFormatter.format(note.publishedAt)

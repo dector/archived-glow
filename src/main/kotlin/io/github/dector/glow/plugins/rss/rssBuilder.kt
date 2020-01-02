@@ -5,10 +5,10 @@ import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.feed.synd.SyndFeedImpl
 import com.rometools.rome.io.SyndFeedOutput
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.plugins.notes.Note2
-import java.util.*
+import io.github.dector.glow.plugins.notes.Note
+import java.util.Date
 
-fun buildRss(blog: BlogVM, notes: List<Note2>): SyndFeed {
+fun buildRss(blog: BlogVM, notes: List<Note>): SyndFeed {
     val feed = SyndFeedImpl()
 
     feed.apply {
@@ -19,7 +19,7 @@ fun buildRss(blog: BlogVM, notes: List<Note2>): SyndFeed {
         generator = "GlowRSSPlugin"
         publishedDate = Date()
 
-        entries = notes.map(Note2::asFeedEntry)
+        entries = notes.map(Note::asFeedEntry)
     }
 
     /*val content = """
@@ -52,7 +52,7 @@ fun buildRss(blog: BlogVM, notes: List<Note2>): SyndFeed {
     return feed
 }
 
-internal fun Note2.asFeedEntry() = let { note ->
+internal fun Note.asFeedEntry() = let { note ->
     SyndEntryImpl().apply {
         title = note.title
     }

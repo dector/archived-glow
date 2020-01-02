@@ -6,15 +6,7 @@ import io.github.dector.glow.core.WebPagePath
 import java.io.File
 import java.time.Instant
 
-data class NoteInfo(
-        val id: String,
-        val title: String,
-        val isDraft: Boolean,
-        val createdAt: Instant,
-        val sourceFile: File
-)
-
-data class Note2(
+data class Note(
     val title: String,
     val createdAt: Instant?,
     val publishedAt: Instant?,
@@ -24,7 +16,7 @@ data class Note2(
     val content: MarkdownContent
 )
 
-data class Note2VM(
+data class NoteVM(
     val title: String,
     val createdAt: Instant?,
     val publishedAt: Instant?,

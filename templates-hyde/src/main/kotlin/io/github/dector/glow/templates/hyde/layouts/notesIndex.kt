@@ -1,6 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
-import io.github.dector.glow.plugins.notes.Note2VM
+import io.github.dector.glow.plugins.notes.NoteVM
 import kotlinx.html.DIV
 import kotlinx.html.a
 import kotlinx.html.div
@@ -11,7 +11,7 @@ import kotlinx.html.span
 import kotlinx.html.strong
 import kotlinx.html.unsafe
 
-fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullNotes: Boolean = false) {
+fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", displayFullNotes: Boolean = false) {
     div("posts") {
         notes.forEach { note ->
             div("post") {
@@ -76,7 +76,7 @@ fun DIV.notesIndexContent(notes: List<Note2VM>, title: String = "", displayFullN
     }*/
 }
 
-private fun DIV.tNoteTitle(note: Note2VM) {
+private fun DIV.tNoteTitle(note: NoteVM) {
     a {
         href = note.path.value
 
@@ -84,18 +84,18 @@ private fun DIV.tNoteTitle(note: Note2VM) {
     }
 }
 
-private fun DIV.tPublicationDateTime(note: Note2VM) {
+private fun DIV.tPublicationDateTime(note: NoteVM) {
     p("text-muted") {
         +note.publishedAtValue
     }
 }
 
-private fun DIV.tTags(note: Note2VM) {
+private fun DIV.tTags(note: NoteVM) {
     /*if (note.tags.isNotEmpty())
         p { +"Tags:" }*/
 }
 
-private fun DIV.tNoteLink(note: Note2VM) {
+private fun DIV.tNoteLink(note: NoteVM) {
     p("mb-3") {
         a(classes = "font-weight-bolder") {
             href = note.path.value
@@ -105,7 +105,7 @@ private fun DIV.tNoteLink(note: Note2VM) {
     }
 }
 
-private fun DIV.tContent(note: Note2VM, displayFullNotes: Boolean) {
+private fun DIV.tContent(note: NoteVM, displayFullNotes: Boolean) {
     div("text-justify") {
         unsafe {
             +(if (displayFullNotes) note.content else note.previewContent).value

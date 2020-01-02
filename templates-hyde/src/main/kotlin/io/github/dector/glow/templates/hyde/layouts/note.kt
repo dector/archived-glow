@@ -1,14 +1,14 @@
 package io.github.dector.glow.templates.hyde.layouts
 
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.plugins.notes.Note2VM
+import io.github.dector.glow.plugins.notes.NoteVM
 import kotlinx.html.DIV
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.span
 import kotlinx.html.unsafe
 
-fun DIV.noteContent(blog: BlogVM, note: Note2VM) {
+fun DIV.noteContent(blog: BlogVM, note: NoteVM) {
     div("post") {
         h1("post-title") { +note.title }
         span(classes = "post-date") { +note.publishedAtValue }

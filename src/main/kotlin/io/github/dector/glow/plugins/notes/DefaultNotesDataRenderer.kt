@@ -19,7 +19,7 @@ class DefaultNotesDataRenderer(
     private val htmlRenderer: HtmlRenderer
 ) : NotesDataRenderer {
 
-    override fun render(blog: BlogVM, note: Note2): WebPage {
+    override fun render(blog: BlogVM, note: Note): WebPage {
         val content = htmlRenderer.render(markdownParser.parse(note.content.value))
 
         val vm = createNoteVM(note, content)
@@ -31,7 +31,7 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderNotesIndex(blog: BlogVM, notes: List<Note2>): WebPage {
+    override fun renderNotesIndex(blog: BlogVM, notes: List<Note>): WebPage {
         val renderedPage = Templates.notesIndex(blog, notes.map {
             val markdown = it.previewContent ?: it.content
             val content = htmlRenderer.render(markdownParser.parse(markdown.value))
@@ -44,7 +44,7 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderNotesArchive(blog: BlogVM, notes: List<Note2>): WebPage {
+    override fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage {
         val renderedPage = Templates.notesArchive(blog, notes.map {
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))
 
@@ -56,17 +56,17 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderRss(blog: BlogVM, notes: List<Note2>): RssFeed {
+    override fun renderRss(blog: BlogVM, notes: List<Note>): RssFeed {
         return RssFeed(
             filePath = "/rss/notes.xml",
             content = buildRss(blog, notes).generate()
         )
     }
 
-    private fun createNoteVM(note: Note2, content: String, isTrimmed: Boolean = false) = run {
+    private fun createNoteVM(note: Note, content: String, isTrimmed: Boolean = false) = run {
         val htmlContent = HtmlContent(content)
 
-        Note2VM(
+        NoteVM(
             title = note.title,
             createdAt = note.createdAt,
             publishedAt = note.publishedAt,
