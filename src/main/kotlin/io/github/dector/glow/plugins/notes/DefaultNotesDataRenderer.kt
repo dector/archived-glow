@@ -67,12 +67,15 @@ class DefaultNotesDataRenderer(
         val htmlContent = HtmlContent(content)
 
         NoteVM(
+            rawModel = note,
+
             title = note.title,
-            createdAt = note.createdAt,
-            publishedAt = note.publishedAt,
-            publishedAtValue = formatPublishDate(note.publishedAt),
             path = pathResolver.resolve(note, buildUrlPath = true),
             content = htmlContent,
+
+            publishedAndUpdatedStr = formatPublishedAndUpdatedStr(note),
+            //publishedAtStr = formatPublishDate(note.publishedAt),
+
             // FIXME should be stripped before rendering
             previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
                 htmlContent
@@ -80,6 +83,16 @@ class DefaultNotesDataRenderer(
             isTrimmed = isTrimmed
         )
     }
+}
+
+private fun formatPublishedAndUpdatedStr(note: Note): String {
+    val publishedStr = formatPublishDate(note.publishedAt)
+
+    val wasUpdated = note.updatedAt != null && note.updatedAt != note.createdAt
+    if (!wasUpdated) return publishedStr
+
+    val updatedStr = formatPublishDate(note.updatedAt)
+    return "$publishedStr (updated $updatedStr)"
 }
 
 private const val MAX_SYMBOLS_IN_CONTENT_PREVIEW = 500

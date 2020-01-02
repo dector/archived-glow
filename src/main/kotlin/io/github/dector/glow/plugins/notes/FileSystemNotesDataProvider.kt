@@ -52,6 +52,7 @@ private fun MarkdownFile.toNote(): Note = run {
         isDraft = get<Draft>()?.value ?: false,
         createdAt = get<CreatedAt>()?.value,
         publishedAt = get<PublishedAt>()?.value,
+        updatedAt = get<UpdatedAt>()?.value,
 
         content = content,
         previewContent = previewContent

@@ -11,7 +11,7 @@ import kotlinx.html.unsafe
 fun DIV.noteContent(blog: BlogVM, note: NoteVM) {
     div("post") {
         h1("post-title") { +note.title }
-        span(classes = "post-date") { +note.publishedAtValue }
+        span(classes = "post-date") { +note.publishedAndUpdatedStr }
 
         unsafe {
             +note.content.value

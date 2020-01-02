@@ -10,6 +10,7 @@ data class Note(
     val title: String,
     val createdAt: Instant?,
     val publishedAt: Instant?,
+    val updatedAt: Instant?,
     val isDraft: Boolean,
     val sourceFile: File,
     val previewContent: MarkdownContent?,
@@ -17,11 +18,15 @@ data class Note(
 )
 
 data class NoteVM(
+    val rawModel: Note,
+
     val title: String,
-    val createdAt: Instant?,
-    val publishedAt: Instant?,
-    val publishedAtValue: String,
     val path: WebPagePath,
+
+    val publishedAndUpdatedStr: String,
+//    val publishedAtStr: String,
+//    val updatedAtStr: String?,
+
     val content: HtmlContent,
     val previewContent: HtmlContent,
     val isTrimmed: Boolean
