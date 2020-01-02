@@ -54,6 +54,9 @@ fun appModule(projectDir: File) = module {
     // notes
 
     single<NotesPathResolver>() { NotesWebPathResolver(get()) }
-    single<NotesDataProvider>() { DefaultNotesDataProvider(get()) }
+    single<NotesDataProvider>() {
+        val dir = get<Config>().plugins.notes.sourceDir
+        DefaultNotesDataProvider(dir)
+    }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
 }

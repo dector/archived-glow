@@ -1,7 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.core.MarkdownContent
-import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parsePublishedAt
 import io.github.dector.glow.core.parser.parseUpdatedAt
@@ -17,11 +16,11 @@ import java.time.Instant
 import kotlin.reflect.KClass
 
 class DefaultNotesDataProvider(
-    private val config: Config
+    private val notesDir: File
 ) : NotesDataProvider {
 
     override fun fetchNotes(): List<Note> =
-        loadMarkdownFiles(config.plugins.notes.sourceDir)
+        loadMarkdownFiles(notesDir)
             .filterNot { it.get<Draft>()?.value ?: false }
             .map { file ->
                 val previewContent = file.buildPreviewContent()
@@ -71,6 +70,7 @@ private sealed class MetaProperty {
 private inline fun <reified T : MetaProperty> MarkdownFile.get(): T? =
     get(T::class)
 
+@Suppress("UNCHECKED_CAST")
 private operator fun <T : MetaProperty> MarkdownFile.get(klass: KClass<T>): T? {
     return meta.find { klass.isInstance(it) } as T?
 }
