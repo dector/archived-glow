@@ -15,28 +15,22 @@ import java.io.File
 import java.time.Instant
 import kotlin.reflect.KClass
 
-class DefaultNotesDataProvider(
-    private val notesDir: File
+class FileSystemNotesDataProvider(
+    private val notesDir: File,
+    private val sortingComparator: Comparator<Note> = DefaultSortingComparator
 ) : NotesDataProvider {
 
     override fun fetchNotes(): List<Note> =
         loadMarkdownFiles(notesDir)
             .filterNot { it.get<Draft>()?.value ?: false }
-            .map { file ->
-                val previewContent = file.buildPreviewContent()
+            .map(MarkdownFile::toNote)
+            .sortedWith(sortingComparator)
 
-                Note(
-                    sourceFile = file.sourceFile,
+    private companion object {
 
-                    title = file.get<Title>()?.value ?: "",
-                    isDraft = file.get<Draft>()?.value ?: false,
-                    createdAt = file.get<CreatedAt>()?.value,
-                    publishedAt = file.get<PublishedAt>()?.value,
-
-                    content = file.content,
-                    previewContent = previewContent
-                )
-            }.sortedByDescending { it.publishedAt ?: Instant.MIN }
+        val DefaultSortingComparator: Comparator<Note> =
+            compareByDescending { it.publishedAt ?: Instant.MIN }
+    }
 }
 
 private fun loadMarkdownFiles(dir: File): List<MarkdownFile> {
@@ -46,6 +40,22 @@ private fun loadMarkdownFiles(dir: File): List<MarkdownFile> {
         .filter { it.extension == "md" }
         .filter(File::isFile)
         .map(MarkdownFile.Companion::parseFrom)
+}
+
+private fun MarkdownFile.toNote(): Note = run {
+    val previewContent = buildPreviewContent()
+
+    Note(
+        sourceFile = sourceFile,
+
+        title = get<Title>()?.value ?: "",
+        isDraft = get<Draft>()?.value ?: false,
+        createdAt = get<CreatedAt>()?.value,
+        publishedAt = get<PublishedAt>()?.value,
+
+        content = content,
+        previewContent = previewContent
+    )
 }
 
 private data class MarkdownFile(

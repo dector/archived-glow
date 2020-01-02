@@ -14,8 +14,8 @@ import io.github.dector.glow.core.parser.SimpleMarkdownParser
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
-import io.github.dector.glow.plugins.notes.DefaultNotesDataProvider
 import io.github.dector.glow.plugins.notes.DefaultNotesDataRenderer
+import io.github.dector.glow.plugins.notes.FileSystemNotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataRenderer
 import io.github.dector.glow.plugins.notes.NotesPathResolver
@@ -56,7 +56,7 @@ fun appModule(projectDir: File) = module {
     single<NotesPathResolver>() { NotesWebPathResolver(get()) }
     single<NotesDataProvider>() {
         val dir = get<Config>().plugins.notes.sourceDir
-        DefaultNotesDataProvider(dir)
+        FileSystemNotesDataProvider(dir)
     }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
 }
