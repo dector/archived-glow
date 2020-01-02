@@ -64,6 +64,8 @@ private sealed class MetaProperty {
     data class UpdatedAt(val value: Instant) : MetaProperty()
     data class PublishedAt(val value: Instant) : MetaProperty()
     data class Tags(val value: List<String>) : MetaProperty()
+
+    data class Undefined(val key: String, val value: String) : MetaProperty()
 }
 
 private inline fun <reified T : MetaProperty> MarkdownFile.get(): T? =
@@ -98,7 +100,7 @@ private fun parseMeta(header: String?): Set<MetaProperty> {
                 "updatedAt" -> parseUpdatedAt(value)?.let(::UpdatedAt)
                 "publishedAt" -> parsePublishedAt(value)?.let(::PublishedAt)
                 "tags" -> Tags(value.split(",").map(String::trim))
-                else -> null
+                else -> MetaProperty.Undefined(key, value)
             }
         }
         .toSet()
