@@ -8,14 +8,15 @@
 # Build files
 out/
 build/
-_old_v2/out2
+/_old_v2/out2
 
 # Kotlin test
 .kotlintest/
 
 # Website
-website
-_old_v2/website-out/
+/website
+/website_public
+/_old_v2/website-out/
 
 # Distribution files
 distrib/*.jar

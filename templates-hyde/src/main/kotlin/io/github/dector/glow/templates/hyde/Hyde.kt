@@ -59,7 +59,7 @@ object Hyde {
             }
             link {
                 rel = "stylesheet"
-                href = "http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
+                href = assetPath("css/fonts.css")
             }
 
             // Icons
