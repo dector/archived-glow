@@ -12,6 +12,7 @@ data class Note(
     val publishedAt: Instant?,
     val updatedAt: Instant?,
     val isDraft: Boolean,
+    val tags: List<String>,
     val sourceFile: File,
     val previewContent: MarkdownContent?,
     val content: MarkdownContent

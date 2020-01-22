@@ -54,6 +54,8 @@ private fun MarkdownFile.toNote(): Note = run {
         publishedAt = get<PublishedAt>()?.value,
         updatedAt = get<UpdatedAt>()?.value,
 
+        tags = get<Tags>()?.value ?: emptyList(),
+
         content = content,
         previewContent = previewContent
     )
