@@ -5,7 +5,7 @@ import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
-import io.github.dector.glow.core.config.ProjectConfig
+import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
@@ -15,27 +15,34 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
-    private val config: ProjectConfig,
+    private val config: RuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
-
-    private val steps = object {
-        val notesIndex = true
-        val archive = false
-        val rss = false
-        val copyAssets = true
-    }
 
     override fun execute() {
         "Loading notes...".logn()
 
+        val projectConfig = config.projectConfig
+
         val notes = dataProvider.fetchNotes()
-            .filter { !it.isDraft }
-            .filterNot { it.title.isEmpty() }
+            .filterDrafts()
+            .ensureTitlesArePresent()
 
         "Found non-draft notes: ${notes.size}".log()
 
-        val blog = buildBlogVM(config)
+        val blog = buildBlogVM(projectConfig)
+
+        buildNotes(blog, notes)
+        buildNotesIndex(blog, notes)
+        buildArchive(blog, notes)
+        copyAssets()
+        buildRss(blog, notes)
+
+        "".log()
+    }
+
+    private fun buildNotes(blog: BlogVM, notes: List<Note>) {
+        if (!config.notes.buildNotePages) return
 
         notes.forEach { note ->
             " * ${note.sourceFile.nameWithoutExtension}".log()
@@ -47,52 +54,70 @@ class NotesPlugin(
             dataPublisher.publish(webPage)
         }
         "".log()
+    }
 
-        if (steps.notesIndex) {
-            "Notes index".log()
-            "Processing...".log()
-            val webPage = dataRenderer.renderNotesIndex(blog, notes)
+    private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
+        if (!config.notes.buildNotesIndex) return
 
-            "Publishing...".log()
-            dataPublisher.publish(webPage)
+        "Notes index".log()
+        "Processing...".log()
+        val webPage = dataRenderer.renderNotesIndex(blog, notes)
 
-            // FIXME
-            webPage.copy(path = WebPagePath("/index.html")).let {
-                dataPublisher.publish(it)
-            }
-
-            "".log()
-        }
-
-        if (steps.archive) {
-            "Notes archive".log()
-            "Processing...".log()
-            val webPage = dataRenderer.renderNotesArchive(blog, notes)
-
-            "Publishing...".log()
-            dataPublisher.publish(webPage)
-        }
+        "Publishing...".log()
+        dataPublisher.publish(webPage)
 
         // FIXME
-        if (steps.copyAssets) {
-            val src = config.blog.sourceDir.resolve("assets")
-            val dest = config.blog.outputDir.resolve("assets")
-
-            src.copyRecursively(dest, onError = { file, e ->
-                System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
-                OnErrorAction.SKIP
-            })
-        }
-
-        // FIXME implement as a separate plugin
-        if (steps.rss) {
-            val rss = dataRenderer.renderRss(blog, notes)
-
-            dataPublisher.publish(rss)
+        webPage.copy(path = WebPagePath("/index.html")).let {
+            dataPublisher.publish(it)
         }
 
         "".log()
     }
+
+    private fun buildArchive(blog: BlogVM, notes: List<Note>) {
+        if (!config.notes.buildArchive) return
+
+        "Notes archive".log()
+        "Processing...".log()
+        val webPage = dataRenderer.renderNotesArchive(blog, notes)
+
+        "Publishing...".log()
+        dataPublisher.publish(webPage)
+    }
+
+    // FIXME
+    private fun copyAssets() {
+        if (!config.notes.copyAssets) return
+
+        val src = config.projectConfig.blog.sourceDir.resolve("assets")
+        val dest = config.projectConfig.blog.outputDir.resolve("assets")
+
+        src.copyRecursively(dest, onError = { file, e ->
+            System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
+            OnErrorAction.SKIP
+        })
+    }
+
+    // FIXME implement as a separate plugin
+    private fun buildRss(blog: BlogVM, notes: List<Note>) {
+        if (!config.notes.buildRss) return
+
+        val rss = dataRenderer.renderRss(blog, notes)
+
+        dataPublisher.publish(rss)
+    }
+
+    private fun List<Note>.filterDrafts(): List<Note> {
+        if (config.notes.includeDrafts) return this
+
+        return filter { !it.isDraft }
+    }
+
+    private fun List<Note>.ensureTitlesArePresent(): List<Note> =
+        map {
+            if (it.title.isNotBlank()) it
+            else it.copy(title = "Untitled ${it.hashCode()}")
+        }
 
     private fun String.log() {
         logger.info(this)

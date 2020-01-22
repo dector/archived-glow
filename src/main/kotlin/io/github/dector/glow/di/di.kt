@@ -7,6 +7,7 @@ import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.ProjectConfig
+import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.parser.MarkdownParser
@@ -49,6 +50,7 @@ fun appModule(projectDir: File) = module {
     // mocks
 
     single<ProjectConfig> { provideProjectConfig(projectDir) }
+    single<RuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes
@@ -59,4 +61,10 @@ fun appModule(projectDir: File) = module {
         FileSystemNotesDataProvider(dir)
     }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
+}
+
+private fun buildRuntimeConfig(projectConfig: ProjectConfig): RuntimeConfig {
+    return RuntimeConfig(
+        projectConfig = projectConfig
+    )
 }

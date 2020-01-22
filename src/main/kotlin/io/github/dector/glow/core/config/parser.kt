@@ -13,6 +13,8 @@ fun parseConfig(file: File, context: ParsingContext): ProjectConfig = JsonValue
     .asConfig(context)
 
 private fun JsonObject.asConfig(context: ParsingContext) = ProjectConfig(
+    projectDir = context.dir.toPath(),
+
     glow = getObject("glow").asCGlow(),
     blog = getObject("blog").asCBlog(context),
     plugins = getObject("plugins").asCPlugins(context)
