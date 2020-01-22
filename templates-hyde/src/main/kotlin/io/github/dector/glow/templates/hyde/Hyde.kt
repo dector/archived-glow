@@ -10,6 +10,7 @@ import io.github.dector.glow.di.get
 import io.github.dector.glow.plugins.notes.NoteVM
 import io.github.dector.glow.templates.hyde.layouts.noteContent
 import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
+import io.github.dector.glow.templates.hyde.layouts.tagPageContent
 import io.github.dector.glow.templates.hyde.layouts.webPage
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
@@ -147,6 +148,11 @@ class HydeTheme : Theme {
     override fun note(blog: BlogVM, note: NoteVM) =
         webPage(blog, blog.notesNavigationItem(), note.title) {
             noteContent(blog, note)
+        }
+
+    override fun tagPage(blog: BlogVM, notes: List<NoteVM>, tag: String) =
+        webPage(blog, blog.notesNavigationItem(), "#$tag") {
+            tagPageContent(notes, tag)
         }
 }
 

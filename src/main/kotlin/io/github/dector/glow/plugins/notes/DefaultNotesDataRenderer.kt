@@ -44,6 +44,19 @@ class DefaultNotesDataRenderer(
         )
     }
 
+    override fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage {
+        val renderedPage = Templates.tagPage(blog, notes.map {
+            val markdown = it.previewContent ?: it.content
+            val content = htmlRenderer.render(markdownParser.parse(markdown.value))
+
+            createNoteVM(it, content, isTrimmed = it.previewContent != null)
+        }, tag)
+        return WebPage(
+            path = pathResolver.resolveTagPage(tag),
+            content = renderedPage
+        )
+    }
+
     override fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage {
         val renderedPage = Templates.notesArchive(blog, notes.map {
             val content = htmlRenderer.render(markdownParser.parse(it.content.value))

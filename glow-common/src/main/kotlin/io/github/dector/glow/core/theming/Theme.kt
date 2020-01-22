@@ -8,4 +8,6 @@ interface Theme {
 
     fun notesIndex(blog: BlogVM, notes: List<NoteVM>): HtmlWebPageContent
     fun note(blog: BlogVM, note: NoteVM): HtmlWebPageContent
+
+    fun tagPage(blog: BlogVM, notes: List<NoteVM>, tag: String): HtmlWebPageContent
 }

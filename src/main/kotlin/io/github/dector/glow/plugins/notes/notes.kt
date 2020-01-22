@@ -31,6 +31,7 @@ class NotesPlugin(
 
         buildNotes(blog, notes)
         buildNotesIndex(blog, notes)
+        buildTagsPages(blog, notes)
         buildArchive(blog, notes)
         copyAssets()
         buildRss(blog, notes)
@@ -66,6 +67,22 @@ class NotesPlugin(
         // FIXME
         webPage.copy(path = WebPagePath("/index.html")).let {
             dataPublisher.publish(it)
+        }
+
+        "".log()
+    }
+
+    private fun buildTagsPages(blog: BlogVM, notes: List<Note>) {
+        "Tag pages...".log()
+
+        val tags = notes
+            .flatMap(Note::tags)
+            .distinct()
+
+        tags.forEach { tag ->
+            val notes = notes.filter { tag in it.tags }
+            val webPage = dataRenderer.renderTagPage(blog, notes, tag)
+            dataPublisher.publish(webPage)
         }
 
         "".log()
@@ -148,6 +165,8 @@ interface NotesDataRenderer {
     fun render(blog: BlogVM, note: Note): WebPage
     fun renderNotesIndex(blog: BlogVM, notes: List<Note>): WebPage
     fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage
+
+    fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage
 
     fun renderRss(blog: BlogVM, notes: List<Note>): RssFeed
 }

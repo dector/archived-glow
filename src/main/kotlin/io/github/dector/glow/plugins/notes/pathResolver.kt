@@ -13,8 +13,11 @@ interface NotesPathResolver {
     fun resolve(note: Note, buildUrlPath: Boolean = false): WebPagePath
     fun resolveNotesIndex(): WebPagePath
     fun resolveNotesArchive(): WebPagePath
+
+    fun resolveTagPage(tag: String): WebPagePath
 }
 
+// TODO test
 class NotesWebPathResolver(
     config: ProjectConfig
 ) : NotesPathResolver {
@@ -42,6 +45,9 @@ class NotesWebPathResolver(
 
     override fun resolveNotesArchive(): WebPagePath =
         indexWebPath("$notesPath/archive")
+
+    override fun resolveTagPage(tag: String): WebPagePath =
+        indexWebPath("$notesPath/tags/$tag")
 }
 
 private fun indexWebPath(path: String) = WebPagePath(

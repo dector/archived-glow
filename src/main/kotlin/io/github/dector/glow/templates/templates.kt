@@ -18,6 +18,9 @@ object Templates {
     fun note(blog: BlogVM, note: NoteVM) =
         theme.note(blog, note)
 
+    fun tagPage(blog: BlogVM, notes: List<NoteVM>, tag: String) =
+        theme.tagPage(blog, notes, tag)
+
     fun notesArchive(blog: BlogVM, notes: List<NoteVM>): String = TODO()
 
 }
