@@ -22,14 +22,14 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", displayFullNo
                 }
                 span("post-date") { +note.publishedAndUpdatedStr }
 
+                noteTags(note)
+
                 val content = if (displayFullNotes) {
                     note.content.value
                 } else {
                     note.previewContent.value
                 }
                 unsafe { +content }
-
-                noteTags(note)
 
                 a(href = note.path.value) {
                     strong { +"Read more..." }

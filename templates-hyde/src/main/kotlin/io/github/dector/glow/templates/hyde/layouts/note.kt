@@ -13,11 +13,11 @@ fun DIV.noteContent(blog: BlogVM, note: NoteVM) {
         h1("post-title") { +note.title }
         span(classes = "post-date") { +note.publishedAndUpdatedStr }
 
+        noteTags(note)
+
         unsafe {
             +note.content.value
         }
-
-        noteTags(note)
     }
 
     /*div(classes = "related") {
