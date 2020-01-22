@@ -15,20 +15,17 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
-    private val config: RuntimeConfig,
+    config: RuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
+
+    private val config = config.notes
+    private val projectConfig = config.projectConfig
 
     override fun execute() {
         "Loading notes...".logn()
 
-        val projectConfig = config.projectConfig
-
-        val notes = dataProvider.fetchNotes()
-            .filterDrafts()
-            .ensureTitlesArePresent()
-
-        "Found non-draft notes: ${notes.size}".log()
+        val notes = loadNotes()
 
         val blog = buildBlogVM(projectConfig)
 
@@ -42,7 +39,7 @@ class NotesPlugin(
     }
 
     private fun buildNotes(blog: BlogVM, notes: List<Note>) {
-        if (!config.notes.buildNotePages) return
+        if (!config.buildNotePages) return
 
         notes.forEach { note ->
             " * ${note.sourceFile.nameWithoutExtension}".log()
@@ -57,7 +54,7 @@ class NotesPlugin(
     }
 
     private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
-        if (!config.notes.buildNotesIndex) return
+        if (!config.buildNotesIndex) return
 
         "Notes index".log()
         "Processing...".log()
@@ -75,7 +72,7 @@ class NotesPlugin(
     }
 
     private fun buildArchive(blog: BlogVM, notes: List<Note>) {
-        if (!config.notes.buildArchive) return
+        if (!config.buildArchive) return
 
         "Notes archive".log()
         "Processing...".log()
@@ -87,10 +84,10 @@ class NotesPlugin(
 
     // FIXME
     private fun copyAssets() {
-        if (!config.notes.copyAssets) return
+        if (!config.copyAssets) return
 
-        val src = config.projectConfig.blog.sourceDir.resolve("assets")
-        val dest = config.projectConfig.blog.outputDir.resolve("assets")
+        val src = projectConfig.blog.sourceDir.resolve("assets")
+        val dest = projectConfig.blog.outputDir.resolve("assets")
 
         src.copyRecursively(dest, onError = { file, e ->
             System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
@@ -100,24 +97,38 @@ class NotesPlugin(
 
     // FIXME implement as a separate plugin
     private fun buildRss(blog: BlogVM, notes: List<Note>) {
-        if (!config.notes.buildRss) return
+        if (!config.buildRss) return
 
         val rss = dataRenderer.renderRss(blog, notes)
 
         dataPublisher.publish(rss)
     }
 
-    private fun List<Note>.filterDrafts(): List<Note> {
-        if (config.notes.includeDrafts) return this
+    private fun loadNotes(): List<Note> {
+        fun List<Note>.dropDraftsIfNeeded() = when {
+            !config.includeDrafts -> filterNot { it.isDraft }
+            else -> this
+        }
 
-        return filter { !it.isDraft }
+        fun List<Note>.dropEmptyNotes() = filter { it.content.value.isNotBlank() }
+
+        fun List<Note>.ensureTitlesArePresent(): List<Note> = map {
+            if (it.title.isNotBlank()) it
+            else it.copy(title = "Untitled note ${it.hashCode()}")
+        }
+
+        val allNotes = dataProvider.fetchNotes()
+
+        val filteredNotes = allNotes
+            .dropDraftsIfNeeded()
+            .dropEmptyNotes()
+            .ensureTitlesArePresent()
+
+        "Loaded ${allNotes.size} notes, using: ${filteredNotes.size}".log()
+
+        return filteredNotes
     }
 
-    private fun List<Note>.ensureTitlesArePresent(): List<Note> =
-        map {
-            if (it.title.isNotBlank()) it
-            else it.copy(title = "Untitled ${it.hashCode()}")
-        }
 
     private fun String.log() {
         logger.info(this)

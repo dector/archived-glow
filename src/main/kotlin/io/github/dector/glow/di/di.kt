@@ -6,6 +6,7 @@ import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
+import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.config.provideProjectConfig
@@ -65,6 +66,7 @@ fun appModule(projectDir: File) = module {
 
 private fun buildRuntimeConfig(projectConfig: ProjectConfig): RuntimeConfig {
     return RuntimeConfig(
-        projectConfig = projectConfig
+        projectConfig = projectConfig,
+        notes = NotesPluginConfig()
     )
 }
