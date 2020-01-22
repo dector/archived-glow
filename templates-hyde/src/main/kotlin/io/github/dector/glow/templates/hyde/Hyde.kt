@@ -145,7 +145,7 @@ class HydeTheme : Theme {
         }
 
     override fun note(blog: BlogVM, note: NoteVM) =
-        webPage(blog, blog.notesNavigationItem()) {
+        webPage(blog, blog.notesNavigationItem(), note.title) {
             noteContent(blog, note)
         }
 }

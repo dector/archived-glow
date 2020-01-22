@@ -6,8 +6,9 @@ import io.github.dector.glow.templates.hyde.Hyde
 import kotlinx.html.DIV
 import kotlinx.html.div
 
-fun webPage(blog: BlogVM, navItem: NavigationItem?, mainContentBuilder: DIV.() -> Unit) = run {
-    val pageTitle = "${blog.title} | ${navItem?.title ?: ""}"
+fun webPage(blog: BlogVM, navItem: NavigationItem?, titleAddition: String? = null, mainContentBuilder: DIV.() -> Unit) = run {
+    val pageTitle = "${blog.title} | ${navItem?.title ?: ""}" +
+        (if (titleAddition != null) " | $titleAddition" else "")
 
     htmlPage(
         pageTitle,
