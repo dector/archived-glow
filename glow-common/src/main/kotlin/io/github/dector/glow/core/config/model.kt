@@ -3,7 +3,7 @@ package io.github.dector.glow.core.config
 import java.io.File
 import java.nio.file.Path
 
-data class Config(
+data class ProjectConfig(
     val glow: CGlow,
     val blog: CBlog,
     val plugins: CPlugins

@@ -7,12 +7,12 @@ import org.hjson.JsonValue
 import java.io.File
 import java.nio.file.Paths
 
-fun parseConfig(file: File, context: ParsingContext): Config = JsonValue
+fun parseConfig(file: File, context: ParsingContext): ProjectConfig = JsonValue
     .readHjson(file.readText())
     .asObject()
     .asConfig(context)
 
-private fun JsonObject.asConfig(context: ParsingContext) = Config(
+private fun JsonObject.asConfig(context: ParsingContext) = ProjectConfig(
     glow = getObject("glow").asCGlow(),
     blog = getObject("blog").asCBlog(context),
     plugins = getObject("plugins").asCPlugins(context)

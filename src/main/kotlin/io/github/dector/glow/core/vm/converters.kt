@@ -2,10 +2,10 @@ package io.github.dector.glow.core.vm
 
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.FooterVM
-import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.config.NavigationItem
+import io.github.dector.glow.core.config.ProjectConfig
 
-fun buildBlogVM(config: Config) = BlogVM(
+fun buildBlogVM(config: ProjectConfig) = BlogVM(
     title = config.blog.title,
     navigation = config.blog.navigation.map {
         NavigationItem(path = it.path, title = it.title, type = it.type)

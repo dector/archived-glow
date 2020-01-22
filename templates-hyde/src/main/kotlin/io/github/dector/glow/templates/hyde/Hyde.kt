@@ -1,9 +1,9 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.config.Config
 import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
+import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.core.theming.Theme
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
@@ -155,5 +155,5 @@ private fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemT
 internal fun assetPath(path: String, dirPath: Path): String =
     dirPath.resolve(path).toString()
 
-private fun assetPath(path: String, config: Config = DI.get()): String =
+private fun assetPath(path: String, config: ProjectConfig = DI.get()): String =
     assetPath(path, config.glow.assets.targetPath)

@@ -1,13 +1,13 @@
 package io.github.dector.glow.plugins.resources
 
-import io.github.dector.glow.core.config.Config
+import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.div
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 import java.io.File
 
 class ThemeAssetsPlugin(
-    private val config: Config,
+    private val config: ProjectConfig,
     private val logger: Logger
 ) : GlowPipeline {
 

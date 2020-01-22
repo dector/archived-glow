@@ -5,7 +5,7 @@ import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
-import io.github.dector.glow.core.config.Config
+import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
@@ -15,7 +15,7 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
-    private val config: Config,
+    private val config: ProjectConfig,
     private val logger: Logger
 ) : GlowPipeline {
 
