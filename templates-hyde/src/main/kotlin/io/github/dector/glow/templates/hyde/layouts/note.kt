@@ -16,6 +16,8 @@ fun DIV.noteContent(blog: BlogVM, note: NoteVM) {
         unsafe {
             +note.content.value
         }
+
+        noteTags(note)
     }
 
     /*div(classes = "related") {

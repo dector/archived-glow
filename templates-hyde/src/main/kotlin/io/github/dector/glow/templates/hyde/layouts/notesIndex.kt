@@ -66,12 +66,21 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", displayFullNo
     }
 }
 
-private fun DIV.noteTags(note: NoteVM) {
+internal fun DIV.noteTags(note: NoteVM) {
     val tags = note.rawModel.tags.takeIfNotEmpty() ?: return
 
     p {
         strong { +"Tags: " }
 
-        +tags.joinToString()
+        tags.forEachIndexed { index, tag ->
+            a(href = tagPagePath(tag)) {
+                +"#$tag"
+            }
+
+            if (index != tags.lastIndex) +", "
+        }
     }
 }
+
+// FIXME provide in rendering context
+private fun tagPagePath(tag: String) = "/notes/tags/$tag/"
