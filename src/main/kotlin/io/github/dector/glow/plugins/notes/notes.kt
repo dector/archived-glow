@@ -109,7 +109,7 @@ class NotesPlugin(
         src.copyRecursively(dest, onError = { file, e ->
             System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
             OnErrorAction.SKIP
-        })
+        }, overwrite = projectConfig.glow.output.overrideFiles)
     }
 
     // FIXME implement as a separate plugin
