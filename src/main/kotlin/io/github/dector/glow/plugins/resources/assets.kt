@@ -28,7 +28,11 @@ class ThemeAssetsPlugin(
             return
         }
 
-        val targetDir = config.blog.outputDir / "public"
+        val targetDir = config.blog.outputDir.toPath().let { dirPath ->
+            val childPath = config.glow.assets.targetPath
+                .let { if (it.isAbsolute) it.root.relativize(it) else it }
+            dirPath.resolve(childPath)
+        }.toFile()
         themeResourcesDir.listFiles()!!
             .forEach { file ->
                 val targetFile = targetDir / file.name
