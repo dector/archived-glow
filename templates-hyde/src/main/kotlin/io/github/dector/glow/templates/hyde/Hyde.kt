@@ -150,6 +150,11 @@ class HydeTheme : Theme {
             noteContent(blog, note)
         }
 
+    override fun notesArchive(blog: BlogVM, notes: List<NoteVM>) =
+        webPage(blog, blog.notesNavigationItem()) {
+            notesIndexContent(notes, title = "Archive", displayFullNotes = true)
+        }
+
     override fun tagPage(blog: BlogVM, notes: List<NoteVM>, tag: String) =
         webPage(blog, blog.notesNavigationItem(), "#$tag") {
             tagPageContent(notes, tag)
