@@ -6,6 +6,7 @@ import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.ProjectConfig
+import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.utils.Execution
@@ -47,10 +48,17 @@ class Server {
     private fun provideDependencies() {
         DI.reset()
         DI.modify { koin ->
+            val runtimeConfig = DI.get<RuntimeConfig>().let { config ->
+                config.copy(notes = config.notes.copy(
+                    copyAssets = false
+                ))
+            }
+
             koin.modules(module {
                 single<DataPublisher>(override = true) {
                     PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
+                single<RuntimeConfig>(override = true) { runtimeConfig }
             })
         }
     }
