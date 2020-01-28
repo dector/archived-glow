@@ -9,6 +9,7 @@ import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
+import io.github.dector.glow.templates.hyde.notesNavigationItem
 import org.slf4j.Logger
 
 
@@ -62,7 +63,8 @@ class NotesPlugin(
         "Processing...".log()
 
         val context = RenderContext(
-            blog = blog
+            blog = blog,
+            navigationItem = blog.notesNavigationItem()!!
         )
 
         val webPage = dataRenderer.renderNotesIndex(notes, context)

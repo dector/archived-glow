@@ -1,10 +1,14 @@
 package io.github.dector.glow.templates.hyde.layouts
 
 import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.templates.hyde.Hyde
 import kotlinx.html.DIV
 import kotlinx.html.div
+
+fun webPage(context: RenderContext, titleAddition: String? = null, mainContentBuilder: DIV.() -> Unit) =
+    webPage(context.blog, context.navigationItem, titleAddition, mainContentBuilder)
 
 fun webPage(blog: BlogVM, navItem: NavigationItem?, titleAddition: String? = null, mainContentBuilder: DIV.() -> Unit) = run {
     val pageTitle = "${blog.title} | ${navItem?.title ?: ""}" +

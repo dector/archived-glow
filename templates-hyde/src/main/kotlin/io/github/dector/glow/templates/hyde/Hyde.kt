@@ -5,7 +5,7 @@ import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.config.ProjectConfig
-import io.github.dector.glow.core.theming.Theme
+import io.github.dector.glow.core.theming.Template
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.plugins.notes.NoteVM
@@ -139,10 +139,10 @@ object Hyde {
     }
 }
 
-class HydeTheme : Theme {
+class HydeTemplate : Template {
 
     override fun notesIndex(notes: List<NoteVM>, context: RenderContext) =
-        webPage(context.blog, context.blog.notesNavigationItem()) {
+        webPage(context) {
             notesIndexContent(notes)
         }
 
@@ -162,7 +162,7 @@ class HydeTheme : Theme {
         }
 }
 
-private fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemType.Notes }
+fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemType.Notes }
 
 internal fun assetPath(path: String, dirPath: Path): String =
     dirPath.resolve(path).toString()

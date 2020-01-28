@@ -5,7 +5,7 @@ import io.github.dector.glow.core.HtmlWebPageContent
 import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 
-interface Theme {
+interface Template {
 
     fun notesIndex(notes: List<NoteVM>, context: RenderContext): HtmlWebPageContent
     fun note(blog: BlogVM, note: NoteVM): HtmlWebPageContent
