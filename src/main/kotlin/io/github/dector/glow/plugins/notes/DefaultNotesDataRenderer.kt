@@ -6,6 +6,7 @@ import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.HtmlContent
 import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.theming.Theme
 import io.github.dector.glow.formatPublishDate
@@ -32,13 +33,14 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderNotesIndex(blog: BlogVM, notes: List<Note>): WebPage {
-        val renderedPage = theme.notesIndex(blog, notes.map {
+    override fun renderNotesIndex(notes: List<Note>, context: RenderContext): WebPage {
+        val noteVMs = notes.map {
             val markdown = it.previewContent ?: it.content
             val content = htmlRenderer.render(markdownParser.parse(markdown.value))
 
             createNoteVM(it, content, isTrimmed = it.previewContent != null)
-        })
+        }
+        val renderedPage = theme.notesIndex(noteVMs, context)
         return WebPage(
             path = pathResolver.resolveNotesIndex(),
             content = renderedPage

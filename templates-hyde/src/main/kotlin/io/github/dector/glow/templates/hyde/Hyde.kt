@@ -1,6 +1,7 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.config.ProjectConfig
@@ -140,8 +141,8 @@ object Hyde {
 
 class HydeTheme : Theme {
 
-    override fun notesIndex(blog: BlogVM, notes: List<NoteVM>) =
-        webPage(blog, blog.notesNavigationItem()) {
+    override fun notesIndex(notes: List<NoteVM>, context: RenderContext) =
+        webPage(context.blog, context.blog.notesNavigationItem()) {
             notesIndexContent(notes)
         }
 

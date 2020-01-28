@@ -5,6 +5,7 @@ import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
+import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
@@ -59,7 +60,12 @@ class NotesPlugin(
 
         "Notes index".log()
         "Processing...".log()
-        val webPage = dataRenderer.renderNotesIndex(blog, notes)
+
+        val context = RenderContext(
+            blog = blog
+        )
+
+        val webPage = dataRenderer.renderNotesIndex(notes, context)
 
         "Publishing...".log()
         dataPublisher.publish(webPage)
@@ -163,7 +169,7 @@ interface NotesDataProvider {
 
 interface NotesDataRenderer {
     fun render(blog: BlogVM, note: Note): WebPage
-    fun renderNotesIndex(blog: BlogVM, notes: List<Note>): WebPage
+    fun renderNotesIndex(notes: List<Note>, context: RenderContext): WebPage
     fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage
 
     fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage
