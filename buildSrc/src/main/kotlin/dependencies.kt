@@ -33,7 +33,7 @@ object GradlePlugins {
 
 object Versions {
 
-    const val kotlin = "1.3.50"
+    const val kotlin = "1.3.72"
     const val kotlinx_html = "0.6.12"
 
     const val slf4j_simple = "1.7.26"
