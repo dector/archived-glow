@@ -14,6 +14,14 @@ Run `glow init` in empty directory.
 
 ### Preview web-site locally **`[planned]`**
 
-Execute `glow serve` in your project directory. Alternatively use `glow serve --project /path/to/your/project/dir` from anywhere. 
+Execute `glow serve` in your project directory. Alternatively use `glow serve --project /path/to/your/project/dir` from anywhere.
+
+### Build and publish web-site **`[planned]`**
+
+Run `glow build` and `glow publish`.
+
+### Check web-site and get some statistics **`[planned]`**
+
+Run `glow stats`.
 
 ![Crafted with love](https://img.shields.io/badge/Crafted%20with-%E2%9D%A4-brightgreen.svg?style=for-the-badge)
