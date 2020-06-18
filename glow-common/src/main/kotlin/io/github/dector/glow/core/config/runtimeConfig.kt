@@ -1,7 +1,9 @@
 package io.github.dector.glow.core.config
 
+import io.github.dector.glow.config.LegacyProjectConfig
+
 data class RuntimeConfig(
-    val projectConfig: ProjectConfig,
+    val projectConfig: LegacyProjectConfig,
     val notes: NotesPluginConfig
 )
 

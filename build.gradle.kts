@@ -31,6 +31,7 @@ dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
     implementation(Deps.kotlin_reflection)  // can be removed later
 
+    implementation(project(":config"))
     implementation(project(":glow-common"))
     implementation(project(":glow-cli"))
 

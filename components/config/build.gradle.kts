@@ -4,10 +4,8 @@ plugins {
 
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
-    implementation(Deps.kotlinx_html)
+    implementation(Deps.hjson)
 
-    implementation(project(":config"))
+    // FIXME temporary workaround to use `LegacyProjectConfig`
     implementation(project(":glow-common"))
-
-    testImplementation(Deps.kotlin_test)
 }

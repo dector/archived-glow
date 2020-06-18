@@ -1,9 +1,12 @@
-package io.github.dector.glow.core.config
+package io.github.dector.glow.config
 
+import io.github.dector.glow.core.config.NavItemType
 import java.io.File
 import java.nio.file.Path
 
-data class ProjectConfig(
+
+@Deprecated("")
+data class LegacyProjectConfig(
     val projectDir: Path,
 
     val glow: CGlow,

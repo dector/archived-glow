@@ -1,10 +1,10 @@
 package io.github.dector.glow.server
 
+import io.github.dector.glow.config.LegacyProjectConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
-import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
@@ -68,7 +68,7 @@ class Server {
     }
 
     private fun watchForBlogSources(body: () -> Unit) {
-        val sourcesFolder = DI.get<ProjectConfig>()
+        val sourcesFolder = DI.get<LegacyProjectConfig>()
             .blog
             .sourceDir
         println("Serving '${sourcesFolder.absolutePath}'")
