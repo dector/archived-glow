@@ -27,7 +27,7 @@ private fun JsonObject.asCGlow() = CGlow(
 )
 
 private fun JsonObject.asCConfig() = CConfig(
-    version = get("version").toString()
+    version = get("version").asString()
 )
 
 private fun JsonObject.asCOutput() = COutput(
