@@ -3,12 +3,12 @@ package io.github.dector.glow.server
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.core.components.InMemoryDataPublisher
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.ProjectConfig
 import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
+import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
 import io.github.dector.glow.utils.FileWatcher
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
