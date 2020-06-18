@@ -32,6 +32,7 @@ data class CBlog(
 )
 
 data class CNavigation(
+    val id: String,
     val title: String,
     val path: String,
     val type: NavItemType
