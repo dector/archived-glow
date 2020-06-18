@@ -22,7 +22,7 @@ class FileSystemNotesDataProvider(
 
     override fun fetchNotes(): List<Note> =
         loadMarkdownFiles(notesDir)
-            .filterNot { it.get<Draft>()?.value ?: false }
+            //.filterNot { it.get<Draft>()?.value ?: false }
             .map(MarkdownFile::toNote)
             .sortedWith(sortingComparator)
 

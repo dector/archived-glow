@@ -20,6 +20,7 @@ data class CGlow(
     val assets: CAssets
 )
 
+@Deprecated("")
 data class CConfig(val version: String)
 
 data class COutput(val overrideFiles: Boolean)

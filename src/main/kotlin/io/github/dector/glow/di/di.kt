@@ -35,7 +35,7 @@ fun appModule(projectDir: File) = module {
         val logger = UILogger
 
         PluggablePipeline(
-            NotesPlugin(get(), get(), get(), get(), logger),
+            NotesPlugin(get(), get(), get(), get(), get(), logger),
             ThemeAssetsPlugin(get(), logger)
             //RssPlugin()
 //                PagesPlugin(get(), get(), get(), logger),

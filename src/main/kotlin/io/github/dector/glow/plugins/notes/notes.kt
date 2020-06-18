@@ -1,5 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
+import io.github.dector.glow.config.ProjectConfig
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
@@ -17,6 +18,7 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
+    private val newConfig: ProjectConfig,
     config: RuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
@@ -131,7 +133,7 @@ class NotesPlugin(
 
     private fun loadNotes(): List<Note> {
         fun List<Note>.dropDraftsIfNeeded() = when {
-            !config.includeDrafts -> filterNot { it.isDraft }
+            newConfig.glow.includeDrafts -> filterNot { it.isDraft }
             else -> this
         }
 

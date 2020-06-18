@@ -1,5 +1,6 @@
 package io.github.dector.glow.server
 
+import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.LegacyProjectConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
@@ -19,7 +20,7 @@ import java.nio.file.StandardWatchEventKinds.ENTRY_CREATE
 import java.nio.file.StandardWatchEventKinds.ENTRY_DELETE
 import java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
 
-class Server {
+class Server(private val launchConfig: LaunchConfig) {
 
     private val pagesStorage = mutableSetOf<WebPage>()
 
@@ -58,6 +59,7 @@ class Server {
                 single<DataPublisher>(override = true) {
                     PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
+                single<LaunchConfig> { launchConfig }
                 single<RuntimeConfig>(override = true) { runtimeConfig }
             })
         }

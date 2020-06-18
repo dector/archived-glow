@@ -8,7 +8,6 @@ data class RuntimeConfig(
 )
 
 data class NotesPluginConfig(
-    val includeDrafts: Boolean = false,
     val buildNotePages: Boolean = true,
     val buildNotesIndex: Boolean = true,
     val buildArchive: Boolean = false,
