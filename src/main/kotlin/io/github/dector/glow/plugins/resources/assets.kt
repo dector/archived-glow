@@ -20,8 +20,7 @@ class ThemeAssetsPlugin(
     private fun copyThemeAssets() {
         "Copying theme assets...".log()
 
-        val themeName = config.glow._theme
-        val themeResourcesDir = File("templates-$themeName/src/main/res/")
+        val themeResourcesDir = File("templates-hyde/src/main/res/")
 
         if (!themeResourcesDir.exists()) {
             logger.error("Can't find theme resources at: ${themeResourcesDir.absolutePath}")

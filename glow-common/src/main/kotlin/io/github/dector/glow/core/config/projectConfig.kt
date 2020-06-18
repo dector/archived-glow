@@ -14,8 +14,7 @@ data class ProjectConfig(
 data class CGlow(
     val config: CConfig,
     val output: COutput,
-    val assets: CAssets,
-    val _theme: String
+    val assets: CAssets
 )
 
 data class CConfig(val version: String)

@@ -23,8 +23,7 @@ private fun JsonObject.asConfig(context: ParsingContext) = ProjectConfig(
 private fun JsonObject.asCGlow() = CGlow(
     config = getObject("config").asCConfig(),
     output = getObject("output").asCOutput(),
-    assets = getObject("assets").asCAssets(),
-    _theme = get("_theme").asString()
+    assets = getObject("assets").asCAssets()
 )
 
 private fun JsonObject.asCConfig() = CConfig(

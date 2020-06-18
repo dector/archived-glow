@@ -31,8 +31,7 @@ class RootHandler(
 
     private fun respondFor(ctx: Context, resource: StaticResource) {
         val resourcePath = resource.relativePath
-        val themeName = config.glow._theme
-        val file = File("templates-$themeName/src/main/res/$resourcePath")
+        val file = File("templates-hyde/src/main/res/$resourcePath")
             // FIXME hack
             .let {
                 if (!it.exists())
