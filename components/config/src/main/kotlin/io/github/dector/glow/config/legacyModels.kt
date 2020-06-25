@@ -7,8 +7,6 @@ import java.nio.file.Path
 
 @Deprecated("")
 data class LegacyProjectConfig(
-    val projectDir: Path,
-
     val glow: CGlow,
     val blog: CBlog,
     val plugins: CPlugins

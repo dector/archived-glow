@@ -8,8 +8,8 @@ import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
+import io.github.dector.glow.core.config.LegacyRuntimeConfig
 import io.github.dector.glow.core.config.NotesPluginConfig
-import io.github.dector.glow.core.config.RuntimeConfig
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.parser.MarkdownParser
@@ -53,7 +53,7 @@ fun appModule(projectDir: File) = module {
 
     single<ProjectConfig> { provideProjectConfig(projectDir) }
     single<LegacyProjectConfig> { get<ProjectConfig>().legacy }
-    single<RuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
+    single<LegacyRuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes
@@ -66,8 +66,8 @@ fun appModule(projectDir: File) = module {
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
 }
 
-private fun buildRuntimeConfig(projectConfig: LegacyProjectConfig): RuntimeConfig {
-    return RuntimeConfig(
+private fun buildRuntimeConfig(projectConfig: LegacyProjectConfig): LegacyRuntimeConfig {
+    return LegacyRuntimeConfig(
         projectConfig = projectConfig,
         notes = NotesPluginConfig()
     )

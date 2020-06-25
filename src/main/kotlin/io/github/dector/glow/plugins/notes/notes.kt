@@ -7,7 +7,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.RenderContext
-import io.github.dector.glow.core.config.RuntimeConfig
+import io.github.dector.glow.core.config.LegacyRuntimeConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.templates.hyde.notesNavigationItem
@@ -19,7 +19,7 @@ class NotesPlugin(
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
     private val newConfig: ProjectConfig,
-    config: RuntimeConfig,
+    config: LegacyRuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
 

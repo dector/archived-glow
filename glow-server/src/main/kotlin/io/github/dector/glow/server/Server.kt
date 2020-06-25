@@ -6,7 +6,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
-import io.github.dector.glow.core.config.RuntimeConfig
+import io.github.dector.glow.core.config.LegacyRuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.server.components.InMemoryDataPublisher
@@ -49,7 +49,7 @@ class Server(private val launchConfig: LaunchConfig) {
     private fun provideDependencies() {
         DI.reset()
         DI.modify { koin ->
-            val runtimeConfig = DI.get<RuntimeConfig>().let { config ->
+            val runtimeConfig = DI.get<LegacyRuntimeConfig>().let { config ->
                 config.copy(notes = config.notes.copy(
                     copyAssets = false
                 ))
@@ -60,7 +60,7 @@ class Server(private val launchConfig: LaunchConfig) {
                     PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
                 single<LaunchConfig> { launchConfig }
-                single<RuntimeConfig>(override = true) { runtimeConfig }
+                single<LegacyRuntimeConfig>(override = true) { runtimeConfig }
             })
         }
     }

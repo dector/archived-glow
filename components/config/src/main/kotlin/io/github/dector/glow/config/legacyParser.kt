@@ -13,8 +13,6 @@ internal fun parseLegacyConfig(file: File, context: ParsingContext): LegacyProje
     .asConfig(context)
 
 private fun JsonObject.asConfig(context: ParsingContext) = LegacyProjectConfig(
-    projectDir = context.dir.toPath(),
-
     glow = getObject("glow").asCGlow(),
     blog = getObject("blog").asCBlog(context),
     plugins = getObject("plugins").asCPlugins(context)
