@@ -85,7 +85,7 @@ class DefaultNotesDataRenderer(
         NoteVM(
             rawModel = note,
 
-            title = note.title,
+            title = buildTitle(note),
             path = pathResolver.resolve(note, buildUrlPath = true),
             content = htmlContent,
 
@@ -98,6 +98,14 @@ class DefaultNotesDataRenderer(
             else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
             isTrimmed = isTrimmed
         )
+    }
+
+    private fun buildTitle(note: Note): String {
+        return if (note.isDraft) {
+            "|Draft| ${note.title}"
+        } else {
+            note.title
+        }
     }
 }
 
