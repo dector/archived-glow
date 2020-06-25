@@ -52,7 +52,6 @@ fun appModule(projectDir: File) = module {
     // mocks
 
     single<RuntimeConfig> { provideProjectConfig(projectDir) }
-    single<CProject> { get<RuntimeConfig>().legacy }
     single<LegacyRuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
