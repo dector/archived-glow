@@ -1,6 +1,6 @@
 package io.github.dector.glow.core.components
 
-import io.github.dector.glow.config.LegacyProjectConfig
+import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
@@ -9,7 +9,7 @@ import io.github.dector.glow.ensureParentDirectoryExists
 import java.io.File
 
 class FileDataPublisher(
-    config: LegacyProjectConfig
+    config: CProject
 ) : DataPublisher {
 
     private val outputDir = config.blog.outputDir

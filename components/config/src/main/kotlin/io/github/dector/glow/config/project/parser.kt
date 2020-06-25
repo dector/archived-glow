@@ -1,5 +1,6 @@
-package io.github.dector.glow.config
+package io.github.dector.glow.config.project
 
+import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.config.NavItemType
 import org.hjson.JsonArray
 import org.hjson.JsonObject
@@ -7,12 +8,12 @@ import org.hjson.JsonValue
 import java.io.File
 import java.nio.file.Paths
 
-internal fun parseLegacyConfig(file: File, context: ParsingContext): LegacyProjectConfig = JsonValue
+internal fun parseProjectConfig(file: File, context: ParsingContext): CProject = JsonValue
     .readHjson(file.readText())
     .asObject()
     .asConfig(context)
 
-private fun JsonObject.asConfig(context: ParsingContext) = LegacyProjectConfig(
+private fun JsonObject.asConfig(context: ParsingContext) = CProject(
     glow = getObject("glow").asCGlow(),
     blog = getObject("blog").asCBlog(context),
     plugins = getObject("plugins").asCPlugins(context)

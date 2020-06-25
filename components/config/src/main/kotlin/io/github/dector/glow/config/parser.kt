@@ -1,11 +1,13 @@
 package io.github.dector.glow.config
 
+import io.github.dector.glow.config.project.ParsingContext
+import io.github.dector.glow.config.project.parseProjectConfig
 import java.io.File
 
 
-fun parseProjectConfig(file: File, context: ParsingContext): ProjectConfig =
-    SimpleProjectConfig(
+fun buildRuntimeConfig(file: File, context: ParsingContext): RuntimeConfig =
+    buildRuntimeConfig(
         projectDir = context.dir.normalize().toPath(),
-        legacy = parseLegacyConfig(file, context),
+        projectConfig = parseProjectConfig(file, context),
         launchConfig = context.launchConfig
     )

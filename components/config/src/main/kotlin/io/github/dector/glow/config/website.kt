@@ -1,40 +1,59 @@
 package io.github.dector.glow.config
 
+import io.github.dector.glow.config.project.CProject
 import java.nio.file.Path
 
 
-interface ProjectConfig {
+interface RuntimeConfig {
     val projectDir: Path
 
     val glow: GlowConfig
 //    val website: WebsiteConfig
 
     @Deprecated("Remove it")
-    val legacy: LegacyProjectConfig
+    val legacy: CProject
 }
 
 interface GlowConfig {
     val configVersion: String
 
     val includeDrafts: Boolean
+
+    val notes: NotesConfig
+
+    data class Default(
+        override val configVersion: String,
+        override val includeDrafts: Boolean,
+        override val notes: NotesConfig
+    ) : GlowConfig
+}
+
+interface NotesConfig {
+    val sourceDir: Path
+
+    data class Default(
+        override val sourceDir: Path
+    ) : NotesConfig
 }
 
 //interface WebsiteConfig
 
-@Deprecated("Temporary")
-class SimpleProjectConfig(
-    override val projectDir: Path,
-    override val legacy: LegacyProjectConfig,
+fun buildRuntimeConfig(
+    projectDir: Path,
+    projectConfig: CProject,
     launchConfig: LaunchConfig
-) : ProjectConfig {
+): RuntimeConfig {
+    return object : RuntimeConfig {
+        override val projectDir = projectDir
 
-    override val glow = RealGlowConfig(
-        configVersion = legacy.glow.config.version,
-        includeDrafts = launchConfig.includeDrafts
-    )
+        override val glow = GlowConfig.Default(
+            configVersion = projectConfig.glow.config.version,
+            includeDrafts = launchConfig.includeDrafts,
+            notes = NotesConfig.Default(
+                sourceDir = projectConfig.plugins.notes.sourceDir.toPath()
+            )
+        )
+
+        override val legacy = projectConfig
+    }
 }
-
-data class RealGlowConfig(
-    override val configVersion: String,
-    override val includeDrafts: Boolean
-) : GlowConfig

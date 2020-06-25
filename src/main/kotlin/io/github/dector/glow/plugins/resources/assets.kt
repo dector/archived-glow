@@ -1,13 +1,13 @@
 package io.github.dector.glow.plugins.resources
 
-import io.github.dector.glow.config.LegacyProjectConfig
+import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.div
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 import java.io.File
 
 class ThemeAssetsPlugin(
-    private val config: LegacyProjectConfig,
+    private val config: CProject,
     private val logger: Logger
 ) : GlowPipeline {
 

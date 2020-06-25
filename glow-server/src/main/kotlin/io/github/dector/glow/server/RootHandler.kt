@@ -1,6 +1,6 @@
 package io.github.dector.glow.server
 
-import io.github.dector.glow.config.LegacyProjectConfig
+import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.javalin.http.Context
@@ -12,7 +12,7 @@ import java.nio.file.Paths
 
 @Suppress("MoveVariableDeclarationIntoWhen")
 class RootHandler(
-    private val config: LegacyProjectConfig,
+    private val config: CProject,
     private val storage: Collection<WebPage>
 ) : Handler {
 

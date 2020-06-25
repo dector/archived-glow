@@ -2,8 +2,8 @@ package io.github.dector.glow.di
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
-import io.github.dector.glow.config.LegacyProjectConfig
-import io.github.dector.glow.config.ProjectConfig
+import io.github.dector.glow.config.RuntimeConfig
+import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
@@ -51,8 +51,8 @@ fun appModule(projectDir: File) = module {
 
     // mocks
 
-    single<ProjectConfig> { provideProjectConfig(projectDir) }
-    single<LegacyProjectConfig> { get<ProjectConfig>().legacy }
+    single<RuntimeConfig> { provideProjectConfig(projectDir) }
+    single<CProject> { get<RuntimeConfig>().legacy }
     single<LegacyRuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
@@ -60,13 +60,13 @@ fun appModule(projectDir: File) = module {
 
     single<NotesPathResolver>() { NotesWebPathResolver(get()) }
     single<NotesDataProvider>() {
-        val dir = get<LegacyProjectConfig>().plugins.notes.sourceDir
+        val dir = get<RuntimeConfig>().glow.notes.sourceDir.toFile()
         FileSystemNotesDataProvider(dir)
     }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
 }
 
-private fun buildRuntimeConfig(projectConfig: LegacyProjectConfig): LegacyRuntimeConfig {
+private fun buildRuntimeConfig(projectConfig: CProject): LegacyRuntimeConfig {
     return LegacyRuntimeConfig(
         projectConfig = projectConfig,
         notes = NotesPluginConfig()

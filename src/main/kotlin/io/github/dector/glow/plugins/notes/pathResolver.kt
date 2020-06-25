@@ -1,6 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.config.LegacyProjectConfig
+import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.path.cleanupTitleForWebPath
 import java.time.ZoneOffset
@@ -18,7 +18,7 @@ interface NotesPathResolver {
 
 // TODO test
 class NotesWebPathResolver(
-    config: LegacyProjectConfig
+    config: CProject
 ) : NotesPathResolver {
 
     private val notesPath = config.plugins.notes.path

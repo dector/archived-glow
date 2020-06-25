@@ -1,10 +1,10 @@
 package io.github.dector.glow.core.config
 
-import io.github.dector.glow.config.LegacyProjectConfig
+import io.github.dector.glow.config.project.CProject
 
 @Deprecated("")
 data class LegacyRuntimeConfig(
-    val projectConfig: LegacyProjectConfig,
+    val projectConfig: CProject,
     val notes: NotesPluginConfig
 )
 

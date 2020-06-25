@@ -1,12 +1,11 @@
-package io.github.dector.glow.config
+package io.github.dector.glow.config.project
 
 import io.github.dector.glow.core.config.NavItemType
 import java.io.File
 import java.nio.file.Path
 
 
-@Deprecated("")
-data class LegacyProjectConfig(
+data class CProject(
     val glow: CGlow,
     val blog: CBlog,
     val plugins: CPlugins
@@ -18,7 +17,6 @@ data class CGlow(
     val assets: CAssets
 )
 
-@Deprecated("")
 data class CConfig(val version: String)
 
 data class COutput(val overrideFiles: Boolean)

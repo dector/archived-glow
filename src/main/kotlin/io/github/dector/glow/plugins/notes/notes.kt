@@ -1,6 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.config.ProjectConfig
+import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
@@ -18,7 +18,7 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
-    private val newConfig: ProjectConfig,
+    private val newConfig: RuntimeConfig,
     config: LegacyRuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
