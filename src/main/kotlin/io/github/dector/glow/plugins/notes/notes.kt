@@ -130,7 +130,7 @@ class NotesPlugin(
 
     private fun loadNotes(): List<Note> {
         fun List<Note>.dropDraftsIfNeeded() = when {
-            config.glow.includeDrafts -> filterNot { it.isDraft }
+            !config.glow.includeDrafts -> filterNot { it.isDraft }
             else -> this
         }
 
