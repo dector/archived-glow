@@ -7,7 +7,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.RenderContext
-import io.github.dector.glow.core.config.LegacyRuntimeConfig
+import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.templates.hyde.notesNavigationItem
@@ -19,19 +19,18 @@ class NotesPlugin(
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
     private val newConfig: RuntimeConfig,
-    config: LegacyRuntimeConfig,
+    private val runtimeConfig: RuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
 
-    private val config = config.notes
-    private val projectConfig = config.projectConfig
+    private val config = NotesPluginConfig()
 
     override fun execute() {
         "Loading notes...".logn()
 
         val notes = loadNotes()
 
-        val blog = buildBlogVM(projectConfig)
+        val blog = buildBlogVM(runtimeConfig.website)
 
         buildNotes(blog, notes)
         buildNotesIndex(blog, notes)
@@ -113,13 +112,13 @@ class NotesPlugin(
     private fun copyAssets() {
         if (!config.copyAssets) return
 
-        val src = projectConfig.blog.sourceDir.resolve("assets")
-        val dest = projectConfig.blog.outputDir.resolve("assets")
+        val src = runtimeConfig.glow.sourceDir.resolve("assets").toFile()
+        val dest = runtimeConfig.glow.outputDir.resolve("assets").toFile()
 
         src.copyRecursively(dest, onError = { file, e ->
             System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
             OnErrorAction.SKIP
-        }, overwrite = projectConfig.glow.output.overrideFiles)
+        }, overwrite = runtimeConfig.glow.overrideFiles)
     }
 
     // FIXME implement as a separate plugin

@@ -1,6 +1,6 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.config.project.CProject
+import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.path.cleanupTitleForWebPath
 import java.time.ZoneOffset
@@ -18,10 +18,10 @@ interface NotesPathResolver {
 
 // TODO test
 class NotesWebPathResolver(
-    config: CProject
+    config: RuntimeConfig
 ) : NotesPathResolver {
 
-    private val notesPath = config.plugins.notes.path
+    private val notesPath = config.glow.notes.destinationPath
 
     private val notePathDateFormatter = DateTimeFormatter
         .ofPattern("uuuu/MM/dd")

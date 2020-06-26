@@ -1,13 +1,13 @@
 package io.github.dector.glow.plugins.resources
 
-import io.github.dector.glow.config.project.CProject
+import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.div
 import io.github.dector.glow.pipeline.GlowPipeline
 import org.slf4j.Logger
 import java.io.File
 
 class ThemeAssetsPlugin(
-    private val config: CProject,
+    private val config: RuntimeConfig,
     private val logger: Logger
 ) : GlowPipeline {
 
@@ -27,8 +27,8 @@ class ThemeAssetsPlugin(
             return
         }
 
-        val targetDir = config.blog.outputDir.toPath().let { dirPath ->
-            val childPath = config.glow.assets.targetPath
+        val targetDir = config.glow.outputDir.let { dirPath ->
+            val childPath = config.glow.assets.destinationPath
                 .let { if (it.isAbsolute) it.root.relativize(it) else it }
             dirPath.resolve(childPath)
         }.toFile()
@@ -38,7 +38,7 @@ class ThemeAssetsPlugin(
 
                 println("${file.absolutePath} -> ${targetFile.absolutePath}")
 
-                file.copyRecursively(targetFile, overwrite = config.glow.output.overrideFiles)
+                file.copyRecursively(targetFile, overwrite = config.glow.overrideFiles)
             }
     }
 

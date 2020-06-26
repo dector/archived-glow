@@ -1,6 +1,6 @@
 package io.github.dector.glow.server
 
-import io.github.dector.glow.config.project.CProject
+import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.javalin.http.Context
@@ -12,7 +12,7 @@ import java.nio.file.Paths
 
 @Suppress("MoveVariableDeclarationIntoWhen")
 class RootHandler(
-    private val config: CProject,
+    private val config: RuntimeConfig,
     private val storage: Collection<WebPage>
 ) : Handler {
 
@@ -35,7 +35,7 @@ class RootHandler(
             // FIXME hack
             .let {
                 if (!it.exists())
-                    config.blog.sourceDir.resolve("assets/").resolve(resourcePath)
+                    config.glow.sourceDir.resolve("assets/").resolve(resourcePath).toFile()
                 else it
             }
 
@@ -83,8 +83,8 @@ class RootHandler(
     }
 
     private fun detectRequestedResource(path: String): RequestedResource = when {
-        path.startsWith(config.glow.assets.targetPath.toString()) ->
-            StaticResource(config.glow.assets.targetPath.relativize(Paths.get(path)).toString())
+        path.startsWith(config.glow.assets.destinationPath.toString()) ->
+            StaticResource(config.glow.assets.destinationPath.relativize(Paths.get(path)).toString())
         else ->
             RequestedResource.Page(path)
     }

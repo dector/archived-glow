@@ -6,7 +6,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
-import io.github.dector.glow.core.config.LegacyRuntimeConfig
+import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.server.components.InMemoryDataPublisher
@@ -49,18 +49,14 @@ class Server(private val launchConfig: LaunchConfig) {
     private fun provideDependencies() {
         DI.reset()
         DI.modify { koin ->
-            val runtimeConfig = DI.get<LegacyRuntimeConfig>().let { config ->
-                config.copy(notes = config.notes.copy(
-                    copyAssets = false
-                ))
-            }
+            val notesPluginConfig = DI.get<NotesPluginConfig>().copy(copyAssets = false)
 
             koin.modules(module {
                 single<DataPublisher>(override = true) {
                     PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
                 }
                 single<LaunchConfig> { launchConfig }
-                single<LegacyRuntimeConfig>(override = true) { runtimeConfig }
+                single<NotesPluginConfig>(override = true) { notesPluginConfig }
             })
         }
     }
@@ -71,9 +67,9 @@ class Server(private val launchConfig: LaunchConfig) {
 
     private fun watchForBlogSources(body: () -> Unit) {
         val sourcesFolder = DI.get<RuntimeConfig>()
-            .legacy
-            .blog
+            .glow
             .sourceDir
+            .toFile()
         println("Serving '${sourcesFolder.absolutePath}'")
 
         FileWatcher().watchRecursively(

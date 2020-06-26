@@ -3,12 +3,10 @@ package io.github.dector.glow.di
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.config.project.CProject
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
-import io.github.dector.glow.core.config.LegacyRuntimeConfig
 import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.core.logger.UILogger
@@ -52,7 +50,7 @@ fun appModule(projectDir: File) = module {
     // mocks
 
     single<RuntimeConfig> { provideProjectConfig(projectDir) }
-    single<LegacyRuntimeConfig> { buildRuntimeConfig(projectConfig = get()) }
+    single<NotesPluginConfig> { NotesPluginConfig() }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 
     // notes
@@ -63,11 +61,4 @@ fun appModule(projectDir: File) = module {
         FileSystemNotesDataProvider(dir)
     }
     single<NotesDataRenderer>() { DefaultNotesDataRenderer(get(), get(), get()) }
-}
-
-private fun buildRuntimeConfig(projectConfig: CProject): LegacyRuntimeConfig {
-    return LegacyRuntimeConfig(
-        projectConfig = projectConfig,
-        notes = NotesPluginConfig()
-    )
 }
