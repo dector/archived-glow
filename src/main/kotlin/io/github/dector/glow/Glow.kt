@@ -9,6 +9,20 @@ fun main(args: Array<String>) {
     executeApp(args)
 }
 
+private fun executeApp(args: Array<String>) {
+    val action = { runCli(args) }
+
+    runCatching(action)
+        .onFailure { e ->
+            RootLogger.error(e.message, e)
+
+            UILogger.info("\nFailed with exception: '${e.message}'.")
+            exitProcess(1)
+        }.onSuccess {
+            UILogger.info("\nFinished successfully.")
+        }.getOrNull()
+}
+
 /*
 private fun detectProjectDir(rawArgs: Array<String>): File {
     // If runs in current directory
@@ -32,19 +46,3 @@ private fun detectProjectDir(rawArgs: Array<String>): File {
     return projectDir
 }
 */
-
-private fun executeApp(args: Array<String>) {
-    val action = { runCli(args) }
-
-    runCatching(action)
-        .onFailure { e ->
-            RootLogger.error(e.message, e)
-
-            UILogger.info("\nFailed with exception: '${e.message}'.")
-            exitProcess(1)
-        }.onSuccess {
-            UILogger.info("\nFinished successfully.")
-        }.getOrNull()
-}
-
-/*private const val ConfigFileName = "website.glow"*/

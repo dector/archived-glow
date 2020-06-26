@@ -5,6 +5,7 @@ import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
 import io.github.dector.glow.di.get
+import io.github.dector.glow.div
 import io.github.dector.glow.ui.UiConsole
 import java.io.File
 
@@ -25,6 +26,9 @@ class BuilderApp private constructor(
             projectDir: File,
             quiet: Boolean
         ): BuilderApp {
+            if (!projectFileIn(projectDir).exists())
+                TODO("Notify about missing project file nicely")
+
             initApp(projectDir)
 
             val ui = DI.get<UiConsole>()
@@ -45,3 +49,7 @@ private fun initApp(projectDir: File) {
     }
     DI.reset()  // Will call init()
 }
+
+private const val ConfigFileName = "website.glow"
+private fun projectFileIn(dir: File): File =
+    dir / ConfigFileName
