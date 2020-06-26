@@ -4,7 +4,9 @@ import io.github.dector.glow.CLI_HEADER
 import io.github.dector.glow.applyIf
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
+import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.di.DI
+import io.github.dector.glow.di.DI2
 import io.github.dector.glow.di.appModule
 import io.github.dector.glow.di.configModule
 import io.github.dector.glow.di.get
@@ -33,10 +35,16 @@ class BuilderApp private constructor(
             if (!projectFileIn(projectDir).exists())
                 TODO("Notify about missing project file nicely")
 
-            val launchConfig = LaunchConfig(
-                includeDrafts = includeDrafts
-            )
-            initApp(projectDir, launchConfig)
+
+            val projectConfig = run {
+                val launchConfig = LaunchConfig(
+                    includeDrafts = includeDrafts
+                )
+
+                provideProjectConfig(projectDir, launchConfig)
+            }
+            DI2.provide(projectConfig)
+            initApp()
 
             val ui = UiConsole.get
                 .applyIf(quiet) { isEnabled = false }
@@ -46,13 +54,14 @@ class BuilderApp private constructor(
     }
 }
 
-private fun initApp(projectDir: File, launchConfig: LaunchConfig) {
+private fun initApp() {
+    DI.init()
     //DI.init()
     DI.resetAction = {
         DI.init()
         DI.modify {
             it.modules(
-                configModule(projectDir, launchConfig),
+                configModule(),
                 appModule()
             )
         }

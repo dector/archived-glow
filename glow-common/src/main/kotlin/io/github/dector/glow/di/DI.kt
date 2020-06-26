@@ -5,6 +5,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import kotlin.reflect.KClass
 
+@Deprecated("Use DI2")
 object DI {
 
     // FIXME
