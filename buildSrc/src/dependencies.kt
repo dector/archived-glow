@@ -47,7 +47,7 @@ object Versions {
     val kotlin_test = "3.4.2"
 
     val shadow = "5.1.0"
-    val versions_plugin = "0.25.0"
+    val versions_plugin = "0.28.0"
     val build_config = "1.1.8"
 }
 
