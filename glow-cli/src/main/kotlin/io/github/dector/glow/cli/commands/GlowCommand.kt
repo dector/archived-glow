@@ -1,8 +1,5 @@
 package io.github.dector.glow.cli.commands
 
-import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.NoRunCliktCommand
 
-class GlowCommand : CliktCommand(name = "glow") {
-
-    override fun run() {}
-}
+class GlowCommand : NoRunCliktCommand(name = "glow")
