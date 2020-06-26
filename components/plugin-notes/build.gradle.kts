@@ -13,5 +13,5 @@ dependencies {
     implementation(project(":component-template-common"))
     implementation(project(":component-template-hyde"))
 
-    testImplementation(Deps.kotlin_test)
+    testImplementation(Deps.kotest)
 }

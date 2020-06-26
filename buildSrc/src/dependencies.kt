@@ -18,7 +18,7 @@ object Deps {
     val jtidy = "com.github.jtidy:jtidy:${Versions.jtidy}"
     val flexmark = "com.vladsch.flexmark:flexmark-all:${Versions.flexmark}"
 
-    val kotlin_test = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlin_test}"
+    val kotest = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotest}"
 }
 
 object GradlePlugins {
@@ -47,7 +47,7 @@ object Versions {
     val jtidy = "1.0.2"
     val flexmark = "0.62.2"
 
-    val kotlin_test = "3.4.2"
+    val kotest = "3.4.2"
 
     val shadow = "5.1.0"
     val versions_plugin = "0.28.0"

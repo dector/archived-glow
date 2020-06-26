@@ -15,5 +15,5 @@ dependencies {
 
     implementation(Deps.jtidy)
 
-    testImplementation(Deps.kotlin_test)
+    testImplementation(Deps.kotest)
 }

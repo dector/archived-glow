@@ -7,5 +7,5 @@ dependencies {
 
     api(Deps.flexmark)
 
-    testImplementation(Deps.kotlin_test)
+    testImplementation(Deps.kotest)
 }

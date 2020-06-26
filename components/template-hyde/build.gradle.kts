@@ -11,5 +11,5 @@ dependencies {
     implementation(project(":component-engine"))
     implementation(project(":component-template-common"))
 
-    testImplementation(Deps.kotlin_test)
+    testImplementation(Deps.kotest)
 }
