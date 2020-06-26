@@ -34,15 +34,12 @@ object Versions {
     val slf4j_simple = "1.7.26"
 
     val clikt = "2.4.0"
-    val json = "20190722"
     val hjson = "3.0.0"
 
     val javalin = "3.5.0"
 
-    val rome = "1.12.2"
     val jtidy = "1.0.2"
-    val flexmark = "0.50.40"
-    val eo_yaml = "2.0.1"
+    val flexmark = "0.62.2"
 
     val kotlin_test = "3.4.2"
 
