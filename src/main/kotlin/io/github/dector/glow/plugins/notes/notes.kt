@@ -10,7 +10,6 @@ import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.templates.hyde.notesNavigationItem
-import org.slf4j.Logger
 
 
 class NotesPlugin(
@@ -18,8 +17,7 @@ class NotesPlugin(
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
     private val config: RuntimeConfig,
-    private val runOptions: NotesPluginConfig,
-    private val logger: Logger
+    private val runOptions: NotesPluginConfig
 ) : GlowPipeline {
 
     override fun execute() {
@@ -35,7 +33,6 @@ class NotesPlugin(
         buildNotesIndex(blog, notes)
         buildTagsPages(blog, notes)
         //buildArchive(blog, notes)
-        copyAssets()
         //buildRss(blog, notes)
 
         println("")
@@ -101,19 +98,6 @@ class NotesPlugin(
 
             println()
         }
-    }
-
-    // FIXME
-    private fun copyAssets() {
-        if (!runOptions.copyAssets) return
-
-        val src = config.glow.sourceDir.resolve("assets").toFile()
-        val dest = config.glow.outputDir.resolve("assets").toFile()
-
-        src.copyRecursively(dest, onError = { file, e ->
-            System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
-            OnErrorAction.SKIP
-        }, overwrite = config.glow.overrideFiles)
     }
 }
 

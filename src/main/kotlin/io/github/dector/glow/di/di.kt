@@ -22,6 +22,7 @@ import io.github.dector.glow.plugins.notes.NotesDataRenderer
 import io.github.dector.glow.plugins.notes.NotesPathResolver
 import io.github.dector.glow.plugins.notes.NotesPlugin
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
+import io.github.dector.glow.plugins.resources.AssetsPlugin2
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 import io.github.dector.glow.ui.StdUiConsole
 import io.github.dector.glow.ui.UiConsole
@@ -33,7 +34,8 @@ fun appModule(projectDir: File) = module {
         val logger = UILogger
 
         PluggablePipeline(
-            NotesPlugin(get(), get(), get(), get(), get(), logger),
+            NotesPlugin(get(), get(), get(), get(), get()),
+            AssetsPlugin2(get(), get()),
             ThemeAssetsPlugin(get(), logger)
             //RssPlugin()
 //                PagesPlugin(get(), get(), get(), logger),

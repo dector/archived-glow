@@ -12,14 +12,13 @@ class ThemeAssetsPlugin(
 ) : GlowPipeline {
 
     override fun execute() {
+        println("[=== Theme Assets ===]")
         copyThemeAssets()
 
         "Done".logn()
     }
 
     private fun copyThemeAssets() {
-        "Copying theme assets...".log()
-
         val themeResourcesDir = File("templates-hyde/src/main/res/")
 
         if (!themeResourcesDir.exists()) {
