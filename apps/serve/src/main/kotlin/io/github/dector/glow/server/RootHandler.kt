@@ -32,7 +32,7 @@ class RootHandler(
 
     private fun respondFor(ctx: Context, resource: StaticResource) {
         val resourcePath = resource.relativePath
-        val file = File(ThemeResourcesPath)
+        val file = File("$ThemeResourcesPath/$resourcePath")
             // FIXME hack
             .let {
                 if (!it.exists())
