@@ -5,10 +5,10 @@ import io.github.dector.glow.core.BlogVM
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
+import io.github.dector.glow.core.components.GlowPipeline
 import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.vm.buildBlogVM
-import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.templates.hyde.notesNavigationItem
 
 

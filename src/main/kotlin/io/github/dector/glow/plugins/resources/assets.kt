@@ -1,9 +1,9 @@
 package io.github.dector.glow.plugins.resources
 
 import io.github.dector.glow.config.RuntimeConfig
+import io.github.dector.glow.core.components.GlowPipeline
 import io.github.dector.glow.div
 import io.github.dector.glow.logger.logger
-import io.github.dector.glow.pipeline.GlowPipeline
 import java.io.File
 
 class ThemeAssetsPlugin(

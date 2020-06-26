@@ -1,10 +1,12 @@
 package io.github.dector.glow.build
 
 import io.github.dector.glow.CLI_HEADER
+import io.github.dector.glow.applyIf
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
+import io.github.dector.glow.di.configModule
 import io.github.dector.glow.di.get
 import io.github.dector.glow.div
 import io.github.dector.glow.ui.UiConsole
@@ -36,8 +38,8 @@ class BuilderApp private constructor(
             )
             initApp(projectDir, launchConfig)
 
-            val ui = DI.get<UiConsole>()
-            if (quiet) ui.isEnabled = false
+            val ui = UiConsole.get
+                .applyIf(quiet) { isEnabled = false }
 
             return BuilderApp(ui, DI.get())
         }
@@ -49,7 +51,10 @@ private fun initApp(projectDir: File, launchConfig: LaunchConfig) {
     DI.resetAction = {
         DI.init()
         DI.modify {
-            it.modules(appModule(projectDir, launchConfig))
+            it.modules(
+                configModule(projectDir, launchConfig),
+                appModule()
+            )
         }
     }
     DI.reset()  // Will call init()
