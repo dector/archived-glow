@@ -2,7 +2,7 @@ package io.github.dector.glow
 
 import io.github.dector.glow.cli.runCli
 import io.github.dector.glow.logger.RootLogger
-import io.github.dector.glow.logger.UILogger
+import io.github.dector.glow.ui.UiConsole
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -16,10 +16,10 @@ private fun executeApp(args: Array<String>) {
         .onFailure { e ->
             RootLogger.error(e.message, e)
 
-            UILogger.info("\nFailed with exception: '${e.message}'.")
+            UiConsole.get.println("\nFailed with exception: '${e.message}'.")
             exitProcess(1)
         }.onSuccess {
-            UILogger.info("\nFinished successfully.")
+            UiConsole.get.println("\nFinished successfully.")
         }.getOrNull()
 }
 

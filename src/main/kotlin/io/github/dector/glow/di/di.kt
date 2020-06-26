@@ -12,7 +12,6 @@ import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
-import io.github.dector.glow.logger.UILogger
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline
@@ -25,27 +24,21 @@ import io.github.dector.glow.plugins.notes.NotesPlugin
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
 import io.github.dector.glow.plugins.resources.AssetsPlugin2
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
-import io.github.dector.glow.ui.StdUiConsole
-import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
 import java.io.File
 
 fun appModule(projectDir: File, launchConfig: LaunchConfig) = module {
     single<GlowPipeline> {
-        val logger = UILogger
-
         PluggablePipeline(
             NotesPlugin(get(), get(), get(), get(), get()),
             AssetsPlugin2(get(), get()),
-            ThemeAssetsPlugin(get(), logger)
+            ThemeAssetsPlugin(get())
             //RssPlugin()
 //                PagesPlugin(get(), get(), get(), logger),
 //                StaticResourcesPlugin(get(), logger)
         )
     }
     single<GlowEngine> { PipelinedGlowEngine(get()) }
-
-    single<UiConsole> { StdUiConsole() }
 
     single<MarkdownParser<Node>> { SimpleMarkdownParser() }
     single<HtmlRenderer> { HtmlRenderer.builder().build() }

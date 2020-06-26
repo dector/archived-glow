@@ -2,27 +2,24 @@ package io.github.dector.glow.plugins.resources
 
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.div
+import io.github.dector.glow.logger.logger
 import io.github.dector.glow.pipeline.GlowPipeline
-import org.slf4j.Logger
 import java.io.File
 
 class ThemeAssetsPlugin(
-    private val config: RuntimeConfig,
-    private val logger: Logger
+    private val config: RuntimeConfig
 ) : GlowPipeline {
 
     override fun execute() {
         println("[=== Theme Assets ===]")
         copyThemeAssets()
-
-        "Done".logn()
     }
 
     private fun copyThemeAssets() {
         val themeResourcesDir = File("templates-hyde/src/main/res/")
 
         if (!themeResourcesDir.exists()) {
-            logger.error("Can't find theme resources at: ${themeResourcesDir.absolutePath}")
+            logger().error("Can't find theme resources at: ${themeResourcesDir.absolutePath}")
             return
         }
 
@@ -39,14 +36,5 @@ class ThemeAssetsPlugin(
 
                 file.copyRecursively(targetFile, overwrite = config.glow.overrideFiles)
             }
-    }
-
-    private fun String.log() {
-        logger.info(this)
-    }
-
-    private fun String.logn() {
-        this.log()
-        "".log()
     }
 }

@@ -9,4 +9,8 @@ interface UiConsole {
 
     fun print(any: Any) = print(any.toString())
     fun println(any: Any) = println(any.toString())
+
+    companion object {
+        val get by lazy(LazyThreadSafetyMode.NONE) { StdUiConsole() }
+    }
 }
