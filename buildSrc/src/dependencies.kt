@@ -33,7 +33,7 @@ object Versions {
 
     val slf4j_simple = "1.7.26"
 
-    val clikt = "2.2.0"
+    val clikt = "2.4.0"
     val json = "20190722"
     val hjson = "3.0.0"
 
