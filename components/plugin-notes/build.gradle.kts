@@ -5,13 +5,13 @@ plugins {
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
 
-    implementation(project(":component-di"))
-    implementation(project(":component-logger"))
     implementation(project(":component-config"))
     implementation(project(":component-engine"))
-    implementation(project(":component-engine-builder"))
     implementation(project(":component-ktx"))
-    implementation(project(":glow-common"))
+    implementation(project(":component-parser-md"))
 
-    implementation(Deps.flexmark)
+    implementation(project(":component-template-common"))
+    implementation(project(":component-template-hyde"))
+
+    testImplementation(Deps.kotlin_test)
 }

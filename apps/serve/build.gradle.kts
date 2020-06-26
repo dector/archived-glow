@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":component-di"))
     implementation(project(":component-config"))
     implementation(project(":component-engine"))
+    implementation(project(":component-engine-builder"))
     implementation(project(":component-ktx"))
 
     implementation(project(":glow-common"))

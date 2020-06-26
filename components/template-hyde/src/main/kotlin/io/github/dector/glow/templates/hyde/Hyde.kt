@@ -4,7 +4,6 @@ import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.engine.BlogVM
-import io.github.dector.glow.engine.NavItemType
 import io.github.dector.glow.engine.NavigationItem
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
@@ -13,6 +12,7 @@ import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
 import io.github.dector.glow.templates.hyde.layouts.tagPageContent
 import io.github.dector.glow.templates.hyde.layouts.webPage
 import io.github.dector.glow.theming.Template
+import io.github.dector.glow.theming.notesNavigationItem
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a
@@ -161,8 +161,6 @@ class HydeTemplate : Template {
             tagPageContent(notes, tag)
         }
 }
-
-fun BlogVM.notesNavigationItem() = navigation.find { it.type == NavItemType.Notes }
 
 internal fun assetPath(path: String, dirPath: Path): String =
     dirPath.resolve(path).toString()

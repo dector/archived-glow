@@ -2,7 +2,7 @@ package io.github.dector.glow.serve
 
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.config.provideProjectConfig
+import io.github.dector.glow.config.provideProjectConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.di.get
