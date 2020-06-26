@@ -33,19 +33,6 @@ private fun detectProjectDir(rawArgs: Array<String>): File {
 }
 */
 
-/*
-private fun initApp(projectDir: File) {
-    //DI.init()
-    DI.resetAction = {
-        DI.init()
-        DI.modify {
-            it.modules(appModule(projectDir))
-        }
-    }
-    DI.reset()  // Will call init()
-}
-*/
-
 private fun executeApp(args: Array<String>) {
     val action = { runCli(args) }
 

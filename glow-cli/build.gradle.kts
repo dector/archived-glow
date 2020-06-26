@@ -7,6 +7,7 @@ dependencies {
 
     implementation(project(":app-fish"))
     implementation(project(":app-builder"))
+    implementation(project(":app-serve"))
 
     implementation(project(":config"))
     implementation(project(":glow-common"))
