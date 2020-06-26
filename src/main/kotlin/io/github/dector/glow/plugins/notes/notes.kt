@@ -34,7 +34,7 @@ class NotesPlugin(
         buildNotes(blog, notes)
         buildNotesIndex(blog, notes)
         buildTagsPages(blog, notes)
-        buildArchive(blog, notes)
+        //buildArchive(blog, notes)
         copyAssets()
         //buildRss(blog, notes)
 
@@ -103,17 +103,6 @@ class NotesPlugin(
         }
     }
 
-    private fun buildArchive(blog: BlogVM, notes: List<Note>) {
-        if (!runOptions.buildArchive) return
-
-        "Notes archive".log()
-        "Processing...".log()
-        val webPage = dataRenderer.renderNotesArchive(blog, notes)
-
-        "Publishing...".log()
-        dataPublisher.publish(webPage)
-    }
-
     // FIXME
     private fun copyAssets() {
         if (!runOptions.copyAssets) return
@@ -126,11 +115,6 @@ class NotesPlugin(
             OnErrorAction.SKIP
         }, overwrite = config.glow.overrideFiles)
     }
-
-    private fun String.log() {
-        logger.info(this)
-    }
-
 }
 
 interface NotesDataProvider {
