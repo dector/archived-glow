@@ -1,28 +1,40 @@
 package io.github.dector.glow
 
 import io.github.dector.glow.cli.runCli
-import io.github.dector.glow.di.DI
-import io.github.dector.glow.di.appModule
 import io.github.dector.glow.logger.RootLogger
 import io.github.dector.glow.logger.UILogger
-import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-    // FIXME hack to parse config
-    require(args.isNotEmpty()) { "Should be run with '--project path/to/website/project' argument" }
-
-    val projectPath = args.indexOfFirst { it.startsWith("--project") }
-        .let { args[it + 1] }
-    initApp(projectPath)
-
     executeApp(args)
 }
 
-private fun initApp(projectPath: String) {
-    val projectDir = File(projectPath)
-    require(projectDir.exists()) { "Can't find project in `${projectDir.absolutePath}`" }
+/*
+private fun detectProjectDir(rawArgs: Array<String>): File {
+    // If runs in current directory
+    val defaultFile = File(ConfigFileName)
+    if (defaultFile.exists()) return defaultFile.parentFile
 
+    // Else should be run with `--project` option
+    val args = LaunchOptions().also { it.parse(rawArgs) }
+
+    val projectDir = args.project
+    require(projectDir != null) {
+        "Should be run with '--project path/to/website/project' argument."
+    }
+    require(projectDir.exists()) {
+        "Dir not found: '${projectDir.absolutePath}'."
+    }
+    require(projectDir.isDirectory) {
+        "File found: '${projectDir.absolutePath}'. But expected it to be directory."
+    }
+
+    return projectDir
+}
+*/
+
+/*
+private fun initApp(projectDir: File) {
     //DI.init()
     DI.resetAction = {
         DI.init()
@@ -32,6 +44,7 @@ private fun initApp(projectPath: String) {
     }
     DI.reset()  // Will call init()
 }
+*/
 
 private fun executeApp(args: Array<String>) {
     val action = { runCli(args) }
@@ -46,3 +59,5 @@ private fun executeApp(args: Array<String>) {
             UILogger.info("\nFinished successfully.")
         }.getOrNull()
 }
+
+/*private const val ConfigFileName = "website.glow"*/
