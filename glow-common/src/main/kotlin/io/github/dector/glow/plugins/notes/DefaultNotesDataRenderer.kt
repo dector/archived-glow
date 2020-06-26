@@ -8,7 +8,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.theming.Template
-import io.github.dector.glow.formatPublishDate
+import io.github.dector.glow.formatters.formatPublishDate
 import io.github.dector.glow.templates.hyde.HydeTemplate
 
 class DefaultNotesDataRenderer(

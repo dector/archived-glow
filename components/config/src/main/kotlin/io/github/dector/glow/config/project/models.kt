@@ -1,6 +1,5 @@
 package io.github.dector.glow.config.project
 
-import io.github.dector.glow.core.config.NavItemType
 import java.io.File
 import java.nio.file.Path
 
@@ -34,8 +33,7 @@ internal data class CBlog(
 internal data class CNavigation(
     val id: String,
     val title: String,
-    val path: String,
-    val type: NavItemType
+    val path: String
 )
 
 internal data class CFooter(

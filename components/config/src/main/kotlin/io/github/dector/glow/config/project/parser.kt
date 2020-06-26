@@ -1,7 +1,7 @@
 package io.github.dector.glow.config.project
 
 import io.github.dector.glow.config.LaunchConfig
-import io.github.dector.glow.core.config.NavItemType
+import io.github.dector.ktx.div
 import org.hjson.JsonArray
 import org.hjson.JsonObject
 import org.hjson.JsonValue
@@ -54,8 +54,8 @@ private fun JsonArray.asCNavigationList() =
 private fun JsonObject.asCNavigation() = CNavigation(
     id = get("id").asString(),
     title = get("title").asString(),
-    path = get("path").asString(),
-    type = NavItemType.from(get("type").asString())
+    path = get("path").asString()
+    //type = NavItemType.from(get("type").asString())
 )
 
 private fun JsonObject.asCFooter() = CFooter(
@@ -80,5 +80,3 @@ data class ParsingContext(
 )
 
 private fun JsonObject.getObject(name: String) = get(name).asObject()
-
-private operator fun File.div(path: String) = resolve(path)

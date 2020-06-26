@@ -1,14 +1,15 @@
 package io.github.dector.glow.build
 
 import io.github.dector.glow.CLI_HEADER
-import io.github.dector.glow.applyIf
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
-import io.github.dector.glow.div
+import io.github.dector.glow.di.provide
 import io.github.dector.glow.ui.UiConsole
+import io.github.dector.ktx.applyIf
+import io.github.dector.ktx.div
 import java.io.File
 
 

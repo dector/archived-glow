@@ -7,6 +7,7 @@ import io.github.dector.glow.core.config.NavItemType
 import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.theming.Template
 import io.github.dector.glow.di.DI
+import io.github.dector.glow.di.get
 import io.github.dector.glow.plugins.notes.NoteVM
 import io.github.dector.glow.templates.hyde.layouts.noteContent
 import io.github.dector.glow.templates.hyde.layouts.notesIndexContent

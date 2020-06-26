@@ -5,6 +5,7 @@ import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
+import io.github.dector.glow.di.get
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
 import io.github.dector.glow.utils.FileWatcher

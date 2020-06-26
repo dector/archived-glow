@@ -4,8 +4,8 @@ import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
-import io.github.dector.glow.ensureParentDirectoryExists
 import io.github.dector.glow.logger.logger
+import io.github.dector.ktx.ensureParentDirectoryExists
 import java.io.File
 
 class FileDataPublisher(

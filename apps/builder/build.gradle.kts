@@ -7,6 +7,7 @@ dependencies {
 
     implementation(project(":component-config"))
     implementation(project(":component-logger"))
+    implementation(project(":component-ktx"))
     implementation(project(":glow-common"))
 
     implementation(Deps.flexmark)

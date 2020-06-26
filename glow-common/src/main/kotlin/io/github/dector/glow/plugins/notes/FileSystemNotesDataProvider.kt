@@ -4,13 +4,13 @@ import io.github.dector.glow.core.MarkdownContent
 import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parsePublishedAt
 import io.github.dector.glow.core.parser.parseUpdatedAt
-import io.github.dector.glow.joinAsText
 import io.github.dector.glow.plugins.notes.MetaProperty.CreatedAt
 import io.github.dector.glow.plugins.notes.MetaProperty.Draft
 import io.github.dector.glow.plugins.notes.MetaProperty.PublishedAt
 import io.github.dector.glow.plugins.notes.MetaProperty.Tags
 import io.github.dector.glow.plugins.notes.MetaProperty.Title
 import io.github.dector.glow.plugins.notes.MetaProperty.UpdatedAt
+import io.github.dector.ktx.joinAsText
 import java.io.File
 import java.time.Instant
 import kotlin.reflect.KClass
