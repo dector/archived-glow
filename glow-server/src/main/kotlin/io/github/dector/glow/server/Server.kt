@@ -8,9 +8,9 @@ import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.di.get
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
-import io.github.dector.glow.utils.FileWatcher
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
 import io.github.dector.glow.utils.measureTimeMillis
+import io.github.dector.ktx.FileWatcher
 import io.javalin.Javalin
 import java.nio.file.StandardWatchEventKinds.ENTRY_CREATE
 import java.nio.file.StandardWatchEventKinds.ENTRY_DELETE
