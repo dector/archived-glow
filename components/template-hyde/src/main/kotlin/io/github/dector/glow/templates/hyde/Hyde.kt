@@ -1,7 +1,6 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.theming.Template
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.engine.BlogVM
@@ -13,6 +12,7 @@ import io.github.dector.glow.templates.hyde.layouts.noteContent
 import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
 import io.github.dector.glow.templates.hyde.layouts.tagPageContent
 import io.github.dector.glow.templates.hyde.layouts.webPage
+import io.github.dector.glow.theming.Template
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a

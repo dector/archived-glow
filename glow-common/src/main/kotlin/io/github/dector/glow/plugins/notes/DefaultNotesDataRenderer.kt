@@ -3,13 +3,13 @@ package io.github.dector.glow.plugins.notes
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.parser.MarkdownParser
-import io.github.dector.glow.core.theming.Template
 import io.github.dector.glow.engine.BlogVM
 import io.github.dector.glow.engine.HtmlContent
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.formatters.formatPublishDate
 import io.github.dector.glow.templates.hyde.HydeTemplate
+import io.github.dector.glow.theming.Template
 
 class DefaultNotesDataRenderer(
     private val pathResolver: NotesPathResolver,

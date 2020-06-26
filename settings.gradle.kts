@@ -1,8 +1,7 @@
 rootProject.name = "glow"
 
 include(
-    "glow-common",
-    "templates-hyde"
+    "glow-common"
 )
 
 fun findGradleProjectsIn(dir: String): Sequence<File> = File(dir)

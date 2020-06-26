@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.theming
+package io.github.dector.glow.theming
 
 import io.github.dector.glow.engine.BlogVM
 import io.github.dector.glow.engine.HtmlWebPageContent
