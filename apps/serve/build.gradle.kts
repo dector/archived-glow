@@ -7,4 +7,8 @@ dependencies {
 
     implementation(project(":glow-common"))
     implementation(project(":glow-server"))
+    implementation(project(":config"))
+
+    // FIXME remove this dependcy for di
+    implementation(rootProject)
 }
