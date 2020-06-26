@@ -3,6 +3,7 @@ package io.github.dector.glow.plugins.resources
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.engine.GlowPipeline
 import io.github.dector.glow.logger.logger
+import io.github.dector.glow.utils.ThemeResourcesPath
 import io.github.dector.ktx.div
 import java.io.File
 
@@ -16,7 +17,7 @@ class ThemeAssetsPlugin(
     }
 
     private fun copyThemeAssets() {
-        val themeResourcesDir = File("templates-hyde/src/main/res/")
+        val themeResourcesDir = File(ThemeResourcesPath)
 
         if (!themeResourcesDir.exists()) {
             logger().error("Can't find theme resources at: ${themeResourcesDir.absolutePath}")

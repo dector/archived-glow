@@ -3,6 +3,7 @@ package io.github.dector.glow.server
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.server.RequestedResource.StaticResource
+import io.github.dector.glow.utils.ThemeResourcesPath
 import io.javalin.http.Context
 import io.javalin.http.Handler
 import org.eclipse.jetty.http.HttpStatus.NOT_FOUND_404
@@ -31,7 +32,7 @@ class RootHandler(
 
     private fun respondFor(ctx: Context, resource: StaticResource) {
         val resourcePath = resource.relativePath
-        val file = File("templates-hyde/src/main/res/$resourcePath")
+        val file = File(ThemeResourcesPath)
             // FIXME hack
             .let {
                 if (!it.exists())
