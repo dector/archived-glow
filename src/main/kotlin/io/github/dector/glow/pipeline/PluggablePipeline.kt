@@ -9,7 +9,7 @@ class PluggablePipeline(
 
     override fun execute() {
         plugins.forEach {
-            logger().info("Executing plugin: ${it::class.simpleName}")
+            logger().debug("Executing plugin: ${it::class.simpleName}")
 
             try {
                 it.execute()
