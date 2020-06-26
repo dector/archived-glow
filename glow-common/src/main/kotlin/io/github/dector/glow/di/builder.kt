@@ -18,13 +18,13 @@ import io.github.dector.glow.plugins.resources.AssetsPlugin2
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 
 fun buildGlowEngine(
-    config: RuntimeConfig = DI2.get(),
+    config: RuntimeConfig = DI.get(),
     publisher: DataPublisher = defaultDataPublisher()
 ): GlowEngine {
     val provider = FileSystemNotesDataProvider(
         config.glow.notes.sourceDir.toFile())
     val renderer = DefaultNotesDataRenderer(
-        NotesWebPathResolver(DI2.get()),
+        NotesWebPathResolver(DI.get()),
         SimpleMarkdownParser(),
         HtmlRenderer.builder().build()
     )
@@ -39,7 +39,7 @@ internal fun buildGlowEngine(
     dataRenderer: NotesDataRenderer,
     dataPublisher: DataPublisher
 ): GlowEngine {
-    val config = DI2.get<RuntimeConfig>()
+    val config = DI.get<RuntimeConfig>()
     return GlowEngine(
         NotesPlugin(dataProvider, dataRenderer, dataPublisher, config, NotesPluginConfig.get),
         AssetsPlugin2(config, NotesPluginConfig.get),
@@ -47,5 +47,5 @@ internal fun buildGlowEngine(
     )
 }
 
-private fun defaultDataPublisher(config: RuntimeConfig = DI2.get()) =
+private fun defaultDataPublisher(config: RuntimeConfig = DI.get()) =
     PreprocessedDataPublisher(FileDataPublisher(config))

@@ -3,7 +3,7 @@ package io.github.dector.glow.di
 import kotlin.reflect.KClass
 
 
-object DI2 {
+object DI {
 
     private val registry = mutableMapOf<KClass<*>, Any>()
 
@@ -14,8 +14,7 @@ object DI2 {
     fun <T : Any> provide(klass: KClass<T>, value: T) {
         registry[klass] = value
     }
-
-    inline fun <reified T : Any> get(): T = get(T::class)
-
-    inline fun <reified T : Any> provide(value: T) = provide(T::class, value)
 }
+
+inline fun <reified T : Any> DI.get(): T = get(T::class)
+inline fun <reified T : Any> DI.provide(value: T) = provide(T::class, value)

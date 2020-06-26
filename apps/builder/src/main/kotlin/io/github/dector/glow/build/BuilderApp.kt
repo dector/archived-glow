@@ -5,7 +5,7 @@ import io.github.dector.glow.applyIf
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.config.provideProjectConfig
-import io.github.dector.glow.di.DI2
+import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.div
 import io.github.dector.glow.ui.UiConsole
@@ -39,7 +39,7 @@ class BuilderApp private constructor(
 
                 provideProjectConfig(projectDir, launchConfig)
             }
-            DI2.provide(projectConfig)
+            DI.provide(projectConfig)
 
             val ui = UiConsole.get
                 .applyIf(quiet) { isEnabled = false }

@@ -3,7 +3,7 @@ package io.github.dector.glow.server
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.di.DI2
+import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
@@ -24,7 +24,7 @@ class Server {
     private val app: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
     }
-    private val rootHandler = RootHandler(DI2.get(), pagesStorage)
+    private val rootHandler = RootHandler(DI.get(), pagesStorage)
 
     init {
         provideDependencies()
@@ -52,7 +52,7 @@ class Server {
     }
 
     private fun watchForBlogSources(body: () -> Unit) {
-        val sourcesFolder = DI2.get<RuntimeConfig>()
+        val sourcesFolder = DI.get<RuntimeConfig>()
             .glow
             .sourceDir
             .toFile()
