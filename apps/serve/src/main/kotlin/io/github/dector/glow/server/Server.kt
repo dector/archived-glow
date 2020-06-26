@@ -20,20 +20,15 @@ class Server {
 
     private val pagesStorage = mutableSetOf<WebPage>()
 
-    private lateinit var glowEngine: GlowEngine
+    private val glowEngine = provideGlowEngine(pagesStorage)
 
     private val app: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
     }
+
     private val rootHandler = RootHandler(DI.get(), pagesStorage)
 
-    init {
-        provideDependencies()
-    }
-
     fun run() {
-        injectDependencies()
-
         startServer(PORT)
         buildAndServeBlog()
 
@@ -42,15 +37,6 @@ class Server {
         }
     }
 
-    private fun provideDependencies() {
-        glowEngine = buildGlowEngine(
-            publisher = InMemoryDataPublisher(pagesStorage)
-        )
-    }
-
-    private fun injectDependencies() {
-        glowEngine = buildGlowEngine()
-    }
 
     private fun watchForBlogSources(body: () -> Unit) {
         val sourcesFolder = DI.get<RuntimeConfig>()
@@ -94,3 +80,8 @@ class Server {
 }
 
 private const val PORT = 9217
+
+private fun provideGlowEngine(pagesStorage: MutableSet<WebPage>) =
+    buildGlowEngine(
+        publisher = InMemoryDataPublisher(pagesStorage)
+    )
