@@ -10,7 +10,4 @@ dependencies {
     implementation(project(":config"))
 
     implementation(Deps.flexmark)
-
-    // FIXME remove this dependcy for di
-    implementation(rootProject)
 }
