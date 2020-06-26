@@ -73,7 +73,7 @@ interface WebsiteConfig {
 
 data class NavigationEntry(val path: String, val title: String, val sectionCode: String)
 
-fun buildRuntimeConfig(
+internal fun buildRuntimeConfig(
     projectDir: Path,
     projectConfig: CProject,
     launchConfig: LaunchConfig

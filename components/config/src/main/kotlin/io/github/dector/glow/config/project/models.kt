@@ -5,25 +5,25 @@ import java.io.File
 import java.nio.file.Path
 
 
-data class CProject(
+internal data class CProject(
     val glow: CGlow,
     val blog: CBlog,
     val plugins: CPlugins
 )
 
-data class CGlow(
+internal data class CGlow(
     val config: CConfig,
     val output: COutput,
     val assets: CAssets
 )
 
-data class CConfig(val version: String)
+internal data class CConfig(val version: String)
 
-data class COutput(val overrideFiles: Boolean)
+internal data class COutput(val overrideFiles: Boolean)
 
-data class CAssets(val targetPath: Path)
+internal data class CAssets(val targetPath: Path)
 
-data class CBlog(
+internal data class CBlog(
     val title: String,
     val navigation: List<CNavigation>,
     val footer: CFooter,
@@ -31,23 +31,23 @@ data class CBlog(
     val outputDir: File
 )
 
-data class CNavigation(
+internal data class CNavigation(
     val id: String,
     val title: String,
     val path: String,
     val type: NavItemType
 )
 
-data class CFooter(
+internal data class CFooter(
     val author: String,
     val year: String,
     val licenseName: String,
     val licenseUrl: String
 )
 
-data class CPlugins(val notes: CNotesPlugin)
+internal data class CPlugins(val notes: CNotesPlugin)
 
-data class CNotesPlugin(
+internal data class CNotesPlugin(
     val sourceDir: File,
     val path: String
 )
