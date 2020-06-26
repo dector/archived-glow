@@ -1,6 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
-import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.engine.HtmlWebPageContent
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.body

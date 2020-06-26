@@ -1,9 +1,10 @@
-package io.github.dector.glow.core.components
+package io.github.dector.glow.engine.defaults
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.RssFeed
-import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.engine.DataPublisher
+import io.github.dector.glow.engine.RssFeed
+import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.WebPagePath
 import io.github.dector.glow.logger.logger
 import io.github.dector.ktx.ensureParentDirectoryExists
 import java.io.File

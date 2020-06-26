@@ -1,11 +1,11 @@
 package io.github.dector.glow.server.components
 
-import io.github.dector.glow.core.HtmlWebPageContent
-import io.github.dector.glow.core.RssFeed
-import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.WebPagePath
-import io.github.dector.glow.core.components.DataPublisher
-import io.github.dector.glow.core.isLost
+import io.github.dector.glow.engine.DataPublisher
+import io.github.dector.glow.engine.HtmlWebPageContent
+import io.github.dector.glow.engine.RssFeed
+import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.WebPagePath
+import io.github.dector.glow.engine.isLost
 
 class InMemoryDataPublisher(
     private val storage: MutableSet<WebPage>

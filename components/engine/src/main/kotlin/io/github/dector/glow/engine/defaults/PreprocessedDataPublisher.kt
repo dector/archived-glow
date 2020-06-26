@@ -1,10 +1,11 @@
-package io.github.dector.glow.core.components
+package io.github.dector.glow.engine.defaults
 
-import io.github.dector.glow.core.RssFeed
-import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.isLost
+import io.github.dector.glow.engine.DataPublisher
+import io.github.dector.glow.engine.RssFeed
+import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.isLost
 import io.github.dector.glow.utils.prettyPrint
-import io.github.dector.glow.utils.transformIf
+import io.github.dector.ktx.applyIf
 
 class PreprocessedDataPublisher(
     private val nextPublisher: DataPublisher
@@ -20,8 +21,8 @@ class PreprocessedDataPublisher(
         }
 
         val transformedWebPage = webPage
-            .transformIf(PRETTY_PRINT_HTML) {
-                it.copy(content = it.content.prettyPrint())
+            .applyIf(PRETTY_PRINT_HTML) {
+                copy(content = content.prettyPrint())
             }
 
         nextPublisher.publish(transformedWebPage)

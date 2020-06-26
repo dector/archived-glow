@@ -1,8 +1,8 @@
 package io.github.dector.glow.core.theming
 
-import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.HtmlWebPageContent
-import io.github.dector.glow.core.components.RenderContext
+import io.github.dector.glow.engine.BlogVM
+import io.github.dector.glow.engine.HtmlWebPageContent
+import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 
 interface Template {

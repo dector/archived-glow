@@ -1,10 +1,10 @@
 package io.github.dector.glow.core.vm
 
 import io.github.dector.glow.config.WebsiteConfig
-import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.FooterVM
-import io.github.dector.glow.core.config.NavItemType
-import io.github.dector.glow.core.config.NavigationItem
+import io.github.dector.glow.engine.BlogVM
+import io.github.dector.glow.engine.FooterVM
+import io.github.dector.glow.engine.NavItemType
+import io.github.dector.glow.engine.NavigationItem
 
 fun buildBlogVM(config: WebsiteConfig) = BlogVM(
     title = config.title,

@@ -1,8 +1,8 @@
 package io.github.dector.glow.server
 
-import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
+import io.github.dector.glow.engine.WebPage
 import io.javalin.Javalin
 
 class Server(

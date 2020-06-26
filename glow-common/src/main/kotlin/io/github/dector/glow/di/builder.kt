@@ -2,12 +2,12 @@ package io.github.dector.glow.di
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.components.DataPublisher
-import io.github.dector.glow.core.components.FileDataPublisher
-import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
+import io.github.dector.glow.engine.DataPublisher
+import io.github.dector.glow.engine.GlowEngine
+import io.github.dector.glow.engine.defaults.FileDataPublisher
+import io.github.dector.glow.engine.defaults.PreprocessedDataPublisher
 import io.github.dector.glow.plugins.notes.DefaultNotesDataRenderer
 import io.github.dector.glow.plugins.notes.FileSystemNotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataProvider

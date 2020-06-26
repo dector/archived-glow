@@ -1,8 +1,8 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.core.HtmlContent
-import io.github.dector.glow.core.MarkdownContent
-import io.github.dector.glow.core.WebPagePath
+import io.github.dector.glow.engine.HtmlContent
+import io.github.dector.glow.engine.MarkdownContent
+import io.github.dector.glow.engine.WebPagePath
 import java.io.File
 import java.time.Instant
 

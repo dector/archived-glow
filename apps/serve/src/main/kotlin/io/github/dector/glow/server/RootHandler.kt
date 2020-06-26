@@ -1,7 +1,7 @@
 package io.github.dector.glow.server
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.WebPage
+import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.javalin.http.Context
 import io.javalin.http.Handler

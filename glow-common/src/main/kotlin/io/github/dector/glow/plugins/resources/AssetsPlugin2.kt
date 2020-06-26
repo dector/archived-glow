@@ -1,8 +1,8 @@
 package io.github.dector.glow.plugins.resources
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.components.GlowPipeline
 import io.github.dector.glow.core.config.NotesPluginConfig
+import io.github.dector.glow.engine.GlowPipeline
 
 
 class AssetsPlugin2(

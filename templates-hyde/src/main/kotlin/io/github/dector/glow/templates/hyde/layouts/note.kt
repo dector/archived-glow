@@ -1,6 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
-import io.github.dector.glow.core.BlogVM
+import io.github.dector.glow.engine.BlogVM
 import io.github.dector.glow.plugins.notes.NoteVM
 import kotlinx.html.DIV
 import kotlinx.html.div

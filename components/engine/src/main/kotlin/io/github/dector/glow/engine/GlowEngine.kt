@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.components
+package io.github.dector.glow.engine
 
 import io.github.dector.glow.logger.logger
 

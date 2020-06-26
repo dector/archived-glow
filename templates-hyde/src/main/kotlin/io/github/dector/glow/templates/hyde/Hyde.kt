@@ -1,13 +1,13 @@
 package io.github.dector.glow.templates.hyde
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.components.RenderContext
-import io.github.dector.glow.core.config.NavItemType
-import io.github.dector.glow.core.config.NavigationItem
 import io.github.dector.glow.core.theming.Template
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
+import io.github.dector.glow.engine.BlogVM
+import io.github.dector.glow.engine.NavItemType
+import io.github.dector.glow.engine.NavigationItem
+import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 import io.github.dector.glow.templates.hyde.layouts.noteContent
 import io.github.dector.glow.templates.hyde.layouts.notesIndexContent

@@ -1,14 +1,14 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.WebPagePath
-import io.github.dector.glow.core.components.DataPublisher
-import io.github.dector.glow.core.components.GlowPipeline
-import io.github.dector.glow.core.components.RenderContext
 import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.vm.buildBlogVM
+import io.github.dector.glow.engine.BlogVM
+import io.github.dector.glow.engine.DataPublisher
+import io.github.dector.glow.engine.GlowPipeline
+import io.github.dector.glow.engine.RenderContext
+import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.WebPagePath
 import io.github.dector.glow.templates.hyde.notesNavigationItem
 
 

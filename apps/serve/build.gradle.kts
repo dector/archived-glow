@@ -7,6 +7,7 @@ dependencies {
 
     implementation(project(":glow-common"))
     implementation(project(":component-config"))
+    implementation(project(":component-engine"))
     implementation(project(":component-ktx"))
 
     implementation(Deps.javalin)

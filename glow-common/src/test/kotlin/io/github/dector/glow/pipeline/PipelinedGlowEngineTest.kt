@@ -1,8 +1,8 @@
 package io.github.dector.glow.pipeline
 
-import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.core.components.GlowEngine.ExecutionResult
-import io.github.dector.glow.core.components.GlowPipeline
+import io.github.dector.glow.engine.GlowEngine
+import io.github.dector.glow.engine.GlowEngine.ExecutionResult
+import io.github.dector.glow.engine.GlowPipeline
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 

@@ -1,6 +1,6 @@
 package io.github.dector.glow.utils
 
-import io.github.dector.glow.core.HtmlWebPageContent
+import io.github.dector.glow.engine.HtmlWebPageContent
 import org.w3c.tidy.Tidy
 import java.io.StringWriter
 

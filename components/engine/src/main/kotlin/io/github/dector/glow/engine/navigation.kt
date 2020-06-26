@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.config
+package io.github.dector.glow.engine
 
 data class NavigationItem(
     val path: String,

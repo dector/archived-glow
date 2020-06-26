@@ -2,13 +2,13 @@ package io.github.dector.glow.serve
 
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.config.provideProjectConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.di.get
 import io.github.dector.glow.di.provide
+import io.github.dector.glow.engine.GlowEngine
+import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.server.Server
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution

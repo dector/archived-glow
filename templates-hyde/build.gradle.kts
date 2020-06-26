@@ -7,6 +7,7 @@ dependencies {
     implementation(Deps.kotlinx.html)
 
     implementation(project(":component-config"))
+    implementation(project(":component-engine"))
     implementation(project(":glow-common"))
 
     testImplementation(Deps.kotlin_test)

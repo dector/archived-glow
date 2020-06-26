@@ -1,9 +1,9 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.core.MarkdownContent
 import io.github.dector.glow.core.parser.parseCreatedAt
 import io.github.dector.glow.core.parser.parsePublishedAt
 import io.github.dector.glow.core.parser.parseUpdatedAt
+import io.github.dector.glow.engine.MarkdownContent
 import io.github.dector.glow.plugins.notes.MetaProperty.CreatedAt
 import io.github.dector.glow.plugins.notes.MetaProperty.Draft
 import io.github.dector.glow.plugins.notes.MetaProperty.PublishedAt

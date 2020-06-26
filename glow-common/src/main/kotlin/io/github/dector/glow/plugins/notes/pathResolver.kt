@@ -1,8 +1,8 @@
 package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.path.cleanupTitleForWebPath
+import io.github.dector.glow.engine.WebPagePath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 

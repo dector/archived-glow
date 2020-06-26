@@ -1,6 +1,4 @@
-package io.github.dector.glow.core
-
-import io.github.dector.glow.core.config.NavigationItem
+package io.github.dector.glow.engine
 
 inline class MarkdownContent(val value: String)
 inline class HtmlContent(val value: String)
