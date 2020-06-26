@@ -1,19 +1,13 @@
 package io.github.dector.glow.cli.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
-import io.github.dector.glow.ui.UiConsole
+import io.github.dector.glow.di.DI
+import io.github.dector.glow.di.get
+import io.github.dector.glow.fish.FishApp
 
-class FishCommand(private val console: UiConsole) : CliktCommand(name = "fish") {
-
-    private val fish = """
-          /`·.¸
-         /¸...¸`:·
-     ¸.·´  ¸   `·.¸.·´)
-    : © ):´;      ¸  {
-     `·.¸ `·  ¸.·´\`·¸)
-         `\\´´\¸.·´     Hi, there!"""
+class FishCommand : CliktCommand(name = "fish") {
 
     override fun run() {
-        console.println(fish)
+        FishApp(DI.get()).execute()
     }
 }
