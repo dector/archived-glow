@@ -36,7 +36,7 @@ object Versions {
     val clikt = "2.4.0"
     val hjson = "3.0.0"
 
-    val javalin = "3.5.0"
+    val javalin = "3.9.1"
 
     val jtidy = "1.0.2"
     val flexmark = "0.62.2"
