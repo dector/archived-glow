@@ -1,7 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
 import io.github.dector.glow.plugins.notes.NoteVM
-import io.github.dector.glow.utils.takeIfNotEmpty
 import kotlinx.html.DIV
 import kotlinx.html.a
 import kotlinx.html.div
@@ -84,3 +83,6 @@ internal fun DIV.noteTags(note: NoteVM) {
 
 // FIXME provide in rendering context
 private fun tagPagePath(tag: String) = "/notes/tags/$tag/"
+
+private inline fun <T : List<R>, R : Any?> T.takeIfNotEmpty(): T? =
+    takeIf { it.isNotEmpty() }

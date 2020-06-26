@@ -9,6 +9,8 @@ dependencies {
     implementation(project(":glow-server"))
     implementation(project(":config"))
 
+    implementation(Deps.flexmark)
+
     // FIXME remove this dependcy for di
     implementation(rootProject)
 }

@@ -32,7 +32,7 @@ internal fun parseUpdatedAt(str: String?): Instant? =
     parseCreatedAt(str)
 
 internal fun parsePublishedAt(str: String?): Instant? =
-        parseCreatedAt(str)
+    parseCreatedAt(str)
 
 internal fun parseCreatedAt(str: String?): Instant? {
     str ?: return null

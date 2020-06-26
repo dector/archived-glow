@@ -10,7 +10,11 @@ dependencies {
     implementation(project(":logger"))
     implementation(project(":config"))
 
-    implementation(Deps.koin)
+    implementation(project(":templates-hyde"))
+
+    implementation(Deps.flexmark)
 
     implementation(Deps.jtidy)
+
+    testImplementation(Deps.kotlin_test)
 }

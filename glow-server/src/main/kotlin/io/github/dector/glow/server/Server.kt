@@ -1,26 +1,21 @@
 package io.github.dector.glow.server
 
-import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.WebPage
-import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.GlowEngine
-import io.github.dector.glow.core.components.PreprocessedDataPublisher
-import io.github.dector.glow.core.config.NotesPluginConfig
-import io.github.dector.glow.di.DI
-import io.github.dector.glow.di.get
+import io.github.dector.glow.di.DI2
+import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
 import io.github.dector.glow.utils.FileWatcher
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
 import io.github.dector.glow.utils.measureTimeMillis
 import io.javalin.Javalin
-import org.koin.dsl.module
 import java.nio.file.StandardWatchEventKinds.ENTRY_CREATE
 import java.nio.file.StandardWatchEventKinds.ENTRY_DELETE
 import java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
 
-class Server(private val launchConfig: LaunchConfig) {
+class Server {
 
     private val pagesStorage = mutableSetOf<WebPage>()
 
@@ -29,7 +24,7 @@ class Server(private val launchConfig: LaunchConfig) {
     private val app: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
     }
-    private val rootHandler = RootHandler(DI.get(), pagesStorage)
+    private val rootHandler = RootHandler(DI2.get(), pagesStorage)
 
     init {
         provideDependencies()
@@ -47,26 +42,17 @@ class Server(private val launchConfig: LaunchConfig) {
     }
 
     private fun provideDependencies() {
-        DI.reset()
-        DI.modify { koin ->
-            val notesPluginConfig = DI.get<NotesPluginConfig>().copy(copyAssets = false)
-
-            koin.modules(module {
-                single<DataPublisher>(override = true) {
-                    PreprocessedDataPublisher(InMemoryDataPublisher(pagesStorage))
-                }
-                single<LaunchConfig> { launchConfig }
-                single<NotesPluginConfig>(override = true) { notesPluginConfig }
-            })
-        }
+        glowEngine = buildGlowEngine(
+            publisher = InMemoryDataPublisher(pagesStorage)
+        )
     }
 
     private fun injectDependencies() {
-        glowEngine = DI.get()
+        glowEngine = buildGlowEngine()
     }
 
     private fun watchForBlogSources(body: () -> Unit) {
-        val sourcesFolder = DI.get<RuntimeConfig>()
+        val sourcesFolder = DI2.get<RuntimeConfig>()
             .glow
             .sourceDir
             .toFile()

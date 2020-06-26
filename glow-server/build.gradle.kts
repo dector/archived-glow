@@ -10,6 +10,4 @@ dependencies {
 
     implementation(Deps.javalin)
     implementation(Deps.slf4j_simple)
-
-    implementation(Deps.koin)
 }

@@ -6,4 +6,9 @@ data class NotesPluginConfig(
     val buildArchive: Boolean = false,
     val buildRss: Boolean = false,
     val copyAssets: Boolean = true
-)
+) {
+
+    companion object {
+        val get by lazy { NotesPluginConfig() }
+    }
+}

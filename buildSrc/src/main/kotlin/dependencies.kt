@@ -6,8 +6,6 @@ object Deps {
 
     const val slf4j_simple = "org.slf4j:slf4j-simple:${Versions.slf4j_simple}"
 
-    const val koin = "org.koin:koin-core:${Versions.koin}"
-
     const val clikt = "com.github.ajalt:clikt:${Versions.clikt}"
     const val json = "org.json:json:${Versions.json}"
     const val hjson = "org.hjson:hjson:${Versions.hjson}"
@@ -37,8 +35,6 @@ object Versions {
     const val kotlinx_html = "0.6.12"
 
     const val slf4j_simple = "1.7.26"
-
-    const val koin = "2.1.0-alpha-1"
 
     const val clikt = "2.2.0"
     const val json = "20190722"

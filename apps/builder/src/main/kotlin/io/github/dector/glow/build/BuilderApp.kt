@@ -5,11 +5,8 @@ import io.github.dector.glow.applyIf
 import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.config.provideProjectConfig
-import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.DI2
-import io.github.dector.glow.di.appModule
-import io.github.dector.glow.di.configModule
-import io.github.dector.glow.di.get
+import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.div
 import io.github.dector.glow.ui.UiConsole
 import java.io.File
@@ -35,7 +32,6 @@ class BuilderApp private constructor(
             if (!projectFileIn(projectDir).exists())
                 TODO("Notify about missing project file nicely")
 
-
             val projectConfig = run {
                 val launchConfig = LaunchConfig(
                     includeDrafts = includeDrafts
@@ -44,29 +40,15 @@ class BuilderApp private constructor(
                 provideProjectConfig(projectDir, launchConfig)
             }
             DI2.provide(projectConfig)
-            initApp()
 
             val ui = UiConsole.get
                 .applyIf(quiet) { isEnabled = false }
 
-            return BuilderApp(ui, DI.get())
-        }
-    }
-}
+            val glowEngine = buildGlowEngine()
 
-private fun initApp() {
-    DI.init()
-    //DI.init()
-    DI.resetAction = {
-        DI.init()
-        DI.modify {
-            it.modules(
-                configModule(),
-                appModule()
-            )
+            return BuilderApp(ui, glowEngine)
         }
     }
-    DI.reset()  // Will call init()
 }
 
 private const val ConfigFileName = "website.glow"

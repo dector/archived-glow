@@ -1,14 +1,16 @@
 package io.github.dector.glow.pipeline
 
+import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.GlowEngine.ExecutionResult
+import io.github.dector.glow.core.components.GlowPipeline
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
 class PipelinedGlowEngineTest : BehaviorSpec({
 
     Given("empty pipeline") {
-        val engine = PipelinedGlowEngine(
-            pipeline = EmptyPipeline()
+        val engine = GlowEngine(
+            EmptyPipeline()
         )
 
         When("it is executed") {
@@ -21,8 +23,8 @@ class PipelinedGlowEngineTest : BehaviorSpec({
     }
 
     Given("empty pipeline that throws error") {
-        val engine = PipelinedGlowEngine(
-            pipeline = ErrorPipeline()
+        val engine = GlowEngine(
+            ErrorPipeline()
         )
 
         When("it is executed") {

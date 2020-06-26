@@ -8,6 +8,8 @@ dependencies {
     implementation(project(":config"))
     implementation(project(":glow-common"))
 
+    implementation(Deps.flexmark)
+
     // FIXME remove this dependcy for di
     implementation(rootProject)
 }
