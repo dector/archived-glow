@@ -26,7 +26,7 @@ class NotesPlugin(
         println("[== Notes ==]")
         print("Loading... ")
 
-        val (notes, loadingStats) = loadNotes()
+        val (notes, loadingStats) = loadNotes(dataProvider, config)
         println("found ${loadingStats.total}, using: ${loadingStats.used}, dropped: ${loadingStats.dropped}")
 
         val blog = buildBlogVM(config.website)
@@ -127,37 +127,6 @@ class NotesPlugin(
         }, overwrite = config.glow.overrideFiles)
     }
 
-    private fun loadNotes(): Pair<List<Note>, LoadingStats> {
-        fun List<Note>.dropDraftsIfNeeded() = when {
-            !config.glow.includeDrafts -> filterNot { it.isDraft }
-            else -> this
-        }
-
-        fun List<Note>.dropEmptyNotes() = filter { it.content.value.isNotBlank() }
-
-        fun List<Note>.ensureTitlesArePresent(): List<Note> = map {
-            if (it.title.isNotBlank()) it
-            else it.copy(title = "Untitled note ${it.hashCode()}")
-        }
-
-        val allNotes = dataProvider.fetchNotes()
-
-        val filteredNotes = allNotes
-            .dropDraftsIfNeeded()
-            .dropEmptyNotes()
-            .ensureTitlesArePresent()
-
-        val stats = run {
-            val total = allNotes.size
-            val used = filteredNotes.size
-            val dropped = total - used
-
-            LoadingStats(total, used, dropped)
-        }
-        return filteredNotes to stats
-    }
-
-
     private fun String.log() {
         logger.info(this)
     }
@@ -175,9 +144,3 @@ interface NotesDataRenderer {
 
     fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage
 }
-
-private data class LoadingStats(
-    val total: Int,
-    val used: Int,
-    val dropped: Int
-)
