@@ -4,7 +4,6 @@ import io.github.dector.glow.engine.BlogVM
 import io.github.dector.glow.engine.NavItemType
 import io.github.dector.glow.engine.NavigationItem
 import io.github.dector.glow.engine.WebPagePath
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
 class UtilsTest : BehaviorSpec({

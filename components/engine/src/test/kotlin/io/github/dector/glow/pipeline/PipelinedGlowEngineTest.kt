@@ -1,7 +1,6 @@
 package io.github.dector.glow.pipeline
 
 import io.github.dector.glow.engine.GlowEngine
-import io.github.dector.glow.engine.GlowEngine.ExecutionResult
 import io.github.dector.glow.engine.GlowPipeline
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
@@ -17,7 +16,7 @@ class PipelinedGlowEngineTest : BehaviorSpec({
             val result = engine.execute()
 
             Then("execution should be success") {
-                (result is ExecutionResult.Success) shouldBe true
+                (result is GlowEngine.ExecutionResult.Success) shouldBe true
             }
         }
     }
@@ -31,7 +30,7 @@ class PipelinedGlowEngineTest : BehaviorSpec({
             val result = engine.execute()
 
             Then("execution should be failure") {
-                (result is ExecutionResult.Fail) shouldBe true
+                (result is GlowEngine.ExecutionResult.Fail) shouldBe true
             }
         }
     }

@@ -11,7 +11,6 @@ dependencies {
     implementation(project(":component-engine"))
     implementation(project(":component-engine-builder"))
     implementation(project(":component-ktx"))
-    implementation(project(":glow-common"))
 
     implementation(Deps.flexmark)
 }

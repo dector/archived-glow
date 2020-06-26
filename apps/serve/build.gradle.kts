@@ -11,8 +11,6 @@ dependencies {
     implementation(project(":component-engine-builder"))
     implementation(project(":component-ktx"))
 
-    implementation(project(":glow-common"))
-
     implementation(Deps.javalin)
     implementation(Deps.slf4j_simple)
 }

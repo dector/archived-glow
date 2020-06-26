@@ -5,6 +5,8 @@ plugins {
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
 
+    implementation(rootProject)
+
     implementation(project(":component-di"))
     implementation(project(":component-logger"))
     implementation(project(":component-config"))
@@ -12,4 +14,6 @@ dependencies {
     implementation(project(":component-parser-md"))
 
     implementation(Deps.jtidy)
+
+    testImplementation(Deps.kotlin_test)
 }

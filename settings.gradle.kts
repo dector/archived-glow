@@ -1,25 +1,22 @@
 rootProject.name = "glow"
 
-include(
-    "glow-common"
-)
+fun includeAllFrom(collectionDir: String, prefix: String? = null) {
+    fun findGradleProjectsIn(dir: String): Sequence<File> = File(dir)
+        .listFiles()
+        .let { it ?: emptyArray() }
+        .asSequence()
+        .filter { it.isDirectory }
+        .filter { File(it, "build.gradle.kts").exists() }
 
-fun findGradleProjectsIn(dir: String): Sequence<File> = File(dir)
-    .listFiles()!!
-    .asSequence()
-    .filter { it.isDirectory }
-    .filter { File(it, "build.gradle.kts").exists() }
+    findGradleProjectsIn(collectionDir).forEach { dir ->
+        val projectName = dir.name
+            .let { if (prefix != null) "$prefix-$it" else it }
+            .let { ":$it" }
 
-// Include projects from `components/` dir
-findGradleProjectsIn("components").forEach { dir ->
-    val projectName = ":component-${dir.name}"
-    include(projectName)
-    project(projectName).projectDir = File("${dir.parent}/${dir.name}")
+        include(projectName)
+        project(projectName).projectDir = File("${dir.parent}/${dir.name}")
+    }
 }
 
-// Include projects from `apps/` dir with `app-` prefix
-findGradleProjectsIn("apps").forEach { dir ->
-    val projectName = ":app-${dir.name}"
-    include(projectName)
-    project(projectName).projectDir = File("${dir.parent}/${dir.name}")
-}
+includeAllFrom("components", prefix = "component")
+includeAllFrom("apps", prefix = "app")
