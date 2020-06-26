@@ -1,6 +1,7 @@
 package io.github.dector.glow.build
 
 import io.github.dector.glow.CLI_HEADER
+import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
@@ -24,12 +25,16 @@ class BuilderApp private constructor(
     companion object {
         fun create(
             projectDir: File,
+            includeDrafts: Boolean,
             quiet: Boolean
         ): BuilderApp {
             if (!projectFileIn(projectDir).exists())
                 TODO("Notify about missing project file nicely")
 
-            initApp(projectDir)
+            val launchConfig = LaunchConfig(
+                includeDrafts = includeDrafts
+            )
+            initApp(projectDir, launchConfig)
 
             val ui = DI.get<UiConsole>()
             if (quiet) ui.isEnabled = false
@@ -39,12 +44,12 @@ class BuilderApp private constructor(
     }
 }
 
-private fun initApp(projectDir: File) {
+private fun initApp(projectDir: File, launchConfig: LaunchConfig) {
     //DI.init()
     DI.resetAction = {
         DI.init()
         DI.modify {
-            it.modules(appModule(projectDir))
+            it.modules(appModule(projectDir, launchConfig))
         }
     }
     DI.reset()  // Will call init()

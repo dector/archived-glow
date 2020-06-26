@@ -76,7 +76,7 @@ private fun JsonObject.asCNotesPlugin(context: ParsingContext) = CNotesPlugin(
 
 data class ParsingContext(
     val dir: File,
-    val launchConfig: LaunchConfig = LaunchConfig()  // FIXME get from cli
+    val launchConfig: LaunchConfig
 )
 
 private fun JsonObject.getObject(name: String) = get(name).asObject()

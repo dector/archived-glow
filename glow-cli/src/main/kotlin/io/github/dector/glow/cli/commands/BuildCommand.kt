@@ -14,12 +14,16 @@ class BuildCommand : CliktCommand(name = "build") {
         .file(exists = true)
         .default(File("."))
 
+    private val includeDrafts by option("--include-drafts")
+        .flag()
+
     private val quiet by option("-q", "--quiet",
         help = "Don't print anything").flag()
 
     override fun run() {
         BuilderApp.create(
             projectDir = project,
+            includeDrafts = includeDrafts,
             quiet = quiet
         ).execute()
     }

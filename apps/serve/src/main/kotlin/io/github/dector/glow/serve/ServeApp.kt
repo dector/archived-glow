@@ -18,8 +18,12 @@ class ServeApp private constructor(
     companion object {
         fun create(
             projectDir: File,
-            launchConfig: LaunchConfig
+            includeDrafts: Boolean
         ): ServeApp {
+            val launchConfig = LaunchConfig(
+                includeDrafts = includeDrafts
+            )
+
             initApp(projectDir)
 
             return ServeApp(Server(launchConfig))
@@ -32,7 +36,7 @@ private fun initApp(projectDir: File) {
     DI.resetAction = {
         DI.init()
         DI.modify {
-            it.modules(appModule(projectDir))
+            it.modules(appModule(projectDir, LaunchConfig()))
         }
     }
     DI.reset()  // Will call init()

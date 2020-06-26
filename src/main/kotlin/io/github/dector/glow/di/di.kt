@@ -2,6 +2,7 @@ package io.github.dector.glow.di
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
+import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.components.DataPublisher
 import io.github.dector.glow.core.components.FileDataPublisher
@@ -29,7 +30,7 @@ import io.github.dector.glow.ui.UiConsole
 import org.koin.dsl.module
 import java.io.File
 
-fun appModule(projectDir: File) = module {
+fun appModule(projectDir: File, launchConfig: LaunchConfig) = module {
     single<GlowPipeline> {
         val logger = UILogger
 
@@ -51,7 +52,7 @@ fun appModule(projectDir: File) = module {
 
     // mocks
 
-    single<RuntimeConfig> { provideProjectConfig(projectDir) }
+    single<RuntimeConfig> { provideProjectConfig(projectDir, launchConfig) }
     single<NotesPluginConfig> { NotesPluginConfig() }
     single<DataPublisher> { PreprocessedDataPublisher(FileDataPublisher(get())) }
 

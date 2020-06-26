@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
-import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.serve.ServeApp
 import java.io.File
 
@@ -19,13 +18,9 @@ class ServeCommand : CliktCommand(name = "serve") {
         .flag()
 
     override fun run() {
-        val config = LaunchConfig(
-            includeDrafts = includeDrafts
-        )
-
         ServeApp.create(
             projectDir = project,
-            launchConfig = config
+            includeDrafts = includeDrafts
         ).execute()
     }
 }

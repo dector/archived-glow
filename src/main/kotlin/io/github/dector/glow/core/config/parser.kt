@@ -1,5 +1,6 @@
 package io.github.dector.glow.core.config
 
+import io.github.dector.glow.config.LaunchConfig
 import io.github.dector.glow.config.buildRuntimeConfig
 import io.github.dector.glow.config.project.ParsingContext
 import java.io.File
@@ -21,7 +22,8 @@ fun main() {
     val dir = File("blog")
 
     val context = ParsingContext(
-        dir = dir
+        dir = dir,
+        launchConfig = LaunchConfig()
     )
 
     val configFile = findConfig(dir)
