@@ -9,9 +9,9 @@ import io.github.dector.glow.core.components.GlowEngine
 import io.github.dector.glow.core.components.PreprocessedDataPublisher
 import io.github.dector.glow.core.config.NotesPluginConfig
 import io.github.dector.glow.core.config.provideProjectConfig
-import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.core.parser.SimpleMarkdownParser
+import io.github.dector.glow.logger.UILogger
 import io.github.dector.glow.pipeline.GlowPipeline
 import io.github.dector.glow.pipeline.PipelinedGlowEngine
 import io.github.dector.glow.pipeline.PluggablePipeline

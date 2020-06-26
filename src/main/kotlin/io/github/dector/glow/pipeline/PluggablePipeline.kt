@@ -1,10 +1,10 @@
 package io.github.dector.glow.pipeline
 
-import io.github.dector.glow.core.logger.logger
+import io.github.dector.glow.logger.logger
 
 
 class PluggablePipeline(
-        private vararg val plugins: GlowPipeline
+    private vararg val plugins: GlowPipeline
 ) : GlowPipeline {
 
     override fun execute() {

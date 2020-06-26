@@ -1,6 +1,6 @@
 package io.github.dector.glow.ui
 
-import io.github.dector.glow.core.logger.UiConfig
+import io.github.dector.glow.logger.setUiLoggerEnabled
 import java.io.PrintStream
 
 class StdUiConsole(
@@ -10,7 +10,7 @@ class StdUiConsole(
     override var isEnabled: Boolean = true
         set(value) {
             field = value
-            UiConfig.isUiLoggerEnabled = value
+            setUiLoggerEnabled(value)
         }
 
     override fun print(text: String) {

@@ -32,6 +32,7 @@ dependencies {
     implementation(Deps.kotlin_reflection)  // can be removed later
 
     implementation(project(":config"))
+    implementation(project(":logger"))
     implementation(project(":glow-common"))
     implementation(project(":glow-cli"))
 

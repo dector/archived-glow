@@ -1,4 +1,4 @@
-package io.github.dector.glow.core.logger
+package io.github.dector.glow.logger
 
 import org.slf4j.helpers.MarkerIgnoringBase
 

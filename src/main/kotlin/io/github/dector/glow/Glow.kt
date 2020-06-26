@@ -1,10 +1,10 @@
 package io.github.dector.glow
 
 import io.github.dector.glow.cli.runCli
-import io.github.dector.glow.core.logger.RootLogger
-import io.github.dector.glow.core.logger.UILogger
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
+import io.github.dector.glow.logger.RootLogger
+import io.github.dector.glow.logger.UILogger
 import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
 import io.github.dector.glow.utils.measureTimeMillis
 import java.io.File
