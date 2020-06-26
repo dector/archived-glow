@@ -46,23 +46,25 @@ class NotesPlugin(
         if (!runOptions.buildNotePages) return
 
         notes.forEach { note ->
-            " * ${note.sourceFile.nameWithoutExtension}".log()
-            "Processing...".log()
+            val noteName = note.sourceFile.nameWithoutExtension
+            print("File: '$noteName' .")
 
+            print(".") // processing
             val webPage = dataRenderer.render(blog, note)
 
-            "Publishing...".log()
+            print(".") // publishing
             dataPublisher.publish(webPage)
+
+            println()
         }
-        "".log()
     }
 
     private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
         if (!runOptions.buildNotesIndex) return
 
-        "Notes index".log()
-        "Processing...".log()
+        print("Index .")
 
+        print(".") // processing
         val context = RenderContext(
             blog = blog,
             navigationItem = blog.notesNavigationItem()!!
@@ -70,7 +72,7 @@ class NotesPlugin(
 
         val webPage = dataRenderer.renderNotesIndex(notes, context)
 
-        "Publishing...".log()
+        print(".") // publishing
         dataPublisher.publish(webPage)
 
         // FIXME
@@ -78,23 +80,28 @@ class NotesPlugin(
             dataPublisher.publish(it)
         }
 
-        "".log()
+        println()
     }
 
     private fun buildTagsPages(blog: BlogVM, notes: List<Note>) {
-        "Tag pages...".log()
 
         val tags = notes
             .flatMap(Note::tags)
             .distinct()
 
         tags.forEach { tag ->
-            val notes = notes.filter { tag in it.tags }
-            val webPage = dataRenderer.renderTagPage(blog, notes, tag)
-            dataPublisher.publish(webPage)
-        }
+            print("Tag: $tag .")
 
-        "".log()
+            val taggedNotes = notes.filter { tag in it.tags }
+
+            print(".") // processing
+            val webPage = dataRenderer.renderTagPage(blog, taggedNotes, tag)
+
+            print(".") // publishing
+            dataPublisher.publish(webPage)
+
+            println()
+        }
     }
 
     private fun buildArchive(blog: BlogVM, notes: List<Note>) {
