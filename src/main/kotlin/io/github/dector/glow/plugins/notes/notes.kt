@@ -24,9 +24,11 @@ class NotesPlugin(
 ) : GlowPipeline {
 
     override fun execute() {
-        "Loading notes...".logn()
+        println("[== Notes ==]")
+        print("Loading... ")
 
-        val notes = loadNotes()
+        val (notes, loadingStats) = loadNotes()
+        println("found ${loadingStats.total}, using: ${loadingStats.used}, dropped: ${loadingStats.dropped}")
 
         val blog = buildBlogVM(config.website)
 
@@ -37,7 +39,7 @@ class NotesPlugin(
         copyAssets()
         buildRss(blog, notes)
 
-        "".log()
+        println("")
     }
 
     private fun buildNotes(blog: BlogVM, notes: List<Note>) {
@@ -128,7 +130,7 @@ class NotesPlugin(
         dataPublisher.publish(rss)
     }
 
-    private fun loadNotes(): List<Note> {
+    private fun loadNotes(): Pair<List<Note>, LoadingStats> {
         fun List<Note>.dropDraftsIfNeeded() = when {
             !config.glow.includeDrafts -> filterNot { it.isDraft }
             else -> this
@@ -148,9 +150,14 @@ class NotesPlugin(
             .dropEmptyNotes()
             .ensureTitlesArePresent()
 
-        "Loaded ${allNotes.size} notes, using: ${filteredNotes.size}".log()
+        val stats = run {
+            val total = allNotes.size
+            val used = filteredNotes.size
+            val dropped = total - used
 
-        return filteredNotes
+            LoadingStats(total, used, dropped)
+        }
+        return filteredNotes to stats
     }
 
 
@@ -158,10 +165,6 @@ class NotesPlugin(
         logger.info(this)
     }
 
-    private fun String.logn() {
-        this.log()
-        "".log()
-    }
 }
 
 interface NotesDataProvider {
@@ -177,3 +180,9 @@ interface NotesDataRenderer {
 
     fun renderRss(blog: BlogVM, notes: List<Note>): RssFeed
 }
+
+private data class LoadingStats(
+    val total: Int,
+    val used: Int,
+    val dropped: Int
+)
