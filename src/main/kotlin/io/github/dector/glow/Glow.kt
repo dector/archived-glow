@@ -5,8 +5,6 @@ import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.appModule
 import io.github.dector.glow.logger.RootLogger
 import io.github.dector.glow.logger.UILogger
-import io.github.dector.glow.utils.StopWatch.Companion.DefaultSecondsFormatter
-import io.github.dector.glow.utils.measureTimeMillis
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -18,9 +16,7 @@ fun main(args: Array<String>) {
         .let { args[it + 1] }
     initApp(projectPath)
 
-    measureAndPrintExecution {
-        executeApp(args)
-    }
+    executeApp(args)
 }
 
 private fun initApp(projectPath: String) {
@@ -37,25 +33,16 @@ private fun initApp(projectPath: String) {
     DI.reset()  // Will call init()
 }
 
-private fun measureAndPrintExecution(operation: () -> Unit) {
-    val result = measureTimeMillis {
-        operation()
-    }
-    val timeToDisplay = DefaultSecondsFormatter(result.time)
-
-    if (result.result != null) {
-        UILogger.info("\nFinished in $timeToDisplay.")
-    } else if (result.error != null) {
-        UILogger.info("\nFailed after $timeToDisplay.")
-        exitProcess(1)
-    }
-}
-
 private fun executeApp(args: Array<String>) {
-    try {
-        runCli(args)
-    } catch (e: Throwable) {
-        RootLogger.error(e.message, e)
-        throw e
-    }
+    val action = { runCli(args) }
+
+    runCatching(action)
+        .onFailure { e ->
+            RootLogger.error(e.message, e)
+
+            UILogger.info("\nFailed with exception: '${e.message}'.")
+            exitProcess(1)
+        }.onSuccess {
+            UILogger.info("\nFinished successfully.")
+        }.getOrNull()
 }
