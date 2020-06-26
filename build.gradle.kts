@@ -20,7 +20,8 @@ dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
 
     implementation(project(":component-logger"))
-    implementation(project(":glow-cli"))
+
+    implementation(project(":app-cli"))
 }
 
 application {
