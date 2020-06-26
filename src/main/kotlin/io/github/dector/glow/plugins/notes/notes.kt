@@ -2,7 +2,6 @@ package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.core.RssFeed
 import io.github.dector.glow.core.WebPage
 import io.github.dector.glow.core.WebPagePath
 import io.github.dector.glow.core.components.DataPublisher
@@ -37,7 +36,7 @@ class NotesPlugin(
         buildTagsPages(blog, notes)
         buildArchive(blog, notes)
         copyAssets()
-        buildRss(blog, notes)
+        //buildRss(blog, notes)
 
         println("")
     }
@@ -128,15 +127,6 @@ class NotesPlugin(
         }, overwrite = config.glow.overrideFiles)
     }
 
-    // FIXME implement as a separate plugin
-    private fun buildRss(blog: BlogVM, notes: List<Note>) {
-        if (!runOptions.buildRss) return
-
-        val rss = dataRenderer.renderRss(blog, notes)
-
-        dataPublisher.publish(rss)
-    }
-
     private fun loadNotes(): Pair<List<Note>, LoadingStats> {
         fun List<Note>.dropDraftsIfNeeded() = when {
             !config.glow.includeDrafts -> filterNot { it.isDraft }
@@ -184,8 +174,6 @@ interface NotesDataRenderer {
     fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage
 
     fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage
-
-    fun renderRss(blog: BlogVM, notes: List<Note>): RssFeed
 }
 
 private data class LoadingStats(
