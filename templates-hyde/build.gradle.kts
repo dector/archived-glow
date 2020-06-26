@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
-    implementation(Deps.kotlinx_html)
+    implementation(Deps.kotlinx.html)
 
     implementation(project(":component-config"))
     implementation(project(":glow-common"))

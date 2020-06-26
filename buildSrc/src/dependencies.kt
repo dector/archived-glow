@@ -3,7 +3,10 @@
 object Deps {
 
     val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-    val kotlinx_html = "org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.kotlinx_html}"
+
+    object kotlinx {
+        val html = "org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.kotlinx.html}"
+    }
 
     val slf4j_simple = "org.slf4j:slf4j-simple:${Versions.slf4j_simple}"
 
@@ -29,7 +32,10 @@ object GradlePlugins {
 object Versions {
 
     val kotlin = "1.3.72"
-    val kotlinx_html = "0.6.12"
+
+    object kotlinx {
+        val html = "0.7.1"
+    }
 
     val slf4j_simple = "1.7.26"
 
