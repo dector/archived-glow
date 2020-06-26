@@ -6,7 +6,7 @@ dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
     implementation(Deps.kotlinx_html)
 
-    implementation(project(":config"))
+    implementation(project(":component-config"))
     implementation(project(":glow-common"))
 
     testImplementation(Deps.kotlin_test)

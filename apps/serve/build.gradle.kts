@@ -7,7 +7,7 @@ dependencies {
 
     implementation(project(":glow-common"))
     implementation(project(":glow-server"))
-    implementation(project(":config"))
+    implementation(project(":component-config"))
 
     implementation(Deps.flexmark)
 }

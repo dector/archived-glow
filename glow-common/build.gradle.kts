@@ -7,8 +7,8 @@ plugins {
 
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
-    implementation(project(":logger"))
-    implementation(project(":config"))
+    implementation(project(":component-logger"))
+    implementation(project(":component-config"))
 
     implementation(project(":templates-hyde"))
 

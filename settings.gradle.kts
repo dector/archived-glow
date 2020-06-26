@@ -15,7 +15,7 @@ fun findGradleProjectsIn(dir: String): Sequence<File> = File(dir)
 
 // Include projects from `components/` dir
 findGradleProjectsIn("components").forEach { dir ->
-    val projectName = ":${dir.name}"
+    val projectName = ":component-${dir.name}"
     include(projectName)
     project(projectName).projectDir = File("${dir.parent}/${dir.name}")
 }
