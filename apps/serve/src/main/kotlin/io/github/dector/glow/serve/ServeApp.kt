@@ -30,10 +30,11 @@ class ServeApp private constructor(
     fun execute() {
         buildAndServeBlog()
 
-        watchForBlogSources {
+        server.run()
+
+        watchForBlogSourcesBlocking {
             buildAndServeBlog()
         }
-        server.run()
     }
 
     private fun buildAndServeBlog() {
@@ -82,7 +83,7 @@ private fun provideGlowEngine(pagesStorage: MutableSet<WebPage>) =
         publisher = InMemoryDataPublisher(pagesStorage)
     )
 
-private fun watchForBlogSources(body: () -> Unit) {
+private fun watchForBlogSourcesBlocking(body: () -> Unit) {
     val sourcesFolder = DI.get<RuntimeConfig>()
         .glow
         .sourceDir
