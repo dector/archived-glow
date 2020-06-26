@@ -18,19 +18,17 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
-    private val newConfig: RuntimeConfig,
-    private val runtimeConfig: RuntimeConfig,
+    private val config: RuntimeConfig,
+    private val runOptions: NotesPluginConfig,
     private val logger: Logger
 ) : GlowPipeline {
-
-    private val config = NotesPluginConfig()
 
     override fun execute() {
         "Loading notes...".logn()
 
         val notes = loadNotes()
 
-        val blog = buildBlogVM(runtimeConfig.website)
+        val blog = buildBlogVM(config.website)
 
         buildNotes(blog, notes)
         buildNotesIndex(blog, notes)
@@ -43,7 +41,7 @@ class NotesPlugin(
     }
 
     private fun buildNotes(blog: BlogVM, notes: List<Note>) {
-        if (!config.buildNotePages) return
+        if (!runOptions.buildNotePages) return
 
         notes.forEach { note ->
             " * ${note.sourceFile.nameWithoutExtension}".log()
@@ -58,7 +56,7 @@ class NotesPlugin(
     }
 
     private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
-        if (!config.buildNotesIndex) return
+        if (!runOptions.buildNotesIndex) return
 
         "Notes index".log()
         "Processing...".log()
@@ -98,7 +96,7 @@ class NotesPlugin(
     }
 
     private fun buildArchive(blog: BlogVM, notes: List<Note>) {
-        if (!config.buildArchive) return
+        if (!runOptions.buildArchive) return
 
         "Notes archive".log()
         "Processing...".log()
@@ -110,20 +108,20 @@ class NotesPlugin(
 
     // FIXME
     private fun copyAssets() {
-        if (!config.copyAssets) return
+        if (!runOptions.copyAssets) return
 
-        val src = runtimeConfig.glow.sourceDir.resolve("assets").toFile()
-        val dest = runtimeConfig.glow.outputDir.resolve("assets").toFile()
+        val src = config.glow.sourceDir.resolve("assets").toFile()
+        val dest = config.glow.outputDir.resolve("assets").toFile()
 
         src.copyRecursively(dest, onError = { file, e ->
             System.err.println("Can't copy asset '${file.absolutePath}' because of ${e.message}")
             OnErrorAction.SKIP
-        }, overwrite = runtimeConfig.glow.overrideFiles)
+        }, overwrite = config.glow.overrideFiles)
     }
 
     // FIXME implement as a separate plugin
     private fun buildRss(blog: BlogVM, notes: List<Note>) {
-        if (!config.buildRss) return
+        if (!runOptions.buildRss) return
 
         val rss = dataRenderer.renderRss(blog, notes)
 
@@ -132,7 +130,7 @@ class NotesPlugin(
 
     private fun loadNotes(): List<Note> {
         fun List<Note>.dropDraftsIfNeeded() = when {
-            newConfig.glow.includeDrafts -> filterNot { it.isDraft }
+            config.glow.includeDrafts -> filterNot { it.isDraft }
             else -> this
         }
 
