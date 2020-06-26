@@ -3,22 +3,17 @@
 object Deps {
 
     val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-    val kotlin_reflection = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
     val kotlinx_html = "org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.kotlinx_html}"
 
     val slf4j_simple = "org.slf4j:slf4j-simple:${Versions.slf4j_simple}"
 
     val clikt = "com.github.ajalt:clikt:${Versions.clikt}"
-    val json = "org.json:json:${Versions.json}"
     val hjson = "org.hjson:hjson:${Versions.hjson}"
 
     val javalin = "io.javalin:javalin:${Versions.javalin}"
 
-    val rome = "com.rometools:rome:${Versions.rome}"
-
     val jtidy = "com.github.jtidy:jtidy:${Versions.jtidy}"
     val flexmark = "com.vladsch.flexmark:flexmark-all:${Versions.flexmark}"
-    val eo_yaml = "com.amihaiemil.web:eo-yaml:${Versions.eo_yaml}"
 
     val kotlin_test = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlin_test}"
 }
