@@ -56,5 +56,5 @@ object Versions {
 
 object Config {
 
-    val version = "0.2.3-SNAPSHOT"
+    val version = "0.3-SNAPSHOT"
 }
