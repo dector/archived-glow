@@ -2,7 +2,7 @@ package io.github.dector.glow.pipeline
 
 import io.github.dector.glow.engine.GlowEngine
 import io.github.dector.glow.engine.GlowPipeline
-import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrowAny
 import io.kotlintest.specs.BehaviorSpec
 
 class PipelinedGlowEngineTest : BehaviorSpec({
@@ -13,11 +13,7 @@ class PipelinedGlowEngineTest : BehaviorSpec({
         )
 
         When("it is executed") {
-            val result = engine.execute()
-
-            Then("execution should be success") {
-                (result is GlowEngine.ExecutionResult.Success) shouldBe true
-            }
+            engine.execute()
         }
     }
 
@@ -27,10 +23,10 @@ class PipelinedGlowEngineTest : BehaviorSpec({
         )
 
         When("it is executed") {
-            val result = engine.execute()
+            val action = { engine.execute() }
 
             Then("execution should be failure") {
-                (result is GlowEngine.ExecutionResult.Fail) shouldBe true
+                shouldThrowAny(action)
             }
         }
     }
@@ -38,12 +34,12 @@ class PipelinedGlowEngineTest : BehaviorSpec({
 
 private class EmptyPipeline : GlowPipeline {
 
-    override fun execute() {}
+    override fun onExecute() {}
 }
 
 private class ErrorPipeline : GlowPipeline {
 
-    override fun execute() {
+    override fun onExecute() {
         throw object : Throwable() {}
     }
 }

@@ -11,7 +11,7 @@ class ThemeAssetsPlugin(
     private val config: RuntimeConfig
 ) : GlowPipeline {
 
-    override fun execute() {
+    override fun onExecute() {
         println("[=== Theme Assets ===]")
         copyThemeAssets()
     }

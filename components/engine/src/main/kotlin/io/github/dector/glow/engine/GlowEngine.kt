@@ -6,17 +6,16 @@ class GlowEngine(
     private vararg val pipelines: GlowPipeline
 ) {
 
-    fun execute(): ExecutionResult {
-        val result = runCatching {
-            pipelines.forEach {
-                logger().debug("Executing plugin: ${it::class.simpleName}")
-                it.execute()
-            }
+    fun execute() {
+        pipelines.forEach {
+            logger().debug("[Indexing] plugin: ${it::class.simpleName}")
+            it.onIndex()
         }
 
-        return if (result.isSuccess)
-            ExecutionResult.Success
-        else ExecutionResult.Fail(result.exceptionOrNull()!!)
+        pipelines.forEach {
+            logger().debug("[Executing] plugin: ${it::class.simpleName}")
+            it.onExecute()
+        }
     }
 
     sealed class ExecutionResult {
@@ -26,5 +25,6 @@ class GlowEngine(
 }
 
 interface GlowPipeline {
-    fun execute()
+    fun onIndex() {}
+    fun onExecute()
 }

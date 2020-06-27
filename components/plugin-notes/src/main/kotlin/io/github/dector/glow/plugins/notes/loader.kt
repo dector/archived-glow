@@ -1,29 +1,34 @@
 package io.github.dector.glow.plugins.notes
 
-import io.github.dector.glow.config.RuntimeConfig
+import io.github.dector.ktx.applyIf
 
 
-internal typealias NotesLoadingResult = Pair<List<Note>, LoadingStats>
+internal class NotesIndex {
+    lateinit var allNotes: List<Note>
+        private set
 
-internal fun loadNotes(
-    provider: NotesDataProvider,
-    config: RuntimeConfig
-): NotesLoadingResult {
-    val allNotes = provider.fetchNotes()
+    lateinit var notesToPublish: List<Note>
+        private set
 
-    val filteredNotes = allNotes
-        .dropDraftsIfNeeded(config.glow.includeDrafts)
-        .dropEmptyNotes()
-        .ensureTitlesArePresent()
+    fun populateFrom(provider: NotesDataProvider,
+                     includeDrafts: Boolean = false,
+                     includeEmpty: Boolean = false
+    ): LoadingStats {
+        allNotes = provider.fetchNotes()
 
-    val stats = run {
-        val total = allNotes.size
-        val used = filteredNotes.size
-        val dropped = total - used
+        notesToPublish = allNotes
+            .applyIf(!includeDrafts) { filterNot { it.isDraft } }
+            .applyIf(!includeEmpty) { filter { it.content.value.isNotBlank() } }
+            .ensureTitlesArePresent()
 
-        LoadingStats(total, used, dropped)
+        return run {
+            val total = allNotes.size
+            val used = notesToPublish.size
+            val dropped = total - used
+
+            LoadingStats(total, used, dropped)
+        }
     }
-    return filteredNotes to stats
 }
 
 internal data class LoadingStats(
@@ -31,14 +36,6 @@ internal data class LoadingStats(
     val used: Int,
     val dropped: Int
 )
-
-private fun List<Note>.dropDraftsIfNeeded(include: Boolean) = when {
-    !include -> filterNot { it.isDraft }
-    else -> this
-}
-
-private fun List<Note>.dropEmptyNotes() =
-    filter { it.content.value.isNotBlank() }
 
 private fun List<Note>.ensureTitlesArePresent(): List<Note> = map {
     if (it.title.isNotBlank()) it

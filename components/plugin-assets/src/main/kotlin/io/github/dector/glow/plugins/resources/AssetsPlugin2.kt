@@ -10,7 +10,7 @@ class AssetsPlugin2(
     private val runOptions: NotesPluginConfig
 ) : GlowPipeline {
 
-    override fun execute() {
+    override fun onExecute() {
         println("[== Assets ==]")
 
         if (!runOptions.copyAssets) return

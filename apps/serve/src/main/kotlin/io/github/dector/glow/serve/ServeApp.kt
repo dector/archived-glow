@@ -12,9 +12,6 @@ import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.plugins.notes.NotesPluginConfig
 import io.github.dector.glow.server.Server
 import io.github.dector.glow.server.components.InMemoryDataPublisher
-import io.github.dector.glow.utils.Execution
-import io.github.dector.glow.utils.StopWatch
-import io.github.dector.glow.utils.measureTimeMillis
 import io.github.dector.ktx.FileWatcher
 import java.io.File
 import java.nio.file.StandardWatchEventKinds.ENTRY_CREATE
@@ -42,18 +39,7 @@ class ServeApp internal constructor(
         println("Building blog...")
         storage.clear()
 
-        val executionResult: Execution<GlowEngine.ExecutionResult> = measureTimeMillis {
-            engine.execute()
-        }
-
-        executionResult.error.let { error ->
-            if (error != null) {
-                System.err.println("Failed: ${error.message}")
-            }
-        }
-
-        val executionTime = StopWatch.DefaultSecondsFormatter(executionResult.time)
-        println("Ready! (finished in $executionTime)")
+        engine.execute()
     }
 
     companion object

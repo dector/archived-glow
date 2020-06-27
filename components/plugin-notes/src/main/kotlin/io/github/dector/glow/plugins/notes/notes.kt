@@ -9,6 +9,7 @@ import io.github.dector.glow.engine.Paging
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.engine.WebPagePath
+import io.github.dector.glow.ui.UiConsole
 import io.github.dector.ktx.progress
 
 
@@ -24,15 +25,27 @@ class NotesPlugin(
     private val currentSection = config.website.navigation
         .first { it.sectionCode == "notes" }
 
-    override fun execute() {
-        println("[== Notes ==]")
-        print("Loading... ")
+    private val ui = UiConsole.get
 
-        val (notes, loadingStats) = loadNotes(dataProvider, config)
-        println("found ${loadingStats.total}, using: ${loadingStats.used}, dropped: ${loadingStats.dropped}")
+    private val index = NotesIndex()
+
+    override fun onIndex() {
+        ui.println("Indexing notes... ")
+
+        val stats = index.populateFrom(dataProvider,
+            includeDrafts = config.glow.includeDrafts,
+            includeEmpty = config.glow.includeDrafts
+        )
+
+        ui.println("found ${stats.total}, using: ${stats.used}, dropped: ${stats.dropped}")
+    }
+
+    override fun onExecute() {
+        ui.println("[== Notes ==]")
 
         val blog = buildBlogVM(config.website)
 
+        val notes = index.notesToPublish
         buildNotes(blog, notes)
         buildNotesIndex(blog, notes)
         buildTagsPages(blog, notes)
