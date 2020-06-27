@@ -8,7 +8,6 @@ import io.github.dector.glow.engine.GlowPipeline
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.engine.WebPagePath
-import io.github.dector.glow.theming.notesNavigationItem
 
 
 class NotesPlugin(
@@ -18,6 +17,9 @@ class NotesPlugin(
     private val config: RuntimeConfig,
     private val runOptions: NotesPluginConfig
 ) : GlowPipeline {
+
+    private val currentSection = config.website.navigation
+        .first { it.sectionCode == "notes" }
 
     override fun execute() {
         println("[== Notes ==]")
@@ -45,7 +47,8 @@ class NotesPlugin(
             print("File: '$noteName' .")
 
             print(".") // processing
-            val webPage = dataRenderer.render(blog, note)
+            val context = createRenderContext(blog)
+            val webPage = dataRenderer.render(note, context)
 
             print(".") // publishing
             dataPublisher.publish(webPage)
@@ -60,10 +63,7 @@ class NotesPlugin(
         print("Index .")
 
         print(".") // processing
-        val context = RenderContext(
-            blog = blog,
-            navigationItem = blog.notesNavigationItem()!!
-        )
+        val context = createRenderContext(blog)
 
         val webPage = dataRenderer.renderNotesIndex(notes, context)
 
@@ -90,7 +90,8 @@ class NotesPlugin(
             val taggedNotes = notes.filter { tag in it.tags }
 
             print(".") // processing
-            val webPage = dataRenderer.renderTagPage(blog, taggedNotes, tag)
+            val context = createRenderContext(blog)
+            val webPage = dataRenderer.renderTagPage(taggedNotes, tag, context)
 
             print(".") // publishing
             dataPublisher.publish(webPage)
@@ -98,6 +99,11 @@ class NotesPlugin(
             println()
         }
     }
+
+    private fun createRenderContext(blog: BlogVM) = RenderContext(
+        blog = blog,
+        currentNavSection = blog.navigation.first { it.path == currentSection.path }
+    )
 }
 
 interface NotesDataProvider {
@@ -105,11 +111,11 @@ interface NotesDataProvider {
 }
 
 interface NotesDataRenderer {
-    fun render(blog: BlogVM, note: Note): WebPage
+    fun render(note: Note, context: RenderContext): WebPage
     fun renderNotesIndex(notes: List<Note>, context: RenderContext): WebPage
-    fun renderNotesArchive(blog: BlogVM, notes: List<Note>): WebPage
+    fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage
 
-    fun renderTagPage(blog: BlogVM, notes: List<Note>, tag: String): WebPage
+    fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): WebPage
 }
 
 data class NotesPluginConfig(

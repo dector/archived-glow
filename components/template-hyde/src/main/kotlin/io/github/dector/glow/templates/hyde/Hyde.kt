@@ -4,7 +4,7 @@ import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
 import io.github.dector.glow.engine.BlogVM
-import io.github.dector.glow.engine.NavigationItem
+import io.github.dector.glow.engine.NavItemVM
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 import io.github.dector.glow.templates.hyde.layouts.noteContent
@@ -12,7 +12,6 @@ import io.github.dector.glow.templates.hyde.layouts.notesIndexContent
 import io.github.dector.glow.templates.hyde.layouts.tagPageContent
 import io.github.dector.glow.templates.hyde.layouts.webPage
 import io.github.dector.glow.theming.Template
-import io.github.dector.glow.theming.notesNavigationItem
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.a
@@ -79,7 +78,7 @@ object Hyde {
             }*/
         }
 
-        fun sidebar(body: BODY, blog: BlogVM, currentNavItem: NavigationItem?) = body.apply {
+        fun sidebar(body: BODY, blog: BlogVM, currentSection: NavItemVM?) = body.apply {
             div("sidebar") {
                 div("container sidebar-sticky") {
                     div("sidebar-about") {
@@ -112,7 +111,7 @@ object Hyde {
 //                            a("sidebar-nav-item{% if page.url == node.url %} active{% endif %}") {
                             a(href = item.path) {
                                 classes = setOf("sidebar-nav-item").let {
-                                    if (item == currentNavItem) {
+                                    if (item == currentSection) {
                                         it + "active"
                                     } else it
                                 }
@@ -146,18 +145,18 @@ class HydeTemplate : Template {
             notesIndexContent(notes)
         }
 
-    override fun note(blog: BlogVM, note: NoteVM) =
-        webPage(blog, blog.notesNavigationItem(), note.title) {
-            noteContent(blog, note)
+    override fun note(note: NoteVM, context: RenderContext) =
+        webPage(context.blog, context.currentNavSection, note.title) {
+            noteContent(context.blog, note)
         }
 
-    override fun notesArchive(blog: BlogVM, notes: List<NoteVM>) =
-        webPage(blog, blog.notesNavigationItem()) {
+    override fun notesArchive(notes: List<NoteVM>, context: RenderContext) =
+        webPage(context) {
             notesIndexContent(notes, title = "Archive", displayFullNotes = true)
         }
 
-    override fun tagPage(blog: BlogVM, notes: List<NoteVM>, tag: String) =
-        webPage(blog, blog.notesNavigationItem(), "#$tag") {
+    override fun tagPage(notes: List<NoteVM>, tag: String, context: RenderContext) =
+        webPage(context.blog, context.currentNavSection, "#$tag") {
             tagPageContent(notes, tag)
         }
 }

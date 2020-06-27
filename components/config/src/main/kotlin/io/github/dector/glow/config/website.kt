@@ -105,9 +105,11 @@ internal fun buildRuntimeConfig(
             footerLicenseName = projectConfig.blog.footer.licenseName,
             footerLicenseUrl = projectConfig.blog.footer.licenseUrl,
             footerYear = projectConfig.blog.footer.year,
-            navigation = listOf(
-                NavigationEntry("/notes", "Notes", "notes")
-            )
+            navigation = projectConfig.blog.navigation.map {
+                NavigationEntry(
+                    path = it.path, title = it.title, sectionCode = it.type
+                )
+            }
         )
     }
 }

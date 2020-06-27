@@ -21,7 +21,7 @@ data class BlogVM(
     val title: String = "",
     val description: String = "",
     val footer: FooterVM = FooterVM(),
-    val navigation: List<NavigationItem> = emptyList()
+    val navigation: List<NavItemVM> = emptyList()
 )
 
 data class FooterVM(
@@ -29,6 +29,11 @@ data class FooterVM(
     val year: String = "",
     val licenseName: String = "",
     val licenseUrl: String = ""
+)
+
+data class NavItemVM(
+    val title: String = "",
+    val path: String = ""
 )
 
 data class RssFeed(val filePath: String, val content: String)

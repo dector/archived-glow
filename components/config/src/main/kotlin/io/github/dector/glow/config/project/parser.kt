@@ -54,8 +54,8 @@ private fun JsonArray.asCNavigationList() =
 private fun JsonObject.asCNavigation() = CNavigation(
     id = get("id").asString(),
     title = get("title").asString(),
-    path = get("path").asString()
-    //type = NavItemType.from(get("type").asString())
+    path = get("path").asString(),
+    type = get("type").asString()
 )
 
 private fun JsonObject.asCFooter() = CFooter(

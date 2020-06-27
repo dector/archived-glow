@@ -33,7 +33,8 @@ internal data class CBlog(
 internal data class CNavigation(
     val id: String,
     val title: String,
-    val path: String
+    val path: String,
+    val type: String
 )
 
 internal data class CFooter(
