@@ -27,6 +27,7 @@ object GradlePlugins {
     val shadow = "com.github.johnrengelman.shadow"
 
     val versions = "com.github.ben-manes.versions"
+    val detekt = "io.gitlab.arturbosch.detekt"
 }
 
 object Versions {
@@ -52,6 +53,7 @@ object Versions {
     val shadow = "5.1.0"
     val versions_plugin = "0.28.0"
     val build_config = "1.1.8"
+    val detekt = "1.9.0"
 }
 
 object Config {

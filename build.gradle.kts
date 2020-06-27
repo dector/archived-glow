@@ -10,6 +10,8 @@ plugins {
 
     id(GradlePlugins.shadow) version Versions.shadow
     id(GradlePlugins.versions) version Versions.versions_plugin
+
+    id(GradlePlugins.detekt) version Versions.detekt
 }
 
 repositories {
@@ -52,3 +54,12 @@ allprojects {
     }
 }
 
+detekt {
+    config = files("tools/detekt.yml")
+    failFast = false
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        txt.enabled = false
+    }
+}
