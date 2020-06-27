@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 interface NotesPathResolver {
 
     fun resolve(note: Note, buildUrlPath: Boolean = false): WebPagePath
-    fun resolveNotesIndex(): WebPagePath
+    fun resolveNotesPage(pageNum: Int): WebPagePath
     fun resolveNotesArchive(): WebPagePath
 
     fun resolveTagPage(tag: String): WebPagePath
@@ -38,8 +38,8 @@ class NotesWebPathResolver(
         else indexWebPath(path)
     }
 
-    override fun resolveNotesIndex(): WebPagePath =
-        indexWebPath(notesPath)
+    override fun resolveNotesPage(pageNum: Int): WebPagePath =
+        pageWebPath(notesPath) { if (pageNum != 1) "page$pageNum/index.html" else "index.html" }
 
     override fun resolveNotesArchive(): WebPagePath =
         indexWebPath("$notesPath/archive")
@@ -52,12 +52,14 @@ class NotesWebPathResolver(
     }
 }
 
-private fun indexWebPath(path: String) = WebPagePath(
+private fun indexWebPath(path: String): WebPagePath = pageWebPath(path) { "index.html" }
+
+private fun pageWebPath(path: String, nameBuilder: () -> String) = WebPagePath(
     buildString {
         append(path)
 
         if (!path.endsWith("/")) append("/")
 
-        append("index.html")
+        append(nameBuilder())
     }
 )

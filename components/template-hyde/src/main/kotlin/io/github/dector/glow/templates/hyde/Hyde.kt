@@ -142,7 +142,7 @@ class HydeTemplate : Template {
 
     override fun notesIndex(notes: List<NoteVM>, context: RenderContext) =
         webPage(context) {
-            notesIndexContent(notes)
+            notesIndexContent(notes, context = context)
         }
 
     override fun note(note: NoteVM, context: RenderContext) =
@@ -152,12 +152,12 @@ class HydeTemplate : Template {
 
     override fun notesArchive(notes: List<NoteVM>, context: RenderContext) =
         webPage(context) {
-            notesIndexContent(notes, title = "Archive", displayFullNotes = true)
+            notesIndexContent(notes, title = "Archive", context = context, displayFullNotes = true)
         }
 
     override fun tagPage(notes: List<NoteVM>, tag: String, context: RenderContext) =
         webPage(context.blog, context.currentNavSection, "#$tag") {
-            tagPageContent(notes, tag)
+            tagPageContent(notes, tag, context)
         }
 }
 

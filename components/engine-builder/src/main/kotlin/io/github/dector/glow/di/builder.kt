@@ -11,6 +11,7 @@ import io.github.dector.glow.plugins.notes.DefaultNotesDataRenderer
 import io.github.dector.glow.plugins.notes.FileSystemNotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataRenderer
+import io.github.dector.glow.plugins.notes.NotesPathResolver
 import io.github.dector.glow.plugins.notes.NotesPlugin
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
 import io.github.dector.glow.plugins.resources.AssetsPlugin2
@@ -22,25 +23,27 @@ fun buildGlowEngine(
 ): GlowEngine {
     val provider = FileSystemNotesDataProvider(
         config.glow.notes.sourceDir.toFile())
+    val pathResolver = NotesWebPathResolver(DI.get())
     val renderer = DefaultNotesDataRenderer(
-        NotesWebPathResolver(DI.get()),
+        pathResolver,
         SimpleMarkdownParser(),
         HtmlRenderer.builder().build()
     )
 
     return buildGlowEngine(
-        provider, renderer, publisher
+        provider, renderer, publisher, pathResolver
     )
 }
 
 internal fun buildGlowEngine(
     dataProvider: NotesDataProvider,
     dataRenderer: NotesDataRenderer,
-    dataPublisher: DataPublisher
+    dataPublisher: DataPublisher,
+    pathResolver: NotesPathResolver
 ): GlowEngine {
     val config = DI.get<RuntimeConfig>()
     return GlowEngine(
-        NotesPlugin(dataProvider, dataRenderer, dataPublisher, config, DI.get()),
+        NotesPlugin(dataProvider, dataRenderer, dataPublisher, pathResolver, config, DI.get()),
         AssetsPlugin2(config, DI.get()),
         ThemeAssetsPlugin(config)
     )

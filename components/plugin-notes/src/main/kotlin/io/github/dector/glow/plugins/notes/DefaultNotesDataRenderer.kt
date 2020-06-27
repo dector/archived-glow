@@ -11,7 +11,7 @@ import io.github.dector.glow.templates.hyde.HydeTemplate
 import io.github.dector.glow.theming.Template
 
 class DefaultNotesDataRenderer(
-    private val pathResolver: NotesPathResolver,
+    val pathResolver: NotesPathResolver,
     private val markdownParser: MarkdownParser<Node>,
     private val htmlRenderer: HtmlRenderer,
     private val template: Template = HydeTemplate()
@@ -29,7 +29,7 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderNotesIndex(notes: List<Note>, context: RenderContext): WebPage {
+    override fun renderNotesPage(notes: List<Note>, context: RenderContext): WebPage {
         val noteVMs = notes.map {
             val markdown = it.previewContent ?: it.content
             val content = htmlRenderer.render(markdownParser.parse(markdown.value))
@@ -38,7 +38,7 @@ class DefaultNotesDataRenderer(
         }
         val renderedPage = template.notesIndex(noteVMs, context)
         return WebPage(
-            path = pathResolver.resolveNotesIndex(),
+            path = pathResolver.resolveNotesPage(context.paging.current),
             content = renderedPage
         )
     }

@@ -5,6 +5,7 @@ import io.github.dector.glow.core.vm.buildBlogVM
 import io.github.dector.glow.engine.BlogVM
 import io.github.dector.glow.engine.DataPublisher
 import io.github.dector.glow.engine.GlowPipeline
+import io.github.dector.glow.engine.Paging
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.engine.WebPagePath
@@ -15,6 +16,7 @@ class NotesPlugin(
     private val dataProvider: NotesDataProvider,
     private val dataRenderer: NotesDataRenderer,
     private val dataPublisher: DataPublisher,
+    private val pathResolver: NotesPathResolver,
     private val config: RuntimeConfig,
     private val runOptions: NotesPluginConfig
 ) : GlowPipeline {
@@ -57,13 +59,26 @@ class NotesPlugin(
     private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
         if (!runOptions.buildNotesIndex) return
 
-        val context = createRenderContext(blog)
-        progress("Index") {
-            val webPage = +{ dataRenderer.renderNotesIndex(notes, context) }
-            +{ dataPublisher.publish(webPage) }
-            +{
-                val indexHtml = webPage.copy(path = WebPagePath("/index.html"))
-                dataPublisher.publish(indexHtml)
+        val baseContext = createRenderContext(blog)
+
+        val notesByPages = notes.chunked(PageSize)
+        val totalPages = notesByPages.size
+
+        progress("Notes pages ($totalPages)") {
+            notesByPages.forEachIndexed { pageIndex, notesInPage ->
+                val pageNum = pageIndex + 1
+                val context = baseContext.copy(paging = Paging(pageNum, totalPages,
+                    prevPageUrl = if (pageNum > 1) pathResolver.resolveNotesPage(pageNum - 1) else null,
+                    nextPageUrl = if (pageNum < totalPages) pathResolver.resolveNotesPage(pageNum + 1) else null
+                ))
+
+                val webPage = +{ dataRenderer.renderNotesPage(notesInPage, context) }
+                +{ dataPublisher.publish(webPage) }
+
+                if (pageNum == 1) +{
+                    val indexHtml = webPage.copy(path = WebPagePath("/index.html"))
+                    dataPublisher.publish(indexHtml)
+                }
             }
         }
     }
@@ -88,8 +103,13 @@ class NotesPlugin(
 
     private fun createRenderContext(blog: BlogVM) = RenderContext(
         blog = blog,
-        currentNavSection = blog.navigation.first { it.path == currentSection.path }
+        currentNavSection = blog.navigation.first { it.path == currentSection.path },
+        paging = Paging(1, 1)
     )
+
+    private companion object {
+        const val PageSize = 5
+    }
 }
 
 interface NotesDataProvider {
@@ -98,7 +118,7 @@ interface NotesDataProvider {
 
 interface NotesDataRenderer {
     fun render(note: Note, context: RenderContext): WebPage
-    fun renderNotesIndex(notes: List<Note>, context: RenderContext): WebPage
+    fun renderNotesPage(notes: List<Note>, context: RenderContext): WebPage
     fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage
 
     fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): WebPage

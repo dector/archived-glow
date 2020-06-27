@@ -1,5 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
+import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 import kotlinx.html.DIV
 import kotlinx.html.a
@@ -10,7 +11,7 @@ import kotlinx.html.span
 import kotlinx.html.strong
 import kotlinx.html.unsafe
 
-fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", displayFullNotes: Boolean = false) {
+fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", context: RenderContext, displayFullNotes: Boolean = false) {
     div("posts") {
         notes.forEach { note ->
             div("post") {
@@ -38,30 +39,19 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", displayFullNo
     }
 
     div("pagination") {
-        //        +"""{% if paginator.next_page %}"""
-//        a(href = "{{ site.baseurl }}page{{paginator.next_page}}") {
-//            classes = setOf("pagination-item", "older")
-//
-//            +"""Older"""
-//        }
-//        +"""{% else %}"""
-//        span(classes = "pagination-item older") { +"""Older""" }
-//        +"""{% endif %}
-//  {% if paginator.previous_page %}
-//    {% if paginator.page == 2 %}"""
-//        a(classes = "pagination-item newer") {
-//            href = "{{ site.baseurl }}"
-//            +"""Newer"""
-//        }
-//        +"""{% else %}"""
-//        a(classes = "pagination-item newer") {
-//            href = "{{ site.baseurl }}page{{paginator.previous_page}}"
-//            +"""Newer"""
-//        }
-//        +"""{% endif %}
-//  {% else %}"""
-//        span(classes = "pagination-item newer") { +"""Newer""" }
-//        +"""{% endif %}"""
+        val nextPageUrl = context.paging.nextPageUrl
+        if (nextPageUrl != null) {
+            a(href = nextPageUrl.value, classes = "pagination-item older") { +"Older" }
+        } else {
+            span(classes = "pagination-item older") { +"Older" }
+        }
+
+        val prevPageUrl = context.paging.prevPageUrl
+        if (prevPageUrl != null) {
+            a(href = prevPageUrl.value, classes = "pagination-item newer") { +"Newer" }
+        } else {
+            span(classes = "pagination-item newer") { +"Newer" }
+        }
     }
 }
 
