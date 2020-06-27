@@ -8,6 +8,7 @@ import io.github.dector.glow.engine.GlowPipeline
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.engine.WebPagePath
+import io.github.dector.ktx.progress
 
 
 class NotesPlugin(
@@ -42,40 +43,29 @@ class NotesPlugin(
     private fun buildNotes(blog: BlogVM, notes: List<Note>) {
         if (!runOptions.buildNotePages) return
 
+        val context = createRenderContext(blog)
+
         notes.forEach { note ->
             val noteName = note.sourceFile.nameWithoutExtension
-            print("File: '$noteName' .")
-
-            print(".") // processing
-            val context = createRenderContext(blog)
-            val webPage = dataRenderer.render(note, context)
-
-            print(".") // publishing
-            dataPublisher.publish(webPage)
-
-            println()
+            progress("File: '$noteName'") {
+                val webPage = +{ dataRenderer.render(note, context) }
+                +{ dataPublisher.publish(webPage) }
+            }
         }
     }
 
     private fun buildNotesIndex(blog: BlogVM, notes: List<Note>) {
         if (!runOptions.buildNotesIndex) return
 
-        print("Index .")
-
-        print(".") // processing
         val context = createRenderContext(blog)
-
-        val webPage = dataRenderer.renderNotesIndex(notes, context)
-
-        print(".") // publishing
-        dataPublisher.publish(webPage)
-
-        // FIXME
-        webPage.copy(path = WebPagePath("/index.html")).let {
-            dataPublisher.publish(it)
+        progress("Index") {
+            val webPage = +{ dataRenderer.renderNotesIndex(notes, context) }
+            +{ dataPublisher.publish(webPage) }
+            +{
+                val indexHtml = webPage.copy(path = WebPagePath("/index.html"))
+                dataPublisher.publish(indexHtml)
+            }
         }
-
-        println()
     }
 
     private fun buildTagsPages(blog: BlogVM, notes: List<Note>) {
@@ -84,19 +74,15 @@ class NotesPlugin(
             .flatMap(Note::tags)
             .distinct()
 
-        tags.forEach { tag ->
-            print("Tag: $tag .")
+        val context = createRenderContext(blog)
 
+        tags.forEach { tag ->
             val taggedNotes = notes.filter { tag in it.tags }
 
-            print(".") // processing
-            val context = createRenderContext(blog)
-            val webPage = dataRenderer.renderTagPage(taggedNotes, tag, context)
-
-            print(".") // publishing
-            dataPublisher.publish(webPage)
-
-            println()
+            progress("Tag: '$tag'") {
+                val webPage = +{ dataRenderer.renderTagPage(taggedNotes, tag, context) }
+                +{ dataPublisher.publish(webPage) }
+            }
         }
     }
 
