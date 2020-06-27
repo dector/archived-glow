@@ -8,15 +8,18 @@ import com.github.ajalt.clikt.parameters.types.file
 import io.github.dector.glow.build.BuilderApp
 import java.io.File
 
-class BuildCommand : CliktCommand(name = "build") {
+internal class BuildCommand : CliktCommand(name = "build") {
 
+    /** Path to project dir */
     private val project by option("--project")
         .file(exists = true)
         .default(File("."))
 
+    /** Option to override default drafts excluding behaviour */
     private val includeDrafts by option("--include-drafts")
         .flag()
 
+    /** Produce no output */
     private val quiet by option("-q", "--quiet",
         help = "Don't print anything").flag()
 

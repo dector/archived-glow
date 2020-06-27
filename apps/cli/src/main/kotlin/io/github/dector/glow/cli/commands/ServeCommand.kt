@@ -8,12 +8,14 @@ import com.github.ajalt.clikt.parameters.types.file
 import io.github.dector.glow.serve.ServeApp
 import java.io.File
 
-class ServeCommand : CliktCommand(name = "serve") {
+internal class ServeCommand : CliktCommand(name = "serve") {
 
+    /** Path to project dir */
     private val project by option("--project")
         .file(exists = true)
         .default(File("."))
 
+    /** Option to override default drafts excluding behaviour */
     private val includeDrafts by option("--include-drafts")
         .flag()
 

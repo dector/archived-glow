@@ -6,7 +6,9 @@ import io.github.dector.glow.cli.commands.BuildCommand
 import io.github.dector.glow.cli.commands.FishCommand
 import io.github.dector.glow.cli.commands.ServeCommand
 
-
+/**
+ * Parse [args] and run specific app.
+ */
 fun runCli(args: Array<String>) {
     cliCommands().main(args)
 }
