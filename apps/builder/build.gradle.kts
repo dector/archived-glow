@@ -13,4 +13,6 @@ dependencies {
     implementation(project(":component-ktx"))
 
     implementation(Deps.flexmark)
+
+    implementation(rootProject)
 }
