@@ -7,6 +7,7 @@ import io.github.dector.glow.engine.DataPublisher
 import io.github.dector.glow.engine.GlowPipeline
 import io.github.dector.glow.engine.Paging
 import io.github.dector.glow.engine.RenderContext
+import io.github.dector.glow.engine.RenderedWebPage
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.engine.WebPagePath
 import io.github.dector.glow.ui.UiConsole
@@ -46,7 +47,7 @@ class NotesPlugin(
         val blog = buildBlogVM(config.website)
 
         val notes = index.notesToPublish
-        buildNotes(blog, notes)
+        buildIndividualNotePages(blog, notes)
         buildNotesIndex(blog, notes)
         buildTagsPages(blog, notes)
         //buildArchive(blog, notes)
@@ -55,7 +56,7 @@ class NotesPlugin(
         println("")
     }
 
-    private fun buildNotes(blog: BlogVM, notes: List<Note>) {
+    private fun buildIndividualNotePages(blog: BlogVM, notes: List<Note>) {
         if (!runOptions.buildNotePages) return
 
         val context = createRenderContext(blog)
@@ -63,7 +64,7 @@ class NotesPlugin(
         notes.forEach { note ->
             val noteName = note.sourceFile.nameWithoutExtension
             progress("File: '$noteName'") {
-                val webPage = +{ dataRenderer.render(note, context) }
+                val webPage = +{ dataRenderer.renderIndividualNote(note, context) }
                 +{ dataPublisher.publish(webPage) }
             }
         }
@@ -133,8 +134,9 @@ interface NotesDataRenderer {
     fun render(note: Note, context: RenderContext): WebPage
     fun renderNotesPage(notes: List<Note>, context: RenderContext): WebPage
     fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage
-
     fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): WebPage
+
+    fun renderIndividualNote(note: Note, context: RenderContext): RenderedWebPage
 }
 
 data class NotesPluginConfig(

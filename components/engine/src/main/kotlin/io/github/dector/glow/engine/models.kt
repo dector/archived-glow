@@ -1,12 +1,22 @@
 package io.github.dector.glow.engine
 
+import io.github.dector.glow.coordinates.Coordinates
+
 inline class MarkdownContent(val value: String)
 inline class HtmlContent(val value: String)
 inline class HtmlWebPageContent(val value: String)
+
+@Deprecated("Use `Coordinates`")
 inline class WebPagePath(val value: String) {
     companion object
 }
 
+data class RenderedWebPage(
+    val coordinates: Coordinates.Endpoint,
+    val content: HtmlWebPageContent
+)
+
+@Deprecated("Use `RenderedWebPage`")
 data class WebPage(
     val path: WebPagePath,
     val content: HtmlWebPageContent

@@ -5,17 +5,35 @@ import com.vladsch.flexmark.util.ast.Node
 import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.engine.HtmlContent
 import io.github.dector.glow.engine.RenderContext
+import io.github.dector.glow.engine.RenderedWebPage
 import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.plugins.notes.formatters.formatPublishDate
 import io.github.dector.glow.templates.hyde.HydeTemplate
 import io.github.dector.glow.theming.Template
 
 class DefaultNotesDataRenderer(
-    val pathResolver: NotesPathResolver,
+    private val pathResolver: NotesPathResolver,
     private val markdownParser: MarkdownParser<Node>,
     private val htmlRenderer: HtmlRenderer,
     private val template: Template = HydeTemplate()
 ) : NotesDataRenderer {
+
+    override fun renderIndividualNote(note: Note, context: RenderContext): RenderedWebPage {
+        val coordinates = pathResolver.coordinatesFor(note)
+
+        val renderedPage = run {
+            val markdown = note.content.value
+            val content = htmlRenderer.render(
+                markdownParser.parse(markdown))
+            val vm = createNoteVM(note, content)
+            template.note(vm, context)
+        }
+
+        return RenderedWebPage(
+            coordinates = coordinates,
+            content = renderedPage
+        )
+    }
 
     override fun render(note: Note, context: RenderContext): WebPage {
         val content = htmlRenderer.render(markdownParser.parse(note.content.value))
