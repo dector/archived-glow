@@ -7,6 +7,7 @@ import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.di.provide
 import io.github.dector.glow.engine.GlowEngine
+import io.github.dector.glow.plugins.notes.NotesPluginConfig
 import io.github.dector.glow.ui.UiConsole
 import io.github.dector.ktx.applyIf
 import io.github.dector.ktx.div
@@ -41,6 +42,7 @@ class BuilderApp private constructor(
                 provideProjectConfig(projectDir, launchConfig)
             }
             DI.provide(projectConfig)
+            DI.provide(NotesPluginConfig())
 
             val ui = UiConsole.get
                 .applyIf(quiet) { isEnabled = false }

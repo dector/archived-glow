@@ -9,6 +9,7 @@ import io.github.dector.glow.di.get
 import io.github.dector.glow.di.provide
 import io.github.dector.glow.engine.GlowEngine
 import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.plugins.notes.NotesPluginConfig
 import io.github.dector.glow.server.Server
 import io.github.dector.glow.server.components.InMemoryDataPublisher
 import io.github.dector.glow.utils.Execution
@@ -65,6 +66,9 @@ class ServeApp private constructor(
             )
 
             DI.provide(provideProjectConfig(projectDir, launchConfig))
+            DI.provide(NotesPluginConfig(
+                copyAssets = false
+            ))
 
             val storage = mutableSetOf<WebPage>()
             val engine = provideGlowEngine(storage)

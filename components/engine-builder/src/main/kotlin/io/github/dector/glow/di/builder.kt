@@ -12,7 +12,6 @@ import io.github.dector.glow.plugins.notes.FileSystemNotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataRenderer
 import io.github.dector.glow.plugins.notes.NotesPlugin
-import io.github.dector.glow.plugins.notes.NotesPluginConfig
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
 import io.github.dector.glow.plugins.resources.AssetsPlugin2
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
@@ -41,8 +40,8 @@ internal fun buildGlowEngine(
 ): GlowEngine {
     val config = DI.get<RuntimeConfig>()
     return GlowEngine(
-        NotesPlugin(dataProvider, dataRenderer, dataPublisher, config, NotesPluginConfig.get),
-        AssetsPlugin2(config, NotesPluginConfig.get),
+        NotesPlugin(dataProvider, dataRenderer, dataPublisher, config, DI.get()),
+        AssetsPlugin2(config, DI.get()),
         ThemeAssetsPlugin(config)
     )
 }

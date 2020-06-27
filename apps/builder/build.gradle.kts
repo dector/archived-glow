@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":component-engine"))
     implementation(project(":component-engine-builder"))
     implementation(project(":component-ktx"))
+    implementation(project(":component-plugin-notes"))
 
     implementation(Deps.flexmark)
 
