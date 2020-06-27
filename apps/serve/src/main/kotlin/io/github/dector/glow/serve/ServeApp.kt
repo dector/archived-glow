@@ -22,7 +22,7 @@ import java.nio.file.StandardWatchEventKinds.ENTRY_DELETE
 import java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
 
 
-class ServeApp private constructor(
+class ServeApp internal constructor(
     private val storage: MutableSet<WebPage>,
     private val engine: GlowEngine,
     private val server: Server
@@ -56,31 +56,38 @@ class ServeApp private constructor(
         println("Ready! (finished in $executionTime)")
     }
 
-    companion object {
-        fun create(
-            projectDir: File,
-            includeDrafts: Boolean
-        ): ServeApp {
-            val launchConfig = LaunchConfig(
-                includeDrafts = includeDrafts
-            )
-
-            DI.provide(provideProjectConfig(projectDir, launchConfig))
-            DI.provide(NotesPluginConfig(
-                copyAssets = false
-            ))
-
-            val storage = mutableSetOf<WebPage>()
-            val engine = provideGlowEngine(storage)
-
-            return ServeApp(
-                storage,
-                engine,
-                Server(storage)
-            )
-        }
-    }
+    companion object
 }
+
+/**
+ * Construct app instance with requested configuration.
+ *
+ * @param projectDir path to website directory (should contain website configuration file)
+ * @param includeDrafts set to `true` to render drafts
+ */
+fun ServeApp.Companion.create(
+    projectDir: File,
+    includeDrafts: Boolean
+): ServeApp {
+    val launchConfig = LaunchConfig(
+        includeDrafts = includeDrafts
+    )
+
+    DI.provide(provideProjectConfig(projectDir, launchConfig))
+    DI.provide(NotesPluginConfig(
+        copyAssets = false
+    ))
+
+    val storage = mutableSetOf<WebPage>()
+    val engine = provideGlowEngine(storage)
+
+    return ServeApp(
+        storage,
+        engine,
+        Server(storage)
+    )
+}
+
 
 private fun provideGlowEngine(pagesStorage: MutableSet<WebPage>) =
     buildGlowEngine(

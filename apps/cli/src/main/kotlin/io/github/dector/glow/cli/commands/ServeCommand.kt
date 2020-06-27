@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import io.github.dector.glow.serve.ServeApp
+import io.github.dector.glow.serve.create
 import java.io.File
 
 internal class ServeCommand : CliktCommand(name = "serve") {

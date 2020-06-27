@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.file
 import io.github.dector.glow.build.BuilderApp
+import io.github.dector.glow.build.create
 import java.io.File
 
 internal class BuildCommand : CliktCommand(name = "build") {

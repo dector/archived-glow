@@ -14,7 +14,7 @@ import io.github.dector.ktx.div
 import java.io.File
 
 
-class BuilderApp private constructor(
+class BuilderApp internal constructor(
     private val ui: UiConsole,
     private val glow: GlowEngine
 ) {
@@ -25,33 +25,40 @@ class BuilderApp private constructor(
         glow.execute()
     }
 
-    companion object {
-        fun create(
-            projectDir: File,
-            includeDrafts: Boolean,
-            quiet: Boolean
-        ): BuilderApp {
-            if (!projectFileIn(projectDir).exists())
-                TODO("Notify about missing project file nicely")
+    companion object
+}
 
-            val projectConfig = run {
-                val launchConfig = LaunchConfig(
-                    includeDrafts = includeDrafts
-                )
+/**
+ * Construct app instance with requested configuration.
+ *
+ * @param projectDir path to website directory (should contain website configuration file)
+ * @param includeDrafts set to `true` to render drafts
+ * @param quiet set to `true` to disable any output
+ */
+fun BuilderApp.Companion.create(
+    projectDir: File,
+    includeDrafts: Boolean,
+    quiet: Boolean
+): BuilderApp {
+    if (!projectFileIn(projectDir).exists())
+        TODO("Notify about missing project file nicely")
 
-                provideProjectConfig(projectDir, launchConfig)
-            }
-            DI.provide(projectConfig)
-            DI.provide(NotesPluginConfig())
+    val projectConfig = run {
+        val launchConfig = LaunchConfig(
+            includeDrafts = includeDrafts
+        )
 
-            val ui = UiConsole.get
-                .applyIf(quiet) { isEnabled = false }
-
-            val glowEngine = buildGlowEngine()
-
-            return BuilderApp(ui, glowEngine)
-        }
+        provideProjectConfig(projectDir, launchConfig)
     }
+    DI.provide(projectConfig)
+    DI.provide(NotesPluginConfig())
+
+    val ui = UiConsole.get
+        .applyIf(quiet) { isEnabled = false }
+
+    val glowEngine = buildGlowEngine()
+
+    return BuilderApp(ui, glowEngine)
 }
 
 private const val ConfigFileName = "website.glow"
