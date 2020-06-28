@@ -1,4 +1,4 @@
-package io.github.dector.glow.plugins.notes
+package io.github.dector.glow.plugins.notes.providers
 
 import java.time.Instant
 import java.time.LocalDate
@@ -37,3 +37,12 @@ internal fun parseCreatedAt(str: String?): Instant? {
         .toInstant(ZoneOffset.UTC)
     else null
 }
+
+internal fun String.cleanupTitleForWebPath() = this
+    .trim()
+    .replace(Regex("/+"), "-")
+    .replace(Regex(" +"), "-")
+    .replace(Regex("[^\\w_-]"), "")
+    .replace(Regex("--+"), "-")
+    .trim('-')
+    .toLowerCase()

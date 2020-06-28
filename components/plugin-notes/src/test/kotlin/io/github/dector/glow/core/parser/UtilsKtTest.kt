@@ -1,6 +1,6 @@
 package io.github.dector.glow.core.parser
 
-import io.github.dector.glow.plugins.notes.parseCreatedAt
+import io.github.dector.glow.plugins.notes.providers.parseCreatedAt
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec

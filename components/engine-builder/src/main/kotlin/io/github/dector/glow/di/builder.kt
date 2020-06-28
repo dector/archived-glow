@@ -7,13 +7,13 @@ import io.github.dector.glow.engine.DataPublisher
 import io.github.dector.glow.engine.GlowEngine
 import io.github.dector.glow.engine.defaults.FileDataPublisher
 import io.github.dector.glow.engine.defaults.PreprocessedDataPublisher
-import io.github.dector.glow.plugins.notes.DefaultNotesDataRenderer
-import io.github.dector.glow.plugins.notes.FileSystemNotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataProvider
 import io.github.dector.glow.plugins.notes.NotesDataRenderer
 import io.github.dector.glow.plugins.notes.NotesPathResolver
 import io.github.dector.glow.plugins.notes.NotesPlugin
 import io.github.dector.glow.plugins.notes.NotesWebPathResolver
+import io.github.dector.glow.plugins.notes.providers.FileSystemNotesDataProvider
+import io.github.dector.glow.plugins.notes.renderers.DefaultNotesDataRenderer
 import io.github.dector.glow.plugins.resources.AssetsPlugin2
 import io.github.dector.glow.plugins.resources.ThemeAssetsPlugin
 

@@ -1,12 +1,15 @@
-package io.github.dector.glow.plugins.notes
+package io.github.dector.glow.plugins.notes.providers
 
 import io.github.dector.glow.engine.MarkdownContent
-import io.github.dector.glow.plugins.notes.MetaProperty.CreatedAt
-import io.github.dector.glow.plugins.notes.MetaProperty.Draft
-import io.github.dector.glow.plugins.notes.MetaProperty.PublishedAt
-import io.github.dector.glow.plugins.notes.MetaProperty.Tags
-import io.github.dector.glow.plugins.notes.MetaProperty.Title
-import io.github.dector.glow.plugins.notes.MetaProperty.UpdatedAt
+import io.github.dector.glow.plugins.notes.Note
+import io.github.dector.glow.plugins.notes.NotesDataProvider
+import io.github.dector.glow.plugins.notes.parseMarkdownPartsFrom
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.CreatedAt
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.Draft
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.PublishedAt
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.Tags
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.Title
+import io.github.dector.glow.plugins.notes.providers.MetaProperty.UpdatedAt
 import io.github.dector.ktx.joinAsText
 import java.io.File
 import java.time.Instant

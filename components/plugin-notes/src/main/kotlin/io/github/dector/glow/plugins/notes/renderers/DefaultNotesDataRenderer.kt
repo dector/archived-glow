@@ -1,4 +1,4 @@
-package io.github.dector.glow.plugins.notes
+package io.github.dector.glow.plugins.notes.renderers
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
@@ -6,6 +6,10 @@ import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.engine.HtmlContent
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.RenderedWebPage
+import io.github.dector.glow.plugins.notes.Note
+import io.github.dector.glow.plugins.notes.NoteVM
+import io.github.dector.glow.plugins.notes.NotesDataRenderer
+import io.github.dector.glow.plugins.notes.NotesPathResolver
 import io.github.dector.glow.plugins.notes.formatters.formatPublishDate
 import io.github.dector.glow.templates.hyde.HydeTemplate
 import io.github.dector.glow.theming.Template

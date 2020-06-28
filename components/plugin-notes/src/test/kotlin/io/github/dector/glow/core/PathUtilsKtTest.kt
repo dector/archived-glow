@@ -1,6 +1,6 @@
 package io.github.dector.glow.core
 
-import io.github.dector.glow.plugins.notes.cleanupTitleForWebPath
+import io.github.dector.glow.plugins.notes.providers.cleanupTitleForWebPath
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 

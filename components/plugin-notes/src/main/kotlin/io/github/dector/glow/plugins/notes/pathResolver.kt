@@ -2,6 +2,7 @@ package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.coordinates.Coordinates
+import io.github.dector.glow.plugins.notes.providers.cleanupTitleForWebPath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
