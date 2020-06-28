@@ -10,29 +10,42 @@ sealed class Coordinates {
     //     (base: 'localhost', section: null, inner: null, name: 'cv') -> 'localhost/cv/'
     data class Endpoint(
 //        val base: String,
-        val section: String? = null,
-        val inner: String? = null,
-        val name: String
+        val section: String = "",
+        val inner: String = "",
+        val name: String = ""
     ) : Coordinates()
+
+    companion object {
+        val Empty = Endpoint()
+    }
 }
 
-fun Coordinates.Endpoint.inHostPath(useLeadingSlash: Boolean = true, useTrailingSlash: Boolean = true): String = buildString {
-    if (useLeadingSlash)
-        append('/')
+// TODO add tests for edge cases
+fun Coordinates.Endpoint.inHostPath(useLeadingSlash: Boolean = true, useTrailingSlash: Boolean = true): String {
+    var path = buildString {
+        section.takeIf(String::isNotEmpty)?.let {
+            append(it)
+            append('/')
+        }
+        inner.takeIf(String::isNotEmpty)?.let {
+            append(it)
+            append('/')
+        }
+        name.takeIf(String::isNotEmpty)?.let {
+            append(it)
+        }
+    }.trim('/')
 
-    section?.let {
-        append(it)
-        append('/')
+    if (path.isEmpty()) return ""
+
+    if (useLeadingSlash) {
+        path = "/$path"
     }
-    inner?.let {
-        append(it)
-        append('/')
+    if (useTrailingSlash) {
+        path = "$path/"
     }
 
-    append(name)
-
-    if (useTrailingSlash)
-        append('/')
+    return path
 }
 
 fun Coordinates.Endpoint.withFile(name: String) =
@@ -42,4 +55,3 @@ fun Coordinates.Endpoint.withFile(name: String) =
 
 fun Coordinates.File.inHostPath(useLeadingSlash: Boolean = true): String =
     parent.inHostPath(useLeadingSlash = useLeadingSlash, useTrailingSlash = true) + name
-

@@ -6,7 +6,7 @@ import io.github.dector.glow.plugins.notes.NoteVM
 
 interface Template {
 
-    fun notesIndex(notes: List<NoteVM>, context: RenderContext): HtmlWebPageContent
+    fun notesIndexPage(notes: List<NoteVM>, context: RenderContext): HtmlWebPageContent
     fun note(note: NoteVM, context: RenderContext): HtmlWebPageContent
     fun notesArchive(notes: List<NoteVM>, context: RenderContext): HtmlWebPageContent
 

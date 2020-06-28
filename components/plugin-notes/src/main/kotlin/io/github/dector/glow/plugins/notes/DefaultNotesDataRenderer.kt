@@ -35,28 +35,22 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun render(note: Note, context: RenderContext): WebPage {
-        val content = htmlRenderer.render(markdownParser.parse(note.content.value))
+    override fun renderNotesPage(notes: List<Note>, context: RenderContext): RenderedWebPage {
+        val coordinates = pathResolver.coordinatesForNotesPage(context.paging.current)
 
-        val vm = createNoteVM(note, content)
+        val renderedPage = run {
+            val noteVMs = notes.map {
+                val markdown = it.previewContent ?: it.content
+                val content = htmlRenderer.render(markdownParser.parse(markdown.value))
 
-        val renderedPage = template.note(vm, context)
-        return WebPage(
-            path = pathResolver.resolve(note),
-            content = renderedPage
-        )
-    }
+                createNoteVM(it, content, isTrimmed = it.previewContent != null)
+            }
 
-    override fun renderNotesPage(notes: List<Note>, context: RenderContext): WebPage {
-        val noteVMs = notes.map {
-            val markdown = it.previewContent ?: it.content
-            val content = htmlRenderer.render(markdownParser.parse(markdown.value))
-
-            createNoteVM(it, content, isTrimmed = it.previewContent != null)
+            template.notesIndexPage(noteVMs, context)
         }
-        val renderedPage = template.notesIndex(noteVMs, context)
-        return WebPage(
-            path = pathResolver.resolveNotesPage(context.paging.current),
+
+        return RenderedWebPage(
+            coordinates = coordinates,
             content = renderedPage
         )
     }

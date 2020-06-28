@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 interface NotesPathResolver {
 
     fun coordinatesFor(note: Note): Coordinates.Endpoint
+    fun coordinatesForNotesPage(pageNum: Int): Coordinates.Endpoint
 
     @Deprecated("")
     fun resolve(note: Note, buildUrlPath: Boolean = false): WebPagePath
@@ -50,6 +51,16 @@ class NotesWebPathResolver(
             section = sectionPath,
             inner = dir,
             name = instance
+        )
+    }
+
+    override fun coordinatesForNotesPage(pageNum: Int): Coordinates.Endpoint {
+        return Coordinates.Endpoint(
+            section = sectionPath,
+            name = when (pageNum) {
+                in 2..Int.MAX_VALUE -> "page$pageNum"
+                else -> ""
+            }
         )
     }
 

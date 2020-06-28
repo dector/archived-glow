@@ -1,5 +1,7 @@
 package io.github.dector.glow.engine
 
+import io.github.dector.glow.coordinates.Coordinates
+
 data class RenderContext(
     val blog: BlogVM,
     val currentNavSection: NavItemVM,
@@ -9,6 +11,6 @@ data class RenderContext(
 data class Paging(
     val current: Int,
     val total: Int,
-    val prevPageUrl: WebPagePath? = null,
-    val nextPageUrl: WebPagePath? = null
+    val prevPage: Coordinates.Endpoint? = null,
+    val nextPage: Coordinates.Endpoint? = null
 )

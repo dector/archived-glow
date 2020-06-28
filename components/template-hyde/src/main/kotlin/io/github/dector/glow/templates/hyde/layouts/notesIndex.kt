@@ -1,5 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
+import io.github.dector.glow.coordinates.inHostPath
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
 import kotlinx.html.DIV
@@ -39,16 +40,16 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", context: Rend
     }
 
     div("pagination") {
-        val nextPageUrl = context.paging.nextPageUrl
+        val nextPageUrl = context.paging.nextPage
         if (nextPageUrl != null) {
-            a(href = nextPageUrl.value, classes = "pagination-item older") { +"Older" }
+            a(href = nextPageUrl.inHostPath(), classes = "pagination-item older") { +"Older" }
         } else {
             span(classes = "pagination-item older") { +"Older" }
         }
 
-        val prevPageUrl = context.paging.prevPageUrl
+        val prevPageUrl = context.paging.prevPage
         if (prevPageUrl != null) {
-            a(href = prevPageUrl.value, classes = "pagination-item newer") { +"Newer" }
+            a(href = prevPageUrl.inHostPath(), classes = "pagination-item newer") { +"Newer" }
         } else {
             span(classes = "pagination-item newer") { +"Newer" }
         }

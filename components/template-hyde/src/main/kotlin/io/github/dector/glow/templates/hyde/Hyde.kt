@@ -140,7 +140,7 @@ object Hyde {
 
 class HydeTemplate : Template {
 
-    override fun notesIndex(notes: List<NoteVM>, context: RenderContext) =
+    override fun notesIndexPage(notes: List<NoteVM>, context: RenderContext) =
         webPage(context) {
             notesIndexContent(notes, context = context)
         }
