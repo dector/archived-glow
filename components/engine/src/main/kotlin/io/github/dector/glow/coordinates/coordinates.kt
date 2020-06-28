@@ -36,7 +36,7 @@ fun Coordinates.Endpoint.inHostPath(useLeadingSlash: Boolean = true, useTrailing
         }
     }.trim('/')
 
-    if (path.isEmpty()) return ""
+    if (path.isEmpty()) return "/"
 
     if (useLeadingSlash) {
         path = "/$path"

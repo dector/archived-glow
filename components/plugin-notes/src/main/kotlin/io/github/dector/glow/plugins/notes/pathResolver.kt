@@ -2,9 +2,6 @@ package io.github.dector.glow.plugins.notes
 
 import io.github.dector.glow.config.RuntimeConfig
 import io.github.dector.glow.coordinates.Coordinates
-import io.github.dector.glow.coordinates.inHostPath
-import io.github.dector.glow.coordinates.withFile
-import io.github.dector.glow.engine.WebPagePath
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -14,10 +11,6 @@ interface NotesPathResolver {
     fun coordinatesFor(note: Note): Coordinates.Endpoint
     fun coordinatesForNotesPage(pageNum: Int): Coordinates.Endpoint
     fun coordinatesForTagPage(tag: String, pageNum: Int): Coordinates.Endpoint
-
-    @Deprecated("")
-    fun resolveNotesArchive(): WebPagePath
-
 }
 
 // TODO test
@@ -67,16 +60,7 @@ class NotesWebPathResolver(
         )
     }
 
-    override fun resolveNotesArchive(): WebPagePath =
-        Coordinates.Endpoint(sectionPath, "archive")
-            .asWebPagePath()
-
     private companion object {
         const val DraftsDirName = "drafts"
     }
 }
-
-@Suppress("DeprecatedCallableAddReplaceWith")
-@Deprecated("Remove later")
-internal fun Coordinates.Endpoint.asWebPagePath() =
-    WebPagePath(withFile("index.html").inHostPath())

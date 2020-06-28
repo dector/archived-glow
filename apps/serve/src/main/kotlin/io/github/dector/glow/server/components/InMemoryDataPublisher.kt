@@ -1,27 +1,13 @@
 package io.github.dector.glow.server.components
 
 import io.github.dector.glow.engine.DataPublisher
-import io.github.dector.glow.engine.HtmlWebPageContent
-import io.github.dector.glow.engine.RssFeed
-import io.github.dector.glow.engine.WebPage
-import io.github.dector.glow.engine.WebPagePath
-import io.github.dector.glow.engine.isLost
+import io.github.dector.glow.engine.RenderedWebPage
 
 class InMemoryDataPublisher(
-    private val storage: MutableSet<WebPage>
+    private val storage: MutableSet<RenderedWebPage>
 ) : DataPublisher {
 
-    override fun publish(webPage: WebPage) {
-        // Do not publish "lost" pages
-        if (webPage.path.isLost) return
-
+    override fun publish(webPage: RenderedWebPage) {
         storage += webPage
-    }
-
-    override fun publish(rss: RssFeed) {
-        storage += WebPage(
-            path = WebPagePath(rss.filePath),
-            content = HtmlWebPageContent(rss.content)
-        )
     }
 }

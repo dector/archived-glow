@@ -1,5 +1,6 @@
 package io.github.dector.glow.templates.hyde.layouts
 
+import io.github.dector.glow.coordinates.Coordinates
 import io.github.dector.glow.coordinates.inHostPath
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.plugins.notes.NoteVM
@@ -17,7 +18,7 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", context: Rend
         notes.forEach { note ->
             div("post") {
                 h1("post-title") {
-                    a(href = note.path.value) {
+                    a(href = note.coordinates.inHostPath()) {
                         +note.title
                     }
                 }
@@ -32,7 +33,7 @@ fun DIV.notesIndexContent(notes: List<NoteVM>, title: String = "", context: Rend
                 }
                 unsafe { +content }
 
-                a(href = note.path.value) {
+                a(href = note.coordinates.inHostPath()) {
                     strong { +"Read more..." }
                 }
             }
@@ -63,7 +64,10 @@ internal fun DIV.noteTags(note: NoteVM) {
         strong { +"Tags: " }
 
         tags.forEachIndexed { index, tag ->
-            a(href = tagPagePath(tag)) {
+            // FIXME provide in context
+            val coordinates = Coordinates.Endpoint(
+                "notes", "tag", tag)
+            a(href = coordinates.inHostPath()) {
                 +"#$tag"
             }
 
@@ -71,9 +75,6 @@ internal fun DIV.noteTags(note: NoteVM) {
         }
     }
 }
-
-// FIXME provide in rendering context
-private fun tagPagePath(tag: String) = "/notes/tag/$tag/"
 
 private inline fun <T : List<R>, R : Any?> T.takeIfNotEmpty(): T? =
     takeIf { it.isNotEmpty() }

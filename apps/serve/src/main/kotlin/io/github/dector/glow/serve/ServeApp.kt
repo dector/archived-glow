@@ -8,7 +8,7 @@ import io.github.dector.glow.di.buildGlowEngine
 import io.github.dector.glow.di.get
 import io.github.dector.glow.di.provide
 import io.github.dector.glow.engine.GlowEngine
-import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.RenderedWebPage
 import io.github.dector.glow.plugins.notes.NotesPluginConfig
 import io.github.dector.glow.server.Server
 import io.github.dector.glow.server.components.InMemoryDataPublisher
@@ -20,7 +20,7 @@ import java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY
 
 
 class ServeApp internal constructor(
-    private val storage: MutableSet<WebPage>,
+    private val storage: MutableSet<RenderedWebPage>,
     private val engine: GlowEngine,
     private val server: Server
 ) {
@@ -64,7 +64,7 @@ fun ServeApp.Companion.create(
         copyAssets = false
     ))
 
-    val storage = mutableSetOf<WebPage>()
+    val storage = mutableSetOf<RenderedWebPage>()
     val engine = provideGlowEngine(storage)
 
     return ServeApp(
@@ -75,7 +75,7 @@ fun ServeApp.Companion.create(
 }
 
 
-private fun provideGlowEngine(pagesStorage: MutableSet<WebPage>) =
+private fun provideGlowEngine(pagesStorage: MutableSet<RenderedWebPage>) =
     buildGlowEngine(
         publisher = InMemoryDataPublisher(pagesStorage)
     )

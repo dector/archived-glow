@@ -6,7 +6,6 @@ import io.github.dector.glow.core.parser.MarkdownParser
 import io.github.dector.glow.engine.HtmlContent
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.RenderedWebPage
-import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.plugins.notes.formatters.formatPublishDate
 import io.github.dector.glow.templates.hyde.HydeTemplate
 import io.github.dector.glow.theming.Template
@@ -74,18 +73,6 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage {
-        val renderedPage = template.notesArchive(notes.map {
-            val content = htmlRenderer.render(markdownParser.parse(it.content.value))
-
-            createNoteVM(it, content)
-        }, context)
-        return WebPage(
-            path = pathResolver.resolveNotesArchive(),
-            content = renderedPage
-        )
-    }
-
     private fun createNoteVM(note: Note, content: String, isTrimmed: Boolean = false) = run {
         val htmlContent = HtmlContent(content)
 
@@ -93,7 +80,7 @@ class DefaultNotesDataRenderer(
             rawModel = note,
 
             title = buildTitle(note),
-            path = pathResolver.coordinatesFor(note).asWebPagePath(),
+            coordinates = pathResolver.coordinatesFor(note),
             content = htmlContent,
 
             publishedAndUpdatedStr = formatPublishedAndUpdatedStr(note),

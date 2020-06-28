@@ -2,11 +2,11 @@ package io.github.dector.glow.server
 
 import io.github.dector.glow.di.DI
 import io.github.dector.glow.di.get
-import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.engine.RenderedWebPage
 import io.javalin.Javalin
 
 class Server(
-    pagesStorage: MutableSet<WebPage>
+    pagesStorage: MutableSet<RenderedWebPage>
 ) {
 
     private val app: Javalin = Javalin.create { config ->

@@ -1,8 +1,8 @@
 package io.github.dector.glow.plugins.notes
 
+import io.github.dector.glow.coordinates.Coordinates
 import io.github.dector.glow.engine.HtmlContent
 import io.github.dector.glow.engine.MarkdownContent
-import io.github.dector.glow.engine.WebPagePath
 import java.io.File
 import java.time.Instant
 
@@ -22,7 +22,7 @@ data class NoteVM(
     val rawModel: Note,
 
     val title: String,
-    val path: WebPagePath,
+    val coordinates: Coordinates.Endpoint,
 
     val publishedAndUpdatedStr: String,
 //    val publishedAtStr: String,

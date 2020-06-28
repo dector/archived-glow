@@ -1,7 +1,8 @@
 package io.github.dector.glow.server
 
 import io.github.dector.glow.config.RuntimeConfig
-import io.github.dector.glow.engine.WebPage
+import io.github.dector.glow.coordinates.inHostPath
+import io.github.dector.glow.engine.RenderedWebPage
 import io.github.dector.glow.server.RequestedResource.StaticResource
 import io.github.dector.glow.utils.ThemeResourcesPath
 import io.javalin.http.Context
@@ -14,7 +15,7 @@ import java.nio.file.Paths
 @Suppress("MoveVariableDeclarationIntoWhen")
 class RootHandler(
     private val config: RuntimeConfig,
-    private val storage: Collection<WebPage>
+    private val storage: Collection<RenderedWebPage>
 ) : Handler {
 
     override fun handle(ctx: Context) {
@@ -74,13 +75,15 @@ class RootHandler(
         ctx.result(page.content.value)
     }
 
-    private fun findPageFor(path: String): WebPage? {
-        val exactPage = storage.find { it.path.value == path }
-        if (exactPage != null) return exactPage
+    private fun findPageFor(path: String): RenderedWebPage? {
+        val requestedPath = Paths.get("/")
+            .resolve(Paths.get(path))
+            .normalize()
+            .let { if (it.fileName?.toString() == "index.html") it.parent else it }
+            .toString()
+            .let { if (it != "/") "$it/" else "/" }
 
-        val clearedPath = path.trimEnd('/')
-        val pathToIndex = "$clearedPath/index.html"
-        return storage.find { it.path.value == pathToIndex }
+        return storage.find { it.coordinates.inHostPath() == requestedPath }
     }
 
     private fun detectRequestedResource(path: String): RequestedResource = when {

@@ -9,7 +9,6 @@ import io.github.dector.glow.engine.GlowPipeline
 import io.github.dector.glow.engine.Paging
 import io.github.dector.glow.engine.RenderContext
 import io.github.dector.glow.engine.RenderedWebPage
-import io.github.dector.glow.engine.WebPage
 import io.github.dector.glow.ui.UiConsole
 import io.github.dector.ktx.progress
 
@@ -153,8 +152,6 @@ interface NotesDataProvider {
 }
 
 interface NotesDataRenderer {
-    fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage
-
     fun renderIndividualNote(note: Note, context: RenderContext): RenderedWebPage
     fun renderNotesPage(notes: List<Note>, context: RenderContext): RenderedWebPage
     fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): RenderedWebPage
