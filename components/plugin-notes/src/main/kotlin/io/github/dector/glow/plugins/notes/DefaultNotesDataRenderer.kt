@@ -93,7 +93,7 @@ class DefaultNotesDataRenderer(
             rawModel = note,
 
             title = buildTitle(note),
-            path = pathResolver.resolve(note, buildUrlPath = true),
+            path = pathResolver.coordinatesFor(note).asWebPagePath(),
             content = htmlContent,
 
             publishedAndUpdatedStr = formatPublishedAndUpdatedStr(note),
