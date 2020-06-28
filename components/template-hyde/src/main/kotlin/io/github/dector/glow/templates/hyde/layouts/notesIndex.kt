@@ -73,7 +73,7 @@ internal fun DIV.noteTags(note: NoteVM) {
 }
 
 // FIXME provide in rendering context
-private fun tagPagePath(tag: String) = "/notes/tags/$tag/"
+private fun tagPagePath(tag: String) = "/notes/tag/$tag/"
 
 private inline fun <T : List<R>, R : Any?> T.takeIfNotEmpty(): T? =
     takeIf { it.isNotEmpty() }

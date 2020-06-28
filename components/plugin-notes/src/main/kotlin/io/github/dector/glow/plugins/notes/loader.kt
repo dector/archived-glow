@@ -29,6 +29,12 @@ internal class NotesIndex {
             LoadingStats(total, used, dropped)
         }
     }
+
+    fun publishedTags(): List<String> {
+        return notesToPublish
+            .flatMap(Note::tags)
+            .distinct()
+    }
 }
 
 internal data class LoadingStats(

@@ -11,6 +11,7 @@ interface NotesPathResolver {
 
     fun coordinatesFor(note: Note): Coordinates.Endpoint
     fun coordinatesForNotesPage(pageNum: Int): Coordinates.Endpoint
+    fun coordinatesForTagPage(tag: String, pageNum: Int): Coordinates.Endpoint
 
     @Deprecated("")
     fun resolve(note: Note, buildUrlPath: Boolean = false): WebPagePath
@@ -64,6 +65,17 @@ class NotesWebPathResolver(
         )
     }
 
+    override fun coordinatesForTagPage(tag: String, pageNum: Int): Coordinates.Endpoint {
+        return Coordinates.Endpoint(
+            section = sectionPath,
+            inner = "tag/$tag",
+            name = when (pageNum) {
+                in 2..Int.MAX_VALUE -> "page$pageNum"
+                else -> ""
+            }
+        )
+    }
+
     override fun resolve(note: Note, buildUrlPath: Boolean): WebPagePath {
         val dir = if (note.publishedAt != null)
             notePathDateFormatter.format(note.publishedAt)
@@ -83,7 +95,7 @@ class NotesWebPathResolver(
         indexWebPath("$notesPath/archive")
 
     override fun resolveTagPage(tag: String): WebPagePath =
-        indexWebPath("$notesPath/tags/$tag")
+        indexWebPath("$notesPath/tag/$tag")
 
     private companion object {
         const val DraftsDirName = "drafts"

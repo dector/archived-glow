@@ -55,15 +55,21 @@ class DefaultNotesDataRenderer(
         )
     }
 
-    override fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): WebPage {
-        val renderedPage = template.tagPage(notes.map {
-            val markdown = it.previewContent ?: it.content
-            val content = htmlRenderer.render(markdownParser.parse(markdown.value))
+    override fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): RenderedWebPage {
+        val coordinates = pathResolver.coordinatesForTagPage(tag, context.paging.current)
 
-            createNoteVM(it, content, isTrimmed = it.previewContent != null)
-        }, tag, context)
-        return WebPage(
-            path = pathResolver.resolveTagPage(tag),
+        val renderedPage = run {
+            val noteVMs = notes.map {
+                val markdown = it.previewContent ?: it.content
+                val content = htmlRenderer.render(markdownParser.parse(markdown.value))
+
+                createNoteVM(it, content, isTrimmed = it.previewContent != null)
+            }
+            template.tagPage(noteVMs, tag, context)
+        }
+
+        return RenderedWebPage(
+            coordinates = coordinates,
             content = renderedPage
         )
     }

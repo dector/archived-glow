@@ -106,19 +106,33 @@ class NotesPlugin(
     }
 
     private fun buildTagsPages(blog: BlogVM, notes: List<Note>) {
+        val baseContext = createRenderContext(blog)
 
-        val tags = notes
-            .flatMap(Note::tags)
-            .distinct()
-
-        val context = createRenderContext(blog)
-
-        tags.forEach { tag ->
-            val taggedNotes = notes.filter { tag in it.tags }
-
+        index.publishedTags().forEach { tag ->
             progress("Tag: '$tag'") {
-                val webPage = +{ dataRenderer.renderTagPage(taggedNotes, tag, context) }
-                +{ dataPublisher.publish(webPage) }
+                val notesByPages = notes
+                    .filter { tag in it.tags }
+                    .chunked(PageSize)
+                val totalPages = notesByPages.size
+
+                for (pageNum in 1..totalPages) {
+                    val notesInPage = notesByPages[pageNum - 1]
+
+                    val context = baseContext.copy(
+                        paging = Paging(pageNum, totalPages,
+                            prevPage = when {
+                                pageNum > 1 -> pathResolver.coordinatesForTagPage(tag, pageNum - 1)
+                                else -> null
+                            },
+                            nextPage = when {
+                                pageNum < totalPages -> pathResolver.coordinatesForTagPage(tag, pageNum + 1)
+                                else -> null
+                            }
+                        ))
+
+                    val webPage = +{ dataRenderer.renderTagPage(notesInPage, tag, context) }
+                    +{ dataPublisher.publish(webPage) }
+                }
             }
         }
     }
@@ -140,10 +154,10 @@ interface NotesDataProvider {
 
 interface NotesDataRenderer {
     fun renderNotesArchive(notes: List<Note>, context: RenderContext): WebPage
-    fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): WebPage
 
     fun renderIndividualNote(note: Note, context: RenderContext): RenderedWebPage
     fun renderNotesPage(notes: List<Note>, context: RenderContext): RenderedWebPage
+    fun renderTagPage(notes: List<Note>, tag: String, context: RenderContext): RenderedWebPage
 }
 
 data class NotesPluginConfig(
