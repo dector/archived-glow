@@ -14,3 +14,6 @@ data class Paging(
     val prevPage: Coordinates.Endpoint? = null,
     val nextPage: Coordinates.Endpoint? = null
 )
+
+fun Paging.hasPaging(): Boolean =
+    prevPage != null || nextPage != null
