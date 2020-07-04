@@ -8,10 +8,18 @@ import org.hjson.JsonValue
 import java.io.File
 import java.nio.file.Paths
 
-internal fun parseProjectConfig(file: File, context: ParsingContext): CProject = JsonValue
-    .readHjson(file.readText())
-    .asObject()
-    .asConfig(context)
+internal fun parseProjectConfig(file: File, context: ParsingContext): CProject {
+    val content = buildString {
+        appendln("{")
+        appendln(file.readText())
+        appendln("}")
+    }
+
+    return JsonValue
+        .readHjson(content)
+        .asObject()
+        .asConfig(context)
+}
 
 private fun JsonObject.asConfig(context: ParsingContext) = CProject(
     glow = getObject("glow").asCGlow(),
