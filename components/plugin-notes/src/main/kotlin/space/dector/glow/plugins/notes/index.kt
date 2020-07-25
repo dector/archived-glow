@@ -1,6 +1,6 @@
 package space.dector.glow.plugins.notes
 
-import space.dector.ktx.applyIf
+import space.dector.ktx.runIf
 
 
 internal class NotesIndex {
@@ -17,8 +17,8 @@ internal class NotesIndex {
         allNotes = provider.fetchNotes()
 
         notesToPublish = allNotes
-            .applyIf(!includeDrafts) { filterNot { it.isDraft } }
-            .applyIf(!includeEmpty) { filter { it.content.value.isNotBlank() } }
+            .runIf(!includeDrafts) { filter { !it.isDraft } }
+            .runIf(!includeEmpty) { filter { it.content.value.isNotBlank() } }
             .ensureTitlesArePresent()
 
         return run {
