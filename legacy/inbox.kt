@@ -1,8 +1,8 @@
-package io.github.dector.glow
+package space.dector.glow
 
-import io.github.dector.glow.engine.BlogVM
-import io.github.dector.glow.engine.NavigationItem
-import io.github.dector.glow.engine.WebPagePath
+import space.dector.glow.engine.BlogVM
+import space.dector.glow.engine.NavigationItem
+import space.dector.glow.engine.WebPagePath
 
 
 fun BlogVM.detectNavItem(path: WebPagePath): NavigationItem? {

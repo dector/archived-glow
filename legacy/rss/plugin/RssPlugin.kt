@@ -1,6 +1,6 @@
-package io.github.dector.glow.plugins.rss
+package space.dector.glow.plugins.rss
 
-import io.github.dector.glow.pipeline.GlowPipeline
+import space.dector.glow.pipeline.GlowPipeline
 
 class RssPlugin : GlowPipeline {
 

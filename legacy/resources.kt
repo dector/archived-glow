@@ -1,4 +1,4 @@
-package io.github.dector.glow.plugins.resources
+package space.dector.glow.plugins.resources
 
 
 /*class StaticResourcesPlugin(

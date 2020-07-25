@@ -1,9 +1,9 @@
-package io.github.dector.glow.pipeline
+package space.dector.glow.pipeline
 
-import io.github.dector.glow.engine.GlowEngine
-import io.github.dector.glow.engine.GlowPipeline
 import io.kotlintest.shouldThrowAny
 import io.kotlintest.specs.BehaviorSpec
+import space.dector.glow.engine.GlowEngine
+import space.dector.glow.engine.GlowPipeline
 
 class PipelinedGlowEngineTest : BehaviorSpec({
 

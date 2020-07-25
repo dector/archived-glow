@@ -28,11 +28,11 @@ dependencies {
 
 application {
     @Suppress("UnstableApiUsage")
-    mainClassName = "io.github.dector.glow.GlowKt"
+    mainClassName = "space.dector.glow.GlowKt"
 }
 
 allprojects {
-    group = "io.github.dector.glow"
+    group = "space.glow"
     version = Config.version
 
     repositories {

@@ -1,11 +1,11 @@
-package io.github.dector.glow.plugins.rss
+package space.dector.glow.plugins.rss
 
 import com.rometools.rome.feed.synd.SyndEntryImpl
 import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.feed.synd.SyndFeedImpl
 import com.rometools.rome.io.SyndFeedOutput
-import io.github.dector.glow.core.BlogVM
-import io.github.dector.glow.plugins.notes.Note
+import space.dector.glow.core.BlogVM
+import space.dector.glow.plugins.notes.Note
 import java.util.Date
 
 fun buildRss(blog: BlogVM, notes: List<Note>): SyndFeed {

@@ -1,8 +1,8 @@
-package io.github.dector.glow.core
+package space.dector.glow.core
 
-import io.github.dector.glow.plugins.notes.providers.cleanupTitleForWebPath
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
+import space.dector.glow.plugins.notes.providers.cleanupTitleForWebPath
 
 class PathUtilsKtTest : BehaviorSpec({
 
