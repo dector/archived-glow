@@ -50,6 +50,7 @@ private fun JsonObject.asCBlog(context: ParsingContext) = CBlog(
     title = get("title").asString(),
     navigation = get("navigation").asArray().asCNavigationList(),
     footer = getObject("footer").asCFooter(),
+    githubUser = get("githubUser").asString() ?: "",
     sourceDir = context.dir / get("sourceDir").asString(),
     outputDir = context.dir / get("outputDir").asString()
 )

@@ -1,4 +1,4 @@
-package space.dector.glow.core.vm
+package space.dector.glow.vm
 
 import space.dector.glow.config.WebsiteConfig
 import space.dector.glow.engine.BlogVM
@@ -15,5 +15,6 @@ fun buildBlogVM(config: WebsiteConfig) = BlogVM(
         year = config.footerYear,
         licenseName = config.footerLicenseName,
         licenseUrl = config.footerLicenseUrl
-    )
+    ),
+    githubUser = config.githubUser
 )

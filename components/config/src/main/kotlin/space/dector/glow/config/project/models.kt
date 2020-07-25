@@ -26,6 +26,7 @@ internal data class CBlog(
     val title: String,
     val navigation: List<CNavigation>,
     val footer: CFooter,
+    val githubUser: String,
     val sourceDir: File,
     val outputDir: File
 )

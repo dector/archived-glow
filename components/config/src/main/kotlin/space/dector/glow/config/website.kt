@@ -62,6 +62,8 @@ interface WebsiteConfig {
     val footerLicenseName: String
     val footerLicenseUrl: String
 
+    val githubUser: String
+
     val navigation: List<NavigationEntry>
 
     data class Default(
@@ -70,6 +72,7 @@ interface WebsiteConfig {
         override val footerYear: String,
         override val footerLicenseName: String,
         override val footerLicenseUrl: String,
+        override val githubUser: String,
         override val navigation: List<NavigationEntry>
     ) : WebsiteConfig
 }
@@ -109,6 +112,9 @@ internal fun buildRuntimeConfig(
             footerLicenseName = projectConfig.blog.footer.licenseName,
             footerLicenseUrl = projectConfig.blog.footer.licenseUrl,
             footerYear = projectConfig.blog.footer.year,
+
+            githubUser = projectConfig.blog.githubUser,
+
             navigation = projectConfig.blog.navigation.map {
                 NavigationEntry(
                     path = it.path, title = it.title, sectionCode = it.type

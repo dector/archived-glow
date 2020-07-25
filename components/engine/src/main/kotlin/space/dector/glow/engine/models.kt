@@ -15,7 +15,8 @@ data class BlogVM(
     val title: String = "",
     val description: String = "",
     val footer: FooterVM = FooterVM(),
-    val navigation: List<NavItemVM> = emptyList()
+    val navigation: List<NavItemVM> = emptyList(),
+    val githubUser: String = ""
 )
 
 data class FooterVM(

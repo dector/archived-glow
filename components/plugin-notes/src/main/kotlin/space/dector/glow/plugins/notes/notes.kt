@@ -2,7 +2,6 @@ package space.dector.glow.plugins.notes
 
 import space.dector.glow.config.RuntimeConfig
 import space.dector.glow.coordinates.Coordinates
-import space.dector.glow.core.vm.buildBlogVM
 import space.dector.glow.engine.BlogVM
 import space.dector.glow.engine.DataPublisher
 import space.dector.glow.engine.GlowPipeline
@@ -10,6 +9,7 @@ import space.dector.glow.engine.Paging
 import space.dector.glow.engine.RenderContext
 import space.dector.glow.engine.RenderedWebPage
 import space.dector.glow.ui.UiConsole
+import space.dector.glow.vm.buildBlogVM
 import space.dector.ktx.progress
 
 

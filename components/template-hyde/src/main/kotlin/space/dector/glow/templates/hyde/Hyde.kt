@@ -120,6 +120,15 @@ object Hyde {
                             }
                         }
 
+                        blog.githubUser
+                            .takeIf(String::isNotBlank)
+                            ?.let { user ->
+                                a(href = "https://github.com/$user", classes = "sidebar-nav-item") {
+                                    target = "_blank"
+                                    +"GitHub"
+                                }
+                            }
+
                         /*a("sidebar-nav-item") {
                             href = "{{ site.github.repo }}/archive/v{{ site.version }}.zip"
                             +"""Download"""
