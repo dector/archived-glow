@@ -1,6 +1,5 @@
 package space.dector.glow
 
-import space.dector.glow.BuildConfig
 import space.dector.glow.Constants.AppVersion
 
 object Constants {

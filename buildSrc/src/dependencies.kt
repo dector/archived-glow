@@ -23,7 +23,7 @@ object Deps {
 
 object GradlePlugins {
 
-    val build_config = "de.fuerstenau.buildconfig"
+    val build_config = "com.github.gmazzo.buildconfig"
     val shadow = "com.github.johnrengelman.shadow"
 
     val versions = "com.github.ben-manes.versions"
@@ -52,7 +52,7 @@ object Versions {
 
     val shadow = "5.1.0"
     val versions_plugin = "0.28.0"
-    val build_config = "1.1.8"
+    val build_config = "2.0.2"
     val detekt = "1.9.0"
 }
 

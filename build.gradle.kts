@@ -6,7 +6,6 @@ plugins {
     kotlin("jvm") version Versions.kotlin
 
     id(GradlePlugins.build_config) version Versions.build_config
-    idea    // Required for build config IDE support
 
     id(GradlePlugins.shadow) version Versions.shadow
     id(GradlePlugins.versions) version Versions.versions_plugin
@@ -32,7 +31,7 @@ application {
 }
 
 allprojects {
-    group = "space.glow"
+    group = "space.dector"
     version = Config.version
 
     repositories {
@@ -62,4 +61,8 @@ detekt {
         html.enabled = true
         txt.enabled = false
     }
+}
+
+buildConfig {
+    buildConfigField("String", "VERSION", "\"${Config.version}\"")
 }
