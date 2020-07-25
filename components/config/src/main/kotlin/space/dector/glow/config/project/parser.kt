@@ -76,7 +76,7 @@ private fun JsonObject.asCFooter() = CFooter(
 private fun JsonObject.asCPlugins(context: ParsingContext) = CPlugins(
     notes = getObject("notes").asCNotesPlugin(context),
     domain = CDomainPlugin(
-        cname = getObject("domain")?.get("domain")?.asString()
+        cname = getObject("domain")?.get("cname")?.asString()
     )
 )
 
