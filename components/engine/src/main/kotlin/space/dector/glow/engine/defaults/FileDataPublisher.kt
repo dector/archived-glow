@@ -26,9 +26,12 @@ class FileDataPublisher(
      * Get reference to `index.html` file to write web page content.
      */
     private fun resolveFile(coordinates: Coordinates.Endpoint): File {
-        val relativePath = coordinates
-            .withFile("index.html")
-            .inHostPath(useLeadingSlash = false)
+        val relativePath: String = when (coordinates) {
+            Coordinates.Empty -> "index.html"
+            else -> coordinates
+                .withFile("index.html")
+                .inHostPath(useLeadingSlash = false)
+        }
 
         return outputDir
             .resolve(relativePath)
