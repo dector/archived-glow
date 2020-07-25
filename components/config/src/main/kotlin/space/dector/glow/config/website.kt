@@ -20,6 +20,8 @@ interface GlowConfig {
     val includeDrafts: Boolean
     val overrideFiles: Boolean
 
+    val cname: String?
+
     val notes: NotesConfig
     val assets: AssetsConfig
 
@@ -29,6 +31,7 @@ interface GlowConfig {
         override val outputDir: Path,
         override val includeDrafts: Boolean,
         override val overrideFiles: Boolean,
+        override val cname: String?,
         override val notes: NotesConfig,
         override val assets: AssetsConfig
     ) : GlowConfig
@@ -88,6 +91,7 @@ internal fun buildRuntimeConfig(
 
             includeDrafts = launchConfig.includeDrafts,
             overrideFiles = projectConfig.glow.output.overrideFiles,
+            cname = projectConfig.plugins.domain.cname,
 
             notes = NotesConfig.Default(
                 sourceDir = projectConfig.plugins.notes.sourceDir.toPath(),

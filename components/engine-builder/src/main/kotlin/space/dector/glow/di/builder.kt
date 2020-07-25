@@ -15,6 +15,7 @@ import space.dector.glow.plugins.notes.NotesWebPathResolver
 import space.dector.glow.plugins.notes.providers.FileSystemNotesDataProvider
 import space.dector.glow.plugins.notes.renderers.DefaultNotesDataRenderer
 import space.dector.glow.plugins.resources.AssetsPlugin2
+import space.dector.glow.plugins.resources.DomainPlugin
 import space.dector.glow.plugins.resources.ThemeAssetsPlugin
 
 fun buildGlowEngine(
@@ -45,7 +46,8 @@ internal fun buildGlowEngine(
     return GlowEngine(
         NotesPlugin(dataProvider, dataRenderer, dataPublisher, pathResolver, config, DI.get()),
         AssetsPlugin2(config, DI.get()),
-        ThemeAssetsPlugin(config)
+        ThemeAssetsPlugin(config),
+        DomainPlugin(config)
     )
 }
 

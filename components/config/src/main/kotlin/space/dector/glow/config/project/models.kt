@@ -44,9 +44,16 @@ internal data class CFooter(
     val licenseUrl: String
 )
 
-internal data class CPlugins(val notes: CNotesPlugin)
+internal data class CPlugins(
+    val notes: CNotesPlugin,
+    val domain: CDomainPlugin
+)
 
 internal data class CNotesPlugin(
     val sourceDir: File,
     val path: String
+)
+
+internal data class CDomainPlugin(
+    val cname: String? = null
 )

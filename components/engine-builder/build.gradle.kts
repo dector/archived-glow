@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":component-plugin-notes"))
     implementation(project(":component-plugin-assets"))
     implementation(project(":component-plugin-theme-assets"))
+    implementation(project(":component-plugin-domain"))
     implementation(project(":component-template-common"))
 
     implementation(Deps.jtidy)
