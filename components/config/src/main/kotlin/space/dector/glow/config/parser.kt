@@ -8,6 +8,6 @@ import java.io.File
 fun buildRuntimeConfig(file: File, context: ParsingContext): RuntimeConfig =
     buildRuntimeConfig(
         projectDir = context.dir.normalize().toPath(),
-        projectConfig = parseProjectConfig(file, context),
+        config = parseProjectConfig(file, context),
         launchConfig = context.launchConfig
     )

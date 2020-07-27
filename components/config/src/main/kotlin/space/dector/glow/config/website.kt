@@ -1,6 +1,8 @@
 package space.dector.glow.config
 
-import space.dector.glow.config.project.CProject
+import org.hjson.JsonValue
+import space.dector.glow.config.project.ConfigWrapper
+import space.dector.ktx.div
 import java.nio.file.Path
 
 
@@ -81,45 +83,68 @@ data class NavigationEntry(val path: String, val title: String, val sectionCode:
 
 internal fun buildRuntimeConfig(
     projectDir: Path,
-    projectConfig: CProject,
+    config: ConfigWrapper,
     launchConfig: LaunchConfig
 ): RuntimeConfig {
     return object : RuntimeConfig {
         override val projectDir = projectDir
 
         override val glow = GlowConfig.Default(
-            configVersion = projectConfig.glow.config.version,
-            sourceDir = projectConfig.blog.sourceDir.toPath(),
-            outputDir = projectConfig.blog.outputDir.toPath(),
+            configVersion = config["glow"]["config"].str("version"),
+            sourceDir = config.path { it["blog"].str("sourceDir") },
+            outputDir = config.path { it["blog"].str("outputDir") },
 
             includeDrafts = launchConfig.includeDrafts,
-            overrideFiles = projectConfig.glow.output.overrideFiles,
-            cname = projectConfig.plugins.domain.cname,
+            overrideFiles = config["glow"]["output"].bool("overrideFiles"),
+            cname = config["plugins"]["domain"].str("cname"),
 
             notes = NotesConfig.Default(
-                sourceDir = projectConfig.plugins.notes.sourceDir.toPath(),
-                destinationPath = projectConfig.plugins.notes.path
+                sourceDir = config.path { it["plugins"]["notes"].str("sourceDir") },
+                destinationPath = config["plugins"]["notes"].str("path")
             ),
 
             assets = AssetsConfig.Default(
-                destinationPath = projectConfig.glow.assets.targetPath
+                destinationPath = config.path { config["glow"]["assets"].str("targetPath") }
             )
         )
 
         override val website = WebsiteConfig.Default(
-            title = projectConfig.blog.title,
-            footerAuthor = projectConfig.blog.footer.author,
-            footerLicenseName = projectConfig.blog.footer.licenseName,
-            footerLicenseUrl = projectConfig.blog.footer.licenseUrl,
-            footerYear = projectConfig.blog.footer.year,
+            title = config["blog"].str("title"),
+            footerAuthor = config["blog"]["footer"].str("author"),
+            footerLicenseName = config["blog"]["footer"].str("licenseName"),
+            footerLicenseUrl = config["blog"]["footer"].str("licenseUrl"),
+            footerYear = config["blog"]["footer"].int("year").toString(),
 
-            githubUser = projectConfig.blog.githubUser,
+            githubUser = config["blog"].str("githubUser"),
 
-            navigation = projectConfig.blog.navigation.map {
+            navigation = config["blog"]["navigation"].asArray().map {
                 NavigationEntry(
-                    path = it.path, title = it.title, sectionCode = it.type
+                    path = it.str("path"), title = it.str("title"), sectionCode = it.str("type")
                 )
             }
         )
     }
+}
+
+internal operator fun ConfigWrapper.get(name: String): JsonValue = root[name]
+internal operator fun JsonValue.get(name: String): JsonValue = asObject()[name]
+
+internal fun JsonValue.str(name: String): String =
+    asObject()[name].asString() ?: error("Can't find string '$name'")
+
+internal fun JsonValue.int(name: String): Int = asObject().run {
+    val value = this[name] ?: error("Can't find int '$name'")
+
+    value.asInt()
+}
+
+internal fun JsonValue.bool(name: String): Boolean = asObject().run {
+    val value = this[name] ?: error("Can't find boolean '$name'")
+
+    value.asBoolean()
+}
+
+internal fun ConfigWrapper.path(accessor: (ConfigWrapper) -> String): Path {
+    val filename = accessor(this)
+    return (context.dir / filename).toPath()
 }

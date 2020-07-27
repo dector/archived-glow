@@ -1,5 +1,6 @@
 package space.dector.glow.config.project
 
+import org.hjson.JsonObject
 import java.io.File
 import java.nio.file.Path
 
@@ -57,4 +58,9 @@ internal data class CNotesPlugin(
 
 internal data class CDomainPlugin(
     val cname: String? = null
+)
+
+internal data class ConfigWrapper(
+    val root: JsonObject,
+    val context: ParsingContext
 )
