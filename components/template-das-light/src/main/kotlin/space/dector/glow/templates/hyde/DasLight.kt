@@ -7,6 +7,7 @@ import space.dector.glow.di.get
 import space.dector.glow.engine.HtmlWebPageContent
 import space.dector.glow.engine.RenderContext
 import space.dector.glow.plugins.notes.NoteVM
+import space.dector.glow.plugins.notes.TagVM
 import space.dector.glow.theming.Template
 import java.io.StringWriter
 import java.nio.file.Path
@@ -48,10 +49,19 @@ class DasLightTemplate : Template {
 //            notesIndexContent(notes, title = "Archive", context = context, displayFullNotes = true)
 //        }
 
-    override fun tagPage(notes: List<NoteVM>, tag: String, context: RenderContext) = HtmlWebPageContent("")
-//        webPage(context.blog, context.currentNavSection, "#$tag") {
-//            tagPageContent(notes, tag, context)
-//        }
+    override fun tagPage(notes: List<NoteVM>, tag: TagVM, context: RenderContext): HtmlWebPageContent {
+        val pageVm = PageVM(
+            title = context.blog.title + " | #" + tag.name
+        )
+
+        return HtmlWebPageContent(
+            pebble.render("tagIndex", mapOf(
+                "page" to pageVm,
+                "tag" to tag,
+                "notes" to notes
+            ))
+        )
+    }
 }
 
 internal fun assetPath(path: String, dirPath: Path): String =

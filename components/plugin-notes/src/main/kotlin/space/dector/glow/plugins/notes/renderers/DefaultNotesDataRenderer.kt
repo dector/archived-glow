@@ -70,7 +70,8 @@ class DefaultNotesDataRenderer(
 
                 createNoteVM(it, content, isTrimmed = it.previewContent != null)
             }
-            template.tagPage(noteVMs, tag, context)
+            val tagVM = createTagVM(tag, pathResolver)
+            template.tagPage(noteVMs, tagVM, context)
         }
 
         return RenderedWebPage(
@@ -104,10 +105,7 @@ class DefaultNotesDataRenderer(
             isTrimmed = isTrimmed,
 
             tags = note.tags.map {
-                TagVM(
-                    name = it,
-                    url = pathResolver.coordinatesForTagPage(it, 1).inHostPath()
-                )
+                createTagVM(it, pathResolver)
             }
         )
     }
@@ -130,5 +128,10 @@ private fun formatPublishedAndUpdatedStr(note: Note): String {
     val updatedStr = formatPublishDate(note.updatedAt)
     return "$publishedStr (updated $updatedStr)"
 }
+
+private fun createTagVM(tag: String, pathResolver: NotesPathResolver) = TagVM(
+    name = tag,
+    url = pathResolver.coordinatesForTagPage(tag, 1).inHostPath()
+)
 
 private const val MAX_SYMBOLS_IN_CONTENT_PREVIEW = 500

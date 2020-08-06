@@ -1,0 +1,37 @@
+{# @pebvariable name="notes" type="java.util.List<space.dector.glow.plugins.notes.NoteVM>" #}
+
+{% extends 'base.peb' %}
+
+{% block page_content %}
+
+{% include 'includes/header.peb' %}
+
+<div class="flex flex-col space-y-8 mb-8">
+
+    <div class="text-3xl text-gray-500 ml-auto mr-8">#{{ tag.name }}</div>
+
+    {% for note in notes %}
+    <div class="bg-gray-100 p-8 shadow hover:shadow-xl">
+        <div class="flex flex-wrap justify-between">
+            <a class="text-3xl hover:underline hover:text-blue-900" href="{{ note.url }}">{{ note.title }}</a>
+            <span class="pt-4 text-sm text-gray-600" title="{{ note.updatedText }}">{{ note.createdText }}</span>
+        </div>
+
+        <div class="py-2 my-4 text-lg text-justify">
+            {% autoescape false %}
+            {{ note.previewContent }}
+            {% endautoescape %}
+        </div>
+        <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="{{ note.url }}">Read more...</a>
+
+        <p class="mt-2 flex justify-end space-x-2">
+            {% for tag in note.tags %}
+            <a class="bg-gray-700 text-white rounded-lg px-2 py-1" href="{{ tag.url }}">#{{ tag.name }}</a>
+            {% endfor %}
+        </p>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
