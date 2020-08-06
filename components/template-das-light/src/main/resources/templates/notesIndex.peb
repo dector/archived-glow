@@ -15,12 +15,14 @@
             <span class="pt-4 text-sm text-gray-600" title="{{ note.updatedText }}">{{ note.createdText }}</span>
         </div>
 
-        <div class="py-2 my-4 text-lg text-justify">
+        <div class="py-2 my-4 text-lg text-justify prose prose-xl" style="max-width: 100%;">
             {% autoescape false %}
             {{ note.previewContent }}
             {% endautoescape %}
         </div>
+        {% if note.trimmed %}
         <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="{{ note.url }}">Read more...</a>
+        {% endif %}
 
         <p class="mt-2 flex justify-end space-x-2">
             {% for tag in note.tags %}

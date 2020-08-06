@@ -6,6 +6,7 @@ import space.dector.glow.plugins.notes.NotesDataProvider
 import space.dector.glow.plugins.notes.parseMarkdownPartsFrom
 import space.dector.glow.plugins.notes.providers.MetaProperty.CreatedAt
 import space.dector.glow.plugins.notes.providers.MetaProperty.Draft
+import space.dector.glow.plugins.notes.providers.MetaProperty.IsMicro
 import space.dector.glow.plugins.notes.providers.MetaProperty.PublishedAt
 import space.dector.glow.plugins.notes.providers.MetaProperty.Tags
 import space.dector.glow.plugins.notes.providers.MetaProperty.Title
@@ -50,6 +51,7 @@ private fun MarkdownFile.toNote(): Note = run {
 
         title = get<Title>()?.value ?: "",
         isDraft = get<Draft>()?.value ?: false,
+        isMicro = get<IsMicro>()?.value ?: false,
         createdAt = get<CreatedAt>()?.value,
         publishedAt = get<PublishedAt>()?.value,
         updatedAt = get<UpdatedAt>()?.value,
@@ -72,6 +74,7 @@ private data class MarkdownFile(
 private sealed class MetaProperty {
     data class Title(val value: String) : MetaProperty()
     data class Draft(val value: Boolean) : MetaProperty()
+    data class IsMicro(val value: Boolean) : MetaProperty()
     data class CreatedAt(val value: Instant) : MetaProperty()
     data class UpdatedAt(val value: Instant) : MetaProperty()
     data class PublishedAt(val value: Instant) : MetaProperty()
@@ -109,6 +112,7 @@ private fun parseMeta(header: String?): Set<MetaProperty> {
             when (key) {
                 "title" -> Title(value)
                 "draft", "isDraft" -> Draft(value.toBoolean())
+                "isMicro" -> IsMicro(value.toBoolean())
                 "createdAt" -> parseCreatedAt(value)?.let(::CreatedAt)
                 "updatedAt" -> parseUpdatedAt(value)?.let(::UpdatedAt)
                 "publishedAt" -> parsePublishedAt(value)?.let(::PublishedAt)

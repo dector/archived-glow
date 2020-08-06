@@ -10,8 +10,9 @@
     <title>{{ page.title }}</title>
 
     <link href="/assets/css/tailwind-1.6.2.min.css" rel="stylesheet">
+    <link href="/assets/css/typography-0.2.0.min.css" rel="stylesheet">
 
-    {% block page_header_end %}{% endblock %}
+    {#{% block page_header_end %}{% endblock %}#}
 </head>
 <body class="bg-gray-300">
     <div class="container mx-auto" style="max-width: 100ch;">

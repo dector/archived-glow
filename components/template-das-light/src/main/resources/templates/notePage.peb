@@ -2,10 +2,6 @@
 
 {% extends 'base.peb' %}
 
-{% block page_header_end %}
-<link href="/assets/css/typography-0.2.0.min.css" rel="stylesheet">
-{% endblock %}
-
 {% block page_content %}
 
 {% include 'includes/header.peb' %}

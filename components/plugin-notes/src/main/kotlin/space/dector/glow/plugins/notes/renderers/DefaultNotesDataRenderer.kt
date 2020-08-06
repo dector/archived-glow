@@ -45,7 +45,9 @@ class DefaultNotesDataRenderer(
 
         val renderedPage = run {
             val noteVMs = notes.map {
-                val markdown = it.previewContent ?: it.content
+                val markdown = if (it.isMicro) it.content else {
+                    it.previewContent ?: it.content
+                }
                 val content = htmlRenderer.render(markdownParser.parse(markdown.value))
 
                 createNoteVM(it, content, isTrimmed = it.previewContent != null)
@@ -99,10 +101,10 @@ class DefaultNotesDataRenderer(
             //publishedAtStr = formatPublishDate(note.publishedAt),
 
             // FIXME should be stripped before rendering
-            previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
+            previewContent = if (note.isMicro || content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
                 htmlContent
             else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
-            isTrimmed = isTrimmed,
+            isTrimmed = isTrimmed && !note.isMicro,
 
             tags = note.tags.map {
                 createTagVM(it, pathResolver)
