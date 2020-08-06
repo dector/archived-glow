@@ -22,6 +22,8 @@ data class NoteVM(
     val rawModel: Note,
 
     val title: String,
+    val url: String,
+
     val coordinates: Coordinates.Endpoint,
 
     val createdText: String,

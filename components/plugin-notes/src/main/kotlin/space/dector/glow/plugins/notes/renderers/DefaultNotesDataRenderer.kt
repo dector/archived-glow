@@ -2,6 +2,7 @@ package space.dector.glow.plugins.notes.renderers
 
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.ast.Node
+import space.dector.glow.coordinates.inHostPath
 import space.dector.glow.core.parser.MarkdownParser
 import space.dector.glow.engine.HtmlContent
 import space.dector.glow.engine.RenderContext
@@ -80,11 +81,14 @@ class DefaultNotesDataRenderer(
     private fun createNoteVM(note: Note, content: String, isTrimmed: Boolean = false) = run {
         val htmlContent = HtmlContent(content)
 
+        val coordinates = pathResolver.coordinatesFor(note)
         NoteVM(
             rawModel = note,
 
             title = buildTitle(note),
-            coordinates = pathResolver.coordinatesFor(note),
+            url = coordinates.inHostPath(),
+
+            coordinates = coordinates,
             content = htmlContent,
 
             createdText = formatPublishDate(note.publishedAt),
