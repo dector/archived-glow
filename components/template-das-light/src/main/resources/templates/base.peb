@@ -18,5 +18,9 @@
 
         {% block page_content %}{% endblock %}
     </div>
+
+    <div class="text-xl text-gray-500 text-center mb-8">
+        Built with <span class="text-2xl font-mono">💙</span> and Glow. 2019 - 2020
+    </div>
 </body>
 </html>
