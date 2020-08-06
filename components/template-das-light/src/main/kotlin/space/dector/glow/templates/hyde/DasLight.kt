@@ -30,10 +30,18 @@ class DasLightTemplate : Template {
         )
     }
 
-    override fun note(note: NoteVM, context: RenderContext) = HtmlWebPageContent("")
-//        webPage(context.blog, context.currentNavSection, note.title) {
-//            noteContent(context.blog, note)
-//        }
+    override fun note(note: NoteVM, context: RenderContext): HtmlWebPageContent {
+        val pageVm = PageVM(
+            title = context.blog.title + " | " + note.title
+        )
+
+        return HtmlWebPageContent(
+            pebble.render("notePage", mapOf(
+                "page" to pageVm,
+                "note" to note
+            ))
+        )
+    }
 
     override fun notesArchive(notes: List<NoteVM>, context: RenderContext) = HtmlWebPageContent("")
 //        webPage(context) {
