@@ -9,7 +9,7 @@
 
     <title>{{ page.title }}</title>
 
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/assets/css/tailwind-1.6.2.min.css" rel="stylesheet">
 
     {% block page_header_end %}{% endblock %}
 </head>
