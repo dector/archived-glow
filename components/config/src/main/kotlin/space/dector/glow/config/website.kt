@@ -99,7 +99,7 @@ internal fun buildRuntimeConfig(
             includeDrafts = launchConfig.includeDrafts,
             overrideFiles = config["glow"]["output"].bool("overrideFiles"),
             cname = config["plugins"]["domain"].str("cname"),
-            theme = config["blog"].str("theme"),
+            theme = config["glow"].str("theme"),
 
             notes = NotesConfig.Default(
                 sourceDir = config.path { it["plugins"]["notes"].str("sourceDir") },
@@ -133,7 +133,7 @@ internal operator fun ConfigWrapper.get(name: String): JsonValue = root[name]
 internal operator fun JsonValue.get(name: String): JsonValue = asObject()[name]
 
 internal fun JsonValue.str(name: String): String =
-    asObject()[name].asString() ?: error("Can't find string '$name'")
+    asObject()[name]?.asString() ?: error("Can't find string '$name'")
 
 internal fun JsonValue.int(name: String): Int = asObject().run {
     val value = this[name] ?: error("Can't find int '$name'")

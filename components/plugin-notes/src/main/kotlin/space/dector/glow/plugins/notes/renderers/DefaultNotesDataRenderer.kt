@@ -11,14 +11,14 @@ import space.dector.glow.plugins.notes.NoteVM
 import space.dector.glow.plugins.notes.NotesDataRenderer
 import space.dector.glow.plugins.notes.NotesPathResolver
 import space.dector.glow.plugins.notes.formatters.formatPublishDate
-import space.dector.glow.templates.hyde.HydeTemplate
+import space.dector.glow.templates.hyde.DasLightTemplate
 import space.dector.glow.theming.Template
 
 class DefaultNotesDataRenderer(
     private val pathResolver: NotesPathResolver,
     private val markdownParser: MarkdownParser<Node>,
     private val htmlRenderer: HtmlRenderer,
-    private val template: Template = HydeTemplate()
+    private val template: Template = DasLightTemplate()
 ) : NotesDataRenderer {
 
     override fun renderIndividualNote(note: Note, context: RenderContext): RenderedWebPage {
@@ -87,6 +87,8 @@ class DefaultNotesDataRenderer(
             coordinates = pathResolver.coordinatesFor(note),
             content = htmlContent,
 
+            createdText = formatPublishDate(note.publishedAt),
+            updatedText = note.updatedAt?.let { "updated ${formatPublishDate(it)}" } ?: "",
             publishedAndUpdatedStr = formatPublishedAndUpdatedStr(note),
             //publishedAtStr = formatPublishDate(note.publishedAt),
 
@@ -94,7 +96,9 @@ class DefaultNotesDataRenderer(
             previewContent = if (content.length <= MAX_SYMBOLS_IN_CONTENT_PREVIEW)
                 htmlContent
             else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
-            isTrimmed = isTrimmed
+            isTrimmed = isTrimmed,
+
+            tags = note.tags
         )
     }
 

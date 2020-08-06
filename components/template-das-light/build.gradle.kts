@@ -4,16 +4,13 @@ plugins {
 
 dependencies {
     implementation(Deps.kotlin_stdlib_jdk8)
+    implementation(Deps.kotlinx.html)
+    implementation(Deps.pebble)
 
+    implementation(project(":component-di"))
     implementation(project(":component-config"))
-    implementation(project(":component-logger"))
     implementation(project(":component-engine"))
-    implementation(project(":component-ktx"))
-    implementation(project(":component-parser-md"))
-
     implementation(project(":component-template-common"))
-    //implementation(project(":component-template-hyde"))
-    implementation(project(":component-template-das-light"))
 
     testImplementation(Deps.kotest)
 }

@@ -24,11 +24,15 @@ data class NoteVM(
     val title: String,
     val coordinates: Coordinates.Endpoint,
 
+    val createdText: String,
+    val updatedText: String,
     val publishedAndUpdatedStr: String,
 //    val publishedAtStr: String,
 //    val updatedAtStr: String?,
 
     val content: HtmlContent,
     val previewContent: HtmlContent,
-    val isTrimmed: Boolean
+    val isTrimmed: Boolean,
+
+    val tags: List<String>
 )

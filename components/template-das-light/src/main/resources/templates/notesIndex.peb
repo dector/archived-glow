@@ -1,0 +1,40 @@
+{# @pebvariable name="notes" type="java.util.List<space.dector.glow.plugins.notes.NoteVM>" #}
+
+{% extends 'base.peb' %}
+
+{% block page_content %}
+
+<div class="px-4 my-8">
+    <span class="text-3xl">Dead Art Space</span>
+
+    <span class="float-right space-x-0 pt-3 sm:space-x-5">
+        <a class="text-xl hover:underline font-semibold" href="/">Notes</a>
+        <a class="text-lg hover:underline" href="https://github.com/dector">Github</a>
+    </span>
+</div>
+
+<div class="flex flex-col space-y-8 mb-8">
+
+    {% for note in notes %}
+    <div class="bg-gray-100 p-8 shadow hover:shadow-xl">
+        <div class="flex flex-wrap justify-between">
+            <a class="text-3xl hover:underline hover:text-blue-900" href="#">{{ note.title }}</a>
+            <span class="pt-4 text-sm text-gray-600" title="{{ note.updatedText }}">{{ note.createdText }}</span>
+        </div>
+
+        <p class="py-2 my-4 text-lg text-justify">
+            {{ note.previewContent }}
+        </p>
+        <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="#">Read more...</a>
+
+        <p class="mt-2 flex justify-end space-x-2">
+            {% for tag in tags %}
+            <span class="bg-gray-700 text-white rounded-lg px-2 py-1">#{{ tag }}</span>
+            {% endfor %}
+        </p>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

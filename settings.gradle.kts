@@ -7,6 +7,7 @@ fun includeAllFrom(collectionDir: String, prefix: String? = null) {
         .asSequence()
         .filter { it.isDirectory }
         .filter { File(it, "build.gradle.kts").exists() }
+        .filterNot { File(it, ".ignore-module").exists() }
 
     findGradleProjectsIn(collectionDir).forEach { dir ->
         val projectName = dir.name

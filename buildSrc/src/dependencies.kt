@@ -17,6 +17,7 @@ object Deps {
 
     val jtidy = "com.github.jtidy:jtidy:${Versions.jtidy}"
     val flexmark = "com.vladsch.flexmark:flexmark-all:${Versions.flexmark}"
+    val pebble = "io.pebbletemplates:pebble:${Versions.pebble}"
 
     val kotest = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotest}"
 }
@@ -47,6 +48,7 @@ object Versions {
 
     val jtidy = "1.0.2"
     val flexmark = "0.62.2"
+    val pebble = "3.1.4"
 
     val kotest = "3.4.2"
 

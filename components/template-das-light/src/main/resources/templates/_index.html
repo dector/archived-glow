@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dead Art Space | Index</title>
+
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-300">
+    <div class="container mx-auto" style="max-width: 100ch;">
+
+        <div class="px-4 my-8">
+            <span class="text-3xl">Dead Art Space</span>
+
+            <span class="float-right space-x-0 pt-3 sm:space-x-5">
+                <a class="text-xl hover:underline font-semibold" href="/">Notes</a>
+                <a class="text-lg hover:underline" href="https://github.com/dector">Github</a>
+            </span>
+        </div>
+
+        <div class="flex flex-col space-y-8 mb-8">
+            <x-post x-title="Generative Art 2019"></x-post>
+            <x-post x-title="Generative Art 2019 #2"></x-post>
+            <x-post x-title="Generative Art 2019 #3"></x-post>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Slim } from 'https://cdn.jsdelivr.net/npm/slim-js@4.0.7/Slim.js'
+        Slim.tag(
+            'x-post',
+            `
+            <div class="bg-gray-100 p-8 shadow hover:shadow-xl">
+                <div class="flex flex-wrap justify-between">
+                    <a class="text-3xl hover:underline hover:text-blue-900" href="#">{{xTitle}}</a>
+                    <span class="pt-4 text-sm text-gray-600" title="updated Thu, 02 Jan 2020">Mon, 30 Dec 2019</span>
+                </div>
+
+                <p class="py-2 my-4 text-lg text-justify">This year I continued to explore generative art. Unfortunately, not that much as I wanted. At the beginning of the year I was making at least one sketch every day. Then once a week, then once in a while. However, here are some results to remind myself that I need to commit more efforts next year.</p>
+                <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="#">Read more...</a>
+
+                <p class="mt-2 flex justify-end space-x-2">
+                    <x-tag x-name="genart"></x-tag>
+                    <x-tag x-name="summary"></x-tag>
+                </p>
+            </div>
+            `,
+            class extends Slim {
+                get xTitle() { return this.getAttribute("x-title") }
+            }
+        )
+
+        Slim.tag(
+            'x-tag',
+            `
+            <span class="bg-gray-700 text-white rounded-lg px-2 py-1">{{xName}}</span>
+            `,
+            class extends Slim {
+                get xName() { return this.getAttribute("x-name") }
+            }
+        )
+    </script>
+</body>
+</html>
