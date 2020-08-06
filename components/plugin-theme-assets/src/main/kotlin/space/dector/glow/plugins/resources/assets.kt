@@ -14,6 +14,7 @@ class ThemeAssetsPlugin(
     override fun onExecute() {
         println("[=== Theme Assets ===]")
         copyThemeAssets()
+        copyFavicon()
     }
 
     private fun copyThemeAssets() {
@@ -37,5 +38,17 @@ class ThemeAssetsPlugin(
 
                 file.copyRecursively(targetFile, overwrite = config.glow.overrideFiles)
             }
+    }
+
+    private fun copyFavicon() {
+        val file = File(ThemeResourcesPath).parentFile.resolve("favicon.ico")
+
+        if (!file.exists()) {
+            logger().warn("favicon not found at '${file.absolutePath}'")
+            return
+        }
+
+        val dest = config.glow.outputDir.resolve("favicon.ico").toFile()
+        file.copyTo(dest, overwrite = config.glow.overrideFiles)
     }
 }
