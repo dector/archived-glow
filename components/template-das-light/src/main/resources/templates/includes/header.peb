@@ -1,5 +1,5 @@
 <div class="px-4 my-8">
-    <span class="text-3xl">Dead Art Space</span>
+    <a class="text-3xl" href="/">Dead Art Space</a>
 
     <span class="float-right space-x-0 pt-3 sm:space-x-5">
         <a class="text-xl hover:underline font-semibold" href="/">Notes</a>
