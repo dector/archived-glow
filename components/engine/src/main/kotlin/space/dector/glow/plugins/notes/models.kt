@@ -36,5 +36,10 @@ data class NoteVM(
     val previewContent: HtmlContent,
     val isTrimmed: Boolean,
 
-    val tags: List<String>
+    val tags: List<TagVM>
+)
+
+data class TagVM(
+    val name: String,
+    val url: String
 )

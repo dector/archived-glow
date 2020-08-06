@@ -11,6 +11,7 @@ import space.dector.glow.plugins.notes.Note
 import space.dector.glow.plugins.notes.NoteVM
 import space.dector.glow.plugins.notes.NotesDataRenderer
 import space.dector.glow.plugins.notes.NotesPathResolver
+import space.dector.glow.plugins.notes.TagVM
 import space.dector.glow.plugins.notes.formatters.formatPublishDate
 import space.dector.glow.templates.hyde.DasLightTemplate
 import space.dector.glow.theming.Template
@@ -102,7 +103,12 @@ class DefaultNotesDataRenderer(
             else HtmlContent(content.substring(0 until MAX_SYMBOLS_IN_CONTENT_PREVIEW)),
             isTrimmed = isTrimmed,
 
-            tags = note.tags
+            tags = note.tags.map {
+                TagVM(
+                    name = it,
+                    url = pathResolver.coordinatesForTagPage(it, 1).inHostPath()
+                )
+            }
         )
     }
 
@@ -126,4 +132,3 @@ private fun formatPublishedAndUpdatedStr(note: Note): String {
 }
 
 private const val MAX_SYMBOLS_IN_CONTENT_PREVIEW = 500
-

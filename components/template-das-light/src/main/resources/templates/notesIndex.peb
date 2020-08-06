@@ -27,11 +27,11 @@
             {{ note.previewContent }}
             {% endautoescape %}
         </div>
-        <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="#">Read more...</a>
+        <a class="text-blue-700 text-lg hover:bg-gray-300 hover:underline" href="{{ note.url }}">Read more...</a>
 
         <p class="mt-2 flex justify-end space-x-2">
             {% for tag in note.tags %}
-            <span class="bg-gray-700 text-white rounded-lg px-2 py-1">#{{ tag }}</span>
+            <a class="bg-gray-700 text-white rounded-lg px-2 py-1" href="{{ tag.url }}">#{{ tag.name }}</a>
             {% endfor %}
         </p>
     </div>
