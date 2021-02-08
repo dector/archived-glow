@@ -31,7 +31,7 @@ application {
 }
 
 allprojects {
-    group = "space.dector"
+    group = "space.dector.glow"
     version = Config.version
 
     repositories {
