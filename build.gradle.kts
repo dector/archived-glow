@@ -14,7 +14,7 @@ plugins {
 }
 
 repositories {
-    maven(url = "http://oss.sonatype.org/content/groups/public/")
+    mavenCentral()
 }
 
 dependencies {
@@ -32,7 +32,7 @@ allprojects {
     version = Config.version
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     tasks.withType<KotlinCompile>().all {
