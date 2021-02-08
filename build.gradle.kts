@@ -36,7 +36,7 @@ allprojects {
     }
 
     tasks.withType<KotlinCompile>().all {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
         kotlinOptions {
             freeCompilerArgs = listOf(
                 "-Xinline-classes"
