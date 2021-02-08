@@ -24,8 +24,7 @@ dependencies {
 }
 
 application {
-    @Suppress("UnstableApiUsage")
-    mainClassName = "space.dector.glow.GlowKt"
+    mainClass.set("space.dector.glow.GlowKt")
 }
 
 allprojects {
