@@ -3,7 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.kotlin_stdlib_jdk8)
-
     implementation(Deps.flexmark)
 }

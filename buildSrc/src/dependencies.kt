@@ -2,8 +2,6 @@
 
 object Deps {
 
-    val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-
     object kotlinx {
         val html = "org.jetbrains.kotlinx:kotlinx-html-jvm:${Versions.kotlinx.html}"
     }

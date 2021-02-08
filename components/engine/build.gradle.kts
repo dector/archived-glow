@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.kotlin_stdlib_jdk8)
-
     implementation(rootProject)
 
     implementation(project(":component-di"))

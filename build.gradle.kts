@@ -18,8 +18,6 @@ repositories {
 }
 
 dependencies {
-    implementation(Deps.kotlin_stdlib_jdk8)
-
     implementation(project(":component-logger"))
 
     implementation(project(":app-cli"))

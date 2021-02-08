@@ -3,8 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.kotlin_stdlib_jdk8)
-
     implementation(project(":component-di"))
     implementation(project(":component-logger"))
     implementation(project(":component-config"))
